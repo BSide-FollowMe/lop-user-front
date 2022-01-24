@@ -27,6 +27,7 @@
       "scripthost"
     ]
   },
+  "typeRoots": ["src/types"],
   "include": [
     "src/**/*.ts",
     "src/**/*.tsx",
