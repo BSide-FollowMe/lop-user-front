@@ -1,0 +1,73 @@
+@charset "UTF-8";
+
+@mixin clear {
+    &:after {
+        content: "";
+        display: block;
+        clear: both;
+    }
+}
+
+@mixin textOverflow($lineCount) {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: $lineCount;
+}
+
+@mixin breakpoint-down-xs {
+    @media (max-width: 359px) {
+        @content;
+    }
+}
+
+@mixin breakpoint-down-sm {
+    @media (max-width: 767px) {
+        @content;
+    }
+}
+
+@mixin breakpoint-down-md {
+    @media (max-width: 959px) {
+        @content;
+    }
+}
+
+@mixin breakpoint-up-xs {
+    @media (min-width: 360px) {
+        @content;
+    }
+}
+
+@mixin breakpoint-up-sm {
+    @media (min-width: 768px) {
+        @content;
+    }
+}
+
+@mixin breakpoint-up-md {
+    @media (min-width: 960px) {
+        @content;
+    }
+}
+
+
+
+
+@mixin breakpoint-only-sm {
+    @media (max-width: 767px) {
+        @content;
+    }
+}
+
+@mixin breakpoint-only-md {
+    @media (min-width: 768px) and (max-width: 959px) {
+        @content;
+    }
+}
+
+@mixin breakpoint-only-lg {
+    @media (min-width: 960) {
+        @content;
+    }
+}

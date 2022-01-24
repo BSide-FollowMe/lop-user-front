@@ -8,11 +8,9 @@
           </div>
           <div>
             <form @keypress.enter.prevent="onSubmit(userId, password)" @submit.prevent>
-              <input id="id" v-model="userId" name="userId" label="Id" type="text"></v-text-field>
-              <input id="password" v-model="password" name="password" label="Password" type="password"></v-text-field>
+              <input id="id" v-model="userId" name="userId" label="Id" type="text" />
+              <input id="password" v-model="password" name="password" label="Password" type="password" />
             </form>
-          </div>
-          <div class="action-btn-area">
           </div>
         </div>
       </div>
@@ -61,7 +59,7 @@ $white: #fff;
     }
   }
 }
-.action-btn-area{
+.action-btn-area {
   padding: 8px 16px 16px;
 }
 </style>

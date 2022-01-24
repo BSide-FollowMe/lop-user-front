@@ -1,0 +1,36 @@
+@charset "UTF-8";
+@import url('~@/assets/fonts/pretendard/pretendard-subset.css');
+
+* {
+    box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-decoration: none;
+    font-family: Pretendard,
+    -apple-system,
+    BlinkMacSystemFont,
+    system-ui,
+    Roboto,
+    'Helvetica Neue',
+    'Segoe UI',
+    'Apple SD Gothic Neo',
+    'Noto Sans KR',
+    'Malgun Gothic',
+    sans-serif;
+}
+
+*,
+*:active,
+*:hover {
+    outline: none !important;
+}
+
+body {
+    color: var(--text-color);
+    font-size: var(--font-size-p);
+    letter-spacing: var(--font-size-p-space);
+    font-weight: var(--font-size-base);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    margin: 0;
+}

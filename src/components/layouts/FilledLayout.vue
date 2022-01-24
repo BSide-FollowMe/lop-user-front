@@ -6,11 +6,10 @@
   </div>
 </template>
 <script>
-export default {
-};
+export default {};
 </script>
 <style lang="scss" scoped>
-.fill-height{
-  height:100%;
+.fill-height {
+  height: 100%;
 }
 </style>

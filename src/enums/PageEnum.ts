@@ -1,16 +1,17 @@
 export enum PageEnum {
-  PLANTS = '/plants',
   LOGIN = '/signin',
-  HOME = '/',
+  HOME = '/home',
   ERROR_PAGE = '/not-found',
+  LANDING = '/',
+  PLANT_DETAILS = '/plant/:id',
 }
 
 export enum PageNameEnum {
-  PLANTS = 'Plant Management',
-  PLANTS_LIST = 'Plant Management - List',
   LOGIN = 'Sign In',
   HOME = 'Home',
   ERROR_PAGE = 'NOT FOUND - 404',
+  LANDING = 'Load Page...',
+  PLANT_DETAILS = 'Plant details',
 }
 
 export enum LayoutEnum {

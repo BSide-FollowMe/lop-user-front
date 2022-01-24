@@ -2,9 +2,21 @@ import { RouteRecordRaw } from 'vue-router';
 import { LayoutEnum, PageEnum, PageNameEnum } from '@/enums/PageEnum';
 const routes: Array<RouteRecordRaw> = [
   {
+    path: PageEnum.LANDING,
+    name: PageNameEnum.LANDING,
+    meta: { public: true, layout: LayoutEnum.DEFAULT },
+    component: () => import('@/views/Landing.vue'),
+  },
+  {
     path: PageEnum.HOME,
     name: PageNameEnum.HOME,
-    meta: { layout: LayoutEnum.DEFAULT },
+    meta: { public: true, layout: LayoutEnum.DEFAULT },
+    component: () => import('@/views/Home.vue'),
+  },
+  {
+    path: PageEnum.PLANT_DETAILS,
+    name: PageNameEnum.PLANT_DETAILS,
+    meta: { public: true, layout: LayoutEnum.DEFAULT },
     component: () => import('@/views/Home.vue'),
   },
   {

@@ -1,0 +1,84 @@
+:root{
+
+    // Colors
+    --primary-color:#365650;
+    --primary-color-1:#365650;
+    --primary-color-2:#417A75;
+    --primary-color-3:#478E8A;
+    --primary-color-4:#52B3B2;
+
+    --secondray-color:#AF6142;
+    --secondray-color-1:#AF6142;
+    --secondray-color-2:#C9704C;
+    --secondray-color-3:#E27D55;
+    --secondray-color-4:#E69F85;
+
+    --secondary-green-color:#599270;
+    --secondary-green-color-1:#599270;
+    --secondary-green-color-2:#48B57A;
+    --secondary-green-color-3:#F4F8F1;
+
+
+
+    // Screen break-point
+
+    --screen-xs: 360px;
+    --screen-md: 768px;
+    --screen-lg: 960px;
+
+    --text-color: #444444;
+    --text-color-1: #444444;
+    --text-color-2: #666666;
+    --text-color-3: #969696;
+    --text-color-4: #BABABA;
+
+    --background-color:#DDDDDD;
+    --background-color-1:#DDDDDD;
+    --background-color-2:#E5E5E5;
+    --background-color-3:#EDEDED;
+    --background-color-4:#F3F3F3;
+    --background-color-5:#F8F8F8;
+
+    --font-weight-base: 500;
+    --font-weight-bold: bold;
+    --font-weight-medium: 500;
+    --font-weight-light: 300;
+
+    // PC font size
+    // Headline
+    --font-size-h-1: 32px;
+    --font-size-h-1-space: -0.0025em;
+    --font-size-h-2: 24px;
+    --font-size-h-2-space: -0.01em;
+
+    // Paragraph
+    --font-size-p: 18px;
+    --font-size-p-space: -0.01em;
+    --font-size-p-2: 16px;
+    --font-size-p-2-space: -0.01em;
+    --font-size-p-3: 15px;
+    --font-size-p-3-space: -0.01em;
+    --font-size-caption: 14px;
+    --font-size-caption-space: -0.01em;
+
+    // Mobile font size
+    // Headline
+    --m-font-size-h-1: 26px;
+    --m-font-size-h-1-space: -0.0025em;
+    --m-font-size-h-2: 18px;
+    --m-font-size-h-2-space: -0.01em;
+
+    // Paragraph
+    --m-font-size-p: 16px;
+    --m-font-size-p-space: -0.01em;
+    --m-font-size-p-2: 14px;
+    --m-font-size-p-2-space: -0.01em;
+    --m-font-size-p-3: 13px;
+    --m-font-size-p-3-space: -0.01em;
+    --m-font-size-caption: 12px;
+    --m-font-size-caption-space: -0.01em;
+
+
+    --content-container-max-width: 960px;
+    --content-container-padding:20px;
+}
