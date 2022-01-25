@@ -11,5 +11,6 @@ export default {};
 <style lang="scss" scoped>
 .fill-height {
   height: 100%;
+  overflow:hidden;
 }
 </style>
