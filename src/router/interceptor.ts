@@ -9,12 +9,12 @@ export function setupNavigationGuarder(router: Router) {
     //   next('/not-found');
     //   return;
     // }
-    const isPb = await isPublic(to);
-    const loggedIn = await tokenSvc.isValidToken();
-    if (!isPb && !loggedIn) {
-      next('/signin');
-      return;
-    }
+    // const isPb = await isPublic(to);
+    // const loggedIn = await tokenSvc.isValidToken();
+    // if (!isPb && !loggedIn) {
+    //   next('/signin');
+    //   return;
+    // }
     next();
   });
 }
