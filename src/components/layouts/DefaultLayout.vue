@@ -21,6 +21,6 @@ export default defineComponent({
 </script>
 <style lang="scss" scoped>
 .page-container {
-  max-width: var(--content-container-max-width);
+  width:100%;
 }
 </style>

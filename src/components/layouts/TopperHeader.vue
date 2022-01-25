@@ -33,9 +33,11 @@ export default defineComponent({
 <style lang="scss" scoped>
 @import '@/styles/', '@/assets/fonts/pretendard/pretendard.css';
 .container {
-  width: 1920px;
+  max-width: var(--content-container-max-width);
+  margin-right: auto;
+  margin-left: auto;
   align-items: center;
-  padding: 0 480px 0 518px;
+  // padding: 0 480px 0 518px;
   height: 101px;
   border-bottom: var(--background-color-1) 1px solid;
   @include breakpoint-down-sm {
@@ -49,7 +51,7 @@ export default defineComponent({
       height: 34.98px;
     }
     img#logo-title {
-      padding-left: 12px; 
+      padding-left: 12px;
       width: 110px;
       height: 22px;
     }
@@ -62,6 +64,7 @@ export default defineComponent({
     font-weight: 500;
     font-size: 15px;
     line-height: 18px;
+    justify-content:end;
     /* identical to box height */
 
     letter-spacing: -0.0025em;
