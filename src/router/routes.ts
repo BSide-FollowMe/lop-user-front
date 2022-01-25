@@ -10,7 +10,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: PageEnum.HOME,
     name: PageNameEnum.HOME,
-    meta: { public: true, layout: LayoutEnum.DEFAULT },
+    meta: { public: true, layout: LayoutEnum.FILLED },
     component: () => import('@/views/Home.vue'),
   },
   {

@@ -17,3 +17,36 @@
 .text-underline {
     text-decoration: underline;
 }
+
+.text-bold {
+    font-weight: var(--font-weight-bold);
+}
+
+.text-medium {
+    font-weight: var(--font-weight-medium);
+}
+
+.text-light {
+    font-weight: var(--font-weight-light);
+}
+
+
+h1{
+    font-size: var(--font-size-h-1);
+    letter-spacing: var(--font-size-h-1-space);
+
+    @include breakpoint-down-sm{
+        font-size: var(--m-font-size-h-1);
+        letter-spacing: var(--m-font-size-h-1-space);
+    }
+}
+
+h2 {
+    font-size: var(--font-size-h-2);
+    letter-spacing: var(--font-size-h-2-space);
+
+    @include breakpoint-down-sm {
+        font-size: var(--m-font-size-h-2);
+        letter-spacing: var(--m-font-size-h-2-space);
+    }
+}
