@@ -4,7 +4,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: PageEnum.LANDING,
     name: PageNameEnum.LANDING,
-    meta: { public: true, layout: LayoutEnum.DEFAULT },
+    meta: { public: true, layout: LayoutEnum.FILLED },
     component: () => import('@/views/Landing.vue'),
   },
   {
