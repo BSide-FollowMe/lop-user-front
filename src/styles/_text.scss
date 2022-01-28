@@ -50,3 +50,19 @@ h2 {
         letter-spacing: var(--m-font-size-h-2-space);
     }
 }
+
+.md-up-only {
+    display: none;
+
+    @include breakpoint-up-md {
+        display: block;
+    }
+}
+
+.md-down-only {
+    display: none;
+
+    @include breakpoint-down-sm {
+        display: block;
+    }
+}
