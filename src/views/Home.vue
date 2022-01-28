@@ -368,13 +368,13 @@ export default defineComponent({
   }
 }
 .guide-plant {
-  position:relative;
+  position: relative;
   height: 681px;
   padding: var(--content-container-padding);
   background: url('@/assets/images/home/guide-banner-image.png') no-repeat 90% 45%;
 
   @include breakpoint-down-sm {
-    height:574px;
+    height: 574px;
     padding: var(--m-content-container-padding);
     background: url('@/assets/images/home/guide-banner-image.png') no-repeat 0 0;
     background-size: 260px 170px;
@@ -429,7 +429,8 @@ export default defineComponent({
           width: 40px;
         }
       }
-      transition: background-color 0.5s cubic-bezier(0.4, 0, 0.2, 1),color 0.5s cubic-bezier(0.4, 0, 0.2, 1),box-shadow 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: background-color 0.5s cubic-bezier(0.4, 0, 0.2, 1), color 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+        box-shadow 0.5s cubic-bezier(0.4, 0, 0.2, 1);
       &:hover {
         background-color: var(--secondary-green-color);
         color: #fff;
@@ -453,7 +454,7 @@ export default defineComponent({
         font-weight: var(--font-weight-medium);
       }
       img {
-        float:right;
+        float: right;
       }
       @include breakpoint-down-sm {
         width: 208px;
@@ -466,17 +467,15 @@ export default defineComponent({
       }
     }
   }
-  .to-top-btn{
-    position:absolute;
-    bottom:50px;
-    right:-50px;
+  .to-top-btn {
+    position: absolute;
+    bottom: 50px;
+    right: -50px;
 
     @media (max-width: 1200px) {
-      right:20px;
-      top:-25px;
+      right: 20px;
+      top: -25px;
     }
-
   }
 }
-
 </style>
