@@ -4,15 +4,18 @@
     <div class="page-container">
       <slot />
     </div>
+    <BottomFooter />
   </div>
 </template>
 <script>
 import { defineComponent } from 'vue';
 import TopperHeader from './TopperHeader';
+import BottomFooter from './BottomFooter';
 
 export default defineComponent({
   components: {
     TopperHeader,
+    BottomFooter,
   },
   setup() {
     return {};
@@ -21,6 +24,8 @@ export default defineComponent({
 </script>
 <style lang="scss" scoped>
 .page-container {
-  width:100%;
+  height: 100%;
+  overflow:hidden;
+
 }
 </style>

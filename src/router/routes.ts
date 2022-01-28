@@ -10,7 +10,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: PageEnum.HOME,
     name: PageNameEnum.HOME,
-    meta: { public: true, layout: LayoutEnum.FILLED },
+    meta: { public: true, layout: LayoutEnum.DEFAULT },
     component: () => import('@/views/Home.vue'),
   },
   {
@@ -22,7 +22,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: PageEnum.LOGIN,
     name: PageNameEnum.LOGIN,
-    meta: { public: true, layout: LayoutEnum.FILLED },
+    meta: { public: true, layout: LayoutEnum.DEFAULT },
     component: () => import('@/views/login/SignIn.vue'),
   },
   {

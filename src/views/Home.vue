@@ -132,7 +132,7 @@ export default defineComponent({
   max-width: var(--content-container-max-width);
   overflow: visible;
   @include breakpoint-down-sm {
-    max-width: var(--m-content-container-max-width);
+    min-width: var(--m-content-container-max-width);
   }
 }
 .inner-infinety-container {
@@ -149,6 +149,8 @@ export default defineComponent({
 
   @include breakpoint-down-sm {
     height: 362px;
+    background: url('@/assets/images/home/bg-sun.png') no-repeat calc(100% + 30px) -20%;
+    background-size: 215px;
   }
 
   img {
