@@ -24,7 +24,7 @@
 
     --screen-xs: 360px;
     --screen-md: 768px;
-    --screen-lg: 960px;
+    --screen-lg: 1040px;
 
     --text-color: #444444;
     --text-color-1: #444444;
@@ -79,6 +79,10 @@
     --m-font-size-caption-space: -0.01em;
 
 
-    --content-container-max-width: 960px;
-    --content-container-padding:20px;
+    --content-container-max-width: 1040px;
+    --content-container-padding:40px;
+    --content-container-inner: 960px;
+
+    --m-content-container-padding:20px;
+    --m-content-container-inner: 360px;
 }

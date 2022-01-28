@@ -1,0 +1,111 @@
+<template>
+  <div class="container">
+    <div class="inner-container">
+      <div class="title">
+        <img id="logo" src="@/assets/footer-logo.png" />
+        <img id="logo-title" src="@/assets/footer-title.png" />
+      </div>
+      <div class="tab">
+        <span @click.prevent>서비스 소개</span>
+        <span @click.prevent>이용 약관</span>
+        <span @click.prevent>개인정보 처리방침</span>
+      </div>
+      <div class="tab tab-filled">
+        <span @click.prevent>Contact. plantslang@gmail.com</span>
+        <br />
+        <span @click.prevent>Copyright. 식물의언어 All rights reserved.</span>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script lang="ts">
+import { defineComponent, ref } from 'vue';
+
+export default defineComponent({
+  setup(_, { emit }) {
+    const onToggleDrawer = () => {
+      emit('toggleDrawer');
+    };
+    const isLoggedIn = ref(false);
+
+    return {
+      isLoggedIn,
+      onToggleDrawer,
+    };
+  },
+});
+</script>
+
+<style lang="scss" scoped>
+@import '@/styles/', '@/assets/fonts/pretendard/pretendard.css';
+.container {
+  border-bottom: var(--background-color-1) 1px solid;
+  background-color: var(--primary-color);
+  .inner-container {
+    margin-left: auto;
+    margin-right: auto;
+    padding: 30px var(--content-container-padding);
+    // align-items: center;
+    height: 180px;
+    max-width: var(--content-container-max-width);
+    flex-wrap: wrap;
+    display: flex;
+    justify-content: space-between;
+
+    @include breakpoint-down-sm {
+      min-width: 360px;
+      height:220px;
+      padding: 0 var(--m-content-container-padding);
+    }
+  }
+  .title {
+    cursor: pointer;
+    img#logo-title {
+      padding-left: 12px;
+    }
+    filter: brightness(0) invert(1);
+    display: flex;
+    align-items: center;
+  }
+  .tab {
+    display: flex;
+    align-items: center;
+    width: 50%;
+    font-weight: var(--font-weight-base);
+    font-size: var(--font-size-caption);
+    line-height: 18px;
+    justify-content: end;
+    text-align: right;
+    color: #fff;
+    opacity: 0.5;
+
+    letter-spacing: -0.0025em;
+    > span {
+      cursor: pointer;
+    }
+    span:not(:last-child):after {
+      cursor: default;
+      content: '|';
+      margin: 0 20px;
+    }
+    &-filled {
+      display: block;
+      margin-top: 30px;
+      text-align: left;
+      width: 100%;
+      line-height: 21px;
+      > span {
+        cursor: unset;
+      }
+      span:not(:last-child):after {
+        all: unset;
+      }
+    }
+    @include breakpoint-down-sm {
+        justify-content: start;
+      width: 100%;
+    }
+  }
+}
+</style>
