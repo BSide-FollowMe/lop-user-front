@@ -9,7 +9,9 @@
           <br />
           어떤
           <span class="accent text-bold">식물의 언어</span>
-          가 궁금하신가요?
+          가
+          <br class="md-down-only" />
+          궁금하신가요?
         </h1>
         <div class="searcher">
           <input id="searchText" type="text" v-model="searchText" :class="{ 'is-empty': searchText === '' }" />
@@ -21,6 +23,7 @@
       <div class="inner-infinety-container">
         <h1 class="text-light">
           꽃 피는 봄에 함께하면
+          <br class="md-down-only" />
           <span class="text-bold">좋을 식물</span>
         </h1>
         <ul class="plant-list">
@@ -34,6 +37,7 @@
       </div>
     </section>
     <section class="guide-plant">
+      <ToTopButton class="to-top-btn" />
       <h1 class="text-light">
         초보 식집사를 위한
         <br />
@@ -62,20 +66,53 @@
         </button>
       </div>
     </section>
-    <button id="toTop" class="to-top-btn" @click="clickToTop"><img src="@/assets/icon/arrow_upward.png"></button>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref, onMounted } from 'vue';
+import ToTopButton from '@/components/buttons/ToTop.vue';
 export default defineComponent({
   name: 'Home',
 
-  components: {},
+  components: {
+    ToTopButton,
+  },
   setup() {
     const searchText = ref('');
-    function clickToTop(){
-      window.scrollTo({top:0, behavior:'smooth'})
+
+    onMounted(() => {
+      horizontalMouseScroll();
+    });
+    function horizontalMouseScroll() {
+      const slider: any = document.querySelector('.plant-list');
+      if (!slider) return;
+      let isDown = false;
+      let startX: any, scrollLeft: any;
+      slider.addEventListener('mousedown', (e: any) => {
+        isDown = true;
+        slider.classList.add('active');
+        startX = e.pageX - slider.offsetLeft;
+        scrollLeft = slider.scrollLeft;
+      });
+      slider.addEventListener('mouseleave', () => {
+        isDown = false;
+        slider.classList.remove('active');
+      });
+      slider.addEventListener('mouseup', () => {
+        isDown = false;
+        slider.classList.remove('active');
+      });
+      slider.addEventListener('mousemove', (e: any) => {
+        if (!isDown) return;
+        e.preventDefault();
+        const x = e.pageX - slider.offsetLeft;
+        const walk = (x - startX) * 1.5;
+        slider.scrollLeft = scrollLeft - walk;
+      });
+    }
+    function clickToTop() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
     return {
       searchText,
@@ -88,18 +125,21 @@ export default defineComponent({
 <style lang="scss" scoped>
 @import '@/styles/mixin';
 
-.container {
-  margin-left: auto;
-  margin-right: auto;
-  max-width: var(--content-container-max-width);
-  // padding: var(--content-container-padding);
-  overflow: visible;
-}
+.container,
 .inner-infinety-container {
   margin-left: auto;
   margin-right: auto;
   max-width: var(--content-container-max-width);
-  padding-top: 20px;
+  overflow: visible;
+  @include breakpoint-down-sm {
+    max-width: var(--m-content-container-max-width);
+  }
+}
+.inner-infinety-container {
+  padding: 0 var(--content-container-padding);
+  @include breakpoint-down-sm {
+    padding: 0 var(--m-content-container-padding);
+  }
 }
 .search-plant {
   height: 617px;
@@ -107,15 +147,30 @@ export default defineComponent({
   margin-left: calc(-50vw + 50%);
   background: url('@/assets/images/home/bg-sun.png') no-repeat 80% -20%;
 
+  @include breakpoint-down-sm {
+    height: 362px;
+  }
 
   img {
+    width: 40px;
+    height: 23px;
     margin-top: 138px;
+
+    @include breakpoint-down-sm {
+      width: 25px;
+      height: 14px;
+      margin-top: 70px;
+    }
   }
   h1 {
-    margin-top: 20px;
-    font-size: 50px;
+    @include breakpoint-up-sm {
+      margin-top: 20px;
+      font-size: 50px;
+      line-height: 65px;
+    }
+    margin-top: 10px;
     font-weight: var(--font-weight-light);
-    line-height: 65px;
+    line-height: 32px;
   }
   .accent {
     color: var(--secondary-green-color);
@@ -132,6 +187,10 @@ export default defineComponent({
     word-break: keep-all;
     transition: border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
+    @include breakpoint-down-sm {
+      width: 100%;
+      margin-top: 80px;
+    }
     &:after {
       content: '';
       position: absolute;
@@ -141,6 +200,11 @@ export default defineComponent({
       background-size: 100%;
       pointer-events: none;
       transform: translateX(-100%);
+
+      @include breakpoint-down-sm {
+        width: 36px;
+        height: 36px;
+      }
     }
 
     &:focus-within {
@@ -157,12 +221,17 @@ export default defineComponent({
       font-size: 25px;
       line-height: 35px;
       width: 100%;
+
       &:focus + label {
-        transform: scale(0.75) translateY(-54px);
-        color: var(--secondary-green-color-1);
+        display: none;
       }
       &:not(.is-empty) + label {
-        transform: scale(0.75) translateY(-54px);
+        display: none;
+      }
+
+      @include breakpoint-down-sm {
+        height: 26px;
+        font-size: var(--font-size-p);
       }
     }
 
@@ -175,8 +244,11 @@ export default defineComponent({
       bottom: 3px;
       left: 0;
       top: 11px;
-      transform-origin: bottom left;
-      transition: bottom, transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+      @include breakpoint-down-sm {
+        height: 26px;
+        font-size: var(--font-size-p);
+      }
     }
   }
 }
@@ -184,11 +256,19 @@ export default defineComponent({
   height: 531px;
   background-color: var(--secondary-green-color-3);
   width: 100vw;
+  padding-top: 20px;
   margin-left: calc(-50vw + 50%);
 
+  @include breakpoint-down-sm {
+    height: 438px;
+  }
   h1 {
     color: #000;
     margin-top: 80px;
+    @include breakpoint-down-sm {
+      margin-top: 40px;
+      line-height: 34px;
+    }
   }
   ul,
   li {
@@ -199,29 +279,62 @@ export default defineComponent({
   .plant-list {
     margin-top: 50px;
     display: flex;
-    justify-content: space-around;
+    justify-content: flex-start;
     flex-wrap: nowrap;
     overflow: auto;
-    padding: 10px;
 
-    &::-webkit-scrollbar {
-      display: none;
+    &.active {
+      background: rgba(255, 255, 255, 0.3);
+      cursor: grabbing;
+      cursor: -webkit-grabbing;
+      transform: scale(1);
     }
+    @include breakpoint-down-md {
+      margin-left: calc(var(--content-container-padding) * -1);
+      margin-right: calc(var(--content-container-padding) * -1);
+      padding: 0 var(--m-content-container-padding);
+      &::-webkit-scrollbar {
+        display: none;
+      }
+    }
+    @include breakpoint-down-sm {
+      margin: 40px calc(var(--content-container-padding) * -1) 0 calc(var(--content-container-padding) * -1);
+      padding: 0 var(--m-content-container-padding);
+    }
+
     .item {
       position: relative;
       text-align: center;
       cursor: pointer;
+      margin: 0 10px;
       padding-bottom: 10px;
       border-radius: 4px;
 
-      transition: box-shadow 0.7s;
-      &:hover {
-        box-shadow: 5px 5px 10px rgba(114, 138, 106, 0.05);
+      &:first-child {
+        margin-left: 0px;
       }
+      &:last-child {
+        margin-right: 0px;
+      }
+      @include breakpoint-down-sm {
+        margin: 0 15px 0 0;
+        &:first-child {
+          margin-left: 20px;
+        }
+        &:last-child {
+          margin-right: 20px;
+        }
+      }
+
       img {
         height: 176px;
         width: 176px;
         border-radius: 4px;
+        -webkit-user-drag: none;
+        @include breakpoint-down-sm {
+          height: 144px;
+          width: 144px;
+        }
       }
       .category {
         display: block;
@@ -243,26 +356,52 @@ export default defineComponent({
         color: #323232;
         font-size: 20px;
         line-height: 24px;
+        @include breakpoint-down-sm {
+          font-size: 18px;
+          line-height: 22px;
+        }
+      }
+      &:hover hr {
+        border-bottom: 2px solid #599270;
       }
     }
   }
 }
 .guide-plant {
+  position:relative;
   height: 681px;
-  background: url('@/assets/images/home/guide-banner-image.png') no-repeat 100% 20%;
+  padding: var(--content-container-padding);
+  background: url('@/assets/images/home/guide-banner-image.png') no-repeat 90% 45%;
+
+  @include breakpoint-down-sm {
+    height:574px;
+    padding: var(--m-content-container-padding);
+    background: url('@/assets/images/home/guide-banner-image.png') no-repeat 0 0;
+    background-size: 260px 170px;
+    background-position: bottom right;
+  }
 
   h1 {
     color: #000;
-    margin-top: 100px;
+    margin-top: 60px;
   }
 
   .btn-group {
     display: flex;
-    // justify-content: space-between;
     gap: 20px;
     flex-wrap: wrap;
     width: 390px;
+    margin-top: 66px;
     color: var(--text-color-2);
+
+    @include breakpoint-down-sm {
+      margin-top: 40px;
+      margin-left: auto;
+      margin-right: auto;
+      gap: 16px;
+      width: 320px;
+    }
+
     button {
       cursor: pointer;
       height: 110px;
@@ -274,10 +413,23 @@ export default defineComponent({
         font-size: var(--font-size-p);
         font-weight: var(--font-weight-medium);
       }
-      img {
-        transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      @include breakpoint-down-sm {
+        height: 96px;
+        width: 96px;
+        border-radius: 20px;
+        div {
+          font-size: var(--m-font-size-p-2);
+          line-height: 17px;
+        }
       }
-      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      img {
+        width: 50px;
+        transition: filter 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        @include breakpoint-down-sm {
+          width: 40px;
+        }
+      }
+      transition: background-color 0.5s cubic-bezier(0.4, 0, 0.2, 1),color 0.5s cubic-bezier(0.4, 0, 0.2, 1),box-shadow 0.5s cubic-bezier(0.4, 0, 0.2, 1);
       &:hover {
         background-color: var(--secondary-green-color);
         color: #fff;
@@ -300,18 +452,31 @@ export default defineComponent({
         font-size: var(--font-size-p);
         font-weight: var(--font-weight-medium);
       }
+      img {
+        float:right;
+      }
+      @include breakpoint-down-sm {
+        width: 208px;
+        height: 96px;
+        padding: 28px;
+        span {
+          font-size: var(--m-font-size-p-2);
+          line-height: 40px;
+        }
+      }
     }
   }
+  .to-top-btn{
+    position:absolute;
+    bottom:50px;
+    right:-50px;
+
+    @media (max-width: 1200px) {
+      right:20px;
+      top:-25px;
+    }
+
+  }
 }
-.to-top-btn{
-  position:fixed;
-  right:50%;
-  bottom:20px;
-  cursor:pointer;
-  background-color:#EBF1F1;
-  width:50px;
-  height:50px;
-  border-radius:50%;
-  border:none;
-}
+
 </style>
