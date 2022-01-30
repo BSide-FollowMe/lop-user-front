@@ -41,22 +41,31 @@ export default defineComponent({
     margin-right: auto;
     padding: var(--m-content-container-padding) var(--content-container-padding);
     align-items: center;
-    height: 101px;
+    height: var(--topper-header-height);
     max-width: var(--content-container-max-width);
 
   @include breakpoint-down-sm {
     min-width: 360px;
-    height: 60px;
     padding: var(--m-content-container-padding) var(--m-content-container-padding);
   }
   }
   .title {
-    cursor:pointer;
     img#logo-title {
       padding-left: 12px;
     }
+    img{
+      cursor:pointer;
+    }
     display: flex;
     align-items: center;
+    @include breakpoint-down-sm {
+      img#logo-title {
+        content: url('@/assets/mobile-title.png');
+      }
+      img#logo {
+        content: url('@/assets/mobile-logo.png');
+      }
+    }
   }
   .tab {
     font-family: 'Pretendard';

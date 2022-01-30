@@ -4,6 +4,10 @@
     <router-link to="/home">
       메인페이지
     </router-link>
+    <br/>
+    <router-link to="/signin">
+      로그인/회원가입
+    </router-link>
   </div>
 </template>
 <script lang="ts">

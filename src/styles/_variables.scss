@@ -85,4 +85,11 @@
 
     --m-content-container-padding:20px;
     --m-content-container-inner: 360px;
+
+    --topper-header-height:100px;
+    --bottom-footer-height:180px;
+    @include breakpoint-down-sm {
+        --topper-header-height:60px;
+        --bottom-footer-height:220px;
+    }
 }
