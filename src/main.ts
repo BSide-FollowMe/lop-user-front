@@ -7,5 +7,22 @@ import './styles/index.scss';
 
 loadFonts();
 
-console.log("환경:", process.env);
-createApp(App).use(router).use(store).mount('#app');
+console.log('환경:', process.env);
+
+const app = createApp(App);
+// click outside directive 생성 v-click-outside (of component)
+app.directive('click-outside', {
+  beforeMount(el, binding) {
+    el.clickOutsideEvent = function (event: Event) {
+      if (!(el === event.target || el.contains(event.target))) {
+        binding.value(event, el);
+      }
+    };
+    document.body.addEventListener('click', el.clickOutsideEvent);
+  },
+  unmounted(el) {
+    document.body.removeEventListener('click', el.clickOutsideEvent);
+  },
+});
+
+app.use(router).use(store).mount('#app');
