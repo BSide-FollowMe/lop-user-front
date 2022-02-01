@@ -15,6 +15,7 @@
     "lodash-es": "^4.17.21",
     "roboto-fontface": "*",
     "vue": "^3.0.0",
+    "vue-inline-svg": "^3.1.0",
     "vue-router": "^4.0.0-0",
     "vuex": "^4.0.0-0",
     "webfontloader": "^1.0.0",

@@ -17,7 +17,7 @@ const routes: Array<RouteRecordRaw> = [
     path: PageEnum.PLANT_DETAILS,
     name: PageNameEnum.PLANT_DETAILS,
     meta: { public: true, layout: LayoutEnum.DEFAULT },
-    component: () => import('@/views/Home.vue'),
+    component: () => import('@/views/PlantDetail.vue'),
   },
   {
     path: PageEnum.LOGIN,
