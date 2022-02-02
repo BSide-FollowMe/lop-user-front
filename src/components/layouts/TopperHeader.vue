@@ -73,7 +73,7 @@ export default defineComponent({
     font-weight: 500;
     font-size: 15px;
     line-height: 18px;
-    justify-content:end;
+    justify-content:flex-end;
     text-align:right;
 
     /* identical to box height */

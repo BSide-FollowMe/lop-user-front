@@ -16,6 +16,7 @@
         <div class="searcher">
           <input id="searchText" type="text" v-model="searchText" :class="{ 'is-empty': searchText === '' }" />
           <label for="searchText">식물명 또는 카테고리를 입력하세요.</label>
+          <button @click="onClickSubmit(searchText)"></button>
         </div>
       </div>
     </section>
@@ -72,6 +73,8 @@
 <script lang="ts">
 import { defineComponent, ref, onMounted } from 'vue';
 import ToTopButton from '@/components/buttons/ToTop.vue';
+import { validateSearchStr } from '@/utils/validation';
+import router from '@/router';
 export default defineComponent({
   name: 'Home',
 
@@ -113,6 +116,14 @@ export default defineComponent({
     }
     function clickToTop() {
       window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    function onClickSubmit(newVal: string) {
+      const validateMsg = validateSearchStr(newVal);
+      if (validateMsg) {
+        alert(validateMsg);
+        return;
+      }
+      router.push('/search?q=' + newVal);
     }
     return {
       searchText,
@@ -193,15 +204,18 @@ export default defineComponent({
       width: 100%;
       margin-top: 80px;
     }
-    &:after {
+    button {
       content: '';
-      position: absolute;
-      height: 50px;
-      width: 50px;
-      background-image: url('@/assets/icon/magnifier.png');
-      background-size: 100%;
-      pointer-events: none;
-      transform: translateX(-100%);
+    position: absolute;
+    height: 50px;
+    width: 50px;
+    background-image: url('@/assets/icon/magnifier.png');
+    background-size: 100%;
+    cursor:pointer;
+    z-index:2;
+    border:none;
+    background-color:transparent;
+    transform: translateX(-100%);
 
       @include breakpoint-down-sm {
         width: 36px;

@@ -26,6 +26,12 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('@/views/login/SignIn.vue'),
   },
   {
+    path: PageEnum.SEARCH_RESULT,
+    name: PageNameEnum.SEARCH_RESULT,
+    meta: { public: true, layout: LayoutEnum.DEFAULT },
+    component: () => import('@/views/search/index.vue'),
+  },
+  {
     path: PageEnum.ERROR_PAGE,
     name: PageNameEnum.ERROR_PAGE,
     meta: { public: true, layout: LayoutEnum.FILLED },

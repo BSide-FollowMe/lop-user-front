@@ -4,6 +4,7 @@ export enum PageEnum {
   ERROR_PAGE = '/not-found',
   LANDING = '/',
   PLANT_DETAILS = '/plant/:id',
+  SEARCH_RESULT = '/search',
 }
 
 export enum PageNameEnum {
@@ -12,6 +13,7 @@ export enum PageNameEnum {
   ERROR_PAGE = 'NOT FOUND - 404',
   LANDING = 'Load Page...',
   PLANT_DETAILS = 'Plant details',
+  SEARCH_RESULT = 'Search result',
 }
 
 export enum LayoutEnum {

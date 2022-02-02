@@ -15,7 +15,10 @@
             회원가입 시 이용자는 식물의언어
             <a>이용약관</a>
             및
-            <a>개인정보처리방침</a>에 <br/>동의하게 됩니다.
+            <a>개인정보처리방침</a>
+            에
+            <br />
+            동의하게 됩니다.
           </span>
         </div>
       </section>
@@ -31,6 +34,7 @@ export default defineComponent({
   components: {},
   setup() {
     const store = useStore();
+    //TODO: sns로그인 연동 필요
     const onSubmit = (id: string, pwd: string) => {
       store.dispatch('signIn', { id: id, password: pwd });
     };
@@ -69,8 +73,8 @@ export default defineComponent({
   @include breakpoint-down-sm {
     margin-top: -30px;
     width: 320px;
-    justify-content:center;
-    text-align:center;
+    justify-content: center;
+    text-align: center;
   }
   & > * {
     display: block;
@@ -80,14 +84,14 @@ export default defineComponent({
     width: 168px;
     height: 156px;
     @include breakpoint-down-sm {
-      width:172px;
-      height:160px;
+      width: 172px;
+      height: 160px;
     }
   }
   h2 {
     line-height: 32px;
     @include breakpoint-down-sm {
-      margin-top:30px;
+      margin-top: 30px;
       font-size: 22px;
       line-height: 28px;
     }
@@ -105,7 +109,7 @@ export default defineComponent({
       border: none;
       font-size: var(--font-size-p-2);
       line-height: 50px;
-      img{
+      img {
         width: 24px;
         height: 24px;
       }
@@ -127,9 +131,9 @@ export default defineComponent({
     background-position: 9px;
   }
   .tos-and-pp-tip {
-    text-align:left;
+    text-align: left;
     margin-top: 10px;
-    color:var(--text-color-3);
+    color: var(--text-color-3);
     @include breakpoint-down-sm {
       margin-top: 0px;
     }

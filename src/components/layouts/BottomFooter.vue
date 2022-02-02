@@ -75,7 +75,7 @@ export default defineComponent({
     font-weight: var(--font-weight-base);
     font-size: var(--font-size-caption);
     line-height: 18px;
-    justify-content: end;
+    justify-content: flex-end;
     text-align: right;
     color: #fff;
     opacity: 0.5;
