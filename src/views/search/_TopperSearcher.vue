@@ -14,6 +14,7 @@ import { defineComponent, ref, watch } from 'vue';
 import { validateSearchStr } from '@/utils/validation';
 
 export default defineComponent({
+  name: 'Topper Searcher',
   props: ['text'],
   setup(props, { emit }) {
     const searchText = ref(props.text);

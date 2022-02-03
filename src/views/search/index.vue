@@ -11,13 +11,13 @@
 import { defineComponent, ref,computed } from 'vue';
 import TopperSearcher from './_TopperSearcher.vue';
 import PlantList from './_PlantList/index.vue';
-import QuestionList from './_QuestionList.vue';
+import QuestionList from './_QuestionList/index.vue';
 import RouterTabs from './_RouterTabs.vue';
 import { useRoute } from 'vue-router';
 import router from '@/router';
 import { PageEnum } from '@/enums/PageEnum';
 export default defineComponent({
-  name: 'Search result',
+  name: 'Search Result',
   components: {
     TopperSearcher,
     RouterTabs,
@@ -70,6 +70,9 @@ export default defineComponent({
 .search-result {
     .router-tabs{
         margin-top:40px;
+        @include breakpoint-down-sm {
+        margin-top:0px;
+      }
     }
 }
 </style>

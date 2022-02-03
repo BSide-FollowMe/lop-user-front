@@ -1,21 +1,39 @@
 <template>
   <div class="container">
     <div class="inner-container flex-row">
-    <div class="title">
-      <img id="logo" src="@/assets/logo.png" />
-      <img id="logo-title" src="@/assets/logo-title.png" />
-    </div>
-    <div class="tab">
-      <span @click="()=>{alert(1)}">질문 · 답변</span>
-      <span v-if="isLoggedIn" @click="()=>{console.log('2')}">{{ username }}님</span>
-      <span v-else @click="()=>{console.log('2')}">Login</span>
-    </div>
+      <div class="title">
+        <img id="logo" src="@/assets/logo.png" @click="ROUTE_TO.LANDING" />
+        <img id="logo-title" src="@/assets/logo-title.png" @click="ROUTE_TO.LANDING" />
+      </div>
+      <div class="tab">
+        <span
+          @click="
+            () => {
+              alert(1);
+            }
+          "
+        >
+          질문 · 답변
+        </span>
+        <span
+          v-if="isLoggedIn"
+          @click="
+            () => {
+              console.log('2');
+            }
+          "
+        >
+          {{ username }}님
+        </span>
+        <span v-else @click="ROUTE_TO.LOGIN">Login</span>
+      </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
+import { ROUTE_TO } from '@/router/routing';
 
 export default defineComponent({
   setup(props, { emit }) {
@@ -25,6 +43,7 @@ export default defineComponent({
     const isLoggedIn = ref(false);
 
     return {
+      ROUTE_TO,
       isLoggedIn,
       onToggleDrawer,
     };
@@ -36,7 +55,7 @@ export default defineComponent({
 @import '@/styles/', '@/assets/fonts/pretendard/pretendard.css';
 .container {
   border-bottom: var(--background-color-1) 1px solid;
-  .inner-container{
+  .inner-container {
     margin-left: auto;
     margin-right: auto;
     padding: var(--m-content-container-padding) var(--content-container-padding);
@@ -44,17 +63,17 @@ export default defineComponent({
     height: var(--topper-header-height);
     max-width: var(--content-container-max-width);
 
-  @include breakpoint-down-sm {
-    min-width: 360px;
-    padding: var(--m-content-container-padding) var(--m-content-container-padding);
-  }
+    @include breakpoint-down-sm {
+      min-width: 360px;
+      padding: var(--m-content-container-padding) var(--m-content-container-padding);
+    }
   }
   .title {
     img#logo-title {
       padding-left: 12px;
     }
-    img{
-      cursor:pointer;
+    img {
+      cursor: pointer;
     }
     display: flex;
     align-items: center;
@@ -73,8 +92,8 @@ export default defineComponent({
     font-weight: 500;
     font-size: 15px;
     line-height: 18px;
-    justify-content:flex-end;
-    text-align:right;
+    justify-content: flex-end;
+    text-align: right;
 
     /* identical to box height */
 

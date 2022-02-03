@@ -15,15 +15,18 @@ interface tab {
   listParam: string;
 }
 export default defineComponent({
+  name: 'Router Tabs',
   components: {
     VueTabs,
   },
   setup() {
     const route = useRoute();
-    const listType: any = computed(()=>route.query.list);
+    const listType: any = computed(() => route.query.list);
     const activeTab = ref(tabs.findIndex((item) => item.listParam === listType.value));
-    watch(listType, (newVal:string) => {
-      activeTab.value = tabs.findIndex((item) => item.listParam === newVal);
+    watch(listType, (newVal: string) => {
+      if (newVal) {
+        activeTab.value = tabs.findIndex((item) => item.listParam === newVal);
+      }
     });
     watch(activeTab, (newVal) => {
       return routeToPathWithParam(tabs, newVal);

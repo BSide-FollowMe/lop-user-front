@@ -14,6 +14,7 @@
 
 <script>
 export default {
+  name: 'Vue Tabs',
   props: ['items', 'value'],
   data() {
     return {
@@ -40,6 +41,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '@/styles/mixin';
 .tabs {
     display:flex;
   & > div.tab {
@@ -49,11 +51,19 @@ export default {
     text-align: center;
     cursor: pointer;
     border-bottom: 1px solid var(--background-color-2);
+    @include breakpoint-down-sm {
+      height:46px;
+    }
+
     &.tab-active {
       border-bottom: 2px solid var(--text-color);
     }
     span {
       line-height: 60px;
+      @include breakpoint-down-sm {
+        line-height:46px;
+        font-size:14px;
+      }
     }
   }
 }

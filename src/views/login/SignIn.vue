@@ -13,9 +13,9 @@
           <button class="naver-login">네이버로 시작하기</button>
           <span class="tos-and-pp-tip text-caption">
             회원가입 시 이용자는 식물의언어
-            <a>이용약관</a>
+            <a @click="OPEN_LINK.TOS">이용약관</a>
             및
-            <a>개인정보처리방침</a>
+            <a @click="OPEN_LINK.PP">개인정보처리방침</a>
             에
             <br />
             동의하게 됩니다.
@@ -28,6 +28,7 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 import { useStore } from 'vuex';
+import { OPEN_LINK } from '@/router/routing';
 
 export default defineComponent({
   name: 'Sign In',
@@ -39,7 +40,7 @@ export default defineComponent({
       store.dispatch('signIn', { id: id, password: pwd });
     };
 
-    return {};
+    return {OPEN_LINK};
   },
 });
 </script>
