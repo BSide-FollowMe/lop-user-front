@@ -2,7 +2,7 @@
   <vue-tabs :items="tabLabels" :value="activeTab" @changeTab="activeTab = $event" />
 </template>
 <script lang="ts">
-import { defineComponent, ref, watch } from 'vue';
+import { defineComponent, ref, computed, watch } from 'vue';
 import VueTabs from '@/components/VueTabs.vue';
 import { useRoute } from 'vue-router';
 import router from '@/router';
@@ -20,7 +20,11 @@ export default defineComponent({
   },
   setup() {
     const route = useRoute();
-    const activeTab = ref(tabs.findIndex((item) => item.listParam === route.query?.list));
+    const listType: any = computed(()=>route.query.list);
+    const activeTab = ref(tabs.findIndex((item) => item.listParam === listType.value));
+    watch(listType, (newVal:string) => {
+      activeTab.value = tabs.findIndex((item) => item.listParam === newVal);
+    });
     watch(activeTab, (newVal) => {
       return routeToPathWithParam(tabs, newVal);
     });

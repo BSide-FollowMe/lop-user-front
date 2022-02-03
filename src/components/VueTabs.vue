@@ -27,6 +27,9 @@ export default {
     activeTab(newval) {
       this.onChangeEvt(newval);
     },
+    value(newval){
+      this.activeTab = newval;
+    }
   },
   methods: {
     onChangeEvt(newval) {

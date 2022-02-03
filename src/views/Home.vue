@@ -286,12 +286,6 @@ export default defineComponent({
       line-height: 34px;
     }
   }
-  ul,
-  li {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  }
   .plant-list {
     margin-top: 50px;
     display: flex;

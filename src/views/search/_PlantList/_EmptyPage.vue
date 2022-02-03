@@ -26,16 +26,22 @@
     </section>
   </div>
 </template>
-
-<script>
+<script lang="ts">
+import { defineComponent, computed } from 'vue';
 import VueButton from '@/components/buttons/VueButton.vue';
-export default {
+export default defineComponent({
   components: {
     VueButton,
   },
-};
+  props: ['text'],
+  setup(props) {
+    const searchTarget = computed(() => props.text);
+    return {
+      searchTarget,
+    };
+  },
+});
 </script>
-
 <style lang="scss" scoped>
 @import '@/styles/mixin';
 .is-empty {
@@ -44,19 +50,19 @@ export default {
     text-align: center;
     height: 530px;
     padding: 80px;
-    img{
-        width: 116px;
-        height: 116px;
+    img {
+      width: 116px;
+      height: 116px;
     }
     @include breakpoint-down-sm {
-        height:378px;
-        img{
-            width:60px;
-            height:60px;
-        }
-        h2{
-            font-size:var(--m-font-size-p);
-        }
+      height: 378px;
+      img {
+        width: 60px;
+        height: 60px;
+      }
+      h2 {
+        font-size: var(--m-font-size-p);
+      }
     }
   }
   .search-tip {
@@ -65,18 +71,17 @@ export default {
     line-height: 26px;
     color: var(--text-color-4);
     @include breakpoint-down-sm {
-        margin-top:6px;
-        font-size:var(--m-font-size-p-3);
-        line-height:18px;
+      margin-top: 6px;
+      font-size: var(--m-font-size-p-3);
+      line-height: 18px;
     }
-
   }
   .plnat-request-btn {
     margin-top: 50px;
     width: 180px;
     height: 48px;
     @include breakpoint-down-sm {
-        margin-top:40px;
+      margin-top: 40px;
     }
   }
   .recommend-container {
@@ -86,7 +91,7 @@ export default {
     padding-top: 20px;
     margin-left: calc(-50vw + 50%);
     @include breakpoint-down-sm {
-        height:405px;
+      height: 405px;
     }
   }
   h1 {

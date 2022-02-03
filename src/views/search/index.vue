@@ -1,16 +1,16 @@
 <template>
   <div class="container search-result">
     <TopperSearcher :text="searchStr" />
-    <RouterTabs class="router-tabs" />
-    <PlantList v-if="listType == 'plants'" />
-    <QuestionList v-if="listType == 'questions'" />
+    <RouterTabs class="router-tabs" :text="searchStr" />
+    <PlantList v-if="listType == 'plants'" :text="searchStr" />
+    <QuestionList v-if="listType == 'questions'" :text="searchStr" />
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref,computed } from 'vue';
 import TopperSearcher from './_TopperSearcher.vue';
-import PlantList from './_PlantList.vue';
+import PlantList from './_PlantList/index.vue';
 import QuestionList from './_QuestionList.vue';
 import RouterTabs from './_RouterTabs.vue';
 import { useRoute } from 'vue-router';
@@ -26,10 +26,10 @@ export default defineComponent({
   },
   setup() {
     const route = useRoute();
-    const searchStr: any = ref(route.query.q);
+    const searchStr: any = computed(()=>route.query.q);
     const listType: any = computed(()=>route.query.list);
 
-    queryController(searchStr, listType);
+    queryController(searchStr.value, listType.value);
 
     function queryController(text?: string, list?: string) {
       const isInputted: boolean = isNotInputtedQuery(text);
