@@ -2,16 +2,16 @@
   <div class="container">
     <div class="inner-container">
       <div class="title">
-        <img id="logo" src="@/assets/footer-logo.png" />
-        <img id="logo-title" src="@/assets/footer-title.png" />
+        <img id="logo" src="@/assets/footer-logo.png" @click="ROUTE_TO.LANDING"/>
+        <img id="logo-title" src="@/assets/footer-title.png" @click="ROUTE_TO.LANDING" />
       </div>
       <div class="tab">
-        <span @click.prevent>서비스 소개</span>
-        <span @click.prevent>이용 약관</span>
-        <span @click.prevent>개인정보 처리방침</span>
+        <span @click="OPEN_LINK.INTRODUCTION">서비스 소개</span>
+        <span @click="OPEN_LINK.TOS">이용 약관</span>
+        <span @click="OPEN_LINK.PP">개인정보 처리방침</span>
       </div>
       <div class="tab tab-filled">
-        <span @click.prevent>Contact. plantslang@gmail.com</span>
+        <span class="cursor-pointer" @click="OPEN_LINK.MAIL">Contact. plantslang@gmail.com</span>
         <br />
         <span @click.prevent>Copyright. 식물의언어 All rights reserved.</span>
       </div>
@@ -21,6 +21,7 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
+import { ROUTE_TO, OPEN_LINK } from '@/router/routing';
 
 export default defineComponent({
   setup(_, { emit }) {
@@ -32,6 +33,8 @@ export default defineComponent({
     return {
       isLoggedIn,
       onToggleDrawer,
+      OPEN_LINK,
+      ROUTE_TO,
     };
   },
 });
@@ -75,7 +78,7 @@ export default defineComponent({
     font-weight: var(--font-weight-base);
     font-size: var(--font-size-caption);
     line-height: 18px;
-    justify-content: end;
+    justify-content: flex-end;
     text-align: right;
     color: #fff;
     opacity: 0.5;
