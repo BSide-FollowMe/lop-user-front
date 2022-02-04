@@ -1,28 +1,14 @@
 <template>
   <div class="is-empty">
     <section class="request-container">
-      <img src="@/assets/icon/exclamation.png" />
-      <h2 class="text-medium">검색하신 식물을 찾지 못했어요</h2>
+      <img src="@/assets/icon/question-request.png" />
+      <h2 class="text-medium">등록된 질문 · 답변이 없어요</h2>
       <div class="search-tip">
-        찾고 계신 식물을 알려주시면
+        식물이 아프거나 키우기 어렵다면
         <br />
-        새로운 식물의 언어를 빠르게 들려드릴게요.
+        다른 식집사 분들의 도움을 받아보세요.
       </div>
-      <VueButton color="primary" class="plant-request-btn">식물 등록 요청하기</VueButton>
-    </section>
-    <section class="recommend-container">
-      <div class="inner-infinety-container">
-        <h1 class="text-light">
-          <span class="text-medium">이런 식물</span>
-          은 어때요?
-        </h1>
-        <ul class="plant-list">
-          <li class="item" v-for="count in 5" :key="`item-${count}`">
-            <img src="@/assets/images/home/sample-plant.png" />
-            <span class="plant-name text-light">보로니아</span>
-          </li>
-        </ul>
-      </div>
+      <VueButton color="primary" class="question-request-btn">질문하기</VueButton>
     </section>
   </div>
 </template>
@@ -48,15 +34,17 @@ export default defineComponent({
   .request-container {
     color: var(--primary-color);
     text-align: center;
-    height: 530px;
+    min-height:530px;
+    height: calc(100vh - var(--topper-header-height) - var(--bottom-footer-height) - 270px);
     padding: 80px;
     img {
       width: 116px;
       height: 116px;
     }
     @include breakpoint-down-sm {
+      min-height:378px;
+      height: calc(100vh - var(--topper-header-height) - var(--bottom-footer-height) - 146px);
       padding:60px;
-      height: 378px;
       img {
         width: 60px;
         height: 60px;
@@ -77,7 +65,7 @@ export default defineComponent({
       line-height: 18px;
     }
   }
-  .plant-request-btn {
+  .question-request-btn {
     margin-top: 50px;
     width: 180px;
     height: 48px;

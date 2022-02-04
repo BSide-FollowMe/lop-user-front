@@ -5,6 +5,7 @@ export enum PageEnum {
   LANDING = '/',
   PLANT_DETAILS = '/plant/:id',
   SEARCH_RESULT = '/search',
+  QNABOARD = '/qna',
 }
 
 export enum PageNameEnum {
@@ -14,6 +15,7 @@ export enum PageNameEnum {
   LANDING = 'Load Page...',
   PLANT_DETAILS = 'Plant details',
   SEARCH_RESULT = 'Search result',
+  QNABOARD = 'QNA Board',
 }
 
 export enum LayoutEnum {

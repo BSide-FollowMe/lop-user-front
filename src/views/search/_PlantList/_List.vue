@@ -1,5 +1,5 @@
 <template>
-    <section class="plants-container">
+  <section class="plants-container">
     <ul class="plant-list">
       <li class="item" v-for="index in 10" :key="`plant-item-${index}`">
         <img class="preview" src="@/assets/images/search/plant-sample.png" />
@@ -24,7 +24,7 @@ export default defineComponent({
     if (searchTarget.value == 'EMPTY_SAMPLE') {
       isEmpty.value = true;
     }
-    function stylizeBySearchTarget(searchStr:string, targetStr:string){
+    function stylizeBySearchTarget(searchStr: string, targetStr: string) {
       const arr = targetStr.split(searchStr);
       return `${arr[0]}<span style="color:var(--secondray-color-2)">${searchStr}</span>${arr[1]}`;
     }
@@ -49,12 +49,12 @@ export default defineComponent({
     padding: 20px;
     border-bottom: 1px solid var(--background-color-4);
     @include breakpoint-down-sm {
-        height: 108px;
-        padding: 16px 20px;
+      height: 108px;
+      padding: 16px 20px;
     }
     &:hover {
       background-color: var(--secondary-green-color-3);
-          cursor:pointer;
+      cursor: pointer;
     }
     .preview {
       width: 100px;
@@ -62,17 +62,17 @@ export default defineComponent({
       object-fit: cover;
       border-radius: 4px;
       background-color: #c4c4c4;
-        @include breakpoint-down-sm {
-            width:76px;
-            height:76px;
-        }
+      @include breakpoint-down-sm {
+        width: 76px;
+        height: 76px;
+      }
     }
     &__infomations {
       margin-left: 40px;
       flex-grow: 1;
-    @include breakpoint-down-sm {
-    margin-left:20px;
-    }
+      @include breakpoint-down-sm {
+        margin-left: 20px;
+      }
     }
     .category {
       padding: 3px 12px;
@@ -83,9 +83,9 @@ export default defineComponent({
       letter-spacing: -0.005em;
       line-height: 17px;
       @include breakpoint-down-sm {
-          font-size:var(--m-font-size-caption);
-          line-height:14px;
-          padding: 2px 10px;
+        font-size: var(--m-font-size-caption);
+        line-height: 14px;
+        padding: 2px 10px;
       }
     }
     .title {
@@ -93,9 +93,9 @@ export default defineComponent({
       margin-bottom: 0px;
       line-height: 29px;
       @include breakpoint-down-sm {
-          margin-top:6px;
-          font-size:16px;
-          line-height:26px;
+        margin-top: 6px;
+        font-size: 16px;
+        line-height: 26px;
       }
     }
     .alias {
@@ -103,30 +103,29 @@ export default defineComponent({
       margin-bottom: 0px;
       line-height: 26px;
       @include breakpoint-down-sm {
-          margin-top:0px;
-          font-size:var(--m-font-size-caption);
-          line-height:18px;
+        margin-top: 0px;
+        font-size: var(--m-font-size-caption);
+        line-height: 18px;
       }
     }
     .to-details {
-      width:24px;
-      height:24px;
-      background-color:transparent;
-      border:none;
-      img{
-        width:24px;
-        height:24px;
+      width: 24px;
+      height: 24px;
+      background-color: transparent;
+      border: none;
+      img {
+        width: 24px;
+        height: 24px;
       }
-        @include breakpoint-down-sm {
-            width: 18px;
-            height: 18px;
-            img{
-        width:18px;
-        height:18px;
-      }
+      @include breakpoint-down-sm {
+        width: 18px;
+        height: 18px;
+        img {
+          width: 18px;
+          height: 18px;
         }
+      }
     }
   }
 }
-
 </style>

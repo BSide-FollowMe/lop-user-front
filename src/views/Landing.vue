@@ -1,21 +1,17 @@
 <template>
   <div class="text-center">
     <h1>식물의 언어 임시 라우팅 페이지</h1>
-    <router-link to="/home">
-      메인페이지
-    </router-link>
-    <br/>
-    <router-link to="/signin">
-      로그인/회원가입
-    </router-link>
-    <br/>
-    <router-link to="/search?q=콩난">
-      검색결과
-    </router-link>
-    <br/>
-    <router-link to="/search?q=EMPTY_SAMPLE">
-      검색결과(empty)
-    </router-link>
+    <router-link to="/home">메인페이지</router-link>
+    <br />
+    <router-link to="/signin">로그인/회원가입</router-link>
+    <br />
+    <router-link to="/search?q=콩난">검색결과</router-link>
+    <br />
+    <router-link to="/search?q=EMPTY_SAMPLE">검색결과(empty)</router-link>
+    <br />
+    <router-link to="/modal-test">모달테스트 페이지</router-link>
+    <br />
+    <router-link to="/qna">질문 답변 게시판</router-link>
   </div>
 </template>
 <script lang="ts">

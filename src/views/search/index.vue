@@ -8,7 +8,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref,computed } from 'vue';
+import { defineComponent, computed } from 'vue';
 import TopperSearcher from './_TopperSearcher.vue';
 import PlantList from './_PlantList/index.vue';
 import QuestionList from './_QuestionList/index.vue';
@@ -26,8 +26,8 @@ export default defineComponent({
   },
   setup() {
     const route = useRoute();
-    const searchStr: any = computed(()=>route.query.q);
-    const listType: any = computed(()=>route.query.list);
+    const searchStr: any = computed(() => route.query.q);
+    const listType: any = computed(() => route.query.list);
 
     queryController(searchStr.value, listType.value);
 
@@ -68,11 +68,11 @@ export default defineComponent({
   }
 }
 .search-result {
-    .router-tabs{
-        margin-top:40px;
-        @include breakpoint-down-sm {
-        margin-top:0px;
-      }
+  .router-tabs {
+    margin-top: 40px;
+    @include breakpoint-down-sm {
+      margin-top: 0px;
     }
+  }
 }
 </style>
