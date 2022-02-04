@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="inner-container">
     <div class="title">물은 이렇게 주세요</div>
     <p class="content" v-html="content"></p>
     <div class="guide">
@@ -22,6 +22,11 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+.inner-container{
+  >*{
+    min-width:960px;
+  }
+}
 .title {
   padding-bottom: 14px;
   font-family: Pretendard;
@@ -55,7 +60,6 @@ export default defineComponent({
   color: #666666;
 }
 .guide {
-  min-width:960px;
   .guide-box{
     cursor:pointer;
     &:first-child{

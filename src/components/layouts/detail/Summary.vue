@@ -4,31 +4,31 @@
       <img width="340" height="340" :src="fileUrl" />
       <div class="fileSource">{{ fileSource }}</div>
     </div>
-      <section class="second-column">
-        <div class="plant-category">
-          <div class="inner-plant-category">{{ category }}</div>
+    <section class="second-column">
+      <div class="plant-category">
+        <div class="inner-plant-category">{{ category }}</div>
+      </div>
+      <div class="plant-name">{{ name }}</div>
+      <div class="plant-scientificName">{{ scientificName }}</div>
+      <div class="plant-nickname">{{ nickname }}</div>
+      <div class="plant-growthDifficulty">
+        <p>저를 키우는 건 어떠셨어요?</p>
+        <div class="growth-difficulty-bar">
+          <img class="check-icon" :src="CheckIcon" />
+          쉬워요
         </div>
-        <div class="plant-name">{{ name }}</div>
-        <div class="plant-scientificName">{{ scientificName }}</div>
-        <div class="plant-nickname">{{ nickname }}</div>
-        <div class="plant-growthDifficulty">
-          <p>저를 키우는 건 어떠셨어요?</p>
-          <div class="growth-difficulty-bar">
-            <img class="check-icon" :src="CheckIcon" />
-            쉬워요
-          </div>
-          <div class="growth-difficulty-bar">
-            <img class="check-icon" :src="CheckIcon" />
-            어려워요
-          </div>
+        <div class="growth-difficulty-bar">
+          <img class="check-icon" :src="CheckIcon" />
+          어려워요
         </div>
-      </section>
-      <section class="third-column">
-        <ContextMenu ref="contextMenu" class="ContextMenu" :items="contextMenuItems" />
-        <img class="icon" :src="ShareIcon" @click="openContextMenu"/>
-        <img  class="icon heart-fill-icon" :src="FullHeartIcon" @click="unRegitserLike"/>
-        <img  class="icon heart-empty-icon" :src="EmptyHeartIcon" @click="registerLike" />
-      </section>
+      </div>
+    </section>
+    <section class="third-column">
+      <ContextMenu ref="contextMenu" class="ContextMenu" :items="contextMenuItems" />
+      <img class="icon" :src="ShareIcon" @click="openContextMenu" />
+      <img class="icon heart-fill-icon" :src="FullHeartIcon" @click="unRegitserLike" />
+      <img class="icon heart-empty-icon" :src="EmptyHeartIcon" @click="registerLike" />
+    </section>
   </div>
 </template>
 <script lang="ts">
@@ -102,21 +102,21 @@ export default defineComponent({
     const copyLink = () => {
       //some action
       console.log('copyLink');
-      store.dispatch('snack/openSnack', { text: '링크가 복사되었어요!',color: '#48B57A'});
+      store.dispatch('snack/openSnack', { text: '링크가 복사되었어요!', color: '#48B57A' });
     };
     const contextMenuItems = [
-      { text: '카카오톡 공유', func: shareKakao,icon:KakaoIcon },
-      { text: '링크 복사', func: copyLink,icon:LinkIcon },
+      { text: '카카오톡 공유', func: shareKakao, icon: KakaoIcon },
+      { text: '링크 복사', func: copyLink, icon: LinkIcon },
     ];
 
     const registerLike = () => {
       console.log('register like');
-      store.dispatch('snack/openSnack', { text: '내가 저장한 식물에 추가했어요!',link:'/',color: '#C9704C'});
+      store.dispatch('snack/openSnack', { text: '내가 저장한 식물에 추가했어요!', link: '/', color: '#C9704C' });
     };
-    const unRegitserLike = () =>{
+    const unRegitserLike = () => {
       console.log('unregister like');
-      store.dispatch('snack/openSnack', { text: '내가 저장한 식물에서 삭제했어요!',color: '#C9704C'});
-    }
+      store.dispatch('snack/openSnack', { text: '내가 저장한 식물에서 삭제했어요!', color: '#C9704C' });
+    };
     return {
       registerLike,
       unRegitserLike,
@@ -138,13 +138,11 @@ export default defineComponent({
 <style lang="scss" scoped>
 @import '@/styles/', '@/assets/fonts/pretendard/pretendard.css';
 .inner-container {
-  position:relative;
   display: flex;
-  flex-wrap: nowrap;
-  width:100%;
-  max-width: var(--content-container-max-width);
+  width: 100%;
+  min-width: 960px;
   div.plant-image {
-    margin-right:50px;
+    margin-right: 50px;
     position: relative;
     width: 340px;
     height: 340px;
@@ -168,7 +166,7 @@ export default defineComponent({
     }
   }
   .second-column {
-    min-width:548px;
+    min-width: 548px;
     .plant-category {
       display: flex;
       flex-direction: row;
@@ -237,7 +235,6 @@ export default defineComponent({
       flex-direction: column;
       align-items: flex-start;
       padding: 20px 80px 20px 30px;
-      position: absolute;
       width: 570px;
       height: 171px;
       /* white */
@@ -260,7 +257,7 @@ export default defineComponent({
       .growth-difficulty-bar {
         margin-top: 12px;
         .check-icon {
-            padding: 0 16px;
+          padding: 0 16px;
         }
         width: 460px;
         height: 44px;
@@ -281,9 +278,9 @@ export default defineComponent({
     }
   }
   .third-column {
-    .ContextMenu{
-      right:31px;
-      width:172px;
+    .ContextMenu {
+      right: 31px;
+      width: 172px;
     }
     .icon {
       display: block;
@@ -291,23 +288,23 @@ export default defineComponent({
       margin-bottom: 25px;
     }
     .heart-empty-icon:hover {
-      -webkit-mask-image: url("@/assets/icon/heart-fill.svg");
-      mask-image: url("@/assets/icon/heart-fill.svg");
+      -webkit-mask-image: url('@/assets/icon/heart-fill.svg');
+      mask-image: url('@/assets/icon/heart-fill.svg');
       -webkit-mask-repeat: no-repeat;
       mask-repeat: no-repeat;
       -webkit-mask-position: center center;
-      mask-position:center center;
+      mask-position: center center;
       width: 20px;
       height: 18.35px;
       background-color: #365650;
     }
     .heart-fill-icon:hover {
-      -webkit-mask-image: url("@/assets/icon/heart-empty.svg");
-      mask-image: url("@/assets/icon/heart-empty.svg");
+      -webkit-mask-image: url('@/assets/icon/heart-empty.svg');
+      mask-image: url('@/assets/icon/heart-empty.svg');
       -webkit-mask-repeat: no-repeat;
       mask-repeat: no-repeat;
       -webkit-mask-position: center center;
-      mask-position:center center;
+      mask-position: center center;
       width: 20px;
       height: 18.35px;
       background-color: #365650;
