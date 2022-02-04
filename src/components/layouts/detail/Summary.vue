@@ -168,6 +168,7 @@ export default defineComponent({
     }
   }
   .second-column {
+    min-width:548px;
     .plant-category {
       display: flex;
       flex-direction: row;
@@ -280,8 +281,6 @@ export default defineComponent({
     }
   }
   .third-column {
-    position:absolute;
-    right:0;
     .ContextMenu{
       right:31px;
       width:172px;

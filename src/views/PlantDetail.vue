@@ -1,11 +1,13 @@
 <template>
   <div class="container">
     <Summary class="summary" />
+    <Water />
   </div>
 </template>
 <script lang="ts">
 import { defineComponent } from '@vue/runtime-core';
 import Summary from '@/components/layouts/detail/Summary.vue';
+import Water from '@/components/layouts/detail/Water.vue';
 import { onMounted, ref } from 'vue';
 import { getPlant } from '@/api/admin';
 import { PlantResponse } from '@/api/model/adminModel';
@@ -15,6 +17,7 @@ export default defineComponent({
   },
   components: {
     Summary,
+    Water,
   },
 });
 </script>
@@ -26,5 +29,8 @@ export default defineComponent({
   margin-left: auto;
   margin-right: auto;
   padding: var(--m-content-container-padding) var(--content-container-padding);
+  >*{
+    margin-bottom:100px;
+  }
 }
 </style>
