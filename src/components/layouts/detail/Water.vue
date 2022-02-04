@@ -1,9 +1,11 @@
 <template>
-  <div class="title">물은 이렇게 주세요</div>
-  <p class="content" v-html="content"></p>
-  <div class="guide">
-    <span class="guide-box">흙이 마른 건 이렇게 알 수 있어요<div class="arrow-icon"/></span>
-    <span class="guide-box">물을 잘 주는 TIP<div class="arrow-icon"/></span>
+  <div>
+    <div class="title">물은 이렇게 주세요</div>
+    <p class="content" v-html="content"></p>
+    <div class="guide">
+      <span class="guide-box">흙이 마른 건 이렇게 알 수 있어요<div class="arrow-icon"/></span>
+      <span class="guide-box">물을 잘 주는 TIP<div class="arrow-icon"/></span>
+    </div>
   </div>
 </template>
 
