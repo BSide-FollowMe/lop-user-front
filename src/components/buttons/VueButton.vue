@@ -26,35 +26,35 @@ button {
   width: 140px;
   height: 40px;
   border: none;
-    cursor:pointer;
-    font-size:var(--font-size-p-2);
-@include breakpoint-down-sm {
-    font-size:var(--m-font-size-p-2);
+  border-radius: 2px;
+  cursor: pointer;
+  font-size: var(--font-size-p-2);
+  @include breakpoint-down-sm {
+    font-size: var(--m-font-size-p-2);
   }
-
 }
 .btn-primary {
   background-color: var(--primary-color);
-  color:#fff;
+  color: #fff;
   &:hover {
     background-color: var(--primary-color-2);
   }
   &[disabled] {
-      color: var(--text-color-4);
+    color: var(--text-color-4);
     background-color: var(--background-color-3);
-    cursor:not-allowed;
+    cursor: not-allowed;
   }
 }
 .btn-secondary {
-    background-color:#fff;
-    border: 1px solid var(--primary-color);
-    &:hover {
+  background-color: #fff;
+  border: 1px solid var(--primary-color);
+  &:hover {
     background-color: var(--secondary-green-color-3);
   }
-    &[disabled] {
-      color: var(--text-color-4);
+  &[disabled] {
+    color: var(--text-color-4);
     background-color: var(--background-color-3);
-    cursor:not-allowed;
+    cursor: not-allowed;
   }
 }
 .sub {

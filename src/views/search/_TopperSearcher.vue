@@ -10,7 +10,7 @@
   </section>
 </template>
 <script lang="ts">
-import { defineComponent, ref, watch } from 'vue';
+import { defineComponent, ref } from 'vue';
 import { validateSearchStr } from '@/utils/validation';
 
 export default defineComponent({
@@ -81,10 +81,10 @@ export default defineComponent({
     width: 50px;
     background-image: url('@/assets/icon/magnifier.png');
     background-size: 100%;
-    cursor:pointer;
-    z-index:2;
-    border:none;
-    background-color:transparent;
+    cursor: pointer;
+    z-index: 2;
+    border: none;
+    background-color: transparent;
     transform: translateX(-100%);
 
     @include breakpoint-down-sm {

@@ -2,8 +2,9 @@
   <section class="plants-container">
     <ul class="question-list">
       <div class="list-summary paragraph-2">
-        검색결과
+        검색결과&nbsp;
         <span class="list-summary__count">21</span>
+        <CheckButton class="toggle-my-question" />
       </div>
       <li class="item" v-for="index in 10" :key="`plant-item-${index}`">
         <div class="item__infomations">
@@ -30,7 +31,11 @@
 </template>
 <script lang="ts">
 import { defineComponent, ref, computed } from 'vue';
+import CheckButton from '@/components/buttons/CheckButton.vue';
 export default defineComponent({
+  components: {
+    CheckButton,
+  },
   props: ['text'],
   setup(props) {
     const searchTarget = computed(() => props.text);
@@ -152,7 +157,10 @@ export default defineComponent({
   }
 }
 .list-summary {
-  margin: 40px 0px 20px 20px;
+  display: flex;
+  align-items: center;
+  margin: 40px 0px 20px;
+  padding:0px 20px;
   color: var(--text-color-2);
   &__count {
     color: var(--secondray-color-2);
@@ -160,6 +168,22 @@ export default defineComponent({
   @include breakpoint-down-sm {
     margin: 20px 0px 20px 20px;
     font-size: 13px;
+  }
+  .toggle-my-question {
+    width:130px;
+    height:37px;
+    margin-left: auto;
+    display: block;
+    transform:scale(0.9);
+    &:active{
+      transform:scale(0.91);
+    }
+    @include breakpoint-down-sm {
+      transform:scale(0.8);
+      &:active{
+        transform:scale(0.81);
+      }
+    }
   }
 }
 </style>

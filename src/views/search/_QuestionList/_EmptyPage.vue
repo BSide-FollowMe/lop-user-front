@@ -74,16 +74,6 @@ export default defineComponent({
       margin-top: 40px;
     }
   }
-  .recommend-container {
-    height: 513px;
-    background-color: var(--secondary-green-color-3);
-    width: 100vw;
-    padding-top: 20px;
-    margin-left: calc(-50vw + 50%);
-    @include breakpoint-down-sm {
-      height: 405px;
-    }
-  }
   h1 {
     color: #000;
     margin-top: 80px;
