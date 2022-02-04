@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="inner-container">
     <div class="title">이런 장소를 좋아해요</div>
     <span class="sunlight-type" v-for="(sunlightType, index) in sunlightTypes" :key="index">{{ sunlightType }}</span>
     <p class="content" v-html="content"/>
@@ -29,6 +29,11 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+.inner-container{
+  >*{
+    min-width:960px;
+  }
+}
 .title {
   padding-bottom: 14px;
   font-family: Pretendard;
@@ -36,7 +41,7 @@ export default defineComponent({
   font-weight: bold;
   font-size: 24px;
   line-height: 29px;
-  
+  margin-bottom:20px;
   /* identical to box height */
 
   letter-spacing: -0.01em;
@@ -52,7 +57,6 @@ export default defineComponent({
   margin-right: 10px;
   background: #e5f4eb;
   border-radius: 2px;
-  margin-bottom:20px;
 }
 .content{
   margin:20px 0 36px 0;
