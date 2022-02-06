@@ -1,11 +1,11 @@
 <template>
   <div>
     <TopperHeader />
-    <Snack class="snack"></Snack>
     <div class="page-container">
       <slot />
     </div>
     <BottomFooter />
+    <Snack class="snack"></Snack>
   </div>
 </template>
 <script>
