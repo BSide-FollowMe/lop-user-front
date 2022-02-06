@@ -4,6 +4,7 @@
     <Water />
     <Sunlight/>
     <TemperatureHumidity/>
+    <Ventilation/>
     <Soil/>
   </div>
 </template>
@@ -13,6 +14,7 @@ import Summary from '@/components/layouts/detail/Summary.vue';
 import Water from '@/components/layouts/detail/Water.vue';
 import Sunlight from '@/components/layouts/detail/Sunlight.vue';
 import TemperatureHumidity from '@/components/layouts/detail/TemperatureHumidity.vue';
+import Ventilation from '@/components/layouts/detail/Ventilation.vue';
 import Soil from '@/components/layouts/detail/Soil.vue';
 
 import { onMounted, ref } from 'vue';
@@ -27,6 +29,7 @@ export default defineComponent({
     Water,
     Sunlight,
     TemperatureHumidity,
+    Ventilation,
     Soil,
   },
 });

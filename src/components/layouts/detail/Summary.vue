@@ -25,9 +25,11 @@
     </section>
     <section class="third-column">
       <ContextMenu ref="contextMenu" class="ContextMenu" :items="contextMenuItems" />
-      <img class="icon" :src="ShareIcon" @click="openContextMenu" />
-      <img class="icon heart-fill-icon" :src="FullHeartIcon" @click="unRegitserLike" />
-      <img class="icon heart-empty-icon" :src="EmptyHeartIcon" @click="registerLike" />
+      <div class="icon-group">
+        <img class="icon" :src="ShareIcon" @click="openContextMenu" />
+        <img class="icon heart-fill-icon" :src="FullHeartIcon" @click="unRegitserLike" />
+        <img class="icon heart-empty-icon" :src="EmptyHeartIcon" @click="registerLike" />
+      </div>
     </section>
   </div>
 </template>
@@ -166,7 +168,7 @@ export default defineComponent({
     }
   }
   .second-column {
-    min-width: 548px;
+    min-width: 550px;
     .plant-category {
       display: flex;
       flex-direction: row;
@@ -278,15 +280,24 @@ export default defineComponent({
     }
   }
   .third-column {
+    position: relative;
+    right: 0;
     .ContextMenu {
-      right: 31px;
+      position: absolute;
+      right: 30px;
       width: 172px;
     }
-    .icon {
-      display: block;
-      cursor: pointer;
-      margin-bottom: 25px;
+    .icon-group {
+      display: flex;
+      flex-direction: column;
+      .icon {
+        cursor: pointer;
+        margin-bottom: 25px;
+        width: 18px;
+        height: 20px;
+      }
     }
+
     .heart-empty-icon:hover {
       -webkit-mask-image: url('@/assets/icon/heart-fill.svg');
       mask-image: url('@/assets/icon/heart-fill.svg');
