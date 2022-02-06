@@ -6,6 +6,7 @@
     <TemperatureHumidity/>
     <Ventilation/>
     <Soil/>
+    <Report/>
   </div>
 </template>
 <script lang="ts">
@@ -16,6 +17,7 @@ import Sunlight from '@/components/layouts/detail/Sunlight.vue';
 import TemperatureHumidity from '@/components/layouts/detail/TemperatureHumidity.vue';
 import Ventilation from '@/components/layouts/detail/Ventilation.vue';
 import Soil from '@/components/layouts/detail/Soil.vue';
+import Report from '@/components/layouts/detail/Report.vue';
 
 import { onMounted, ref } from 'vue';
 import { getPlant } from '@/api/admin';
@@ -31,6 +33,7 @@ export default defineComponent({
     TemperatureHumidity,
     Ventilation,
     Soil,
+    Report,
   },
 });
 </script>
