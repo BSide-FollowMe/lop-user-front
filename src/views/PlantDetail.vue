@@ -7,6 +7,7 @@
     <Ventilation/>
     <Soil/>
     <Report/>
+    <Question/>
   </div>
 </template>
 <script lang="ts">
@@ -18,6 +19,7 @@ import TemperatureHumidity from '@/components/layouts/detail/TemperatureHumidity
 import Ventilation from '@/components/layouts/detail/Ventilation.vue';
 import Soil from '@/components/layouts/detail/Soil.vue';
 import Report from '@/components/layouts/detail/Report.vue';
+import Question from '@/components/layouts/detail/Question.vue';
 
 import { onMounted, ref } from 'vue';
 import { getPlant } from '@/api/admin';
@@ -34,6 +36,7 @@ export default defineComponent({
     Ventilation,
     Soil,
     Report,
+    Question,
   },
 });
 </script>
@@ -44,7 +47,7 @@ export default defineComponent({
   max-width: var(--content-container-max-width);
   margin-left: auto;
   margin-right: auto;
-  padding: var(--m-content-container-padding) var(--content-container-padding);
+  padding: var(--m-content-container-padding) var(--content-container-padding) 0 var(--content-container-padding);
   *{
     margin-bottom:100px;
   }
