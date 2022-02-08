@@ -88,10 +88,10 @@ export default defineComponent({
       flex-direction: column;
       margin-right: 60px;
       flex-grow: 1;
-      @include breakpoint-down-sm {
-        margin-left: 20px;
-        margin-right: 20px;
-      }
+      // @include breakpoint-down-sm {
+      //   margin-left: 20px;
+      //   margin-right: 20px;
+      // }
     }
     .target-plant {
       margin: 0px;

@@ -2,7 +2,7 @@
   <section class="plants-container">
     <ul class="question-list">
       <div class="list-summary paragraph-2">
-        검색결과&nbsp;
+        녹영&nbsp;
         <span class="list-summary__count">21</span>
         <CheckButton class="toggle-my-question" />
       </div>
@@ -93,10 +93,10 @@ export default defineComponent({
       flex-direction: column;
       margin-right: 60px;
       flex-grow: 1;
-      @include breakpoint-down-sm {
-        margin-left: 20px;
-        margin-right: 20px;
-      }
+      // @include breakpoint-down-sm {
+      //   margin-left: 20px;
+      //   margin-right: 20px;
+      // }
     }
     .target-plant {
       margin: 0px;
