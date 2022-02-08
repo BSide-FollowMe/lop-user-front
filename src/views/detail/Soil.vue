@@ -19,42 +19,42 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.inner-container{
-  >*{
-    min-width:960px;
-  }
-}
+@import '@/styles/';
 .title {
   padding-bottom: 14px;
-  font-family: Pretendard;
-  font-style: normal;
-  font-weight: bold;
+  font-weight: var(--font-weight-bold);
   font-size: 24px;
   line-height: 29px;
   margin-bottom:20px;
+  @include breakpoint-down-sm{
+    font-size:18px;
+    padding-bottom: 10px;
+  }
   /* identical to box height */
 
   letter-spacing: -0.01em;
 
   /* text/1 */
 
-  color: #444444;
+  color: var(--text-color-1);
 
   border-bottom: 1px solid #e5e5e5;
 }
 
 .content{
-  font-family: Pretendard;
-  font-style: normal;
-  font-weight: 500;
+  font-weight: var(--font-weight-medium);
   font-size: 18px;
   line-height: 26px;
+  @include breakpoint-down-sm{
+    font-size: 16px;
+    line-height: 26px;
+  }
   /* identical to box height, or 144% */
 
   letter-spacing: -0.01em;
 
   /* text/2 */
 
-  color: #666666;
+  color: var(--text-color-2);
 }
 </style>

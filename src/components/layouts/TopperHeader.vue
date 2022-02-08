@@ -87,9 +87,7 @@ export default defineComponent({
     }
   }
   .tab {
-    font-family: 'Pretendard';
-    font-style: normal;
-    font-weight: 500;
+    font-weight: var(--font-weight-medium);
     font-size: 15px;
     line-height: 18px;
     justify-content: flex-end;

@@ -23,10 +23,8 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/styles/';
 .inner-container {
-  > * {
-    min-width: 960px;
-  }
   margin-bottom:80px;
   .main{
     display:flex;
@@ -41,7 +39,7 @@ export default defineComponent({
   align-items: center;
   justify-content: center;
   vertical-align: middle;
-  border: 1px solid #c9704c;
+  border: 1px solid var(--secondray-color-2);
   box-sizing: border-box;
   border-radius: 4px;
   width: 130px;
@@ -50,24 +48,30 @@ export default defineComponent({
   .icon {
     margin-right: 7.5px;
   }
-  font-family: Pretendard;
-  font-style: normal;
-  font-weight: 500;
+  font-weight: var(--font-weight-medium);
   font-size: 16px;
   line-height: 19px;
   letter-spacing: -0.01em;
 
   /* orangebrown/1-main */
 
-  color: #c9704c;
+  color: var(--secondy-color-2);
+  @include breakpoint-down-sm{
+    width: 104px;
+    height: 32px;
+    font-size: 13px;
+    line-height: 16px;
+  }
 }
 .text {
   width: 326px;
-  font-family: Pretendard;
-  font-style: normal;
-  font-weight: 500;
+  font-weight: var(--font-weight-medium);
   font-size: 14px;
   line-height: 20px;
+  @include breakpoint-down-sm{
+    font-size: 12px;
+    line-height: 18px;
+  }
   /* or 143% */
 
   text-align: center;
@@ -75,6 +79,6 @@ export default defineComponent({
 
   /* text/3 */
 
-  color: #969696;
+  color: var(--text-color-3);
 }
 </style>

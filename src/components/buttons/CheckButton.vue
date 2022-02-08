@@ -30,11 +30,11 @@ input[type='checkbox'] {
   -webkit-appearance: none;
   -webkit-border-radius: 4px;
   &.is-active {
-    color: #599270;
-    border: 1px solid #599270;
+    color: var(--secondary-green-color-1);
+    border: 1px solid var(--secondary-green-color-1);
   }
   &.is-active + label {
-    color: #599270;
+    color: var(--secondary-green-color-1);
     img {
       content: url('@/assets/icon/check-active.png');
     }

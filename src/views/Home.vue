@@ -180,7 +180,7 @@ export default defineComponent({
       margin-top: 20px;
       font-size: 50px;
       line-height: 65px;
-    }
+  }
     margin-top: 10px;
     font-weight: var(--font-weight-light);
     line-height: 32px;
@@ -358,7 +358,7 @@ export default defineComponent({
         margin-bottom: 0px;
         width: 12px;
         border: none;
-        border-bottom: 1px solid #599270;
+        border-bottom: 1px solid var(--secondary-green-color-1);
       }
       .plant-name {
         display: block;
@@ -372,7 +372,7 @@ export default defineComponent({
         }
       }
       &:hover hr {
-        border-bottom: 2px solid #599270;
+        border-bottom: 2px solid var(--secondary-green-color-1);
       }
     }
   }
