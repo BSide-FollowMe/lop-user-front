@@ -152,7 +152,7 @@ export default defineComponent({
   }
 }
 .list-summary {
-  margin: 40px 0px 20px 20px;
+  margin: 40px 0px 20px 0px;
   color: var(--text-color-2);
   &__count {
     color: var(--secondray-color-2);

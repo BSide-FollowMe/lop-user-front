@@ -159,7 +159,7 @@ export default defineComponent({
 .list-summary {
   display: flex;
   align-items: center;
-  margin: 40px 0px 20px;
+  margin: 40px 0px 20px 0px;
   padding:0px 20px;
   color: var(--text-color-2);
   &__count {
