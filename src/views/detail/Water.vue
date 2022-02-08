@@ -1,0 +1,87 @@
+<template>
+  <div class="inner-container">
+    <div class="title">물은 이렇게 주세요</div>
+    <p class="content" v-html="content"></p>
+    <div class="guide">
+      <GuideBox content="흙이 마른 건 이렇게 알 수 있어요" hover-color="#48B57A" />
+      <GuideBox content="물을 잘 주는 TIP" hover-color="#48B57A" />
+    </div>
+  </div>
+</template>
+
+<script lang="ts">
+import { defineComponent } from 'vue';
+import GuideBox from '@/components/detail/GuideBox.vue';
+export default defineComponent({
+  props: {
+    content: {
+      type: String,
+      default: '겉 흑의 표면이 마르면 2일 정도 기다린 후 물주세요.<br/> 겨울철에는 공기중의 습도를 유지해주는 정도로 분무해주세요.',
+    },
+  },
+  components: {
+    GuideBox,
+  },
+});
+</script>
+
+<style lang="scss" scoped>
+@import '@/styles/';
+.title {
+  padding-bottom: 14px;
+  font-weight: var(--font-weight-bold);
+  font-size: 24px;
+  @include breakpoint-down-sm{
+    font-size:18px;
+    padding-bottom: 10px;
+  }
+  line-height: 29px;
+  /* identical to box height */
+
+  letter-spacing: -0.01em;
+
+  /* text/1 */
+
+  color: var(--text-color-1);
+
+  border-bottom: 1px solid #e5e5e5;
+}
+.content {
+  margin: 20px 0 40px 0;
+  font-weight: var(--font-weight-medium);
+  font-size: 18px;
+  line-height: 26px;
+  /* or 144% */
+
+  letter-spacing: -0.01em;
+
+  /* text/2 */
+
+  color: var(--text-color-2);
+
+  @include breakpoint-down-sm{
+    font-size: 16px;
+  }
+}
+.guide {
+  > * {
+    width:100%;
+    &:first-child{
+      margin-right: 20px;
+    }
+    
+  }
+  display: flex;
+  justify-content: space-between;
+  @include breakpoint-down-sm{
+    display:block;
+    
+    > *{
+      &:first-child{
+        margin:0;
+        margin-bottom:10px;  
+      }
+    }
+  }
+}
+</style>

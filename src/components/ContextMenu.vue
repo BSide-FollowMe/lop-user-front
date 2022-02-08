@@ -65,16 +65,14 @@ export default defineComponent({
       }
       cursor: pointer;
       height: 32px;
-      font-family: Pretendard;
-      font-style: normal;
-      font-weight: 500;
+      font-weight: var(--font-weight-medium);
       font-size: 16px;
       line-height: 32px;
       letter-spacing: -0.01em;
 
       /* text/3 */
 
-      color: #969696;
+      color: var(--text-color-3);
       &:not(:last-child) {
         margin-bottom: 8px;
       }
