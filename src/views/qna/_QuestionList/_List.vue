@@ -166,7 +166,7 @@ export default defineComponent({
     color: var(--secondray-color-2);
   }
   @include breakpoint-down-sm {
-    margin: 20px 0px 20px 20px;
+    margin: 20px 0px 20px 0px;
     font-size: 13px;
   }
   .toggle-my-question {
