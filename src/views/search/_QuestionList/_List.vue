@@ -88,10 +88,10 @@ export default defineComponent({
       flex-direction: column;
       margin-right: 60px;
       flex-grow: 1;
-      @include breakpoint-down-sm {
-        margin-left: 20px;
-        margin-right: 20px;
-      }
+      // @include breakpoint-down-sm {
+      //   margin-left: 20px;
+      //   margin-right: 20px;
+      // }
     }
     .target-plant {
       margin: 0px;
@@ -152,13 +152,13 @@ export default defineComponent({
   }
 }
 .list-summary {
-  margin: 40px 0px 20px 20px;
+  margin: 40px 0px 20px 0px;
   color: var(--text-color-2);
   &__count {
     color: var(--secondray-color-2);
   }
   @include breakpoint-down-sm {
-    margin: 20px 0px 20px 20px;
+    margin: 20px 0px 20px 0px;
     font-size: 13px;
   }
 }
