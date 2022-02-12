@@ -14,19 +14,21 @@ export function doLogin(params: LoginParamModel): any {
   return axios.post<LoginRespModel>(API_PREFIX + Api.LOGIN, params);
 }
 
-export function doKakaoLogin(e:any): any {
+export function doKakaoLogin(e: any): any {
+  const API_HOST = process.env.VUE_APP_API_HOST;
   if (!e.screenX) {
     return;
   }
-  const urlSum = API_PREFIX + Api.KAKAO_LOGIN;
+  const urlSum = API_HOST + API_PREFIX + Api.KAKAO_LOGIN;
   window.open(urlSum, '_self');
 }
 
-export function doNaverLogin(e:any): any {
+export function doNaverLogin(e: any): any {
+  const API_HOST = process.env.VUE_APP_API_HOST;
   if (!e.screenX) {
     return;
   }
-  const urlSum = API_PREFIX + Api.NAVER_LOGIN;
+  const urlSum = API_HOST + API_PREFIX + Api.NAVER_LOGIN;
   window.open(urlSum, '_self');
 }
 
