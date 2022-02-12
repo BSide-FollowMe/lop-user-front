@@ -9,8 +9,8 @@
           <span class="text-bold">함께 들어볼까요?</span>
         </h2>
         <div class="signin-btn-group">
-          <button class="kakao-login">카카오로 시작하기</button>
-          <button class="naver-login">네이버로 시작하기</button>
+          <button class="kakao-login" @click="onClickLoginKakao">카카오로 시작하기</button>
+          <button class="naver-login" @click="onClickLoginNaver">네이버로 시작하기</button>
           <span class="tos-and-pp-tip text-caption">
             회원가입 시 이용자는 식물의언어
             <a @click="OPEN_LINK.TOS">이용약관</a>
@@ -29,18 +29,34 @@
 import { defineComponent, ref } from 'vue';
 import { useStore } from 'vuex';
 import { OPEN_LINK } from '@/router/routing';
+import { doKakaoLogin, doNaverLogin } from '@/api/account';
+
+const CURRENT_URL = window.location.protocol + '//' + window.location.host;
 
 export default defineComponent({
   name: 'Sign In',
   components: {},
   setup() {
     const store = useStore();
-    //TODO: sns로그인 연동 필요
     const onSubmit = (id: string, pwd: string) => {
       store.dispatch('signIn', { id: id, password: pwd });
     };
+    async function onClickLoginNaver(e: any) {
+      try {
+        await doNaverLogin();
+      } catch (e) {
+        console.error(e);
+      }
+    }
+    async function onClickLoginKakao(e: any) {
+      try {
+        await doKakaoLogin();
+      } catch (e) {
+        console.error(e);
+      }
+    }
 
-    return {OPEN_LINK};
+    return { OPEN_LINK, onClickLoginNaver, onClickLoginKakao };
   },
 });
 </script>
