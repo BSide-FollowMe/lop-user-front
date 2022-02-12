@@ -1,5 +1,5 @@
 <template>
-  <component :is="`${layoutName}Layout`">
+  <component :is="`${layoutName}Layout`" class="layout">
     <router-view />
   </component>
 </template>
@@ -16,8 +16,15 @@ export default defineComponent({
   },
   setup() {
     const route = useRoute();
-    const layoutName = computed(() => (route.meta?.layout as string | undefined));
-    return { layoutName };
+    const layoutName = computed(() => route.meta?.layout as string | undefined);
+    const backgroundColor = computed(()=>route.meta?.backgroundColor || 'transparent');
+    // alert(backgroundColor);
+    return { layoutName, backgroundColor };
   },
 });
 </script>
+<style lang="scss" scoped>
+.layout::v-deep .page-container{
+  background-color: v-bind(backgroundColor) !important;
+}
+</style>

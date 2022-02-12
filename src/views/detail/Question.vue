@@ -104,14 +104,14 @@ export default defineComponent({
   padding: 100px 0 120px 0;
   margin-bottom: 0px !important;
   @include breakpoint-down-sm {
-    padding: 122px 20px 100px 20px !important;
+    padding: 60px 20px 100px 20px !important;
   }
   .main {
     margin-left: auto;
     margin-right: auto;
     max-width: 960px;
     @include breakpoint-down-sm {
-      max-width: 320px;
+      min-width: 320px;
     }
     display: flex;
     flex-direction: column;
