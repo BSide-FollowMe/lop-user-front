@@ -41,22 +41,8 @@ export default defineComponent({
     const onSubmit = (id: string, pwd: string) => {
       store.dispatch('signIn', { id: id, password: pwd });
     };
-    async function onClickLoginNaver(e: any) {
-      try {
-        await doNaverLogin();
-      } catch (e) {
-        console.error(e);
-      }
-    }
-    async function onClickLoginKakao(e: any) {
-      try {
-        await doKakaoLogin();
-      } catch (e) {
-        console.error(e);
-      }
-    }
 
-    return { OPEN_LINK, onClickLoginNaver, onClickLoginKakao };
+    return { OPEN_LINK, doKakaoLogin, doNaverLogin };
   },
 });
 </script>
