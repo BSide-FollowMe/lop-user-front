@@ -41,7 +41,7 @@ export default defineComponent({
 @import '@/styles/';
 .container {
   margin-top: 83px;
-  min-width: var(--content-container-max-width);
+  max-width: var(--content-container-max-width);
   margin-left: auto;
   margin-right: auto;
   padding: var(--m-content-container-padding) var(--content-container-padding) 0 var(--content-container-padding);

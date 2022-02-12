@@ -171,7 +171,6 @@ export default defineComponent({
       margin-left: -20px;
       width: 100vw;
       display: inline-block;
-      background-color:red;
       margin-bottom:46px;
     }
   }
