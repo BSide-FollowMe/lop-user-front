@@ -15,7 +15,7 @@ export function doLogin(params: LoginParamModel): any {
 }
 
 export function doKakaoLogin(e: any): any {
-  const API_HOST = process.env.VUE_APP_API_HOST;
+  const API_HOST = process.env?.VUE_APP_API_URL;
   if (!e.screenX) {
     return;
   }
@@ -24,7 +24,7 @@ export function doKakaoLogin(e: any): any {
 }
 
 export function doNaverLogin(e: any): any {
-  const API_HOST = process.env.VUE_APP_API_HOST;
+  const API_HOST = process.env?.VUE_APP_API_URL;
   if (!e.screenX) {
     return;
   }
