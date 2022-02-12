@@ -1,7 +1,7 @@
 import axios from '@/utils/http/axios';
 import { LoginParamModel, LoginRespModel } from './model/accountModel';
 
-const API_PREFIX = '/v1';
+const API_PREFIX = '';
 enum Api {
   LOGIN = '/login',
   KAKAO_LOGIN = '/oauth2/authorization/kakao',
