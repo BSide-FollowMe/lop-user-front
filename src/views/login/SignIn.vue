@@ -9,8 +9,8 @@
           <span class="text-bold">함께 들어볼까요?</span>
         </h2>
         <div class="signin-btn-group">
-          <button class="kakao-login" @click="onClickLoginKakao">카카오로 시작하기</button>
-          <button class="naver-login" @click="onClickLoginNaver">네이버로 시작하기</button>
+          <button class="kakao-login" @click="doKakaoLogin">카카오로 시작하기</button>
+          <button class="naver-login" @click="doNaverLogin">네이버로 시작하기</button>
           <span class="tos-and-pp-tip text-caption">
             회원가입 시 이용자는 식물의언어
             <a @click="OPEN_LINK.TOS">이용약관</a>
