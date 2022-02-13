@@ -19,7 +19,7 @@ export default defineComponent({
     }
     tokenSvc.setToken({ token: accessToken.value });
 
-    if(checkValidToken()){
+    if (!checkValidToken()) {
       alert('잘못되었거나 만료된 토큰입니다. 다시 로그인해주세요');
       ROUTE_TO.LOGIN();
     }
@@ -29,7 +29,7 @@ export default defineComponent({
     function isEmptyToken(token) {
       return !token || token === '';
     }
-    async function checkValidToken(){
+    async function checkValidToken() {
       return await tokenSvc.isValidToken();
     }
 
