@@ -2,29 +2,12 @@
   <div class="container">
     <div class="inner-container flex-row">
       <div class="title">
-        <img id="logo" src="@/assets/logo.png" @click="ROUTE_TO.LANDING" />
-        <img id="logo-title" src="@/assets/logo-title.png" @click="ROUTE_TO.LANDING" />
+        <img id="logo" src="@/assets/logo.png" @click="ROUTE_TO.HOME" />
+        <img id="logo-title" src="@/assets/logo-title.png" @click="ROUTE_TO.HOME" />
       </div>
       <div class="tab">
-        <span
-          @click="
-            () => {
-              alert(1);
-            }
-          "
-        >
-          질문 · 답변
-        </span>
-        <span
-          v-if="isLoggedIn"
-          @click="
-            () => {
-              console.log('2');
-            }
-          "
-        >
-          {{ username }}님
-        </span>
+        <span @click="ROUTE_TO.QNABOARD">질문 · 답변</span>
+        <span v-if="isLoggedIn" @click="ROUTE_TO.MYPAGE">마이페이지</span>
         <span v-else @click="ROUTE_TO.LOGIN">Login</span>
       </div>
     </div>
@@ -34,13 +17,14 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 import { ROUTE_TO } from '@/router/routing';
+import { tokenSvc } from '@/api/token-service';
 
 export default defineComponent({
   setup(props, { emit }) {
     const onToggleDrawer = () => {
       emit('toggleDrawer');
     };
-    const isLoggedIn = ref(false);
+    const isLoggedIn = ref(tokenSvc.isValidToken() || false);
 
     return {
       ROUTE_TO,
@@ -103,6 +87,11 @@ export default defineComponent({
       cursor: default;
       content: '|';
       margin: 0 20px;
+    }
+    @include breakpoint-down-sm {
+      font-size: 13px;
+      line-height: 16px;
+      letter-spacing: -0.0025em;
     }
   }
 }

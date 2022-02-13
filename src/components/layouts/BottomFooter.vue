@@ -2,8 +2,8 @@
   <div class="container">
     <div class="inner-container">
       <div class="title">
-        <img id="logo" src="@/assets/footer-logo.png" @click="ROUTE_TO.LANDING"/>
-        <img id="logo-title" src="@/assets/footer-title.png" @click="ROUTE_TO.LANDING" />
+        <img id="logo" src="@/assets/footer-logo.png" @click="ROUTE_TO.HOME" />
+        <img id="logo-title" src="@/assets/footer-title.png" @click="ROUTE_TO.HOME" />
       </div>
       <div class="tab">
         <span @click="OPEN_LINK.INTRODUCTION">서비스 소개</span>
