@@ -1,8 +1,8 @@
 import $store from '@/store';
 import { localStorage } from './local-storage';
 
-const STORAGE_KEY = 'lop.tokenInfo';
-const STORAGE_USR = 'lop.userInfo';
+const STORAGE_KEY = 'lopuser.tokenInfo';
+const STORAGE_USR = 'lopuser.userInfo';
 const parseJwt = (token: string) => {
   try {
     return JSON.parse(atob(token.split('.')[1]));
