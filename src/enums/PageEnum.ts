@@ -6,6 +6,7 @@ export enum PageEnum {
   OAUTH_LANDING = '/login/oauth',
   PLANT_DETAILS = '/plant/:id',
   SEARCH_RESULT = '/search',
+  My_Page = '/me',
   QNABOARD = '/qna',
 }
 
@@ -17,6 +18,8 @@ export enum PageNameEnum {
   OAUTH_LANDING = 'Logging On...',
   PLANT_DETAILS = 'Plant details',
   SEARCH_RESULT = 'Search result',
+  My_Page = 'My page',
+  SETTING = 'My Page - Setting',
   QNABOARD = 'QNA Board',
 }
 

@@ -20,6 +20,25 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('@/views/PlantDetail.vue'),
   },
   {
+    path:PageEnum.My_Page,
+    meta: { public: true, layout: LayoutEnum.DEFAULT, backgroundColor:'#F8F8F8' },
+    component: () => import('@/views/my-page/Index.vue'),
+    children: [
+      {
+        path:'',
+        meta:{public:true},
+        name: PageNameEnum.My_Page,
+        component: ()=>import('@/views/my-page/MyPage/Index.vue'),
+      },
+      {
+        path: 'setting',
+        meta: { public: true },
+        name: PageNameEnum.SETTING,
+        component: () => import('@/views/my-page/Setting/Index.vue'),
+      },
+    ],
+  },
+  {
     path: PageEnum.LOGIN,
     name: PageNameEnum.LOGIN,
     meta: { public: true, layout: LayoutEnum.DEFAULT },

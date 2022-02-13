@@ -11,13 +11,12 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { mapGetters } from 'vuex';
-import SimpleArrowRight from '@/assets/icon/simple-arrow-right.svg';
-// const icons= require(SimpleArrowRight);
+import { mapGetters,mapActions  } from 'vuex';
+import SimpleArrowRight from '@/assets/icon/simple-arrow-right-pc.svg';
 import InlineSvg from "vue-inline-svg";
 export default defineComponent({
   computed: {
-    ...mapGetters('snack', ['snack', 'link','color']),
+    ...mapGetters('snack',['snack', 'link','color']),
   },
   data(){
     return{
@@ -28,19 +27,22 @@ export default defineComponent({
     InlineSvg,
   },
   methods:{
+    ...mapActions('snack',['closeSnack']),
     setColor(svg:HTMLElement){
       svg.getElementsByTagName('path')[0].setAttribute('fill',this.color);
     },
     onClickSnackbar(){
-      if(!this.link) return;
-      this.$router.push(this.link);
+      const link = this.link;
+      this.closeSnack();
+      if(link) this.$router.push(link);
     }
   }
 });
 </script>
 <style lang="scss" scoped>
-@import '@/styles/', '@/assets/fonts/pretendard/pretendard.css';
+@import '@/styles/';
 .container {
+  z-index:100;
   position: fixed;
   width: 100%;
   top: 0;
@@ -54,9 +56,7 @@ export default defineComponent({
     border-radius: 25px;
     color: v-bind(color);
     padding: var(--snackbar-padding);
-    font-family: Pretendard;
-    font-style: normal;
-    font-weight: 500;
+    font-weight: var(--font-weight-medium);
     font-size: 16px;
     line-height: 19px;
     letter-spacing: -0.01em;

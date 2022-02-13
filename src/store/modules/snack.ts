@@ -55,5 +55,10 @@ export default {
         commit('SET_COLOR', 'black');
       }, delay);
     },
+    closeSnack({commit}:{commit:Commit}){
+      commit('SET_SNACK', '');
+      commit('SET_LINK', '');
+      commit('SET_COLOR', 'black');
+    }
   },
 };
