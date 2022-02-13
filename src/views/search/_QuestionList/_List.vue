@@ -40,9 +40,7 @@ export default defineComponent({
       isEmpty.value = true;
     }
     function stylizeBySearchTarget(searchStr: string, targetStr: string) {
-      if (!targetStr.includes(searchStr)) return targetStr;
-      const arr = targetStr.split(searchStr);
-      return `${arr[0]}<span style="color:var(--secondray-color-2)">${searchStr}</span>${arr[1]}`;
+      return targetStr.replaceAll(searchStr, `<span style="color:var(--secondray-color-2)">${searchStr}</span>`);
     }
     return {
       searchTarget,
@@ -158,7 +156,7 @@ export default defineComponent({
     color: var(--secondray-color-2);
   }
   @include breakpoint-down-sm {
-    margin: 20px 0px 20px 0px;
+    margin: 20px;
     font-size: 13px;
   }
 }

@@ -14,9 +14,15 @@
           궁금하신가요?
         </h1>
         <div class="searcher">
-          <input id="searchText" type="text" v-model="searchText" :class="{ 'is-empty': searchText === '' }" />
+          <input
+            id="searchText"
+            type="text"
+            v-model="searchText"
+            :class="{ 'is-empty': searchText === '' }"
+            @keyup.enter="onSubmit(searchText)"
+          />
           <label for="searchText">식물명 또는 카테고리를 입력하세요.</label>
-          <button @click="onClickSubmit(searchText)"></button>
+          <button @click="onSubmit(searchText)"></button>
         </div>
       </div>
     </section>
@@ -117,7 +123,7 @@ export default defineComponent({
     function clickToTop() {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
-    function onClickSubmit(newVal: string) {
+    function onSubmit(newVal: string) {
       const validateMsg = validateSearchStr(newVal);
       if (validateMsg) {
         alert(validateMsg);
@@ -128,6 +134,7 @@ export default defineComponent({
     return {
       searchText,
       clickToTop,
+      onSubmit,
     };
   },
 });
@@ -180,7 +187,7 @@ export default defineComponent({
       margin-top: 20px;
       font-size: 50px;
       line-height: 65px;
-  }
+    }
     margin-top: 10px;
     font-weight: var(--font-weight-light);
     line-height: 32px;
@@ -206,16 +213,16 @@ export default defineComponent({
     }
     button {
       content: '';
-    position: absolute;
-    height: 50px;
-    width: 50px;
-    background-image: url('@/assets/icon/magnifier.png');
-    background-size: 100%;
-    cursor:pointer;
-    z-index:2;
-    border:none;
-    background-color:transparent;
-    transform: translateX(-100%);
+      position: absolute;
+      height: 50px;
+      width: 50px;
+      background-image: url('@/assets/icon/magnifier.png');
+      background-size: 100%;
+      cursor: pointer;
+      z-index: 2;
+      border: none;
+      background-color: transparent;
+      transform: translateX(-100%);
 
       @include breakpoint-down-sm {
         width: 36px;

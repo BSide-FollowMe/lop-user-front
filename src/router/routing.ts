@@ -8,6 +8,8 @@ export const ROUTE_TO = {
   LANDING: () => router.push(PageEnum.LANDING),
   PLANT_DETAILS: () => router.push(PageEnum.PLANT_DETAILS),
   SEARCH_RESULT: () => router.push(PageEnum.SEARCH_RESULT),
+  QNABOARD: () => router.push(PageEnum.QNABOARD),
+  MYPAGE: () => router.push(PageEnum.My_Page),
 };
 export const OPEN_LINK = {
   TOS: () => {

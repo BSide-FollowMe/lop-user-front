@@ -25,8 +25,7 @@ export default defineComponent({
       isEmpty.value = true;
     }
     function stylizeBySearchTarget(searchStr: string, targetStr: string) {
-      const arr = targetStr.split(searchStr);
-      return `${arr[0]}<span style="color:var(--secondray-color-2)">${searchStr}</span>${arr[1]}`;
+      return targetStr.replaceAll(searchStr, `<span style="color:var(--secondray-color-2)">${searchStr}</span>`);
     }
     return {
       searchTarget,

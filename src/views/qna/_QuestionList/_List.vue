@@ -1,5 +1,5 @@
 <template>
-  <section class="plants-container">
+  <section class="question-container">
     <ul class="question-list">
       <div class="list-summary paragraph-2">
         녹영&nbsp;
@@ -45,9 +45,7 @@ export default defineComponent({
       isEmpty.value = true;
     }
     function stylizeBySearchTarget(searchStr: string, targetStr: string) {
-      if (!targetStr.includes(searchStr)) return targetStr;
-      const arr = targetStr.split(searchStr);
-      return `${arr[0]}<span style="color:var(--secondray-color-2)">${searchStr}</span>${arr[1]}`;
+      return targetStr.replaceAll(searchStr, `<span style="color:var(--secondray-color-2)">${searchStr}</span>`);
     }
     return {
       searchTarget,
@@ -160,12 +158,12 @@ export default defineComponent({
   display: flex;
   align-items: center;
   margin: 40px 0px 20px 0px;
-  padding:0px 20px;
   color: var(--text-color-2);
   &__count {
     color: var(--secondray-color-2);
   }
   @include breakpoint-down-sm {
+    padding:0px 10px 0px 20px;
     margin: 20px 0px 20px 0px;
     font-size: 13px;
   }

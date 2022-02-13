@@ -19,11 +19,12 @@
   </div>
 </template>
 <script lang="ts">
+import { ROUTE_TO } from '@/router/routing';
 import { defineComponent } from 'vue';
 export default defineComponent({
   name: 'Landing',
   setup() {
-    //TODO: 랜딩 콜백
+    // ROUTE_TO.HOME();
     return {};
   },
 });

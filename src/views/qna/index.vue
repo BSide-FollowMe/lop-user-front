@@ -26,9 +26,11 @@ export default defineComponent({
 .container {
   margin-left: auto;
   margin-right: auto;
+  padding: 0px var(--content-container-padding);
   max-width: var(--content-container-max-width);
   overflow: visible;
   @include breakpoint-down-sm {
+    padding: unset;
     min-width: var(--m-content-container-max-width);
   }
 }
