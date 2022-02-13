@@ -20,6 +20,7 @@ export enum PageNameEnum {
   SEARCH_RESULT = 'Search result',
   My_Page = 'My page',
   SETTING = 'My Page - Setting',
+  My_Plant = 'My Page - My Plant',
   QNABOARD = 'QNA Board',
 }
 

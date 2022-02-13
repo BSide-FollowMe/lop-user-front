@@ -36,6 +36,12 @@ const routes: Array<RouteRecordRaw> = [
         name: PageNameEnum.SETTING,
         component: () => import('@/views/my-page/Setting/Index.vue'),
       },
+      {
+        path: 'my-plant',
+        meta: { public: true },
+        name: PageNameEnum.My_Plant,
+        component: () => import('@/views/my-page/MyPlant/Index.vue'),
+      }
     ],
   },
   {
