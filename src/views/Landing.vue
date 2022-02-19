@@ -16,6 +16,8 @@
     <router-link to="/plant/1">식물상세</router-link>
     <br/>
     <router-link to="/me">마이페이지</router-link>
+    <br/>
+    <router-link to="/me/my-plant">내가저장한식물</router-link>
   </div>
 </template>
 <script lang="ts">
