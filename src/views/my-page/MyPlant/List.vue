@@ -4,19 +4,17 @@
       <img class="image" :src="plant.imgUrl" />
       <div class="info">
         <span class="name">{{ plant.name }}</span>
-        <img
+        <div
           v-if="plant.like"
           class="icon heart-fill-icon"
-          :src="FullHeartIcon"
           @click="
             toggleLike(index);
             requestChangeLike(index);
           "
         />
-        <img
+        <div
           v-else
           class="icon heart-empty-icon"
-          :src="EmptyHeartIcon"
           @click="
             toggleLike(index);
             requestChangeLike(index);
@@ -78,17 +76,16 @@ export default defineComponent({
   background: #ffffff;
   border-radius: 4px;
   padding: 60px;
-  min-width:960px;
+  min-width: 960px;
   display: flex;
   gap: 40px 32px;
-  flex-wrap:wrap;
-  @include breakpoint-down-sm{
-    min-width:320px;
-    gap:20px;
+  flex-wrap: wrap;
+  @include breakpoint-down-sm {
+    min-width: 320px;
+    gap: 20px;
     justify-content: space-between;
-    padding:20px;
+    padding: 20px;
   }
-  
 }
 .plant {
   display: inline-block;
@@ -96,7 +93,7 @@ export default defineComponent({
 .image {
   width: 186px;
   height: 186px;
-  @include breakpoint-down-sm{
+  @include breakpoint-down-sm {
     width: 130px;
     height: 130px;
   }
@@ -108,5 +105,27 @@ export default defineComponent({
 }
 .icon {
   cursor: pointer;
+  &.heart-fill-icon {
+    -webkit-mask-image: url('@/assets/icon/heart-fill.svg');
+    mask-image: url('@/assets/icon/heart-fill.svg');
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-position: center center;
+    mask-position: center center;
+    width: 18px;
+    height: 20px;
+    background-color: var(--secondray-color-3);
+  }
+  &.heart-empty-icon {
+    -webkit-mask-image: url('@/assets/icon/heart-empty.svg');
+    mask-image: url('@/assets/icon/heart-empty.svg');
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-position: center center;
+    mask-position: center center;
+    width: 18px;
+    height: 20px;
+    background-color: var(--secondray-color-3);
+  }
 }
 </style>
