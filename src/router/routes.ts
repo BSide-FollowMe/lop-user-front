@@ -81,6 +81,12 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('@/views/qna/QnaEdit/index.vue'),
   },
   {
+    path: PageEnum.WATER_GUIDE,
+    name: PageNameEnum.WATER_GUIDE,
+    meta: { public: true, layout: LayoutEnum.DEFAULT },
+    component: () => import('@/views/guide/WaterGuide.vue'),
+  },
+  {
     path: '/modal-test',
     name: 'Modal Test',
     meta: { public: true, layout: LayoutEnum.FILLED },
