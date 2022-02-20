@@ -63,6 +63,18 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('@/views/qna/index.vue'),
   },
   {
+    path: PageEnum.QNABOARD_DETAIL,
+    name: PageNameEnum.QNABOARD_DETAIL,
+    meta: { public: true, layout: LayoutEnum.DEFAULT },
+    component: () => import('@/views/qna/index.vue'),
+  },
+  {
+    path: PageEnum.QNABOARD_EDIT,
+    name: PageNameEnum.QNABOARD_EDIT,
+    meta: { public: true, layout: LayoutEnum.DEFAULT },
+    component: () => import('@/views/qna/QnaEdit/index.vue'),
+  },
+  {
     path: '/modal-test',
     name: 'Modal Test',
     meta: { public: true, layout: LayoutEnum.FILLED },

@@ -10,7 +10,7 @@
           <br class="md-down-only" />
           이곳에서 함께 묻고 답하세요.
         </div>
-        <VueButton color="primary" class="ask-question-btn">질문하기</VueButton>
+        <VueButton color="primary" class="ask-question-btn" @click="ROUTE_TO.QNABOARD_EDIT">질문하기</VueButton>
       </div>
     </div>
   </section>
@@ -18,14 +18,14 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import VueButton from '@/components/buttons/VueButton.vue';
-
+import { ROUTE_TO } from '@/router/routing';
 export default defineComponent({
   name: 'Topper Searcher',
   components: {
     VueButton,
   },
   setup(props, { emit }) {
-    return {};
+    return {ROUTE_TO};
   },
   watch: {},
 });

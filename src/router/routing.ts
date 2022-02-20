@@ -9,6 +9,8 @@ export const ROUTE_TO = {
   PLANT_DETAILS: () => router.push(PageEnum.PLANT_DETAILS),
   SEARCH_RESULT: () => router.push(PageEnum.SEARCH_RESULT),
   QNABOARD: () => router.push(PageEnum.QNABOARD),
+  QNABOARD_DETAIL: () => router.push(PageEnum.QNABOARD_DETAIL),
+  QNABOARD_EDIT: () => router.push(PageEnum.QNABOARD_EDIT),
   MYPAGE: () => router.push(PageEnum.My_Page),
 };
 export const OPEN_LINK = {

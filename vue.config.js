@@ -4,7 +4,7 @@ module.exports = {
     historyApiFallback: true,
     proxy: {
       '/v1': {
-        target: 'http://localhost:8080', // local
+        target: 'http://api.plantslang.com/', // local
         ws: true,
         changeOrigin: true,
       },

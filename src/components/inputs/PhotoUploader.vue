@@ -1,0 +1,165 @@
+<template>
+  <div class="photo-uploader">
+    <div class="upload-input">
+      <label for="photo-uploader">
+        <img src="@/assets/icon/camera-alt.svg" />
+        <span class="counter">
+          <span class="active">{{ imageList.length || 0 }}</span>
+          /3
+        </span>
+      </label>
+      <input type="file" accept="image/*" multiple="multiple" @change="previewMultiImage" class="form-control-file" id="photo-uploader" />
+    </div>
+    <div class="photo-preview">
+      <div class="item" v-for="(item, index) in previewList" :key="`preview-item-${index}`">
+        <img :src="item" />
+        <button @click="removePhoto(index, previewList, imageList)"><img src="@/assets/icon/close-bold.svg" /></button>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script lang="ts">
+import { defineComponent, ref, watch } from 'vue';
+export default defineComponent({
+  name: 'PhotoUpload',
+  props: ['value'],
+  setup(props, { emit }) {
+    const imageList = ref(props.value);
+    const previewList = ref([] as any);
+
+    watch(
+      imageList,
+      (newVal,oldVal) => {
+        emit('input', {newVal:newVal});
+      },
+      { deep: true },
+    );
+    function previewMultiImage(event: any) {
+      if (imageList.value.length > 2) {
+        alert('이미지는 3개까지만 등록하실 수 있습니다.');
+        return;
+      }
+      let input = event.target;
+      let count = input.files.length;
+      let index = 0;
+      if (input.files) {
+        while (count--) {
+          const currentFile = input.files[index];
+          var reader = new FileReader();
+          reader.onload = (e: any) => {
+            const target: any = e.target;
+            previewList.value.push(target.result);
+          };
+          imageList.value.push(currentFile);
+          reader.readAsDataURL(currentFile);
+          index++;
+        }
+      }
+    }
+    function removePhoto(index: number, previewList: any, imageList: any) {
+      previewList.splice(index, 1);
+      imageList.splice(index, 1);
+    }
+
+    return {
+      imageList,
+      previewList,
+      previewMultiImage,
+      removePhoto,
+    };
+  },
+});
+</script>
+
+<style lang="scss" scoped>
+@import '@/styles/mixin';
+
+.photo-uploader {
+  display: flex;
+  .upload-input {
+    display: block;
+    input[type='file'] {
+      display: none;
+    }
+  }
+  .photo-preview {
+    margin-left: 20px;
+    display: flex;
+    gap: 10px;
+
+    @include breakpoint-down-sm {
+      margin-left: 12px;
+      gap: 12px;
+    }
+    .item {
+      position: relative;
+      width: 120px;
+      height: 120px;
+      border-radius: 4px 0px 4px 4px;
+      overflow: hidden;
+      @include breakpoint-down-sm {
+        width: 60px;
+        height: 60px;
+      }
+    }
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+    button {
+      cursor: pointer;
+      position: absolute;
+      top: 0px;
+      right: 0px;
+      background-color: rgba(68, 68, 68, 0.7);
+      border: none;
+    }
+  }
+
+  label {
+    cursor: pointer;
+    display: block;
+    flex-direction: column;
+    gap: 10px;
+    width: 120px;
+    height: 120px;
+    border: 1px solid #bababa;
+    border-radius: 4px;
+    text-align: center;
+
+    @include breakpoint-down-sm {
+      width: 60px;
+      height: 60px;
+    }
+
+    &:hover,
+    &:active {
+      background-color: var(--background-color-5);
+    }
+    img {
+      width: 24px;
+      height: 24px;
+      margin-top: 35%;
+
+      @include breakpoint-down-sm {
+        margin-top: 20%;
+        width: 17px;
+        height: 17px;
+      }
+    }
+    .counter {
+      display: block;
+      font-size: 15px;
+      color: var(--text-color-3);
+      .active {
+        color: var(--secondary-green-color);
+      }
+      @include breakpoint-down-sm {
+        line-height: 15px;
+      }
+    }
+  }
+}
+</style>

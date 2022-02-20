@@ -1,0 +1,114 @@
+<template>
+  <div class="container">
+    <div class="inner-container qna-edit">
+      <section class="qna-edit__title">
+        <h1>질문하기</h1>
+      </section>
+      <section class="edit-form">
+        <div class="page-btn-group">
+          <button class="ask-help" :class="{ active: page == 'help' }" @click="page = 'help'">
+            <span>식물이 아파요</span>
+            <img src="@/assets/icon/ask-help-secondary.svg" alt="" />
+          </button>
+          <button class="ask-question" :class="{ active: page == 'question' }" @click="page = 'question'">
+            <span>식물이 궁금해요</span>
+            <img src="@/assets/icon/ask-question-secondary.svg" alt="" />
+          </button>
+        </div>
+        <AskHelp v-if="page == 'help'" />
+        <AskQuestion v-if="page == 'question'" />
+      </section>
+    </div>
+  </div>
+</template>
+
+<script lang="ts">
+import { defineComponent, ref } from 'vue';
+import AskHelp from './_AskHelp.vue';
+import AskQuestion from './_AskQuestion.vue';
+export default defineComponent({
+  name: 'Question Edit',
+  components: {
+    AskHelp,
+    AskQuestion,
+  },
+  setup() {
+    const page = ref('help');
+    return { page };
+  },
+});
+</script>
+
+<style lang="scss" scoped>
+@import '@/styles/mixin';
+.container {
+  background-color: var(--background-color-5);
+}
+.inner-container {
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0px var(--content-container-padding);
+  max-width: var(--content-container-max-width);
+  overflow: visible;
+  @include breakpoint-down-sm {
+    padding: unset;
+    min-width: var(--m-content-container-max-width);
+  }
+}
+.qna-edit {
+  &__title {
+    padding: 20px;
+    text-align: center;
+    h1 {
+      display: block;
+      margin-top: 60px;
+      margin-bottom: 30px;
+    }
+  }
+}
+.edit-form {
+  background-color: #fff;
+  border-radius: 4px;
+  padding: 60px;
+}
+.page-btn-group {
+  text-align: center;
+
+  button {
+    cursor: pointer;
+    margin: 0px 5px;
+    padding: 25px 30px;
+    height: 100px;
+    width: 240px;
+    border-radius: 4px;
+    border: 1px solid var(--background-color-1);
+    background-color: transparent;
+
+    span {
+      float: left;
+      color: var(--text-color-3);
+      line-height: 50px;
+      font-size: var(--font-size-p);
+      font-weight: var(--font-weight-medium);
+    }
+    img {
+      float: right;
+      width: 50px;
+      height: 50px;
+    }
+    &.active {
+      border: 1px solid var(--secondary-green-color-1);
+      background-color: var(--secondary-green-color-3);
+      span {
+        color: var(--secondary-green-color-1);
+      }
+      &.ask-help > img {
+        content: url('@/assets/icon/ask-help-primary.svg');
+      }
+      &.ask-question > img {
+        content: url('@/assets/icon/ask-question-primary.svg');
+      }
+    }
+  }
+}
+</style>
