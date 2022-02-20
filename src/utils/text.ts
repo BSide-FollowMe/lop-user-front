@@ -2,6 +2,12 @@ export const formatNumber = (input: number) => {
   return String(input).replace(/(.)(?=(\d{3})+$)/g, '$1,');
 };
 
+
+export const payloadToQueryString = (payload:any) =>
+  Object.entries(payload)
+    .map((e) => e.join('='))
+    .join('&');
+
 export const getBytes = function (contents: string) {
   let str_character;
   let int_char_count = 0;
@@ -15,3 +21,4 @@ export const getBytes = function (contents: string) {
 
   return int_char_count;
 };
+

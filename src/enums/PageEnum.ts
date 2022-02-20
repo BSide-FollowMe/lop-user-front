@@ -8,6 +8,8 @@ export enum PageEnum {
   SEARCH_RESULT = '/search',
   My_Page = '/me',
   QNABOARD = '/qna',
+  QNABOARD_DETAIL = '/qna/detail',
+  QNABOARD_EDIT = '/qna/edit',
 }
 
 export enum PageNameEnum {
@@ -22,6 +24,8 @@ export enum PageNameEnum {
   SETTING = 'My Page - Setting',
   My_Plant = 'My Page - My Plant',
   QNABOARD = 'QNA Board',
+  QNABOARD_DETAIL = 'QNA Board - Detail',
+  QNABOARD_EDIT = 'QNA Board - Edit',
 }
 
 export enum LayoutEnum {
