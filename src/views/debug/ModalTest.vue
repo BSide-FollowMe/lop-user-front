@@ -9,16 +9,22 @@
     <br />
     <button @click="openModal('GradeGuideModal')">등급안내 모달</button>
     <br />
+    <button @click="openModal('ConfirmDeleteAccountModal')">회원탈퇴 재확인 모달</button>
+    <br />
+    <button @click="openModal('CompleteDeleteAccountModal')">회원탈퇴 완료 모달</button>
+    <br />
     <RequestModal v-if="isShow && options.type === 'Request'" :options="options" @close="isShow = false" />
     <GradeGuideModal v-if="isShow && options.type === 'GradeGuide'" :options="options" @close="isShow = false" />
+    <DeleteAccountModal v-if="isShow && (options.type === 'confirm' || options.type === 'complete')" :options="options as {type:'complete'|'confirm'}" @close="isShow = false" />
   </div>
 </template>
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 import RequestModal from '@/components/modals/RequestModal.vue';
 import GradeGuideModal from '@/components/modals/GradeGuideModal.vue';
+import DeleteAccountModal from '@/components/modals/DeleteAccountModal.vue'
 interface ModalOption {
-  modalTitle: string;
+  modalTitle?: string;
   objective?: string;
   contentsLabel?: string;
   type: string;
@@ -27,7 +33,9 @@ const optionsSampleList: {
   ReportModal: ModalOption;
   RegistPlantModal: ModalOption;
   ContactUsModal: ModalOption;
-  GradeGuideModal: ModalOption; // todo: typescript Pick option 공부 후 세분화...
+  GradeGuideModal: ModalOption; 
+  ConfirmDeleteAccountModal: ModalOption;
+  CompleteDeleteAccountModal: ModalOption; // todo: typescript Pick option 공부 후 세분화...
 } = {
   ReportModal: {
     modalTitle: '제보하기',
@@ -49,18 +57,25 @@ const optionsSampleList: {
     modalTitle: '등급안내',
     type: 'GradeGuide',
   },
+  ConfirmDeleteAccountModal: {
+    type: 'confirm',
+  },
+  CompleteDeleteAccountModal: {
+    type: 'complete',
+  },
 };
 export default defineComponent({
   name: 'ModalTest',
   components: {
     RequestModal,
     GradeGuideModal,
+    DeleteAccountModal,
   },
   setup() {
     const targetModal = ref('DefaultModal');
     const isShow = ref(false);
     const options = ref({} as ModalOption);
-    function openModal(targetComponentName: 'ReportModal' | 'RegistPlantModal' | 'ContactUsModal' | 'GradeGuideModal') {
+    function openModal(targetComponentName: 'ReportModal' | 'RegistPlantModal' | 'ContactUsModal' | 'GradeGuideModal' | 'ConfirmDeleteAccountModal' | 'CompleteDeleteAccountModal') {
       isShow.value = true;
       options.value = optionsSampleList[targetComponentName];
     }
