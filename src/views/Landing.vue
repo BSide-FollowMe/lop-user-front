@@ -22,6 +22,8 @@
     <router-link to="/me/setting">마이페이지</router-link>
     <br/>
     <router-link to="/guide/water">가이드 물주기</router-link>
+    <br/>
+    <router-link to="/guide/ventilation">가이드 통풍</router-link>
   </div>
 </template>
 <script lang="ts">

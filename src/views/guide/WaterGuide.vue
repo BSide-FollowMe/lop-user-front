@@ -42,7 +42,6 @@
       <section class="sub-group">
         <section :id="bookmarks[1].contents[0].id" class="sub">
           <div class="sub__title">
-            <div class="task_alt-icon" />
             어떤 물을 줘야 하나요?
           </div>
           <div class="sub__content">
@@ -54,7 +53,6 @@
         </section>
         <section :id="bookmarks[1].contents[1].id" class="sub">
           <div class="sub__title">
-            <div class="task_alt-icon" />
             물을 주기 적절한 시간이 있나요?
           </div>
           <div class="sub__content">
@@ -65,7 +63,6 @@
         </section>
         <section :id="bookmarks[1].contents[2].id" class="sub">
           <div class="sub__title">
-            <div class="task_alt-icon" />
             물을 어떻게 줘야 하나요?
           </div>
           <div class="sub__content">
@@ -77,7 +74,6 @@
         </section>
         <section :id="bookmarks[1].contents[3].id" class="sub">
           <div class="sub__title">
-            <div class="task_alt-icon" />
             저면관수는 어떻게 하나요?
           </div>
           <div class="sub__content">
@@ -270,6 +266,27 @@ export default defineComponent({
       line-height: 17px;
       padding-bottom: 6px;
     }
+    &:before{
+      content:"";
+      display: inline-block;
+      -webkit-mask-image: url('@/assets/icon/task_alt_black_24dp.svg');
+      mask-image: url('@/assets/icon/task_alt_black_24dp.svg');
+      -webkit-mask-repeat: no-repeat;
+      mask-repeat: no-repeat;
+      -webkit-mask-position: center center;
+      mask-position: center center;
+      width: 15px;
+      height: 15px;
+      mask-size: 15px;
+      background-color: var(--secondary-green-color-1);
+      margin-right: 7px;
+      @include breakpoint-down-sm{
+        width: 13px;
+        height: 13px;
+        mask-size: 13px;
+        margin-right: 4px;
+      }
+    }
   }
   &__content {
     font-weight: var(--font--weight-medium);
@@ -359,24 +376,7 @@ export default defineComponent({
   }
 }
 .task_alt-icon {
-  display: inline-block;
-  -webkit-mask-image: url('@/assets/icon/task_alt_black_24dp.svg');
-  mask-image: url('@/assets/icon/task_alt_black_24dp.svg');
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center center;
-  mask-position: center center;
-  width: 15px;
-  height: 15px;
-  mask-size: 15px;
-  background-color: var(--secondary-green-color-1);
-  margin-right: 7px;
-  @include breakpoint-down-sm{
-    width: 13px;
-    height: 13px;
-    mask-size: 13px;
-    margin-right: 4px;
-  }
+  
 }
 .dot-divider {
   height: 200px;

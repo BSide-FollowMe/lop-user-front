@@ -1,18 +1,18 @@
 <template>
   <div class="container">
-    <div class="banner">
+    <div  class="banner">
       <div class="banner__common__title">식물의언어 가이드</div>
       <hr />
       <div class="banner__title">{{ title }}</div>
     </div>
 
-    <div class="bookmark">
+    <div v-if="bookmarks.length>0" class="bookmark">
       <div v-for="(bookmark,index) in bookmarks" :key="`${index}__bookmark`" class="bookmark__wrapper">
         <span class="bookmark__group">{{bookmark.text}}</span>
         <router-link class="bookmark__anchor" :to="'#'+anchor.id" @click="scrollFix('#'+anchor.id)" v-for="(anchor,index) in bookmark.contents" :key="`${index}__anchor`">{{anchor.text}}</router-link>
       </div>
     </div>
-    <hr class="bookmark-content"/>
+    <hr v-if="bookmarks.length>0" class="bookmark-content"/>
     <section class="content">
       <slot />
     </section>
@@ -142,6 +142,9 @@ export default defineComponent({
   margin-right: auto;
 }
 hr.bookmark-content{
+  @include breakpoint-down-sm{
+    display:none;
+  }
   border:1px solid #E5E5E5;
   margin:0;
 }
