@@ -218,18 +218,4 @@ export default defineComponent({
     
   }
 }
-.dot-divider {
-  height: 200px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  @include breakpoint-down-sm {
-    height: 130px;
-  }
-}
-.outter_soil-image,
-.inner_soil-image {
-  width: fill-available;
-  width: -webkit-fill-available;
-}
 </style>
