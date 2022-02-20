@@ -24,6 +24,8 @@
     <router-link to="/guide/water">가이드 물주기</router-link>
     <br/>
     <router-link to="/guide/ventilation">가이드 통풍</router-link>
+    <br/>
+    <router-link to="/guide/sunlight">가이드 양지/음지</router-link>
   </div>
 </template>
 <script lang="ts">

@@ -93,6 +93,12 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('@/views/guide/VentilationGuide.vue'),
   },
   {
+    path: PageEnum.SUNLIGHT_GUIDE,
+    name: PageNameEnum.SUNLIGHT_GUIDE,
+    meta: { public: true, layout: LayoutEnum.DEFAULT },
+    component: () => import('@/views/guide/SunlightGuide.vue'),
+  },
+  {
     path: '/modal-test',
     name: 'Modal Test',
     meta: { public: true, layout: LayoutEnum.FILLED },
