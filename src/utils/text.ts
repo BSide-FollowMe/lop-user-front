@@ -8,6 +8,15 @@ export const payloadToQueryString = (payload:any) =>
     .map((e) => e.join('='))
     .join('&');
 
+export const objectToFormdata = (payload: any) => {
+  const formdata = new FormData();
+
+  for (const key in payload) {
+    formdata.append(key, payload[key]);
+  }
+  return formdata;
+}
+
 export const getBytes = function (contents: string) {
   let str_character;
   let int_char_count = 0;
