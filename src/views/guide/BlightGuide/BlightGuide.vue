@@ -1,38 +1,37 @@
 <template>
-  <GuideLayout :bannerImage="`url(${bannerImage})`" title="식물이 아플 때">
-    <section>
-      <div class="main__title">아픈 식물을 위한 병충해 처방전</div>
-      <div class="main__content">
-        정성을 다해 돌봐주어도 식물이 병들거나 해충이 생길 수 있어요. 식물이 자주 걸리는 병의 원인에 따라 어떻게 대처하면 좋을지 알려드릴게요.
+  <section>
+    <div class="main__title">아픈 식물을 위한 병충해 처방전</div>
+    <div class="main__content">
+      정성을 다해 돌봐주어도 식물이 병들거나 해충이 생길 수 있어요. 식물이 자주 걸리는 병의 원인에 따라 어떻게 대처하면 좋을지 알려드릴게요.
+    </div>
+    <div v-for="(blight, index) in blights" :key="`blight_${index}`" class="dropdown" @click="openDetail(index)">
+      <div :class="`dropdown__title ${index === openedIndex ? 'active' : ''}`">
+        {{ blight.title }}
+        <img class="dropdown__arrow" src="@/assets/icon/dropdown-arrow.svg" />
       </div>
-      <div v-for="(blight, index) in blights" :key="`blight_${index}`" class="dropdown" @click="openDetail(index)">
-        <div :class="`dropdown__title ${index===openedIndex ? 'active':''}` ">{{ blight.title }}<img class="dropdown__arrow" src="@/assets/icon/dropdown-arrow.svg"/></div>
-        
-        <div v-if="index===openedIndex" class="dropdown__detail">
-          <div class="description">
-            {{ blight.description }}
-          </div>
-          <section>
-            <div class="sub__title">확인법</div>
-            <div class="sub__content">
-              {{ blight.inspect }}
-            </div>
-          </section>
-          <section>
-            <div class="sub__title">이렇게 치료하세요</div>
-            <div class="sub__content">
-              {{ blight.therapy }}
-            </div>
-          </section>
+
+      <div v-if="index === openedIndex" class="dropdown__detail">
+        <div class="description">
+          {{ blight.description }}
         </div>
+        <section>
+          <div class="sub__title">확인법</div>
+          <div class="sub__content">
+            {{ blight.inspect }}
+          </div>
+        </section>
+        <section>
+          <div class="sub__title">이렇게 치료하세요</div>
+          <div class="sub__content">
+            {{ blight.therapy }}
+          </div>
+        </section>
       </div>
-    </section>
-  </GuideLayout>
+    </div>
+  </section>
 </template>
 <script lang="ts">
-import { defineComponent, computed, ref } from 'vue';
-import GuideLayout from './Index.vue';
-import bannerImage from '@/assets/images/guide/bg-blightguide.png';
+import { defineComponent, ref } from 'vue';
 
 const blights = [
   {
@@ -100,18 +99,13 @@ const blights = [
   },
 ];
 export default defineComponent({
-  components: {
-    GuideLayout,
-  },
   setup() {
-    // console.log(bannerImage);
     const openedIndex = ref(-1);
-    const openDetail = (index:number) =>{
-      openedIndex.value = openedIndex.value===index ? -1 : index;
-    }
+    const openDetail = (index: number) => {
+      openedIndex.value = openedIndex.value === index ? -1 : index;
+    };
     return {
       blights,
-      bannerImage,
       openDetail,
       openedIndex,
     };
@@ -129,7 +123,7 @@ export default defineComponent({
     letter-spacing: -0.01em;
     /* text/1 */
     color: var(--text-color-1);
-    margin: 70px 0 16px 0;
+    margin-bottom: 16px;
     @include breakpoint-down-sm {
       font-size: 16px;
       margin: 20px 0 8px 0;
@@ -248,13 +242,13 @@ export default defineComponent({
     }
   }
 }
-.dropdown{
-  cursor:pointer;
-  &__title{
-    display:flex;
-    justify-content:space-between;
+.dropdown {
+  cursor: pointer;
+  &__title {
+    display: flex;
+    justify-content: space-between;
     padding: 20px 0 20px 0;
-    border-top:1px solid #BABABA;
+    border-top: 1px solid #bababa;
     font-weight: var(--font-weight-meidum);
     font-size: 18px;
     line-height: 26px;
@@ -265,21 +259,21 @@ export default defineComponent({
     /* text/1 */
 
     color: var(--text-color-1);
-    &.active{
+    &.active {
       font-weight: var(--font-weight-bold);
-      .dropdown__arrow{
-         transform: rotate(180deg);
+      .dropdown__arrow {
+        transform: rotate(180deg);
       }
     }
   }
-  
-  &__detail{
-    >*:not(:last-child){
-      margin-bottom:20px;
+
+  &__detail {
+    > *:not(:last-child) {
+      margin-bottom: 20px;
     }
     padding: 40px 20px 40px 20px;
     background-color: var(--background-color-5);
-    .description{
+    .description {
       font-weight: var(--font-weight-medium);
       font-size: 16px;
       line-height: 26px;
@@ -292,15 +286,15 @@ export default defineComponent({
 
       color: var(--text-color-2);
     }
-    .sub{
-      &__title{
+    .sub {
+      &__title {
         font-weight: var(--font-weight-bold);
-        margin-bottom:8px;
+        margin-bottom: 8px;
       }
-      &__content{
-        font-weight: var(--font-weight-medium)
+      &__content {
+        font-weight: var(--font-weight-medium);
       }
-      
+
       font-size: 16px;
       line-height: 26px;
       /* or 162% */
@@ -311,7 +305,6 @@ export default defineComponent({
 
       color: var(--text-color-2);
     }
-
   }
 }
 </style>

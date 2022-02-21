@@ -37,6 +37,7 @@ export default defineComponent({
   text-align: center;
   padding: 213px 0 215px 0;
   background-size: cover;
+  margin-bottom:70px;
   @include breakpoint-down-sm {
     height: 260px;
     padding: 94px 56px 102px 56px;
