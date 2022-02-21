@@ -84,7 +84,7 @@ const routes: Array<RouteRecordRaw> = [
     path: PageEnum.WATER_GUIDE,
     name: PageNameEnum.WATER_GUIDE,
     meta: { public: true, layout: LayoutEnum.DEFAULT },
-    component: () => import('@/views/guide/WaterGuide.vue'),
+    component: () => import('@/views/guide/WaterGuide/Index.vue'),
   },
   {
     path: PageEnum.VENTILATION_GUIDE,
