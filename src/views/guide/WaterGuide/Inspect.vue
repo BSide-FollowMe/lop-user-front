@@ -47,7 +47,7 @@ export default defineComponent({
     letter-spacing: -0.01em;
     /* text/1 */
     color: var(--text-color-1);
-    margin: 70px 0 16px 0;
+    margin-bottom: 16px;
     @include breakpoint-down-sm {
       font-size: 16px;
       margin: 20px 0 8px 0;
