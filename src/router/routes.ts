@@ -90,19 +90,19 @@ const routes: Array<RouteRecordRaw> = [
     path: PageEnum.VENTILATION_GUIDE,
     name: PageNameEnum.VENTILATION_GUIDE,
     meta: { public: true, layout: LayoutEnum.DEFAULT },
-    component: () => import('@/views/guide/VentilationGuide.vue'),
+    component: () => import('@/views/guide/VentilationGuide/Index.vue'),
   },
   {
     path: PageEnum.SUNLIGHT_GUIDE,
     name: PageNameEnum.SUNLIGHT_GUIDE,
     meta: { public: true, layout: LayoutEnum.DEFAULT },
-    component: () => import('@/views/guide/SunlightGuide.vue'),
+    component: () => import('@/views/guide/SunlightGuide/Index.vue'),
   },
   {
     path: PageEnum.BLIGHT_GUIDE,
     name: PageNameEnum.BLIGHT_GUIDE,
     meta: { public: true, layout: LayoutEnum.DEFAULT },
-    component: () => import('@/views/guide/BlightGuide.vue'),
+    component: () => import('@/views/guide/BlightGuide/Index.vue'),
   },
   {
     path: '/modal-test',

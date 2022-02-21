@@ -1,119 +1,104 @@
 <template>
-  <GuideLayout :bannerImage="`url(${bannerImage})`" title="양지와 음지 구분하기">
-    <section class="sunlight">
-      <div class="main__title">식물마다 선호하는 빛의 양이 다르다구요?</div>
-      <div class="main__content">
-        식물마다 건강하게 자라는데 필요한 햇빛의 양이 있어요. 어떤 식물은 강한 햇빛을 좋아해서, 빛이 부족하면 햇빛을 찾아서 키만 커지기도 하고요. 또
-        어떤 식물은 부드러운 빛을 좋아해서, 너무 강한 빛을 비추면 잎이 타버리기도 해요. 그렇기 때문에 내 식물이 원하는 빛의 양을 잘 알고 적당한 위치에
-        놓아주는 것이 중요합니다.
+  <section class="sunlight">
+    <div class="main__title">식물마다 선호하는 빛의 양이 다르다구요?</div>
+    <div class="main__content">
+      식물마다 건강하게 자라는데 필요한 햇빛의 양이 있어요. 어떤 식물은 강한 햇빛을 좋아해서, 빛이 부족하면 햇빛을 찾아서 키만 커지기도 하고요. 또
+      어떤 식물은 부드러운 빛을 좋아해서, 너무 강한 빛을 비추면 잎이 타버리기도 해요. 그렇기 때문에 내 식물이 원하는 빛의 양을 잘 알고 적당한 위치에
+      놓아주는 것이 중요합니다.
+    </div>
+    <div class="main__title">우리 집의 양지와 음지 알아보기</div>
+    <div class="main__content">
+      안에서도 공간에 따라 햇빛의 양이 다른데요.
+      <br />
+      흔히 양지, 반양지, 반음지로 나눠 구분하고 있어요. 우리 집의 양지와 음지는 어디인지 알아볼 수 있는 구별법을 알려 드릴게요.
+      <br />
+      설명을 읽어봐도 판단하기 어렵다면 조도계 앱의 도움을 받아보세요. 식물을 놓을 장소를 카메라로 비춰보면 그 장소의 조도를 Lux 수치로 알려준답니다.
+    </div>
+    <img class="responsive measure-image" src="@/assets/images/guide/양지음지1.png" />
+  </section>
+  <div class="warning">햇빛이 잘 들어오는 오후 시간대에 측정한 수치를 기준으로 하세요</div>
+  <section class="sub-group">
+    <section class="sub">
+      <div class="icon direct-sunlight" />
+      <div>
+        <div class="sub__title">직사광선</div>
+        <div class="sub__content">
+          유리창을 포함한 어떤 것도 거치지 않고 바로 쬐는 빛이에요. 식물을 실외에서 키우는 경우에 해당돼요.
+          <div class="sub__content__detail">
+            <div class="label">조도계 기준</div>
+            <div class="value">30,000 ~ 100,000 Lux</div>
+          </div>
+        </div>
       </div>
-      <div class="main__title">우리 집의 양지와 음지 알아보기</div>
-      <div class="main__content">
-        안에서도 공간에 따라 햇빛의 양이 다른데요.
-        <br />
-        흔히 양지, 반양지, 반음지로 나눠 구분하고 있어요. 우리 집의 양지와 음지는 어디인지 알아볼 수 있는 구별법을 알려 드릴게요.
-        <br />
-        설명을 읽어봐도 판단하기 어렵다면 조도계 앱의 도움을 받아보세요. 식물을 놓을 장소를 카메라로 비춰보면 그 장소의 조도를 Lux 수치로
-        알려준답니다.
+    </section>
+    <section class="sub">
+      <div class="icon sunny-spot" />
+      <div>
+        <div class="sub__title">양지</div>
+        <div class="sub__content">
+          하루에 5시간 이상 빛을 받을 수 있는 곳으로, 유리창을 거친 햇빛이 집 안에서 가장 강하게 내리쬐는 곳이에요. 식물을 베란다 창쪽 또는 창가에
+          두시면 좋아요.
+          <div class="sub__content__detail">
+            <div class="label">조도계 기준</div>
+            <div class="value">10,000 ~ 30,000 Lux</div>
+          </div>
+        </div>
       </div>
-      <img class="responsive measure-image" src="@/assets/images/guide/양지음지1.png" />
     </section>
-    <div class="warning">햇빛이 잘 들어오는 오후 시간대에 측정한 수치를 기준으로 하세요</div>
-    <section class="sub-group">
-      <section class="sub">
-        <div class="icon direct-sunlight" />
-        <div>
-          <div class="sub__title">직사광선</div>
-          <div class="sub__content">
-            유리창을 포함한 어떤 것도 거치지 않고 바로 쬐는 빛이에요. 식물을 실외에서 키우는 경우에 해당돼요.
-            <div class="sub__content__detail">
-              <div class="label">조도계 기준</div>
-              <div class="value">30,000 ~ 100,000 Lux</div>
-            </div>
+    <section class="sub">
+      <div class="icon semi-sunny-spot" />
+      <div>
+        <div class="sub__title">반양지</div>
+        <div class="sub__content">
+          겨울에도 하루에 2시간 이상의 빛을 받을 수 있는 곳이에요. 식물을 베란다 안쪽 또는 거실 창쪽에 두시면 좋아요.
+          <div class="sub__content__detail">
+            <div class="label">조도계 기준</div>
+            <div class="value">5,000 ~ 10,000 Lux</div>
           </div>
         </div>
-      </section>
-      <section class="sub">
-        <div class="icon sunny-spot" />
-        <div>
-          <div class="sub__title">양지</div>
-          <div class="sub__content">
-            하루에 5시간 이상 빛을 받을 수 있는 곳으로, 유리창을 거친 햇빛이 집 안에서 가장 강하게 내리쬐는 곳이에요. 식물을 베란다 창쪽 또는 창가에
-            두시면 좋아요.
-            <div class="sub__content__detail">
-              <div class="label">조도계 기준</div>
-              <div class="value">10,000 ~ 30,000 Lux</div>
-            </div>
-          </div>
-        </div>
-      </section>
-      <section class="sub">
-        <div class="icon semi-sunny-spot" />
-        <div>
-          <div class="sub__title">반양지</div>
-          <div class="sub__content">
-            겨울에도 하루에 2시간 이상의 빛을 받을 수 있는 곳이에요. 식물을 베란다 안쪽 또는 거실 창쪽에 두시면 좋아요.
-            <div class="sub__content__detail">
-              <div class="label">조도계 기준</div>
-              <div class="value">5,000 ~ 10,000 Lux</div>
-            </div>
-          </div>
-        </div>
-      </section>
-      <section class="sub">
-        <div class="icon semi-shady-spot" />
-        <div>
-          <div class="sub__title">반음지</div>
-          <div class="sub__content">
-            햇빛이 직접 닿지는 않지만, 간접적인 빛을 하루에 3시간 정도 받을 수 있는 밝은 곳이에요. 커튼이나 다른 식물을 거쳐 들어오는 햇빛을 받는
-            곳이기도 해요. 식물을 거실 창 쪽이나 안쪽에 두시면 좋아요.
-            <div class="sub__content__detail">
-              <div class="label">조도계 기준</div>
-              <div class="value">2,000 ~ 5,000 Lux</div>
-            </div>
-          </div>
-        </div>
-      </section>
-      <section class="sub">
-        <div class="icon shady-spot" />
-        <div>
-          <div class="sub__title">음지</div>
-          <div class="sub__content">
-            옅은 빛이 하루에 2시간 이하로 들어오는 그늘진 곳이에요. 음지라도 연한 그림자가 지는 정도의 빛은 꼭 필요해요.
-            <br />
-            가끔은 반음지에서 빛을 쬐여주면 좋아요.
-            <div class="sub__content__detail">
-              <div class="label">조도계 기준</div>
-              <div class="value">2,000 ~ 5,000 Lux</div>
-            </div>
-          </div>
-        </div>
-      </section>
-    </section>
-    <section class="tip">
-      <div class="tip__title">
-        <img src="@/assets/icon/lightbulb_black_24dp.svg" />
-        Tip
       </div>
-      <div class="tip__content">‘식물생장등’을 이용한다면 햇빛이 오래 들지 않는 집이더라도 식물을 건강하게 키울 수 있어요.</div>
     </section>
-  </GuideLayout>
+    <section class="sub">
+      <div class="icon semi-shady-spot" />
+      <div>
+        <div class="sub__title">반음지</div>
+        <div class="sub__content">
+          햇빛이 직접 닿지는 않지만, 간접적인 빛을 하루에 3시간 정도 받을 수 있는 밝은 곳이에요. 커튼이나 다른 식물을 거쳐 들어오는 햇빛을 받는
+          곳이기도 해요. 식물을 거실 창 쪽이나 안쪽에 두시면 좋아요.
+          <div class="sub__content__detail">
+            <div class="label">조도계 기준</div>
+            <div class="value">2,000 ~ 5,000 Lux</div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="sub">
+      <div class="icon shady-spot" />
+      <div>
+        <div class="sub__title">음지</div>
+        <div class="sub__content">
+          옅은 빛이 하루에 2시간 이하로 들어오는 그늘진 곳이에요. 음지라도 연한 그림자가 지는 정도의 빛은 꼭 필요해요.
+          <br />
+          가끔은 반음지에서 빛을 쬐여주면 좋아요.
+          <div class="sub__content__detail">
+            <div class="label">조도계 기준</div>
+            <div class="value">2,000 ~ 5,000 Lux</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </section>
+  <section class="tip">
+    <div class="tip__title">
+      <img src="@/assets/icon/lightbulb_black_24dp.svg" />
+      Tip
+    </div>
+    <div class="tip__content">‘식물생장등’을 이용한다면 햇빛이 오래 들지 않는 집이더라도 식물을 건강하게 키울 수 있어요.</div>
+  </section>
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue';
-import GuideLayout from './Index.vue';
-import bannerImage from '@/assets/images/guide/bg-sunlightguide.png';
-export default defineComponent({
-  components: {
-    GuideLayout,
-  },
-  setup() {
-    // console.log(bannerImage);
-    return {
-      bannerImage,
-    };
-  },
-});
+export default defineComponent({});
 </script>
 <style lang="scss" scoped>
 @import '@/styles';
@@ -132,7 +117,7 @@ export default defineComponent({
     letter-spacing: -0.01em;
     /* text/1 */
     color: var(--text-color-1);
-    margin: 70px 0 16px 0;
+    margin-bottom: 16px;
     @include breakpoint-down-sm {
       font-size: 16px;
       margin: 20px 0 8px 0;
