@@ -157,7 +157,7 @@ export default defineComponent({
 @import '@/styles';
 .main {
   &__title {
-    font-weight: var(--font--weight-bold);
+    font-weight: var(--font-weight-bold);
     font-size: 18px;
     line-height: 26px;
     /* identical to box height, or 144% */
@@ -174,7 +174,7 @@ export default defineComponent({
     }
   }
   &__content {
-    font-weight: var(--font--weight-medium);
+    font-weight: var(--font-weight-medium);
     font-size: 16px;
     line-height: 26px;
     /* or 162% */
@@ -183,7 +183,7 @@ export default defineComponent({
 
     /* text/2 */
 
-    color: var(----text-color-2);
+    color: var(--text-color-2);
     margin-bottom: 40px;
     @include breakpoint-down-sm{
       font-size: 14px;
@@ -289,7 +289,7 @@ export default defineComponent({
     }
   }
   &__content {
-    font-weight: var(--font--weight-medium);
+    font-weight: var(--font-weight-medium);
     font-size: 16px;
     line-height: 26px;
     /* or 162% */
@@ -298,7 +298,7 @@ export default defineComponent({
 
     /* text/2 */
 
-    color: var(----text-color-2);
+    color: var(--text-color-2);
     @include breakpoint-down-sm{
       font-size: 14px;
       line-height: 22px;

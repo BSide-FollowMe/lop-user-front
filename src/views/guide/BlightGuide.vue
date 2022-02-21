@@ -1,16 +1,17 @@
 <template>
-  <GuideLayout :bannerImage="`url(${bannerImage})`" title="식물이 아플 때" :bookmarks="bookmarks">
+  <GuideLayout :bannerImage="`url(${bannerImage})`" title="식물이 아플 때">
     <section>
       <div class="main__title">아픈 식물을 위한 병충해 처방전</div>
       <div class="main__content">
         정성을 다해 돌봐주어도 식물이 병들거나 해충이 생길 수 있어요. 식물이 자주 걸리는 병의 원인에 따라 어떻게 대처하면 좋을지 알려드릴게요.
       </div>
-      <section v-for="(blight, index) in blights" :key="`blight_${index}`" :id="bookmarks[0].contents[index].id" class="blight">
-        <div class="blight__title">{{ blight.title }}</div>
-        <div class="blight__description">
-          {{ blight.description }}
-        </div>
-        <div class="sub">
+      <div v-for="(blight, index) in blights" :key="`blight_${index}`" class="dropdown" @click="openDetail(index)">
+        <div :class="`dropdown__title ${index===openedIndex ? 'active':''}` ">{{ blight.title }}<img class="dropdown__arrow" src="@/assets/icon/dropdown-arrow.svg"/></div>
+        
+        <div v-if="index===openedIndex" class="dropdown__detail">
+          <div class="description">
+            {{ blight.description }}
+          </div>
           <section>
             <div class="sub__title">확인법</div>
             <div class="sub__content">
@@ -24,53 +25,15 @@
             </div>
           </section>
         </div>
-      </section>
+      </div>
     </section>
   </GuideLayout>
 </template>
 <script lang="ts">
-import { defineComponent, computed } from 'vue';
+import { defineComponent, computed, ref } from 'vue';
 import GuideLayout from './Index.vue';
 import bannerImage from '@/assets/images/guide/bg-blightguide.png';
-const bookmarks = [
-  {
-    text: '병충해별  증상과  치료법',
-    contents: [
-      {
-        text: '깍지벌레',
-        id: 'scale_insect',
-      },
-      {
-        text: '응애',
-        id: 'pider_mite',
-      },
-      {
-        text: '진딧물',
-        id: 'aphid',
-      },
-      {
-        text: '온실가루이',
-        id: 'whitefly',
-      },
-      {
-        text: '뿌리파리',
-        id: 'bradysia',
-      },
-      {
-        text: '총채벌레',
-        id: 'thysanoptera',
-      },
-      {
-        text: '흰가루병',
-        id: 'powdery_mildew',
-      },
-      {
-        text: '뿌리썩음병',
-        id: 'root_rot',
-      },
-    ],
-  },
-];
+
 const blights = [
   {
     title: '깍지벌레(개각충)',
@@ -142,10 +105,15 @@ export default defineComponent({
   },
   setup() {
     // console.log(bannerImage);
+    const openedIndex = ref(-1);
+    const openDetail = (index:number) =>{
+      openedIndex.value = openedIndex.value===index ? -1 : index;
+    }
     return {
       blights,
-      bookmarks,
       bannerImage,
+      openDetail,
+      openedIndex,
     };
   },
 });
@@ -154,7 +122,7 @@ export default defineComponent({
 @import '@/styles/';
 .main {
   &__title {
-    font-weight: var(--font--weight-bold);
+    font-weight: var(--font-weight-bold);
     font-size: 18px;
     line-height: 26px;
     /* identical to box height, or 144% */
@@ -168,13 +136,13 @@ export default defineComponent({
     }
   }
   &__content {
-    font-weight: var(--font--weight-medium);
+    font-weight: var(--font-weight-medium);
     font-size: 16px;
     line-height: 26px;
     /* or 162% */
     letter-spacing: -0.01em;
     /* text/2 */
-    color: var(----text-color-2);
+    color: var(--text-color-2);
     margin-bottom: 40px;
     @include breakpoint-down-sm {
       font-size: 14px;
@@ -187,7 +155,7 @@ export default defineComponent({
   padding: 60px 0 60px 0;
   border-bottom: 1px solid #e5e5e5;
   &__title {
-    font-weight: var(--font-weight--bold);
+    font-weight: var(--font-weight-bold);
     font-size: 20px;
     line-height: 26px;
     /* identical to box height, or 130% */
@@ -266,18 +234,84 @@ export default defineComponent({
       }
     }
     &__content {
-      font-weight: var(--font--weight-medium);
+      font-weight: var(--font-weight-medium);
       font-size: 16px;
       line-height: 26px;
       /* or 162% */
       letter-spacing: -0.01em;
       /* text/2 */
-      color: var(----text-color-2);
+      color: var(--text-color-2);
       @include breakpoint-down-sm {
         font-size: 14px;
         line-height: 22px;
       }
     }
+  }
+}
+.dropdown{
+  cursor:pointer;
+  &__title{
+    display:flex;
+    justify-content:space-between;
+    padding: 20px 0 20px 0;
+    border-top:1px solid #BABABA;
+    font-weight: var(--font-weight-meidum);
+    font-size: 18px;
+    line-height: 26px;
+    /* identical to box height, or 144% */
+
+    letter-spacing: -0.01em;
+
+    /* text/1 */
+
+    color: var(--text-color-1);
+    &.active{
+      font-weight: var(--font-weight-bold);
+      .dropdown__arrow{
+         transform: rotate(180deg);
+      }
+    }
+  }
+  
+  &__detail{
+    >*:not(:last-child){
+      margin-bottom:20px;
+    }
+    padding: 40px 20px 40px 20px;
+    background-color: var(--background-color-5);
+    .description{
+      font-weight: var(--font-weight-medium);
+      font-size: 16px;
+      line-height: 26px;
+      /* or 162% */
+
+      text-align: justify;
+      letter-spacing: -0.01em;
+
+      /* text/2 */
+
+      color: var(--text-color-2);
+    }
+    .sub{
+      &__title{
+        font-weight: var(--font-weight-bold);
+        margin-bottom:8px;
+      }
+      &__content{
+        font-weight: var(--font-weight-medium)
+      }
+      
+      font-size: 16px;
+      line-height: 26px;
+      /* or 162% */
+
+      letter-spacing: -0.01em;
+
+      /* text/2 */
+
+      color: var(--text-color-2);
+    }
+
   }
 }
 </style>
