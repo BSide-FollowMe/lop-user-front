@@ -1,5 +1,5 @@
 <template>
-  <GuideLayout :bannerImage="`url(${bannerImage})`" title="식물이 좋아하는 물 주기 방법" :bookmarks="bookmarks">
+  <GuideLayout :bannerImage="`url(${bannerImage})`" title="식물이 좋아하는 물 주기 방법">
     <section class="soil">
       <div class="main__title">내 식물, 정말 목이 마른 걸까요?</div>
       <div class="main__content">
@@ -13,7 +13,7 @@
         겉흙이 말랐을 때 물을 주어야 하는 식물이 있고, 속흙이 말랐을 때 물을 주어야 하는 식물이 있어요. 내 식물이 언제 목말라하는지를 알았다면
         가이드에 따라 흙이 마른 정도를 확인해 보세요.
       </div>
-      <section :id="bookmarks[0].contents[0].id" class="sub">
+      <section class="sub">
         <div class="sub__title">겉흙 마름 : 손가락으로 확인하기</div>
         <div class="sub__content">
           겉흙이 마른 것은 눈으로도 확인할 수 있지만, 손가락으로 흙 윗부분을 살짝 팠을 때 촉촉한 느낌이 없고, 손가락에 흙이 묻어나지 않는다면 겉흙이
@@ -21,7 +21,7 @@
         </div>
         <img class="outter_soil-image" src="@/assets/images/guide/겉흙마름1.png" />
       </section>
-      <section :id="bookmarks[0].contents[1].id" class="sub">
+      <section class="sub">
         <div class="sub__title">속흙 마름 : 나무젓가락으로 확인하기</div>
         <div class="sub__content">
           화분 가장자리에 나무젓가락을 깊숙이 꽂고 어느 정도 기다렸다 빼보세요. 젓가락 끝부분에만 흙이 묻어 나오면 속흙이 마른 거예요.
@@ -40,7 +40,7 @@
         건강하게 자랄 수 있도록 꼭 기억해두세요.
       </div>
       <section class="sub-group">
-        <section :id="bookmarks[1].contents[0].id" class="sub">
+        <section class="sub">
           <div class="sub__title">
             어떤 물을 줘야 하나요?
           </div>
@@ -51,7 +51,7 @@
             빗물에는 인위적인 환경에서 얻기 힘든 영양소가 많이 들어있답니다.
           </div>
         </section>
-        <section :id="bookmarks[1].contents[1].id" class="sub">
+        <section class="sub">
           <div class="sub__title">
             물을 주기 적절한 시간이 있나요?
           </div>
@@ -61,7 +61,7 @@
             수 있거든요. 겨울철에는 이른 아침부터 정오 사이가 물주기 가장 좋은 시간입니다. 너무 추울 때 물을 주면 냉해를 입을 수 있어요.
           </div>
         </section>
-        <section :id="bookmarks[1].contents[2].id" class="sub">
+        <section class="sub">
           <div class="sub__title">
             물을 어떻게 줘야 하나요?
           </div>
@@ -72,7 +72,7 @@
           </div>
           <img src="@/assets/images/guide/물주기1_1.png" />
         </section>
-        <section :id="bookmarks[1].contents[3].id" class="sub">
+        <section class="sub">
           <div class="sub__title">
             저면관수는 어떻게 하나요?
           </div>
@@ -103,42 +103,7 @@
 import { defineComponent, computed } from 'vue';
 import GuideLayout from './Index.vue';
 import bannerImage from '@/assets/images/guide/bg-waterguide.png';
-const bookmarks = [
-  {
-    text: '흙마름 확인하기',
-    contents: [
-      {
-        text: '겉흑 마름',
-        id: 'dry-outter_soil',
-      },
-      {
-        text: '속흙 마름',
-        id: 'dry-inner_soil',
-      },
-    ],
-  },
-  {
-    text: '물주기 노하우',
-    contents: [
-      {
-        text: '식물이 좋아하는 물',
-        id: 'water-type',
-      },
-      {
-        text: '물 주는 방법',
-        id: 'water-method',
-      },
-      {
-        text: '물 주기 시간',
-        id: 'water-period',
-      },
-      {
-        text: '저면관수',
-        id: 'water-bottom_watering',
-      },
-    ],
-  },
-];
+
 export default defineComponent({
   components: {
     GuideLayout,
@@ -146,7 +111,6 @@ export default defineComponent({
   setup() {
     // console.log(bannerImage);
     return {
-      bookmarks,
       bannerImage,
     };
   },

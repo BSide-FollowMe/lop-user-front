@@ -1,8 +1,8 @@
 <template>
-  <GuideLayout :bannerImage="`url(${bannerImage})`" title="식물이 좋아하는 물 주기 방법" :bookmarks="bookmarks">
-    <Inspect :bookmarks="bookmarks"></Inspect>
+  <GuideLayout :bannerImage="`url(${bannerImage})`" title="식물이 좋아하는 물 주기 방법">
+    <Inspect></Inspect>
     <div class="dot-divider"><img src="@/assets/dot-divider.svg" /></div>
-    <Know-how :bookmarks="bookmarks"></Know-how>
+    <Know-how></Know-how>
   </GuideLayout>
 </template>
 <script lang="ts">
@@ -11,42 +11,7 @@ import KnowHow from './KnowHow.vue';
 import { defineComponent } from 'vue';
 import GuideLayout from '../Index.vue';
 import bannerImage from '@/assets/images/guide/bg-waterguide.png';
-const bookmarks = [
-  {
-    text: '흙마름 확인하기',
-    contents: [
-      {
-        text: '겉흑 마름',
-        id: 'dry-outter_soil',
-      },
-      {
-        text: '속흙 마름',
-        id: 'dry-inner_soil',
-      },
-    ],
-  },
-  {
-    text: '물주기 노하우',
-    contents: [
-      {
-        text: '식물이 좋아하는 물',
-        id: 'water-type',
-      },
-      {
-        text: '물 주는 방법',
-        id: 'water-method',
-      },
-      {
-        text: '물 주기 시간',
-        id: 'water-period',
-      },
-      {
-        text: '저면관수',
-        id: 'water-bottom_watering',
-      },
-    ],
-  },
-];
+
 export default defineComponent({
   components: {
     GuideLayout,
@@ -56,7 +21,6 @@ export default defineComponent({
   setup() {
     return {
       bannerImage,
-      bookmarks,
     };
   },
 });

@@ -1,5 +1,5 @@
 <template>
-  <GuideLayout :bannerImage="`url(${bannerImage})`" title="양지와 음지 구분하기" :bookmarks="bookmarks">
+  <GuideLayout :bannerImage="`url(${bannerImage})`" title="양지와 음지 구분하기">
     <section class="sunlight">
       <div class="main__title">식물마다 선호하는 빛의 양이 다르다구요?</div>
       <div class="main__content">
@@ -20,7 +20,7 @@
     </section>
     <div class="warning">햇빛이 잘 들어오는 오후 시간대에 측정한 수치를 기준으로 하세요</div>
     <section class="sub-group">
-      <section :id="bookmarks[0].contents[0].id" class="sub">
+      <section class="sub">
         <div class="icon direct-sunlight" />
         <div>
           <div class="sub__title">직사광선</div>
@@ -33,7 +33,7 @@
           </div>
         </div>
       </section>
-      <section :id="bookmarks[0].contents[1].id" class="sub">
+      <section class="sub">
         <div class="icon sunny-spot" />
         <div>
           <div class="sub__title">양지</div>
@@ -47,7 +47,7 @@
           </div>
         </div>
       </section>
-      <section :id="bookmarks[0].contents[2].id" class="sub">
+      <section class="sub">
         <div class="icon semi-sunny-spot" />
         <div>
           <div class="sub__title">반양지</div>
@@ -60,7 +60,7 @@
           </div>
         </div>
       </section>
-      <section :id="bookmarks[0].contents[3].id" class="sub">
+      <section class="sub">
         <div class="icon semi-shady-spot" />
         <div>
           <div class="sub__title">반음지</div>
@@ -74,7 +74,7 @@
           </div>
         </div>
       </section>
-      <section :id="bookmarks[0].contents[4].id" class="sub">
+      <section class="sub">
         <div class="icon shady-spot" />
         <div>
           <div class="sub__title">음지</div>
@@ -103,33 +103,6 @@
 import { defineComponent } from 'vue';
 import GuideLayout from './Index.vue';
 import bannerImage from '@/assets/images/guide/bg-sunlightguide.png';
-const bookmarks = [
-  {
-    text: '우리 집의 양지와 음지 알아보기',
-    contents: [
-      {
-        text: '직사광선',
-        id: 'direct-sunlight',
-      },
-      {
-        text: '양지',
-        id: 'sunny-spot',
-      },
-      {
-        text: '반양지',
-        id: 'semi-sunny-spot',
-      },
-      {
-        text: '반음지',
-        id: 'semi-shady-spot',
-      },
-      {
-        text: '음지',
-        id: 'shady-spot',
-      },
-    ],
-  },
-];
 export default defineComponent({
   components: {
     GuideLayout,
@@ -137,7 +110,6 @@ export default defineComponent({
   setup() {
     // console.log(bannerImage);
     return {
-      bookmarks,
       bannerImage,
     };
   },
