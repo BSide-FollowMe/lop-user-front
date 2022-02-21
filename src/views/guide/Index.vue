@@ -1,18 +1,26 @@
 <template>
   <div class="container">
-    <div  class="banner">
+    <div class="banner">
       <div class="banner__common__title">식물의언어 가이드</div>
       <hr />
       <div class="banner__title">{{ title }}</div>
     </div>
 
-    <div v-if="bookmarks.length>0" class="bookmark">
-      <div v-for="(bookmark,index) in bookmarks" :key="`${index}__bookmark`" class="bookmark__wrapper">
-        <span class="bookmark__group">{{bookmark.text}}</span>
-        <router-link class="bookmark__anchor" :to="'#'+anchor.id" @click="scrollFix('#'+anchor.id)" v-for="(anchor,index) in bookmark.contents" :key="`${index}__anchor`">{{anchor.text}}</router-link>
+    <div v-if="bookmarks.length > 0" class="bookmark">
+      <div v-for="(bookmark, index) in bookmarks" :key="`${index}__bookmark`" class="bookmark__wrapper">
+        <span class="bookmark__group">{{ bookmark.text }}</span>
+        <router-link
+          class="bookmark__anchor"
+          :to="'#' + anchor.id"
+          @click="scrollFix('#' + anchor.id)"
+          v-for="(anchor, index) in bookmark.contents"
+          :key="`${index}__anchor`"
+        >
+          {{ anchor.text }}
+        </router-link>
       </div>
     </div>
-    <hr v-if="bookmarks.length>0" class="bookmark-content"/>
+    <hr v-if="bookmarks.length > 0" class="bookmark-content" />
     <section class="content">
       <slot />
     </section>
@@ -20,27 +28,26 @@
 </template>
 
 <script lang="ts">
-import { defineComponent,computed,PropType } from 'vue';
+import { defineComponent, computed, PropType } from 'vue';
 export default defineComponent({
   props: {
     bannerImage: {
       type: String,
-      default:'',
+      default: '',
     },
     title: {
       type: String,
       default: '',
     },
-    bookmarks:{
-      type:Array as PropType<{text:string,contents:{text:string,id:string}[]}[]>,
-      default: ()=>[],
-    }
+    bookmarks: {
+      type: Array as PropType<{ text: string; contents: { text: string; id: string }[] }[]>,
+      default: () => [],
+    },
   },
-  methods:{
-    scrollFix: function(hashbang:string)
-    {
+  methods: {
+    scrollFix: function (hashbang: string) {
       location.hash = hashbang;
-    }
+    },
   },
 });
 </script>
@@ -49,11 +56,12 @@ export default defineComponent({
 @import '@/styles/';
 .banner {
   background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), v-bind(bannerImage);
-  width:100%;
+  width: 100%;
   height: 520px;
   text-align: center;
   padding: 213px 0 215px 0;
-  @include breakpoint-down-sm{
+  background-size: cover;
+  @include breakpoint-down-sm {
     height: 260px;
     padding: 94px 56px 102px 56px;
   }
@@ -66,7 +74,7 @@ export default defineComponent({
     letter-spacing: -0.01em;
 
     color: #ffffff;
-    @include breakpoint-down-sm{
+    @include breakpoint-down-sm {
       font-size: 14px;
       line-height: 17px;
     }
@@ -81,26 +89,26 @@ export default defineComponent({
     letter-spacing: -0.0025em;
 
     color: #ffffff;
-    @include breakpoint-down-sm{
+    @include breakpoint-down-sm {
       font-size: 22px;
       line-height: 26px;
     }
   }
 }
-.bookmark{
-  @include breakpoint-down-sm{
-    display:none;
+.bookmark {
+  @include breakpoint-down-sm {
+    display: none;
   }
   max-width: var(--content-container-inner);
   margin-left: auto;
   margin-right: auto;
   padding: 19px 20px 20px 20px;
-  &__wrapper{
-    display:inline-block;
-    &:first-child{
-      margin-right:40px;
+  &__wrapper {
+    display: inline-block;
+    &:first-child {
+      margin-right: 40px;
     }
-    .bookmark__group{
+    .bookmark__group {
       font-weight: var(--font-weight-bold);
       font-size: 15px;
       line-height: 18px;
@@ -112,7 +120,7 @@ export default defineComponent({
 
       color: var(--text-color-2);
     }
-    .bookmark__anchor{
+    .bookmark__anchor {
       font-weight: var(--font-weight-medium);
       font-size: 15px;
       line-height: 18px;
@@ -124,7 +132,6 @@ export default defineComponent({
       /* text/3 */
 
       color: var(--text-color-3);
-
 
       /* Inside auto layout */
 
@@ -141,12 +148,11 @@ export default defineComponent({
   margin-left: auto;
   margin-right: auto;
 }
-hr.bookmark-content{
-  @include breakpoint-down-sm{
-    display:none;
+hr.bookmark-content {
+  @include breakpoint-down-sm {
+    display: none;
   }
-  border:1px solid #E5E5E5;
-  margin:0;
+  border: 1px solid #e5e5e5;
+  margin: 0;
 }
-
 </style>
