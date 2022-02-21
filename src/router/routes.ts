@@ -20,15 +20,15 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('@/views/PlantDetail.vue'),
   },
   {
-    path:PageEnum.My_Page,
-    meta: { public: true, layout: LayoutEnum.DEFAULT, backgroundColor:'#F8F8F8' },
+    path: PageEnum.My_Page,
+    meta: { public: true, layout: LayoutEnum.DEFAULT, backgroundColor: '#F8F8F8' },
     component: () => import('@/views/my-page/Index.vue'),
     children: [
       {
-        path:'',
-        meta:{public:true},
+        path: '',
+        meta: { public: true },
         name: PageNameEnum.My_Page,
-        component: ()=>import('@/views/my-page/MyPage/Index.vue'),
+        component: () => import('@/views/my-page/MyPage/Index.vue'),
       },
       {
         path: 'setting',
@@ -41,7 +41,7 @@ const routes: Array<RouteRecordRaw> = [
         meta: { public: true },
         name: PageNameEnum.My_Plant,
         component: () => import('@/views/my-page/MyPlant/Index.vue'),
-      }
+      },
     ],
   },
   {
@@ -99,6 +99,12 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('@/views/guide/SunlightGuide.vue'),
   },
   {
+    path: PageEnum.BLIGHT_GUIDE,
+    name: PageNameEnum.BLIGHT_GUIDE,
+    meta: { public: true, layout: LayoutEnum.DEFAULT },
+    component: () => import('@/views/guide/BlightGuide.vue'),
+  },
+  {
     path: '/modal-test',
     name: 'Modal Test',
     meta: { public: true, layout: LayoutEnum.FILLED },
@@ -111,5 +117,4 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('@/views/error/NotFound.vue'),
   },
 ];
-
 export default routes;
