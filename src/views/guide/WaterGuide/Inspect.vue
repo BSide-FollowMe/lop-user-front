@@ -11,7 +11,7 @@
       겉흙이 말랐을 때 물을 주어야 하는 식물이 있고, 속흙이 말랐을 때 물을 주어야 하는 식물이 있어요. 내 식물이 언제 목말라하는지를 알았다면 가이드에
       따라 흙이 마른 정도를 확인해 보세요.
     </div>
-    <section :id="bookmarks[0].contents[0].id" class="sub">
+    <section class="sub">
       <div class="sub__title">겉흙 마름 : 손가락으로 확인하기</div>
       <div class="sub__content">
         겉흙이 마른 것은 눈으로도 확인할 수 있지만, 손가락으로 흙 윗부분을 살짝 팠을 때 촉촉한 느낌이 없고, 손가락에 흙이 묻어나지 않는다면 겉흙이
@@ -19,7 +19,7 @@
       </div>
       <img class="responsive" src="@/assets/images/guide/겉흙마름1.png" />
     </section>
-    <section :id="bookmarks[0].contents[1].id" class="sub">
+    <section class="sub">
       <div class="sub__title">속흙 마름 : 나무젓가락으로 확인하기</div>
       <div class="sub__content">
         화분 가장자리에 나무젓가락을 깊숙이 꽂고 어느 정도 기다렸다 빼보세요. 젓가락 끝부분에만 흙이 묻어 나오면 속흙이 마른 거예요.
@@ -33,12 +33,7 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 export default defineComponent({
-  props: {
-    bookmarks: {
-      type: Array as PropType<{ text: string; contents: { text: string; id: string }[] }[]>,
-      required: true,
-    },
-  },
+  
 });
 </script>
 <style lang="scss" scoped>

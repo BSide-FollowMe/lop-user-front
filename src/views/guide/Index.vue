@@ -6,21 +6,6 @@
       <div class="banner__title">{{ title }}</div>
     </div>
 
-    <div v-if="bookmarks.length > 0" class="bookmark">
-      <div v-for="(bookmark, index) in bookmarks" :key="`${index}__bookmark`" class="bookmark__wrapper">
-        <span class="bookmark__group">{{ bookmark.text }}</span>
-        <router-link
-          class="bookmark__anchor"
-          :to="'#' + anchor.id"
-          @click="scrollFix('#' + anchor.id)"
-          v-for="(anchor, index) in bookmark.contents"
-          :key="`${index}__anchor`"
-        >
-          {{ anchor.text }}
-        </router-link>
-      </div>
-    </div>
-    <hr v-if="bookmarks.length > 0" class="bookmark-content" />
     <section class="content">
       <slot />
     </section>
@@ -28,7 +13,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, PropType } from 'vue';
+import { defineComponent } from 'vue';
 export default defineComponent({
   props: {
     bannerImage: {
@@ -38,15 +23,6 @@ export default defineComponent({
     title: {
       type: String,
       default: '',
-    },
-    bookmarks: {
-      type: Array as PropType<{ text: string; contents: { text: string; id: string }[] }[]>,
-      default: () => [],
-    },
-  },
-  methods: {
-    scrollFix: function (hashbang: string) {
-      location.hash = hashbang;
     },
   },
 });
