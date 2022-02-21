@@ -1,5 +1,5 @@
 import axios from '@/utils/http/axios';
-import { payloadToQueryString } from '@/utils/text';
+import { payloadToQueryString, objectToFormdata } from '@/utils/text';
 import { BoardParamModel, BoardRespModel } from './model/boardModel';
 
 const API_PREFIX = '/v1';
@@ -9,5 +9,8 @@ enum Api {
 }
 
 export function registQnaBoard(payload: BoardParamModel): Promise<unknown> {
-  return axios.post<BoardRespModel>(API_PREFIX + Api.REGIST_BOARD, payload);
+  const formdata = objectToFormdata(payload);
+  return axios.post<BoardRespModel>(API_PREFIX + Api.REGIST_BOARD, formdata,{
+    headers: { 'Content-Type': `multipart/form-data` },
+  });
 }
