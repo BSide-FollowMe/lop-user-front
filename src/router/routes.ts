@@ -57,6 +57,12 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('@/views/login/OAuthLanding.vue'),
   },
   {
+    path: PageEnum.LOGOUT,
+    name: PageNameEnum.LOGOUT,
+    meta: { public: true, layout: LayoutEnum.DEFAULT },
+    component: () => import('@/views/login/Logout.vue'),
+  },
+  {
     path: PageEnum.SEARCH_RESULT,
     name: PageNameEnum.SEARCH_RESULT,
     meta: { public: true, layout: LayoutEnum.DEFAULT },
@@ -72,7 +78,7 @@ const routes: Array<RouteRecordRaw> = [
     path: PageEnum.QNABOARD_DETAIL,
     name: PageNameEnum.QNABOARD_DETAIL,
     meta: { public: true, layout: LayoutEnum.DEFAULT },
-    component: () => import('@/views/qna/index.vue'),
+    component: () => import('@/views/qna/QnaDetail/index.vue'),
   },
   {
     path: PageEnum.QNABOARD_EDIT,

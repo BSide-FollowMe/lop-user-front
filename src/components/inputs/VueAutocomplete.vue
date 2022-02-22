@@ -106,6 +106,8 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/styles/mixin';
+
 .autocomplete {
   position: relative;
   background: #fff;
@@ -152,6 +154,9 @@ export default defineComponent({
     position: absolute;
     top: 11px;
     left: 12px;
+    @include breakpoint-down-sm {
+      font-size:14px;
+    }
   }
   .item-list {
     position: absolute;
@@ -171,6 +176,19 @@ export default defineComponent({
       padding: 0px 15px;
       font-size: 16px;
       line-height: 40px;
+      img{
+        margin-right:6px;
+        width:16px;
+        height:16px;
+      }
+      @include breakpoint-down-sm {
+        font-size:14px;
+        img{
+          margin-right:4px;
+          width:12px;
+          height:12px;
+        }
+      }
     }
     li:not(.selected):hover {
       background: #f4f8f1;
