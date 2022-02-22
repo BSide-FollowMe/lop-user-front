@@ -16,25 +16,45 @@
     </div>
     <div class="input-title">물은 얼마나 자주 주셨나요?</div>
     <div class="textarea-item">
-      <textarea id="plant-water-cycle" v-model="plantWaterCycle" :class="{ 'is-empty': plantWaterCycle === '' }" maxlength="500" />
+      <textarea
+        id="plant-water-cycle"
+        v-model="plantWaterCycle"
+        :class="{ 'is-empty': plantWaterCycle === '' }"
+        maxlength="500"
+        @keyup="autoResize"
+      />
       <label for="plant-water-cycle">내용을 입력하세요</label>
     </div>
-    <div class="input-title">식물은 어디에 두셨고, 햇빛을 받는 시간은 얼마나 되나요?</div>
+    <div class="input-title">
+      식물은 어디에 두셨고,
+      <br class="md-down-only" />
+      햇빛을 받는 시간은 얼마나 되나요?
+    </div>
     <div class="textarea-item">
-      <textarea id="plant-life-cycle" v-model="plantLifeCycle" :class="{ 'is-empty': plantLifeCycle === '' }" maxlength="500" />
+      <textarea id="plant-life-cycle" v-model="plantLifeCycle" :class="{ 'is-empty': plantLifeCycle === '' }" maxlength="500" @keyup="autoResize" />
       <label for="plant-life-cycle">내용을 입력하세요</label>
     </div>
     <div class="input-title">증상이 나타났을 때 어떻게 대처하셨나요?</div>
     <div class="textarea-item">
-      <textarea id="plant-countermeasure" v-model="plantCountermeasure" :class="{ 'is-empty': plantCountermeasure === '' }" maxlength="500" />
+      <textarea
+        id="plant-countermeasure"
+        v-model="plantCountermeasure"
+        :class="{ 'is-empty': plantCountermeasure === '' }"
+        maxlength="500"
+        @keyup="autoResize"
+      />
       <label for="plant-countermeasure">내용을 입력하세요</label>
     </div>
     <div class="input-title">증상을 자세하게 알려주세요</div>
     <div class="textarea-item">
-      <textarea id="content" v-model="content" :class="{ 'is-empty': content === '' }" maxlength="500" />
+      <textarea id="content" v-model="content" :class="{ 'is-empty': content === '' }" maxlength="500" @keyup="autoResize" />
       <label for="content">내용을 입력하세요</label>
     </div>
-    <div class="input-title">사진 등록</div>
+    <div class="input-title">
+      사진 등록
+      <br class="md-down-only" />
+      <span class="input-tips">사진은 최대 3장까지 등록하실 수 있어요</span>
+    </div>
     <PhotoUploader class="photo-uploader" v-model:value="images" />
     <div class="text-center submit-btn">
       <VueButton color="primary" @click="submit">등록하기</VueButton>
@@ -88,8 +108,9 @@ export default defineComponent({
       }
     }
     function submit() {
+      const selectedPlant = plantNameOptions.value.find((item: any) => plantName.value == item.name);
       const payload: BoardParamModel = {
-        plantId: plantName.value != '직접입력' ? plantNameOptions.value.find((item: any) => plantName.value == item.name).id : null,
+        plantId: plantName.value != '직접입력' && selectedPlant ? selectedPlant.id : null,
         plantName: plantName.value == '직접입력' ? plantNameSubjective.value : plantName.value,
         plantWaterCycle: plantWaterCycle.value,
         plantLifeCycle: plantLifeCycle.value,
@@ -98,6 +119,7 @@ export default defineComponent({
         images: images.value,
         type: 'SICK',
       };
+      console.log(payload);
       if (!validatePayload(payload)) return;
       registQuestion(payload);
     }
@@ -109,14 +131,9 @@ export default defineComponent({
         console.error(e);
       }
     }
-    function validatePayload({ plantId, plantName, plantWaterCycle, plantLifeCycle, plantCountermeasure, content }: any) {
-      if (plantId == null && plantName != '직접입력') {
-        alert('질문 할 식물이 선택되지 않았어요!');
-        return;
-      }
-
+    function validatePayload({ plantName, plantWaterCycle, plantLifeCycle, plantCountermeasure, content }: any) {
       if (plantName == '') {
-        alert('식물 이름을 입력해주세요!');
+        alert('식물 이름이 선택되거나 입력되지 않았어요!');
         return;
       }
 
@@ -143,6 +160,12 @@ export default defineComponent({
       return true;
     }
     const changeSubjective = debounce(getPlantNameList, 1000);
+
+    function autoResize(e: any) {
+      const obj = e.target;
+      obj.style.height = '120px';
+      obj.style.height = 2 + obj.scrollHeight + 'px';
+    }
     return {
       plantName,
       plantNameOptions,
@@ -157,6 +180,7 @@ export default defineComponent({
       plantNameSubjective,
       images,
       submit,
+      autoResize,
     };
   },
 });
@@ -171,6 +195,21 @@ export default defineComponent({
 
 .input-title {
   margin-top: 30px;
+  @include breakpoint-down-sm {
+    font-size: 16px;
+  }
+}
+.input-tips {
+  margin-left: 30px;
+  font-size: 15px;
+  line-height: 18px;
+  color: var(--text-color-3);
+
+  @include breakpoint-down-sm {
+    margin-left: unset;
+    font-size: 12px;
+    line-height: 26px;
+  }
 }
 .input-item {
   margin-top: 5px;
@@ -206,6 +245,7 @@ export default defineComponent({
     left: 12px;
 
     @include breakpoint-down-sm {
+      font-size: 14px;
     }
   }
   datalist {
@@ -252,6 +292,9 @@ export default defineComponent({
     &:focus {
       border: 1px solid var(--secondary-green-color-1);
     }
+    @include breakpoint-down-sm {
+      height: 120px;
+    }
   }
   label {
     pointer-events: none;
@@ -264,11 +307,15 @@ export default defineComponent({
     word-break: keep-all;
 
     @include breakpoint-down-sm {
+      font-size: 14px;
     }
   }
 }
 .photo-uploader {
   margin-top: 10px;
+  @include breakpoint-down-sm {
+    margin-top: 20px;
+  }
 }
 .submit-btn {
   button {
@@ -276,7 +323,7 @@ export default defineComponent({
     width: 168px;
     height: 48px;
     @include breakpoint-down-sm {
-      margin-top: 30px;
+      margin-top: 60px;
       width: 140px;
       height: 40px;
     }
