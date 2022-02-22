@@ -21,6 +21,7 @@ export default defineComponent({
 
     if (!checkValidToken()) {
       alert('잘못되었거나 만료된 토큰입니다. 다시 로그인해주세요');
+      tokenSvc.removeToken();
       ROUTE_TO.LOGIN();
     }
 

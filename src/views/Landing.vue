@@ -13,6 +13,10 @@
     <br />
     <router-link to="/qna">질문 답변 게시판</router-link>
     <br/>
+    <router-link to="/qna/edit">질문 답변 글쓰기</router-link>
+    <br/>
+    <router-link to="/qna/detail">질문 상세</router-link>
+    <br/>
     <router-link to="/plant/1">식물상세</router-link>
     <br/>
     <router-link to="/me">마이페이지</router-link>
@@ -23,12 +27,10 @@
   </div>
 </template>
 <script lang="ts">
-import { ROUTE_TO } from '@/router/routing';
 import { defineComponent } from 'vue';
 export default defineComponent({
   name: 'Landing',
   setup() {
-    // ROUTE_TO.HOME();
     return {};
   },
 });

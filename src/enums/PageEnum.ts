@@ -10,6 +10,7 @@ export enum PageEnum {
   QNABOARD = '/qna',
   QNABOARD_DETAIL = '/qna/detail',
   QNABOARD_EDIT = '/qna/edit',
+  LOGOUT = '/logout',
 }
 
 export enum PageNameEnum {
@@ -26,6 +27,7 @@ export enum PageNameEnum {
   QNABOARD = 'QNA Board',
   QNABOARD_DETAIL = 'QNA Board - Detail',
   QNABOARD_EDIT = 'QNA Board - Edit',
+  LOGOUT = 'Sign Out',
 }
 
 export enum LayoutEnum {

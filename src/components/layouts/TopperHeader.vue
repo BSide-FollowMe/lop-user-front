@@ -24,7 +24,11 @@ export default defineComponent({
     const onToggleDrawer = () => {
       emit('toggleDrawer');
     };
-    const isLoggedIn = ref(tokenSvc.isValidToken() || false);
+    const isLoggedIn = ref(false);
+    checkLoggedIn();
+    async function checkLoggedIn() {
+      isLoggedIn.value = await tokenSvc.isValidToken();
+    }
 
     return {
       ROUTE_TO,

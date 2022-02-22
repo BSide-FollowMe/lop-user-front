@@ -56,6 +56,8 @@ export default defineComponent({
   }
 }
 .qna-edit {
+  padding-bottom: 120px;
+
   &__title {
     padding: 20px;
     text-align: center;
@@ -63,13 +65,28 @@ export default defineComponent({
       display: block;
       margin-top: 60px;
       margin-bottom: 30px;
+      color:var(--primary-color-1);
+      @include breakpoint-down-sm {
+        font-size:18px;
+        margin-top: 40px;
+        margin-bottom: 22px;
+      }
     }
+  }
+  @include breakpoint-down-sm {
+    padding-bottom:60px;
   }
 }
 .edit-form {
   background-color: #fff;
   border-radius: 4px;
   padding: 60px;
+
+  @include breakpoint-down-sm {
+    margin-left:20px;
+    margin-right:20px;
+    padding: 40px var(--m-content-container-padding);
+  }
 }
 .page-btn-group {
   text-align: center;
@@ -78,8 +95,8 @@ export default defineComponent({
     cursor: pointer;
     margin: 0px 5px;
     padding: 25px 30px;
-    height: 100px;
     width: 240px;
+    height: 100px;
     border-radius: 4px;
     border: 1px solid var(--background-color-1);
     background-color: transparent;
@@ -101,12 +118,44 @@ export default defineComponent({
       background-color: var(--secondary-green-color-3);
       span {
         color: var(--secondary-green-color-1);
+        font-weight: var(--font-weight-bold);
       }
       &.ask-help > img {
         content: url('@/assets/icon/ask-help-primary.svg');
       }
       &.ask-question > img {
         content: url('@/assets/icon/ask-question-primary.svg');
+      }
+    }
+    @include breakpoint-down-sm {
+      position:relative;
+      width: 135px;
+      height: 85px;
+      padding:10px;
+      text-align:center;
+      margin: 0px 0px 10px;
+      &.ask-help{
+        margin-right:5px;
+      }
+      &.ask-question{
+        margin-left:5px;
+      }
+      span{
+        position:relative;
+        top:20px;
+        left:50%;
+        transform:translateX(-50%);
+        font-size: 14px;
+        line-height: 17px;
+        // word-break:keep-all;
+      }
+      img {
+        position:absolute;
+        top:10px;
+        left:50%;
+        transform:translateX(-50%);
+        width: 40px;
+        height: 40px;
       }
     }
   }
