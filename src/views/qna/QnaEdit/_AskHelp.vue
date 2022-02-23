@@ -71,6 +71,7 @@ import VueAutocomplete from '@/components/inputs/VueAutocomplete.vue';
 import PhotoUploader from '@/components/inputs/PhotoUploader.vue';
 import { registQnaBoard } from '@/api/qnaboard';
 import { BoardParamModel } from '@/api/model/boardModel';
+import { ROUTE_TO } from '@/router/routing';
 
 export default defineComponent({
   name: 'Ask Help Form',
@@ -110,15 +111,15 @@ export default defineComponent({
     function submit() {
       const selectedPlant = plantNameOptions.value.find((item: any) => plantName.value == item.name);
       const payload: BoardParamModel = {
-        plantId: plantName.value != '직접입력' && selectedPlant ? selectedPlant.id : null,
         plantName: plantName.value == '직접입력' ? plantNameSubjective.value : plantName.value,
         plantWaterCycle: plantWaterCycle.value,
         plantLifeCycle: plantLifeCycle.value,
         plantCountermeasure: plantCountermeasure.value,
         content: content.value,
-        images: images.value,
         type: 'SICK',
       };
+      if (plantName.value != '직접입력' && selectedPlant) payload.plantId = selectedPlant.id;
+      if (images.value.length) payload.images = images.value;
       console.log(payload);
       if (!validatePayload(payload)) return;
       registQuestion(payload);
@@ -126,7 +127,7 @@ export default defineComponent({
     async function registQuestion(payload: BoardParamModel) {
       try {
         const res = await registQnaBoard(payload);
-        console.log(res);
+        ROUTE_TO.QNABOARD_DETAIL(res.data.id);
       } catch (e) {
         console.error(e);
       }
