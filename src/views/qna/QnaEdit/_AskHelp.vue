@@ -126,7 +126,7 @@ export default defineComponent({
     }
     async function registQuestion(payload: BoardParamModel) {
       try {
-        const res = await registQnaBoard(payload);
+        const res:any = await registQnaBoard(payload);
         ROUTE_TO.QNABOARD_DETAIL(res.data.id);
       } catch (e) {
         console.error(e);
