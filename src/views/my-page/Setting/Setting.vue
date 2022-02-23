@@ -77,7 +77,11 @@ export default defineComponent({
         success.value = true;
       } catch (e) {
         if (e instanceof Error) {
-          error.value = '중복된 닉네임입니다. 다른 이름을 입력해주세요.';
+          if (e.message == '중복된 개체가 있습니다.') {
+            error.value = '중복된 닉네임입니다. 다른 이름을 입력해주세요.';
+          } else {
+            error.value = e.message;
+          }
         }
       }
     };
@@ -87,7 +91,7 @@ export default defineComponent({
     };
     const openReport = ({ modalTitle, contentsLabel }: { modalTitle: string; contentsLabel: string }) => {
       reportOpened.value = true;
-      reportOptions.value = { modalTitle,  contentsLabel };
+      reportOptions.value = { modalTitle, contentsLabel };
     };
 
     const oepnWithdrawl = () => {

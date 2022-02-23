@@ -1,0 +1,150 @@
+<template>
+  <div>
+    <div class="item" v-for="answer in answers" :key="answer.id">
+      <div>
+        <span class="plantName">{{ answer.plantName }}</span>
+        <span class="questionContent">{{ answer.questionContent }}</span>
+        <div class="content">{{ preview(answer.commentContent) }}</div>
+        <section class="bottom">
+          <div class="createdDateTime">{{ formatDate(answer.createdDateTime) }}</div>
+          <div class="supportCount">도움돼요{{ answer.supportCount }}</div>
+        </section>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script lang="ts">
+import { defineComponent, PropType } from 'vue';
+
+export default defineComponent({
+  props: {
+    answers: {
+      type: Array as PropType<
+        {
+          commentContent: string;
+          createdDateTime: string;
+          id: number;
+          plantName: string;
+          questionContent: string;
+          supportCount: number;
+        }[]
+      >,
+      default: () => [],
+    },
+  },
+  setup() {
+    const preview = (content: string) => {
+      if (window.innerWidth > 767 && content.length > 184) {
+        return content.slice(0, 132) + '...';
+      }
+      if (window.innerWidth <= 767 && content.length > 62) {
+        return content.slice(0, 65) + '...';
+      }
+      return content;
+    };
+    const formatDate = (date: string) => {
+      const d = new Date(date);
+      return `${d.getFullYear()}.${(d.getMonth() + 1).toString().padStart(2, '0')}.${d.getDate().toString().padStart(2, '0')}`;
+    };
+    return {
+      preview,
+      formatDate,
+    };
+  },
+});
+</script>
+
+<style lang="scss" scoped>
+@import '@/styles/';
+.item {
+  padding: 20px 0 20px 0;
+
+  border-bottom: 1px solid #f3f3f3;
+}
+.plantName {
+  font-weight: var(--font-weight-medium);
+  font-size: 18px;
+  line-height: 26px;
+  /* identical to box height, or 144% */
+
+  letter-spacing: -0.01em;
+
+  /* text/3 */
+
+  color: var(--text-color-3);
+  margin-right: 5px;
+  @include breakpoint-down-sm {
+    font-size: 12px;
+    line-height: 18px;
+  }
+  &:before {
+    content: '[';
+  }
+  &:after {
+    content: ']';
+  }
+}
+.questionContent {
+  font-size: 18px;
+  line-height: 26px;
+  /* identical to box height, or 144% */
+
+  letter-spacing: -0.01em;
+
+  /* text/3 */
+
+  color: var(--text-color-3);
+  @include breakpoint-down-sm {
+    font-size: 12px;
+    line-height: 18px;
+  }
+}
+.content {
+  font-weight: var(--font-weight-normal);
+  font-size: 18px;
+  line-height: 26px;
+  /* or 144% */
+
+  letter-spacing: -0.015em;
+
+  /* text/1 */
+
+  color: var(--text-color-1);
+  margin: 10px 0 30px 0;
+  @include breakpoint-down-sm {
+    font-size: 12px;
+    line-height: 20px;
+    letter-spacing: -0.01em;
+    margin: 4px 0 18px 0;
+  }
+}
+.bottom div {
+  display: inline-block;
+  font-weight: var(--font-weight-medium);
+  font-size: 16px;
+  line-height: 18px;
+  /* identical to box height, or 112% */
+
+  letter-spacing: -0.01em;
+
+  /* text/3 */
+
+  color: var(--text-color-3);
+
+  padding: 0 10px;
+  &:first-child {
+    padding-left: 0;
+  }
+  &:last-child {
+    padding-right: 0;
+  }
+  &:not(:last-child) {
+    border-right: 1px solid #dddddd;
+  }
+  @include breakpoint-down-sm {
+    font-size: 12px;
+    line-height: 18px;
+  }
+}
+</style>
