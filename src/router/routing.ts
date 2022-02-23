@@ -9,7 +9,7 @@ export const ROUTE_TO = {
   PLANT_DETAILS: () => router.push(PageEnum.PLANT_DETAILS),
   SEARCH_RESULT: () => router.push(PageEnum.SEARCH_RESULT),
   QNABOARD: () => router.push(PageEnum.QNABOARD),
-  QNABOARD_DETAIL: () => router.push(PageEnum.QNABOARD_DETAIL),
+  QNABOARD_DETAIL: (id: string) => router.push(PageEnum.QNABOARD_DETAIL + '?id=' + id),
   QNABOARD_EDIT: () => router.push(PageEnum.QNABOARD_EDIT),
   MYPAGE: () => router.push(PageEnum.My_Page),
 };
@@ -30,7 +30,7 @@ export const OPEN_LINK = {
 
 async function openLink(link: string) {
   try {
-    const windowReference:any = await window.open();
+    const windowReference: any = await window.open();
     windowReference.location = link;
   } catch (error) {
     alert('브라우저 설정에서 팝업을 허용해주세요.');

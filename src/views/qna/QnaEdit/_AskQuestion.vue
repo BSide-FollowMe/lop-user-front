@@ -40,6 +40,7 @@ import VueAutocomplete from '@/components/inputs/VueAutocomplete.vue';
 import PhotoUploader from '@/components/inputs/PhotoUploader.vue';
 import { registQnaBoard } from '@/api/qnaboard';
 import { BoardParamModel } from '@/api/model/boardModel';
+import { ROUTE_TO } from '@/router/routing';
 
 export default defineComponent({
   name: 'Ask Help Form',
@@ -76,26 +77,25 @@ export default defineComponent({
     function submit() {
       const selectedPlant = plantNameOptions.value.find((item: any) => plantName.value == item.name);
       const payload: BoardParamModel = {
-        plantId: plantName.value != '직접입력' && selectedPlant ? selectedPlant.id : null,
         plantName: plantName.value == '직접입력' ? plantNameSubjective.value : plantName.value,
         content: content.value,
-        images: images.value,
-        type: 'SICK',
+        type: 'WONDER',
       };
+      if (plantName.value != '직접입력' && selectedPlant) payload.plantId = selectedPlant.id;
+      if (images.value.length) payload.images = images.value;
       console.log(payload);
       if (!validatePayload(payload)) return;
       registQuestion(payload);
     }
     async function registQuestion(payload: BoardParamModel) {
       try {
-        const res = await registQnaBoard(payload);
-        console.log(res);
+        const res: any = await registQnaBoard(payload);
+        ROUTE_TO.QNABOARD_DETAIL(res.data.id);
       } catch (e) {
         console.error(e);
       }
     }
     function validatePayload({ plantName, content }: any) {
-
       if (plantName == '') {
         alert('식물 이름이 선택되거나 입력되지 않았어요!');
         return;
@@ -145,14 +145,14 @@ export default defineComponent({
     font-size: 16px;
   }
 }
-.input-tips{
-  margin-left:30px;
+.input-tips {
+  margin-left: 30px;
   font-size: 15px;
   line-height: 18px;
-  color:var(--text-color-3);
+  color: var(--text-color-3);
 
   @include breakpoint-down-sm {
-    margin-left:unset;
+    margin-left: unset;
     font-size: 12px;
     line-height: 26px;
   }
@@ -260,7 +260,7 @@ export default defineComponent({
 .photo-uploader {
   margin-top: 10px;
   @include breakpoint-down-sm {
-    margin-top:20px;
+    margin-top: 20px;
   }
 }
 .submit-btn {

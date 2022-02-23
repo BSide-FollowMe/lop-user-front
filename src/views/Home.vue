@@ -14,13 +14,7 @@
           궁금하신가요?
         </h1>
         <div class="searcher">
-          <input
-            id="searchText"
-            type="text"
-            v-model="searchText"
-            :class="{ 'is-empty': searchText === '' }"
-            @keyup.enter="onSubmit(searchText)"
-          />
+          <input id="searchText" type="text" v-model="searchText" :class="{ 'is-empty': searchText === '' }" @keyup.enter="onSubmit(searchText)" />
           <label for="searchText">식물명 또는 카테고리를 입력하세요.</label>
           <button @click="onSubmit(searchText)"></button>
         </div>
@@ -129,7 +123,7 @@ export default defineComponent({
         alert(validateMsg);
         return;
       }
-      router.push('/search?q=' + newVal);
+      router.push('/search?q=' + newVal + '&list=plants');
     }
     return {
       searchText,

@@ -4,59 +4,67 @@
       <section class="qna-detail__title">
         <h1>질문 · 답변</h1>
       </section>
-      <section class="detail-form">
+      <section class="detail-form" v-if="details">
         <div class="detail-title">
           <div class="group">
             <span class="placeholder">식물명</span>
-            <span class="title">녹영</span>
+            <span class="title">{{ details.plantName }}</span>
           </div>
           <div class="group">
-            <span class="writer">방구석 식집사</span>
+            <span class="writer">{{ details.writer.nickname }}</span>
             <span class="separator">|</span>
-            <span class="datetime">1시간 전</span>
-            <span class="separator">|</span>
-            <button class="action-modal-btn" @click="actionModal = true" ref="actionBtnRef">
-              <img src="@/assets/icon/more.svg" />
-              <ul class="action-list shadow" v-if="actionModal">
-                <li>
-                  <img src="@/assets/icon/modify-pencil.svg" />
-                  <span>수정하기</span>
-                </li>
-                <hr />
-                <li>
-                  <img src="@/assets/icon/delete.svg" />
-                  <span>삭제하기</span>
-                </li>
-              </ul>
-            </button>
+            <span class="datetime">{{ getTimeDistanceWithNaturalStr(details.createdDateTime) }}</span>
+            <template v-if="myId && details.writer.id == myId">
+              <span class="separator">|</span>
+              <button class="action-modal-btn" @click="actionModal = true" ref="actionBtnRef">
+                <img src="@/assets/icon/more.svg" />
+                <ul class="action-list shadow" v-if="actionModal">
+                  <li>
+                    <img src="@/assets/icon/modify-pencil.svg" />
+                    <span>수정하기</span>
+                  </li>
+                  <hr />
+                  <li @click="removeBoard">
+                    <img src="@/assets/icon/delete.svg" />
+                    <span>삭제하기</span>
+                  </li>
+                </ul>
+              </button>
+            </template>
           </div>
         </div>
         <hr class="separate-content" />
         <div class="input-title">물은 얼마나 자주 주셨나요?</div>
         <div class="textarea-item">
-          <textarea v-model="plantWaterCycle" readonly maxlength="500" @keyup="autoResize" />
+          <textarea v-model="details.plantWaterCycle" readonly maxlength="500" @keyup="autoResize" />
         </div>
         <div class="input-title">식물은 어디에 두셨고 햇빛을 받는 시간은 얼마나 되나요?</div>
         <div class="textarea-item">
-          <textarea v-model="plantLifeCycle" readonly maxlength="500" @keyup="autoResize" />
+          <textarea v-model="details.plantLifeCycle" readonly maxlength="500" @keyup="autoResize" />
         </div>
         <div class="input-title">증상이 나타났을 때 어떻게 대처하셨나요?</div>
         <div class="textarea-item">
-          <textarea v-model="plantCountermeasure" readonly maxlength="500" @keyup="autoResize" />
+          <textarea v-model="details.plantCountermeasure" readonly maxlength="500" @keyup="autoResize" />
         </div>
-        <div class="content-item">{{ content }}</div>
-        <div class="img-item" v-for="index in 3" :key="`img-item-${index}`">
-          <img src="@/assets/images/detail/sample-image.png" />
+        <div class="content-item">{{ details.content }}</div>
+        <div class="img-item" v-for="(item, index) in details.images" :key="`img-item-${index}`">
+          <img :src="item.imageUrl" @error="$event.target.src = require('@/assets/images/search/img-error.svg')" />
         </div>
+        <!-- <div v-if="item.imageUrl && item.imageUrl.length" class="preview">
+          <img :src="item.imageUrl" @error="$event.target.src = require('@/assets/images/search/img-error.svg')" />
+        </div> -->
+        {{myId}}
+        {{details}}
+
         <div class="bottom-btn-group">
           <button>
             <img src="@/assets/icon/reply.svg" />
-            답변 3
+            답변 {{details.comments.totalElement}}
           </button>
           <span class="separator">|</span>
           <button>
             <img src="@/assets/icon/helpful.svg" />
-            도움돼요 300
+            도움돼요 {{details.supportCount}}
           </button>
           <span class="separator">|</span>
           <button>
@@ -72,42 +80,67 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref, computed } from 'vue';
+import { getQnaBoardDetail,removeQnaBoard } from '@/api/qnaboard';
 import Reply from './_Reply.vue';
+import { useRoute } from 'vue-router';
+import { getTimeDistanceWithNaturalStr } from '@/utils/text';
+import store from '@/store';
+import { ROUTE_TO } from '@/router/routing';
 export default defineComponent({
   name: 'Question Detail',
-  components: {Reply},
+  components: { Reply },
   setup() {
-    const plantName = ref('');
-    const writer = ref('방구석 식집사');
-    const plantWaterCycle = ref('매주 1회');
-    const plantLifeCycle = ref('실내, 오후에 3시간 정도');
-    const plantCountermeasure = ref(
-      '물을 듬뿍 주고 가습기를 틀어줬어요.물을 듬뿍 주고 가습기를 틀어줬어요.물을 듬뿍 주고 가습기를 틀어줬어요.물을 듬뿍 주고 가습기를 틀어줬어요.물을 듬뿍 주고 가습기를 틀어줬어요.물을 듬뿍 주고 가습기를 틀어줬어요.물을 듬뿍 주고 가습기를 틀어줬어요.물을 듬뿍 주고 가습기를 틀어줬어요.물을 듬뿍 주고 가습기를 틀어줬어요.',
-    );
-    const content = ref(
-      '잎 끝이 노랗게 변했어요. 분갈이를 2주 전에 해주긴 했는데, 뿌리 몸살 증상인가요? 환경이 좀 건조하긴 한데 건조해서 나타나는 증상인지 모르겠어요',
-    );
+    const myUserInfo = computed(() => store.getters.getUserInfo);
+    const myId = computed(()=> myUserInfo.value?.id || null);
+    const route = useRoute();
+    const details: any = ref(null);
     const actionModal = ref(false);
+    const boardId: any = computed(() => route.query.id || '');
+    const actionBtnRef = ref(null);
+    getDetails();
 
     document.addEventListener('click', documentClick);
-    const actionBtnRef = ref(null);
+
+    async function getDetails() {
+      try {
+        const id: string = boardId.value;
+        const { data }: any = await getQnaBoardDetail(id);
+        details.value = data;
+      } catch (e) {
+        console.log(e);
+      }
+    }
+    async function removeBoard() {
+      try {
+        if (!confirm('해당 글이 삭제됩니다. 계속할까요?')) return;
+        const id: string = boardId.value;
+        const res = await removeQnaBoard(id);
+        console.log(res);
+        ROUTE_TO.QNABOARD();
+      } catch (e) {
+        console.log(e);
+      }
+    }
     function documentClick(e: any) {
       let el: any = actionBtnRef.value;
       let target = e.target;
-      if (el !== target && !el.contains(target)) {
+      if (el && el !== target && !el.contains(target)) {
         actionModal.value = false;
       }
     }
     return {
-      plantName,
-      plantWaterCycle,
-      plantLifeCycle,
-      plantCountermeasure,
-      content,
+      documentClick,
+      details,
       actionModal,
       actionBtnRef,
+      getTimeDistanceWithNaturalStr,
+      myId,
+      removeBoard,
     };
+  },
+  unmounted() {
+    document.removeEventListener('click', this.documentClick);
   },
 });
 </script>
@@ -267,7 +300,7 @@ export default defineComponent({
     height: 200px;
     font-size: 18px;
     line-height: 26px;
-    color:var(--text-color2);
+    color: var(--text-color2);
     @include breakpoint-down-sm {
       height: 120px;
     }
@@ -275,9 +308,11 @@ export default defineComponent({
 }
 .img-item {
   margin-top: 30px;
+  max-width: 100%;
 }
 .bottom-btn-group {
   margin-top: 80px;
+  margin-bottom: 80px;
   display: flex;
   justify-content: center;
   button {
