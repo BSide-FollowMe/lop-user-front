@@ -1,0 +1,151 @@
+<template>
+  <div>
+    <div class="item" v-for="(question) in questions" :key="question.id">
+      <div>
+        <div class="plantName">{{ question.plantName }}</div>
+        <div class="content">{{ preview(question.content) }}</div>
+        <section class="bottom">
+          <div class="createdDateTime">{{ formatDate(question.createdDateTime) }}</div>
+          <div class="commentCount">답변{{ question.commentCount }}</div>
+          <div class="supportCount">도움돼요{{ question.supportCount }}</div>
+        </section>
+      </div>
+      <img v-if="question.imageUrl" class="plantImage" :src="question.imageUrl" />
+    </div>
+  </div>
+</template>
+
+<script lang="ts">
+import { defineComponent, PropType } from 'vue';
+
+export default defineComponent({
+  props: {
+    questions: {
+      type: Array as PropType<
+        {
+          commentCount: number;
+          content: string;
+          createdDateTime: string;
+          id: number;
+          imageUrl: string;
+          plantName: string;
+          supportCount: number;
+        }[]
+      >,
+      default: () => [],
+    },
+  },
+  setup(){
+    const preview = (content:string) =>{
+      if(window.innerWidth > 767 && content.length > 184){
+        return content.slice(0,102) + '...'
+      }
+      if(window.innerWidth <= 767 && content.length > 62){
+        return content.slice(0,43) + '...'
+      }
+      return content;
+    }
+    const formatDate = (date:string)=>{
+      const d = new Date(date);
+      return `${d.getFullYear()}.${(d.getMonth()+1).toString().padStart(2,'0')}.${d.getDate().toString().padStart(2,'0')}`;
+    }
+    return{
+      preview,
+      formatDate,
+    }
+  }
+});
+</script>
+
+<style lang="scss" scoped>
+@import '@/styles/';
+.item{
+  padding: 20px 0 20px 0;
+  display:flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #F3F3F3;
+}
+.plantName{
+  font-weight: var(--font-weight-medium);
+  font-size: 18px;
+  line-height: 26px;
+  /* identical to box height, or 144% */
+
+  letter-spacing: -0.01em;
+
+  /* text/3 */
+
+  color: var(--text-color-3);
+  margin-bottom:10px;
+  @include breakpoint-down-sm{
+    font-size: 12px;
+    line-height: 18px;
+    margin-bottom:4px;
+  }
+}
+.content{
+  font-weight: var(--font-weight-normal);
+  font-size: 18px;
+  line-height: 26px;
+  /* or 144% */
+
+  letter-spacing: -0.01em;
+
+  /* text/1 */
+
+  color: var(--text-color-1);
+  margin-bottom:30px;
+  @include breakpoint-down-sm{
+    font-size: 12px;
+    line-height: 20px;
+    margin-bottom:18px;
+  }
+}
+.bottom div{
+  display:inline-block;
+  font-weight: var(--font-weight-medium);
+  font-size: 16px;
+  line-height: 18px;
+  /* identical to box height, or 112% */
+
+  letter-spacing: -0.01em;
+
+  /* text/3 */
+
+  color: var(--text-color-3);
+
+  padding: 0 10px;
+  &:first-child{
+    padding-left:0;
+  }
+  &:last-child{
+    padding-right:0;
+  }
+  &:not(:last-child){
+    border-right:1px solid #DDDDDD;
+  }
+  @include breakpoint-down-sm{
+    font-size: 12px;
+    line-height: 18px;
+  } 
+}
+
+
+.plantImage{
+  display: inline-block;
+  align-self: center;
+  width:140px;
+  height:140px;
+  margin-left:30px;
+  vertical-align:middle;
+  @include breakpoint-down-sm{
+    width:76px;
+    height:76px;
+    margin-left:10px;
+  }
+  
+}
+
+
+
+</style>

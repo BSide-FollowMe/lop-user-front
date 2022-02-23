@@ -42,6 +42,12 @@ const routes: Array<RouteRecordRaw> = [
         name: PageNameEnum.My_Plant,
         component: () => import('@/views/my-page/MyPlant/Index.vue'),
       },
+      {
+        path: 'qna',
+        meta: { public: true },
+        name: PageNameEnum.My_Plant,
+        component: () => import('@/views/my-page/QnA/Index.vue'),
+      },
     ],
   },
   {
