@@ -10,8 +10,8 @@
     <section class="main">
       <form @submit.prevent="submitNickName">
         <div class="label">닉네임 수정</div>
-        <div>
-          <input class="input" type="text" v-model="nickName" @input="checkValidation"/>
+        <div class="input">
+          <input type="text" v-model="nickName" @input="checkValidation"/>
           <div v-if="error" class="error">
             {{error}}
           </div>
@@ -80,7 +80,7 @@ export default defineComponent({
   background: #ffffff;
   border-radius: 4px;
   padding: 60px 60px 25px 60px;
-  min-width: 960px;
+  max-width: 960px;
   @include breakpoint-down-sm {
     min-width: 320px;
     padding: 30px 20px 0px 20px;
@@ -141,13 +141,9 @@ export default defineComponent({
 }
 .button {
   cursor: pointer;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  padding: 10px 56px;
+  text-align: center;
 
-  width: 140px;
+  min-width: 140px;
   height: 40px;
   @include breakpoint-down-sm {
     width: 100%;
@@ -184,7 +180,7 @@ export default defineComponent({
   border-radius: 2px;
 }
 .label {
-  width: 82px;
+  min-width: 82px;
   font-weight: var(--font-weight-medium);
   font-size: 18px;
   line-height: 26px;
@@ -202,24 +198,24 @@ export default defineComponent({
   }
 }
 .input {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  padding: 11px 12px 10px;
-
-  width: 508px;
-  height: 40px;
-
-  /* bg,line/2 */
-
-  border: 1px solid #e5e5e5;
-  box-sizing: border-box;
-  border-radius: 2px;
-  margin-right: 7px;
+  width:508px;
+  margin-right:7px;
   @include breakpoint-down-sm {
     width: 100%;
   }
-  & ~ .error {
+  >input{
+    padding: 11px 12px 10px;
+    width:100%;
+    height: 40px;
+
+    /* bg,line/2 */
+
+    border: 1px solid #e5e5e5;
+    box-sizing: border-box;
+    border-radius: 2px;
+  }
+
+  .error {
     font-weight: var(--font-weight-medium);
     font-size: 14px;
     line-height: 20px;
@@ -234,7 +230,7 @@ export default defineComponent({
       font-size: 12px;
     }
   }
-  & ~ .success {
+  .success {
     font-weight: var(--font-weight-medium);
     font-size: 14px;
     line-height: 20px;
