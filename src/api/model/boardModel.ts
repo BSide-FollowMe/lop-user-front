@@ -1,3 +1,9 @@
+export interface BoardListParamModel {
+  keyword: string;
+  page: number;
+  size?: number;
+}
+
 export interface BoardParamModel {
   content: string;
   type: string;

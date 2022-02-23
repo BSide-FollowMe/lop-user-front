@@ -1,31 +1,51 @@
 <template>
-  <div>Logging on...{{ accessToken }}</div>
+  <div>
+    Logging on...{{ accessToken }}
+    <br />
+    {{ myUserInfo }}
+  </div>
 </template>
 
 <script>
-import { defineComponent, computed } from 'vue';
+import { defineComponent, computed, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { ROUTE_TO } from '@/router/routing';
 import { tokenSvc } from '@/api/token-service';
+import { getAccountInfo } from '@/api/account';
+import store from '@/store';
 
 export default defineComponent({
   setup() {
     const route = useRoute();
     const accessToken = computed(() => route.query['access_token'] || '');
 
+    tokenSvc.setToken({ token: accessToken.value});
     if (isEmptyToken(accessToken.value)) {
       alert('잘못된 접근입니다.');
       ROUTE_TO.HOME();
     }
-    tokenSvc.setToken({ token: accessToken.value });
+    getUserInfo();
 
     if (!checkValidToken()) {
       alert('잘못되었거나 만료된 토큰입니다. 다시 로그인해주세요');
       tokenSvc.removeToken();
       ROUTE_TO.LOGIN();
     }
+    const myUserInfo = computed(()=>store.getters.getUserInfo);
 
-    ROUTE_TO.HOME();
+    async function getUserInfo() {
+      try {
+        const { data } = await getAccountInfo();
+        console.log(data);
+        tokenSvc.setToken({ token: accessToken.value, ...data });
+        ROUTE_TO.HOME();
+      } catch (e) {
+        alert('잘못된 접근입니다.');
+        ROUTE_TO.HOME();
+        console.error(e);
+      }
+    }
+
 
     function isEmptyToken(token) {
       return !token || token === '';
@@ -36,6 +56,7 @@ export default defineComponent({
 
     return {
       accessToken,
+      myUserInfo,
     };
   },
 });

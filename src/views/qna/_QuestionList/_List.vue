@@ -2,29 +2,25 @@
   <section class="question-container">
     <ul class="question-list">
       <div class="list-summary paragraph-2">
-        녹영&nbsp;
-        <span class="list-summary__count">21</span>
+        <span v-if="searchTarget">
+          녹영&nbsp;
+          <span class="list-summary__count">21</span>
+        </span>
         <CheckButton class="toggle-my-question" />
       </div>
-      <li class="item" v-for="index in 10" :key="`plant-item-${index}`">
+      <li class="item" v-for="(item, index) in items" :key="`plant-item-${index}`" @click="ROUTE_TO.QNABOARD_DETAIL(item.id)">
         <div class="item__infomations">
-          <p class="target-plant">녹영</p>
-          <p
-            class="details text-medium"
-            v-html="
-              stylizeBySearchTarget(
-                searchTarget,
-                '이거 해충인가요? 잎에 검은 반점이 생겼는데요 화원에서 데려올 때부터 이상태여서 크게 신경 안쓰고 있었는데 이거 해충인가요?이거 해충인가요? 잎에 검은 반점이 생겼는데요 화원에서 데려올 때부터 이상태여서 크게 신경 안쓰고 있었는데 이거 해충인가요?이거 해충인가요? 잎에 검은 반점이 생겼는데요 화원에서 데려올 때부터 이상태여서 크게 신경 안쓰고 있었는데 이거 해충인가요?',
-              )
-            "
-          ></p>
+          <p class="target-plant">{{ item.plantName }}</p>
+          <p class="details text-medium">{{ item.content }}</p>
           <p class="status">
-            <span class="reg-date">1분 전</span>
-            <span class="reply-count">댓글 1</span>
-            <span class="like-count">도움돼요 1,568</span>
+            <span class="reg-date">{{ getTimeDistanceWithNaturalStr(item.createdDateTime) }}</span>
+            <span class="reply-count">댓글 {{ item.commentCount }}</span>
+            <span class="like-count">도움돼요 {{ item.supportCount }}</span>
           </p>
         </div>
-        <img class="preview" src="@/assets/images/search/plant-sample.png" />
+        <div v-if="item.imageUrl && item.imageUrl.length" class="preview">
+          <img :src="item.imageUrl" @error="$event.target.src = require('@/assets/images/search/img-error.svg')" />
+        </div>
       </li>
     </ul>
   </section>
@@ -32,25 +28,17 @@
 <script lang="ts">
 import { defineComponent, ref, computed } from 'vue';
 import CheckButton from '@/components/buttons/CheckButton.vue';
+import { getTimeDistanceWithNaturalStr } from '@/utils/text';
+import { ROUTE_TO } from '@/router/routing';
 export default defineComponent({
   components: {
     CheckButton,
   },
-  props: ['text'],
+  props: ['text', 'searchTarget', 'items'],
   setup(props) {
-    const searchTarget = computed(() => props.text);
-    const isEmpty = ref(false);
-    // TODO: empty 퍼블 확인을 위한 샘플내용 추후 제거 필요
-    if (searchTarget.value == 'EMPTY_SAMPLE') {
-      isEmpty.value = true;
-    }
-    function stylizeBySearchTarget(searchStr: string, targetStr: string) {
-      return targetStr.replaceAll(searchStr, `<span style="color:var(--secondray-color-2)">${searchStr}</span>`);
-    }
     return {
-      searchTarget,
-      isEmpty,
-      stylizeBySearchTarget,
+      ROUTE_TO,
+      getTimeDistanceWithNaturalStr,
     };
   },
 });
@@ -77,11 +65,17 @@ export default defineComponent({
     .preview {
       width: 140px;
       height: 140px;
-      object-fit: cover;
+      margin-left: 60px;
       border-radius: 4px;
-      background-color: #c4c4c4;
+      overflow:hidden;
+      img {
+        width:100%;
+        height:100%;
+        object-fit: cover;
+      }
       @include breakpoint-down-sm {
         margin: auto;
+        margin-left: 20px;
         width: 76px;
         height: 76px;
       }
@@ -89,7 +83,7 @@ export default defineComponent({
     &__infomations {
       display: flex;
       flex-direction: column;
-      margin-right: 60px;
+      // margin-right: 60px;
       flex-grow: 1;
       // @include breakpoint-down-sm {
       //   margin-left: 20px;
@@ -163,23 +157,23 @@ export default defineComponent({
     color: var(--secondray-color-2);
   }
   @include breakpoint-down-sm {
-    padding:0px 10px 0px 20px;
+    padding: 0px 10px 0px 20px;
     margin: 20px 0px 20px 0px;
     font-size: 13px;
   }
   .toggle-my-question {
-    width:130px;
-    height:37px;
+    width: 130px;
+    height: 37px;
     margin-left: auto;
     display: block;
-    transform:scale(0.9);
-    &:active{
-      transform:scale(0.91);
+    transform: scale(0.9);
+    &:active {
+      transform: scale(0.91);
     }
     @include breakpoint-down-sm {
-      transform:scale(0.8);
-      &:active{
-        transform:scale(0.81);
+      transform: scale(0.8);
+      &:active {
+        transform: scale(0.81);
       }
     }
   }
