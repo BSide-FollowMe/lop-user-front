@@ -23,7 +23,7 @@
     <br />
     <router-link to="/me/my-plant">내가저장한식물</router-link>
     <br />
-    <router-link to="/me/setting">마이페이지</router-link>
+    <router-link to="/me/setting">마이페이지-세팅</router-link>
     <br />
     <router-link to="/guide/water">가이드 물주기</router-link>
     <br />

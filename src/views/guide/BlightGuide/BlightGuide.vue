@@ -14,13 +14,13 @@
         <div class="description">
           {{ blight.description }}
         </div>
-        <section class="sub">
+        <section>
           <div class="sub__title">확인법</div>
           <div class="sub__content">
             {{ blight.inspect }}
           </div>
         </section>
-        <section class="sub">
+        <section>
           <div class="sub__title">이렇게 치료하세요</div>
           <div class="sub__content">
             {{ blight.therapy }}
