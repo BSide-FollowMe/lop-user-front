@@ -6,11 +6,12 @@ export const ROUTE_TO = {
   HOME: () => router.push(PageEnum.HOME),
   ERROR_PAGE: () => router.push(PageEnum.ERROR_PAGE),
   LANDING: () => router.push(PageEnum.LANDING),
-  PLANT_DETAILS: () => router.push(PageEnum.PLANT_DETAILS),
-  SEARCH_RESULT: () => router.push(PageEnum.SEARCH_RESULT),
+  PLANT_DETAILS: (id: string) => router.push('/plant' + '/' + id),
+  SEARCH_RESULT: (searchStr: string) => router.push(PageEnum.SEARCH_RESULT + '?q=' + searchStr + '&list=plants'),
   QNABOARD: () => router.push(PageEnum.QNABOARD),
   QNABOARD_DETAIL: (id: string) => router.push(PageEnum.QNABOARD_DETAIL + '?id=' + id),
-  QNABOARD_EDIT: () => router.push(PageEnum.QNABOARD_EDIT),
+  QNABOARD_REGIST: () => router.push(PageEnum.QNABOARD_EDIT),
+  QNABOARD_EDIT: (id: string, type: string) => router.push(PageEnum.QNABOARD_EDIT + '?id=' + id + '&type=' + type),
   MYPAGE: () => router.push(PageEnum.My_Page),
 };
 export const OPEN_LINK = {

@@ -1,8 +1,7 @@
 <template>
   <div>
-    Logging on...{{ accessToken }}
+    식물의 목소리를 듣는중입니다...
     <br />
-    {{ myUserInfo }}
   </div>
 </template>
 

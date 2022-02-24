@@ -21,6 +21,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, watch } from 'vue';
+import { getImageBlobFromUrl } from '@/api/qnaboard';
 export default defineComponent({
   name: 'PhotoUpload',
   props: ['value'],
@@ -30,8 +31,8 @@ export default defineComponent({
 
     watch(
       imageList,
-      (newVal,oldVal) => {
-        emit('input', {newVal:newVal});
+      (newVal, oldVal) => {
+        emit('input', { newVal: newVal });
       },
       { deep: true },
     );
@@ -46,7 +47,7 @@ export default defineComponent({
       if (input.files) {
         while (count--) {
           const currentFile = input.files[index];
-          var reader = new FileReader();
+          const reader = new FileReader();
           reader.onload = (e: any) => {
             const target: any = e.target;
             previewList.value.push(target.result);
@@ -61,12 +62,30 @@ export default defineComponent({
       previewList.splice(index, 1);
       imageList.splice(index, 1);
     }
-
+    function setImageFromUrls(images: any) {
+      let count = images.length;
+      let index = 0;
+      if (images) {
+        while (count--) {
+          const currentUrl = images[index]['imageUrl'];
+          const name = images[index]['name'];
+          fetch(currentUrl)
+            .then((response) => response.blob())
+            .then((blob) => {
+              const file = new File([blob], name);
+              imageList.value.push(file);
+              previewList.value.push(currentUrl);
+            });
+          index++;
+        }
+      }
+    }
     return {
       imageList,
       previewList,
       previewMultiImage,
       removePhoto,
+      setImageFromUrls,
     };
   },
 });

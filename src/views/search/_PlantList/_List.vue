@@ -1,12 +1,14 @@
 <template>
   <section class="plants-container">
     <ul class="plant-list">
-      <li class="item" v-for="index in 10" :key="`plant-item-${index}`">
-        <img class="preview" src="@/assets/images/search/plant-sample.png" />
+      <li class="item" v-for="(item, index) in items" :key="`plant-item-${index}`"  @click="ROUTE_TO.PLANT_DETAILS(item.id)">
+        <div v-if="item.hasImage && item.fileUrl != ''" class="preview">
+          <img :src="item.fileUrl" @error="$event.target.src = require('@/assets/images/search/img-error.svg')" />
+        </div>
         <div class="item__infomations">
-          <span class="category">다육식물</span>
-          <h2 class="title text-medium" v-html="stylizeBySearchTarget(searchTarget, '콩난')"></h2>
-          <p class="alias" v-html="stylizeBySearchTarget(searchTarget, '콩난, 콩란, 콩선인장')"></p>
+          <span class="category" v-if="item.category">{{item.categoryTitle}}</span>
+          <h2 class="title text-medium" v-html="stylizeBySearchTarget(searchTarget, item.name)"></h2>
+          <p class="alias" v-html="stylizeBySearchTarget(searchTarget, item.nickname)"></p>
         </div>
         <button class="to-details" @click.prevent><img src="@/assets/icon/arrow_right.png" /></button>
       </li>
@@ -14,24 +16,39 @@
   </section>
 </template>
 <script lang="ts">
-import { defineComponent, ref, computed } from 'vue';
+import { defineComponent, computed } from 'vue';
+import { getTimeDistanceWithNaturalStr } from '@/utils/text';
+import { handleInfiniteListScroll } from '@/utils/global';
+import { ROUTE_TO } from '@/router/routing';
+import { debounce } from '@/utils/global';
+
 export default defineComponent({
-  props: ['text'],
-  setup(props) {
+  props: ['text', 'items', 'totalLength'],
+  setup(props, { emit }) {
     const searchTarget = computed(() => props.text);
-    const isEmpty = ref(false);
-    // TODO: empty 퍼블 확인을 위한 샘플내용 추후 제거 필요
-    if (searchTarget.value == 'EMPTY_SAMPLE') {
-      isEmpty.value = true;
+    const items = computed(() => props.items);
+    const totalLength = computed(() => props.totalLength);
+    const onScroll = debounce(($event: any) => {
+      handleInfiniteListScroll($event, items.value, totalLength.value, onAtTheBottom);
+    }, 500);
+    document.addEventListener('scroll', onScroll);
+    function onAtTheBottom() {
+      emit('atBottom');
     }
     function stylizeBySearchTarget(searchStr: string, targetStr: string) {
       return targetStr.replaceAll(searchStr, `<span style="color:var(--secondray-color-2)">${searchStr}</span>`);
     }
     return {
-      searchTarget,
-      isEmpty,
+      ROUTE_TO,
+      getTimeDistanceWithNaturalStr,
+      onAtTheBottom,
+      onScroll,
       stylizeBySearchTarget,
+      searchTarget,
     };
+  },
+  unmounted() {
+    document.removeEventListener('scroll', this.onScroll);
   },
 });
 </script>
@@ -61,6 +78,11 @@ export default defineComponent({
       object-fit: cover;
       border-radius: 4px;
       background-color: #c4c4c4;
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
       @include breakpoint-down-sm {
         width: 76px;
         height: 76px;

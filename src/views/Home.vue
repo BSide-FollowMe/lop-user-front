@@ -4,7 +4,7 @@
       <div class="inner-infinety-container">
         <img src="@/assets/images/home/quotes.png" />
         <h1>
-          <span class="accent text-bold">식집사님</span>
+          <span class="accent text-bold">{{myNickname}}님</span>
           환영합니다.
           <br />
           어떤
@@ -71,10 +71,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, onMounted } from 'vue';
+import { defineComponent, ref, onMounted,computed } from 'vue';
 import ToTopButton from '@/components/buttons/ToTop.vue';
 import { validateSearchStr } from '@/utils/validation';
-import router from '@/router';
+import store from '@/store';
+import { ROUTE_TO } from '@/router/routing';
 export default defineComponent({
   name: 'Home',
 
@@ -82,6 +83,9 @@ export default defineComponent({
     ToTopButton,
   },
   setup() {
+
+    const myUserInfo = computed(() => store.getters.getUserInfo);
+    const myNickname = computed(()=> myUserInfo.value?.nickname || '식집사');
     const searchText = ref('');
 
     onMounted(() => {
@@ -123,12 +127,13 @@ export default defineComponent({
         alert(validateMsg);
         return;
       }
-      router.push('/search?q=' + newVal + '&list=plants');
+      ROUTE_TO.SEARCH_RESULT(newVal);
     }
     return {
       searchText,
       clickToTop,
       onSubmit,
+      myNickname,
     };
   },
 });

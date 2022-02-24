@@ -4,7 +4,7 @@
       <div class="list-summary paragraph-2">
         <span v-if="searchTarget">
           녹영&nbsp;
-          <span class="list-summary__count">21</span>
+          <span class="list-summary__count">{{ totalLength }}</span>
         </span>
         <CheckButton class="toggle-my-question" />
       </div>
@@ -29,17 +29,34 @@
 import { defineComponent, ref, computed } from 'vue';
 import CheckButton from '@/components/buttons/CheckButton.vue';
 import { getTimeDistanceWithNaturalStr } from '@/utils/text';
+import { handleInfiniteListScroll } from '@/utils/global';
 import { ROUTE_TO } from '@/router/routing';
+import { debounce } from '@/utils/global';
 export default defineComponent({
   components: {
     CheckButton,
   },
-  props: ['text', 'searchTarget', 'items'],
-  setup(props) {
+  props: ['text', 'searchTarget', 'items', 'totalLength'],
+  setup(props, { emit }) {
+    const items = computed(() => props.items);
+    const totalLength = computed(() => props.totalLength);
+    const onScroll = debounce(($event:any) => {
+        handleInfiniteListScroll($event, items.value, totalLength.value, onAtTheBottom);
+      }, 500);
+    document.addEventListener('scroll', onScroll);
+    function onAtTheBottom() {
+      emit('atBottom');
+    }
+
     return {
       ROUTE_TO,
       getTimeDistanceWithNaturalStr,
+      onAtTheBottom,
+      onScroll,
     };
+  },
+  unmounted() {
+    document.removeEventListener('scroll', this.onScroll);
   },
 });
 </script>
@@ -67,10 +84,10 @@ export default defineComponent({
       height: 140px;
       margin-left: 60px;
       border-radius: 4px;
-      overflow:hidden;
+      overflow: hidden;
       img {
-        width:100%;
-        height:100%;
+        width: 100%;
+        height: 100%;
         object-fit: cover;
       }
       @include breakpoint-down-sm {

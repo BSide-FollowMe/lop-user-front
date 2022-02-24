@@ -6,17 +6,17 @@
       </section>
       <section class="edit-form">
         <div class="page-btn-group">
-          <button class="ask-help" :class="{ active: page == 'help' }" @click="page = 'help'">
+          <button class="ask-help" :class="{ active: page == 'SICK' }" @click="page = 'SICK'">
             <span>식물이 아파요</span>
             <img src="@/assets/icon/ask-help-secondary.svg" alt="" />
           </button>
-          <button class="ask-question" :class="{ active: page == 'question' }" @click="page = 'question'">
+          <button class="ask-question" :class="{ active: page == 'WONDER' }" @click="page = 'WONDER'">
             <span>식물이 궁금해요</span>
             <img src="@/assets/icon/ask-question-secondary.svg" alt="" />
           </button>
         </div>
-        <AskHelp v-if="page == 'help'" />
-        <AskQuestion v-if="page == 'question'" />
+        <AskHelp v-if="page == 'SICK'" :boardId="boardId" />
+        <AskQuestion v-if="page == 'WONDER'" :boardId="boardId" />
       </section>
     </div>
   </div>
@@ -24,8 +24,10 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
-import AskHelp from './_AskHelp.vue';
-import AskQuestion from './_AskQuestion.vue';
+import AskHelp from './_AskSick.vue';
+import AskQuestion from './_AskWonder.vue';
+import { useRoute } from 'vue-router';
+
 export default defineComponent({
   name: 'Question Edit',
   components: {
@@ -33,8 +35,10 @@ export default defineComponent({
     AskQuestion,
   },
   setup() {
-    const page = ref('help');
-    return { page };
+    const route = useRoute();
+    const page = ref(route.query['type']=='WONDER' ? 'WONDER' : 'SICK');
+    const boardId = ref(route.query['id'] || null);
+    return { page,boardId };
   },
 });
 </script>

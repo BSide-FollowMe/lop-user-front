@@ -2,8 +2,8 @@
   <div class="container search-result">
     <TopperSearcher :text="searchStr" />
     <RouterTabs class="router-tabs" :text="searchStr" />
-    <PlantList v-if="listType == 'plants'" :text="searchStr" />
-    <QuestionList v-if="listType == 'questions'" :text="searchStr" />
+    <PlantList v-if="listType == 'plants'" :text="searchStr" :key="searchStr" />
+    <QuestionList v-if="listType == 'questions'" :text="searchStr" :key="searchStr" />
   </div>
 </template>
 
