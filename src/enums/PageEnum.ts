@@ -15,7 +15,6 @@ export enum PageEnum {
   VENTILATION_GUIDE='/guide/ventilation',
   SUNLIGHT_GUIDE='/guide/sunlight',
   BLIGHT_GUIDE = '/guide/blight',
-  LOGOUT = '/logout',
 }
 export enum PageNameEnum {
   LOGIN = 'Sign In',
@@ -36,7 +35,6 @@ export enum PageNameEnum {
   VENTILATION_GUIDE = 'Guide - Ventilation',
   SUNLIGHT_GUIDE = 'Guide - Sunlight',
   BLIGHT_GUIDE = 'Guide - Blight',
-  LOGOUT = 'Sign Out',
 }
 export enum LayoutEnum {
   DEFAULT = 'Default',
