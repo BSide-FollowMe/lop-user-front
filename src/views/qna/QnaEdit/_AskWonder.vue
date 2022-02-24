@@ -30,7 +30,8 @@
     </div>
     <PhotoUploader ref="photoUploader" class="photo-uploader" v-model:value="images" />
     <div class="text-center submit-btn">
-      <VueButton color="primary" @click="submit">등록하기</VueButton>
+      <VueButton color="primary" v-if="id && id != ''" @click="submitEdit">수정하기</VueButton>
+      <VueButton color="primary" v-else @click="submit">등록하기</VueButton>
     </div>
   </form>
 </template>
@@ -42,7 +43,7 @@ import { getPlantList } from '@/api/plant';
 import VueButton from '@/components/buttons/VueButton.vue';
 import VueAutocomplete from '@/components/inputs/VueAutocomplete.vue';
 import PhotoUploader from '@/components/inputs/PhotoUploader.vue';
-import { registQnaBoard, getQnaBoardDetail } from '@/api/qnaboard';
+import { registQnaBoard, getQnaBoardDetail,modifyQnaBoard } from '@/api/qnaboard';
 import { BoardParamModel } from '@/api/model/boardModel';
 import { ROUTE_TO } from '@/router/routing';
 import store from '@/store';
@@ -126,6 +127,21 @@ export default defineComponent({
       if (!validatePayload(payload)) return;
       registQuestion(payload);
     }
+    function submitModify() {
+      const selectedPlant = plantNameOptions.value.find((item: any) => plantName.value == item.name);
+      const payload: BoardParamModel = {
+        questionId: id.value,
+        plantName: plantName.value == '직접입력' ? plantNameSubjective.value : plantName.value,
+        content: content.value,
+        type: 'WONDER',
+      };
+      if (plantName.value != '직접입력' && selectedPlant) payload.plantId = selectedPlant.id;
+      if (images.value.length) payload.images = images.value;
+      console.log(payload);
+      if (!validatePayload(payload)) return;
+      modifyQnaBoard(payload);
+    }
+
     async function registQuestion(payload: BoardParamModel) {
       try {
         const res: any = await registQnaBoard(payload);
@@ -167,6 +183,8 @@ export default defineComponent({
       images,
       submit,
       autoResize,
+      submitModify,
+      id,
     };
   },
 });

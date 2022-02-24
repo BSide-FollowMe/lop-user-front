@@ -64,7 +64,8 @@
     </div>
     <PhotoUploader ref="photoUploader" class="photo-uploader" v-model:value="images" />
     <div class="text-center submit-btn">
-      <VueButton color="primary" @click="submit">등록하기</VueButton>
+      <VueButton color="primary" v-if="id && id != ''" @click="submitEdit">수정하기</VueButton>
+      <VueButton color="primary" v-else @click="submit">등록하기</VueButton>
     </div>
   </form>
 </template>
@@ -76,7 +77,7 @@ import { getPlantList } from '@/api/plant';
 import VueButton from '@/components/buttons/VueButton.vue';
 import VueAutocomplete from '@/components/inputs/VueAutocomplete.vue';
 import PhotoUploader from '@/components/inputs/PhotoUploader.vue';
-import { registQnaBoard, getQnaBoardDetail } from '@/api/qnaboard';
+import { registQnaBoard, getQnaBoardDetail, modifyQnaBoard } from '@/api/qnaboard';
 import { BoardParamModel } from '@/api/model/boardModel';
 import { ROUTE_TO } from '@/router/routing';
 import store from '@/store';
@@ -92,7 +93,7 @@ export default defineComponent({
   setup(props) {
     const plantSelector:any = ref(null);
     const photoUploader = ref(null);
-    const id = computed(() => props?.boardId || null);
+    const id = computed<string>(() => props?.boardId || null);
 
     const myUserInfo = computed(() => store.getters.getUserInfo);
     const myId = computed(() => myUserInfo.value?.id || null);
@@ -113,7 +114,6 @@ export default defineComponent({
     async function getEditDetails(id: string) {
       try {
         const { data }: any = await getQnaBoardDetail(id);
-        console.log(data);
         await checkIsMine(data.writer);
         plantNameOptions.value = [{ name: data.plantName, id: data.plantId }];
         plantSelector.value.onSelect(data.plantName);
@@ -168,6 +168,23 @@ export default defineComponent({
       console.log(payload);
       if (!validatePayload(payload)) return;
       registQuestion(payload);
+    }
+    function submitModify() {
+      const selectedPlant = plantNameOptions.value.find((item: any) => plantName.value == item.name);
+      const payload: BoardParamModel = {
+        questionId: id.value,
+        plantName: plantName.value == '직접입력' ? plantNameSubjective.value : plantName.value,
+        plantWaterCycle: plantWaterCycle.value,
+        plantLifeCycle: plantLifeCycle.value,
+        plantCountermeasure: plantCountermeasure.value,
+        content: content.value,
+        type: 'SICK',
+      };
+      if (plantName.value != '직접입력' && selectedPlant) payload.plantId = selectedPlant.id;
+      if (images.value.length) payload.images = images.value;
+      console.log(payload);
+      if (!validatePayload(payload)) return;
+      modifyQnaBoard(payload);
     }
     async function registQuestion(payload: BoardParamModel) {
       try {
@@ -228,6 +245,7 @@ export default defineComponent({
       images,
       submit,
       autoResize,
+      id,
     };
   },
 });

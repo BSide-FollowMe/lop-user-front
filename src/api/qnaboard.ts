@@ -17,6 +17,13 @@ export function registQnaBoard(payload: BoardParamModel): Promise<unknown> {
   });
 }
 
+export function modifyQnaBoard(payload: BoardParamModel): Promise<unknown> {
+  const formdata = objectToFormdata(payload);
+  return axios.put<BoardRespModel>(API_PREFIX + Api.UPDATE_BOARD, formdata, {
+    headers: { 'Content-Type': `multipart/form-data` },
+  });
+}
+
 export function getQnaBoardList(payload: BoardListParamModel): Promise<unknown> {
   return axios.get(API_PREFIX + Api.BOARD_LIST + '?' + payloadToQueryString(payload));
 }

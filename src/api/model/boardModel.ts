@@ -5,6 +5,7 @@ export interface BoardListParamModel {
 }
 
 export interface BoardParamModel {
+  questionId?: string;
   content: string;
   type: string;
   plantWaterCycle?: string;
