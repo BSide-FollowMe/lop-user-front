@@ -2,6 +2,7 @@
   <form class="ask-help" @submit.prevent>
     <div class="input-title">식물의 이름을 알려주세요</div>
     <VueAutocomplete
+      ref="plantSelector"
       label="식물명 검색"
       v-model="plantName"
       :is-loading="isLoading"
@@ -11,10 +12,47 @@
       @start-loading="isLoading = true"
     />
     <div class="input-item" v-if="plantName == '직접입력'">
-      <input id="plant-water-cycle" v-model="plantNameSubjective" :class="{ 'is-empty': plantNameSubjective === '' }" maxlength="50" />
+      <input
+        id="plant-water-cycle"
+        v-model="plantNameSubjective"
+        :class="{ 'is-empty': plantNameSubjective === '' }"
+        maxlength="50"
+        @keydown.enter.prevent
+      />
       <label for="plant-water-cycle">식물 이름을 직접 입력해주세요</label>
     </div>
-    <div class="input-title">궁금한 내용을 작성해주세요 (필수)</div>
+    <div class="input-title">물은 얼마나 자주 주셨나요?</div>
+    <div class="textarea-item">
+      <textarea
+        id="plant-water-cycle"
+        v-model="plantWaterCycle"
+        :class="{ 'is-empty': plantWaterCycle === '' }"
+        maxlength="500"
+        @keyup="autoResize"
+      />
+      <label for="plant-water-cycle">내용을 입력하세요</label>
+    </div>
+    <div class="input-title">
+      식물은 어디에 두셨고,
+      <br class="md-down-only" />
+      햇빛을 받는 시간은 얼마나 되나요?
+    </div>
+    <div class="textarea-item">
+      <textarea id="plant-life-cycle" v-model="plantLifeCycle" :class="{ 'is-empty': plantLifeCycle === '' }" maxlength="500" @keyup="autoResize" />
+      <label for="plant-life-cycle">내용을 입력하세요</label>
+    </div>
+    <div class="input-title">증상이 나타났을 때 어떻게 대처하셨나요?</div>
+    <div class="textarea-item">
+      <textarea
+        id="plant-countermeasure"
+        v-model="plantCountermeasure"
+        :class="{ 'is-empty': plantCountermeasure === '' }"
+        maxlength="500"
+        @keyup="autoResize"
+      />
+      <label for="plant-countermeasure">내용을 입력하세요</label>
+    </div>
+    <div class="input-title">증상을 자세하게 알려주세요</div>
     <div class="textarea-item">
       <textarea id="content" v-model="content" :class="{ 'is-empty': content === '' }" maxlength="500" @keyup="autoResize" />
       <label for="content">내용을 입력하세요</label>
@@ -24,7 +62,7 @@
       <br class="md-down-only" />
       <span class="input-tips">사진은 최대 3장까지 등록하실 수 있어요</span>
     </div>
-    <PhotoUploader class="photo-uploader" v-model:value="images" />
+    <PhotoUploader ref="photoUploader" class="photo-uploader" v-model:value="images" />
     <div class="text-center submit-btn">
       <VueButton color="primary" @click="submit">등록하기</VueButton>
     </div>
@@ -32,15 +70,16 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref, computed } from 'vue';
 import { debounce } from '@/utils/global';
 import { getPlantList } from '@/api/plant';
 import VueButton from '@/components/buttons/VueButton.vue';
 import VueAutocomplete from '@/components/inputs/VueAutocomplete.vue';
 import PhotoUploader from '@/components/inputs/PhotoUploader.vue';
-import { registQnaBoard } from '@/api/qnaboard';
+import { registQnaBoard, getQnaBoardDetail } from '@/api/qnaboard';
 import { BoardParamModel } from '@/api/model/boardModel';
 import { ROUTE_TO } from '@/router/routing';
+import store from '@/store';
 
 export default defineComponent({
   name: 'Ask Help Form',
@@ -49,14 +88,54 @@ export default defineComponent({
     VueAutocomplete,
     PhotoUploader,
   },
-  setup() {
+  props: ['boardId'],
+  setup(props) {
+    const plantSelector:any = ref(null);
+    const photoUploader = ref(null);
+    const id = computed(() => props?.boardId || null);
+
+    const myUserInfo = computed(() => store.getters.getUserInfo);
+    const myId = computed(() => myUserInfo.value?.id || null);
+
     const plantName = ref('');
     const plantNameOptions: any = ref([]);
     const plantNameSubjective = ref('');
+    const plantWaterCycle = ref('');
+    const plantLifeCycle = ref('');
+    const plantCountermeasure = ref('');
     const content = ref('');
     const images = ref([] as any);
     const isLoading = ref(false);
 
+    if (id.value) getEditDetails(id.value);
+    const changeSubjective = debounce(getPlantNameList, 1000);
+
+    async function getEditDetails(id: string) {
+      try {
+        const { data }: any = await getQnaBoardDetail(id);
+        console.log(data);
+        await checkIsMine(data.writer);
+        plantNameOptions.value = [{ name: data.plantName, id: data.plantId }];
+        plantSelector.value.onSelect(data.plantName);
+        plantWaterCycle.value = data.plantWaterCycle;
+        plantLifeCycle.value = data.plantLifeCycle;
+        plantCountermeasure.value = data.plantCountermeasure;
+        content.value = data.content;
+        const pu: any = photoUploader.value;
+        if (pu) {
+          pu.setImageFromUrls(data.images);
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    }
+
+    function checkIsMine({ id }: { id: string }) {
+      if(myId.value != id) {
+        alert("다른 사람의 글은 수정 할 수 없습니다.")
+        ROUTE_TO.QNABOARD();
+      }
+    }
     async function getPlantNameList(searchStr: string) {
       try {
         isLoading.value = true;
@@ -78,8 +157,11 @@ export default defineComponent({
       const selectedPlant = plantNameOptions.value.find((item: any) => plantName.value == item.name);
       const payload: BoardParamModel = {
         plantName: plantName.value == '직접입력' ? plantNameSubjective.value : plantName.value,
+        plantWaterCycle: plantWaterCycle.value,
+        plantLifeCycle: plantLifeCycle.value,
+        plantCountermeasure: plantCountermeasure.value,
         content: content.value,
-        type: 'WONDER',
+        type: 'SICK',
       };
       if (plantName.value != '직접입력' && selectedPlant) payload.plantId = selectedPlant.id;
       if (images.value.length) payload.images = images.value;
@@ -95,20 +177,34 @@ export default defineComponent({
         console.error(e);
       }
     }
-    function validatePayload({ plantName, content }: any) {
+    function validatePayload({ plantName, plantWaterCycle, plantLifeCycle, plantCountermeasure, content }: any) {
       if (plantName == '') {
         alert('식물 이름이 선택되거나 입력되지 않았어요!');
         return;
       }
 
+      if (plantWaterCycle == '') {
+        alert('물을 얼마나 자주 주셨는지 입력해주세요!');
+        return;
+      }
+
+      if (plantLifeCycle == '') {
+        alert('식물은 어디에 두셨고, 햇빛을 받는 시간은 얼마나 되느지 입력해주세요!');
+        return;
+      }
+
+      if (plantCountermeasure == '') {
+        alert('증상이 나타났을 때 어떻게 대처하셨는지 알려주세요!');
+        return;
+      }
+
       if (content == '') {
-        alert('궁금한 내용을 작성해주세요!');
+        alert('증상을 자세하게 입력해주세요!');
         return;
       }
 
       return true;
     }
-    const changeSubjective = debounce(getPlantNameList, 1000);
 
     function autoResize(e: any) {
       const obj = e.target;
@@ -116,8 +212,13 @@ export default defineComponent({
       obj.style.height = 2 + obj.scrollHeight + 'px';
     }
     return {
+      plantSelector,
+      photoUploader,
       plantName,
       plantNameOptions,
+      plantWaterCycle,
+      plantLifeCycle,
+      plantCountermeasure,
       content,
       changeSubjective,
       debounce,

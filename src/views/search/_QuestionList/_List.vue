@@ -3,50 +3,57 @@
     <ul class="question-list">
       <div class="list-summary paragraph-2">
         검색결과
-        <span class="list-summary__count">21</span>
+        <span class="list-summary__count">{{ totalLength }}</span>
       </div>
-      <li class="item" v-for="index in 10" :key="`plant-item-${index}`">
+      <li class="item" v-for="(item, index) in items" :key="`plant-item-${index}`" @click="ROUTE_TO.QNABOARD_DETAIL(item.id)">
         <div class="item__infomations">
-          <p class="target-plant">녹영</p>
-          <p
-            class="details text-medium"
-            v-html="
-              stylizeBySearchTarget(
-                searchTarget,
-                '이거 해충인가요? 잎에 검은 반점이 생겼는데요 화원에서 데려올 때부터 이상태여서 크게 신경 안쓰고 있었는데 이거 해충인가요?이거 해충인가요? 잎에 검은 반점이 생겼는데요 화원에서 데려올 때부터 이상태여서 크게 신경 안쓰고 있었는데 이거 해충인가요?이거 해충인가요? 잎에 검은 반점이 생겼는데요 화원에서 데려올 때부터 이상태여서 크게 신경 안쓰고 있었는데 이거 해충인가요?',
-              )
-            "
-          ></p>
+          <p class="target-plant">{{ item.plantName }}</p>
+          <p class="details text-medium" v-html="stylizeBySearchTarget(searchTarget, item.content)"></p>
           <p class="status">
-            <span class="reg-date">1분 전</span>
-            <span class="reply-count">댓글 1</span>
-            <span class="like-count">도움돼요 1,568</span>
+            <span class="reg-date">{{ getTimeDistanceWithNaturalStr(item.createdDateTime) }}</span>
+            <span class="reply-count">댓글 {{ item.commentCount }}</span>
+            <span class="like-count">도움돼요 {{ item.supportCount }}</span>
           </p>
         </div>
-        <img class="preview" src="@/assets/images/search/plant-sample.png" />
+        <div v-if="item.imageUrl && item.imageUrl.length" class="preview">
+          <img :src="item.imageUrl" @error="$event.target.src = require('@/assets/images/search/img-error.svg')" />
+        </div>
       </li>
     </ul>
   </section>
 </template>
 <script lang="ts">
-import { defineComponent, ref, computed } from 'vue';
+import { defineComponent, computed } from 'vue';
+import { getTimeDistanceWithNaturalStr } from '@/utils/text';
+import { handleInfiniteListScroll } from '@/utils/global';
+import { ROUTE_TO } from '@/router/routing';
+import { debounce } from '@/utils/global';
+
 export default defineComponent({
-  props: ['text'],
-  setup(props) {
-    const searchTarget = computed(() => props.text);
-    const isEmpty = ref(false);
-    // TODO: empty 퍼블 확인을 위한 샘플내용 추후 제거 필요
-    if (searchTarget.value == 'EMPTY_SAMPLE') {
-      isEmpty.value = true;
+  props: ['text', 'searchTarget', 'items', 'totalLength'],
+  setup(props, { emit }) {
+    const items = computed(() => props.items);
+    const totalLength = computed(() => props.totalLength);
+    const onScroll = debounce(($event: any) => {
+      handleInfiniteListScroll($event, items.value, totalLength.value, onAtTheBottom);
+    }, 500);
+    document.addEventListener('scroll', onScroll);
+    function onAtTheBottom() {
+      emit('atBottom');
     }
     function stylizeBySearchTarget(searchStr: string, targetStr: string) {
       return targetStr.replaceAll(searchStr, `<span style="color:var(--secondray-color-2)">${searchStr}</span>`);
     }
     return {
-      searchTarget,
-      isEmpty,
+      ROUTE_TO,
+      getTimeDistanceWithNaturalStr,
+      onAtTheBottom,
+      onScroll,
       stylizeBySearchTarget,
     };
+  },
+  unmounted() {
+    document.removeEventListener('scroll', this.onScroll);
   },
 });
 </script>
@@ -75,6 +82,11 @@ export default defineComponent({
       object-fit: cover;
       border-radius: 4px;
       background-color: #c4c4c4;
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
       @include breakpoint-down-sm {
         margin: auto;
         width: 76px;

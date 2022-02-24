@@ -7,7 +7,7 @@
       </div>
       {{a.id}}
       {{a.nickname}}
-      {{a.grade}}
+      {{a?.memberLevel?.grade}}
       <div class="tab">
         <span @click="ROUTE_TO.QNABOARD">질문 · 답변</span>
         <span v-if="isLoggedIn" @click="ROUTE_TO.MYPAGE">마이페이지</span>

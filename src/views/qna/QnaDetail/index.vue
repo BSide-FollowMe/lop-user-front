@@ -19,7 +19,7 @@
               <button class="action-modal-btn" @click="actionModal = true" ref="actionBtnRef">
                 <img src="@/assets/icon/more.svg" />
                 <ul class="action-list shadow" v-if="actionModal">
-                  <li>
+                  <li @click="ROUTE_TO.QNABOARD_EDIT(details.id, details.type)">
                     <img src="@/assets/icon/modify-pencil.svg" />
                     <span>수정하기</span>
                   </li>
@@ -34,22 +34,24 @@
           </div>
         </div>
         <hr class="separate-content" />
-        <div class="input-title">물은 얼마나 자주 주셨나요?</div>
-        <div class="textarea-item">
-          <textarea v-model="details.plantWaterCycle" readonly maxlength="500" @keyup="autoResize" />
-        </div>
-        <div class="input-title">식물은 어디에 두셨고 햇빛을 받는 시간은 얼마나 되나요?</div>
-        <div class="textarea-item">
-          <textarea v-model="details.plantLifeCycle" readonly maxlength="500" @keyup="autoResize" />
-        </div>
-        <div class="input-title">증상이 나타났을 때 어떻게 대처하셨나요?</div>
-        <div class="textarea-item">
-          <textarea v-model="details.plantCountermeasure" readonly maxlength="500" @keyup="autoResize" />
-        </div>
-        <div class="content-item">{{ details.content }}</div>
-        <div class="img-item" v-for="(item, index) in details.images" :key="`img-item-${index}`">
-          <img :src="item.imageUrl" @error="$event.target.src = require('@/assets/images/search/img-error.svg')" />
-        </div>
+        <template v-if="details.type == 'SICK'">
+          <div class="input-title">물은 얼마나 자주 주셨나요?</div>
+          <div class="textarea-item">
+            <textarea v-model="details.plantWaterCycle" readonly maxlength="500" @keyup="autoResize" />
+          </div>
+          <div class="input-title">식물은 어디에 두셨고 햇빛을 받는 시간은 얼마나 되나요?</div>
+          <div class="textarea-item">
+            <textarea v-model="details.plantLifeCycle" readonly maxlength="500" @keyup="autoResize" />
+          </div>
+          <div class="input-title">증상이 나타났을 때 어떻게 대처하셨나요?</div>
+          <div class="textarea-item">
+            <textarea v-model="details.plantCountermeasure" readonly maxlength="500" @keyup="autoResize" />
+          </div>
+        </template>
+          <div class="content-item">{{ details.content }}</div>
+          <div class="img-item" v-for="(item, index) in details.images" :key="`img-item-${index}`">
+            <img :src="item.imageUrl" @error="$event.target.src = require('@/assets/images/search/img-error.svg')" />
+          </div>
         <!-- <div v-if="item.imageUrl && item.imageUrl.length" class="preview">
           <img :src="item.imageUrl" @error="$event.target.src = require('@/assets/images/search/img-error.svg')" />
         </div> -->
@@ -81,7 +83,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, computed } from 'vue';
-import { getQnaBoardDetail,removeQnaBoard } from '@/api/qnaboard';
+import { getQnaBoardDetail, removeQnaBoard } from '@/api/qnaboard';
 import Reply from './_Reply.vue';
 import { useRoute } from 'vue-router';
 import { getTimeDistanceWithNaturalStr } from '@/utils/text';
@@ -137,6 +139,7 @@ export default defineComponent({
       getTimeDistanceWithNaturalStr,
       myId,
       removeBoard,
+      ROUTE_TO,
     };
   },
   unmounted() {

@@ -2,7 +2,7 @@
   <section class="searcher-container">
     <div class="inner-infinety-container">
       <div class="searcher">
-        <input id="searchText" type="text" v-model="searchText" :class="{ 'is-empty': searchText === '' }" />
+        <input id="searchText" type="text" v-model="searchText" :class="{ 'is-empty': searchText === '' }"  @keyup.enter="onClickSubmit(searchText)" />
         <label for="searchText">식물명 또는 카테고리를 입력하세요.</label>
         <button @click="onClickSubmit(searchText)"></button>
       </div>
@@ -12,11 +12,12 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 import { validateSearchStr } from '@/utils/validation';
+import { ROUTE_TO } from '@/router/routing';
 
 export default defineComponent({
   name: 'Topper Searcher',
   props: ['text'],
-  setup(props, { emit }) {
+  setup(props) {
     const searchText = ref(props.text);
     function onClickSubmit(newVal: string) {
       const validateMsg = validateSearchStr(newVal);
@@ -24,7 +25,7 @@ export default defineComponent({
         alert(validateMsg);
         return;
       }
-      emit('search', newVal);
+      ROUTE_TO.SEARCH_RESULT(newVal);
     }
     return {
       searchText,

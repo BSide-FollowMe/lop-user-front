@@ -6,7 +6,12 @@ import { tokenSvc } from '@/api/token-service';
 
 interface UserState {
   id: string;
-  grade: string;
+  memberLevel: {
+    grade: string;
+    likeCount: number;
+    pollCount: number;
+    postingCotentCount: number;
+  };
   nickname: string;
   token: string;
   authenticated: boolean;
@@ -16,7 +21,7 @@ interface UserState {
 const initState = () => {
   return {
     id: '',
-    grade: '',
+    memberLevel: null,
     token: '',
     nickname: '',
     authenticated: false,
@@ -41,7 +46,7 @@ const user = {
       Object.assign(state, initState());
       state.id = payload.id;
       state.token = payload.token;
-      state.grade = payload.grade;
+      state.memberLevel = payload.memberLevel;
       state.nickname = payload.nickname;
     },
     updateToken(state: UserState, payload: string): void {

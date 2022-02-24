@@ -10,7 +10,7 @@
           <br class="md-down-only" />
           이곳에서 함께 묻고 답하세요.
         </div>
-        <VueButton color="primary" class="ask-question-btn" @click="ROUTE_TO.QNABOARD_EDIT">질문하기</VueButton>
+        <VueButton color="primary" class="ask-question-btn" @click="ROUTE_TO.QNABOARD_REGIST">질문하기</VueButton>
       </div>
     </div>
   </section>

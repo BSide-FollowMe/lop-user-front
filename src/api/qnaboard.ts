@@ -28,3 +28,7 @@ export function getQnaBoardDetail(boardId: string): Promise<unknown> {
 export function removeQnaBoard(boardId: string): Promise<unknown> {
   return axios.delete(API_PREFIX + Api.DELETE_BOARD + '/' + boardId);
 }
+
+export function getImageBlobFromUrl(url: string): Promise<unknown> {
+  return axios.get(url, { responseType: 'blob' });
+}

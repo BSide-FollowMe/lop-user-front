@@ -45,7 +45,7 @@
 import { defineComponent, ref } from 'vue';
 export default defineComponent({
   name: 'Selector',
-  props: ['items', 'value', 'label','isLoading'],
+  props: ['items', 'value', 'label', 'isLoading'],
   setup(props, { emit }) {
     const val = ref(props.value);
     const showSelect = ref(false);
