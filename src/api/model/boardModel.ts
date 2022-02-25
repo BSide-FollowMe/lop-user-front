@@ -59,3 +59,24 @@ interface CommentData {
     nickname: string;
   };
 }
+
+export interface CommentParamModel{
+  content: string;
+  refId?: number | string;
+}
+
+export interface CommentRespModel{
+  commentOrder: number | string;
+  content: string;
+  createdDateTime: string;
+  deletedDateTime: string;
+  id: number | string;
+  isSupport: string;
+  modifiedDateTime: string;
+  refId: number | string;
+  supportCount: number | string;
+  writer: {
+    id: number | string;
+    nickname: string;
+  }
+}

@@ -8,13 +8,14 @@
         <br />
         다른 식집사 분들의 도움을 받아보세요.
       </div>
-      <VueButton color="primary" class="question-request-btn">질문하기</VueButton>
+      <VueButton color="primary" class="question-request-btn" @click="ROUTE_TO.QNABOARD_REGIST">질문하기</VueButton>
     </section>
   </div>
 </template>
 <script lang="ts">
 import { defineComponent, computed } from 'vue';
 import VueButton from '@/components/buttons/VueButton.vue';
+import {ROUTE_TO} from '@/router/routing';
 export default defineComponent({
   components: {
     VueButton,
@@ -24,6 +25,7 @@ export default defineComponent({
     const searchTarget = computed(() => props.text);
     return {
       searchTarget,
+      ROUTE_TO
     };
   },
 });
