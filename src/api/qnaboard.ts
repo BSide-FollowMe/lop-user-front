@@ -8,7 +8,9 @@ enum Api {
   REGIST_BOARD = '/questions',
   UPDATE_BOARD = '/questions', // required` + /${id}`
   DELETE_BOARD = '/questions', // required` + /${id}`
-  REGIST_COMMENT = '/comments', // required` /questions/${questionId}` +;
+  REGIST_COMMENT = '/comments', // required `/questions/${questionId}/comments`
+  TOGGLE_SUPPORT_COMMENTS = '/supports', // required '/comments/{commentId}/supports'
+  TOGGLE_SUPPORT_BOARD = '/supports', // required '/qustions/{commentId}/supports'
 }
 
 export function registQnaBoard(payload: BoardParamModel): Promise<unknown> {
@@ -63,6 +65,14 @@ export function getQnaBoardDetail(boardId: string): Promise<unknown> {
 
 export function removeQnaBoard(boardId: string): Promise<unknown> {
   return axios.delete(API_PREFIX + Api.DELETE_BOARD + '/' + boardId);
+}
+
+export function toggleSupportComments(commentId: string): Promise<unknown> {
+  return axios.post(API_PREFIX + Api.REGIST_COMMENT + '/' + commentId + Api.TOGGLE_SUPPORT_COMMENTS);
+}
+
+export function toggleSupportQuestions(questionId: string): Promise<unknown> {
+  return axios.post(API_PREFIX + Api.REGIST_BOARD + '/' + questionId + Api.TOGGLE_SUPPORT_BOARD);
 }
 
 export function getImageBlobFromUrl(url: string): Promise<unknown> {
