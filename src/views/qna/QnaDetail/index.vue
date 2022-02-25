@@ -39,7 +39,11 @@
           <div class="textarea-item">
             <textarea v-model="details.plantWaterCycle" readonly maxlength="500" @keyup="autoResize" />
           </div>
-          <div class="input-title">식물은 어디에 두셨고 햇빛을 받는 시간은 <br class="md-down-only"/>얼마나 되나요?</div>
+          <div class="input-title">
+            식물은 어디에 두셨고 햇빛을 받는 시간은
+            <br class="md-down-only" />
+            얼마나 되나요?
+          </div>
           <div class="textarea-item">
             <textarea v-model="details.plantLifeCycle" readonly maxlength="500" @keyup="autoResize" />
           </div>
@@ -52,20 +56,27 @@
         <div class="img-item" v-for="(item, index) in details.images" :key="`img-item-${index}`">
           <img :src="item.imageUrl" @error="$event.target.src = require('@/assets/images/search/img-error.svg')" />
         </div>
-
         <div class="bottom-btn-group">
           <button class="no-click">
-            <img src="@/assets/icon/reply.svg" /><br class="md-down-only"/>
+            <img src="@/assets/icon/reply.svg" />
+            <br class="md-down-only" />
             답변 {{ details.comments.totalElement }}
           </button>
           <span class="separator">|</span>
-          <button class="helpful-btn">
-            <img src="@/assets/icon/helpful.svg" /><br class="md-down-only"/>
+          <button class="helpful-btn-primary helpful-btn" v-if="details.isSupport" @click="toggleSupportBtn">
+            <img src="@/assets/icon/helpful-primary.svg" />
+            <br class="md-down-only" />
+            도움돼요 {{ details.supportCount }}
+          </button>
+          <button class="helpful-btn" v-else @click="toggleSupportBtn">
+            <img src="@/assets/icon/helpful.svg" />
+            <br class="md-down-only" />
             도움돼요 {{ details.supportCount }}
           </button>
           <span class="separator">|</span>
           <button @click="copyUrl">
-            <img src="@/assets/icon/share-gray.svg"  /><br class="md-down-only"/>
+            <img src="@/assets/icon/share-gray.svg" />
+            <br class="md-down-only" />
             공유하기
           </button>
         </div>
@@ -77,10 +88,11 @@
 
 <script lang="ts">
 import { defineComponent, ref, computed } from 'vue';
-import { getQnaBoardDetail, removeQnaBoard } from '@/api/qnaboard';
+import { getQnaBoardDetail, removeQnaBoard, toggleSupportQuestions } from '@/api/qnaboard';
 import Reply from './_ReplyList.vue';
 import { useRoute } from 'vue-router';
 import { getTimeDistanceWithNaturalStr } from '@/utils/text';
+import { debounce } from '@/utils/global';
 import store from '@/store';
 import { ROUTE_TO } from '@/router/routing';
 export default defineComponent({
@@ -133,7 +145,15 @@ export default defineComponent({
       t.select();
       document.execCommand('copy');
       document.body.removeChild(t);
-      alert("이 페이지의 URL이 클립보드에 저장되었습니다. \n다른곳에 붙여넣어보세요!");
+      alert('이 페이지의 URL이 클립보드에 저장되었습니다. \n다른곳에 붙여넣어보세요!');
+    }
+    async function toggleSupportBtn() {
+      try {
+        await toggleSupportQuestions(boardId.value);
+        getDetails();
+      } catch (e) {
+        console.error(e);
+      }
     }
     return {
       documentClick,
@@ -147,6 +167,7 @@ export default defineComponent({
       boardId,
       refresh: getDetails,
       copyUrl,
+      toggleSupportBtn: debounce(toggleSupportBtn, 500),
     };
   },
   unmounted() {
@@ -293,10 +314,10 @@ export default defineComponent({
   font-size: 18px;
   line-height: 26px;
   @include breakpoint-down-sm {
-      margin-top: 30px;
-      font-size: 13px;
-      line-height: 16px;
-    }
+    margin-top: 30px;
+    font-size: 13px;
+    line-height: 16px;
+  }
 }
 
 .textarea-item {
@@ -316,7 +337,7 @@ export default defineComponent({
     line-height: 26px;
     color: var(--text-color2);
     @include breakpoint-down-sm {
-      height:auto;
+      height: auto;
       min-height: 40px;
       font-size: 13px;
     }
@@ -324,8 +345,8 @@ export default defineComponent({
 }
 .img-item {
   margin-top: 30px;
-  text-align:center;
-  img{
+  text-align: center;
+  img {
     max-width: 100%;
   }
 }
@@ -344,16 +365,19 @@ export default defineComponent({
       margin-right: 5px;
     }
     @include breakpoint-down-sm {
-      img{
-        width:12px;
-        height:12px;
+      img {
+        width: 12px;
+        height: 12px;
       }
       font-size: 12px;
     }
+    &.helpful-btn-primary{
+      color: var(--secondary-green-color-1);
+    }
   }
   @include breakpoint-down-sm {
-     margin-bottom:0px;
-    }
+    margin-bottom: 0px;
+  }
 }
 .detail-title {
   display: flex;
@@ -386,15 +410,15 @@ export default defineComponent({
     margin-right: 10px;
   }
   @include breakpoint-down-sm {
-    flex-wrap:wrap;
+    flex-wrap: wrap;
     gap: 10px;
-    .group{
-      width:100%;
-      .placeholder{
+    .group {
+      width: 100%;
+      .placeholder {
         font-size: 14px;
         line-height: 17px;
       }
-      .title{
+      .title {
         font-size: 16px;
       }
       &:nth-child(2) {
@@ -449,12 +473,19 @@ export default defineComponent({
     }
   }
   @include breakpoint-down-sm {
-    float:right;
-    vertical-align:top;
-    >img{
-      width:20px;
-      height:20px;
+    float: right;
+    vertical-align: top;
+    > img {
+      width: 20px;
+      height: 20px;
     }
+  }
+}
+
+.helpful-btn{
+  img{
+    width:20px;
+  height:20px;
   }
 }
 .helpful-btn:hover {

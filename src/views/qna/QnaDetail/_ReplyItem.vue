@@ -6,7 +6,7 @@
         <span class="is-writer" v-if="item.writer.id == boardWriterId">작성자</span>
       </div>
       <div class="group">
-        <template v-if="myId && item.writer.id == myId && item.content != '작성자가 삭제한 댓글입니다'">
+        <template v-if="myId && item.writer.id == myId && !isDeleted">
           <button class="action-modal-btn" @click="actionModal = true" ref="actionBtnRef">
             <img src="@/assets/icon/more.svg" />
             <ul class="action-list shadow" v-if="actionModal">
@@ -43,7 +43,7 @@
       </div>
     </template>
     <template v-else>
-      <div class="item__content deleted" v-if="item.content == '작성자가 삭제한 댓글입니다'">
+      <div class="item__content deleted" v-if="isDeleted">
         <img src="@/assets/icon/error-outline.svg" />
         작성자가 삭제한 댓글입니다
       </div>
@@ -56,11 +56,15 @@
         {{ getTimeDistanceWithNaturalStr(item.createdDateTime) }}
       </button>
       <span class="separator">|</span>
-      <button class="helpful-btn">
+      <button class="helpful-btn helpful-btn-primary" v-if="item.isSupport" @click="toggleSupportBtn">
+        <img src="@/assets/icon/helpful-primary.svg" />
+        도움돼요 {{ item.supportCount }}
+      </button>
+      <button class="helpful-btn" v-else @click="toggleSupportBtn">
         <img src="@/assets/icon/helpful.svg" />
         도움돼요 {{ item.supportCount }}
       </button>
-      <template v-if="(!item.refId || item.refId == 0) && item.content != '작성자가 삭제한 댓글입니다'">
+      <template v-if="(!item.refId || item.refId == 0) && !isDeleted">
         <span class="separator">|</span>
         <button @click="dependentMode = !dependentMode">답글</button>
       </template>
@@ -87,8 +91,8 @@
 <script lang="ts">
 import { defineComponent, computed, ref } from 'vue';
 import { getTimeDistanceWithNaturalStr } from '@/utils/text';
-import { deleteQnaBoardComment, modifyQnaBoardComment, registQnaBoardComment } from '@/api/qnaboard';
-import store from '@/store';
+import { deleteQnaBoardComment, modifyQnaBoardComment, registQnaBoardComment,toggleSupportComments } from '@/api/qnaboard';
+import { debounce } from '@/utils/global';
 export default defineComponent({
   name: 'Reply Item',
   props: ['item', 'boardId', 'myId', 'boardWriterId'],
@@ -96,6 +100,8 @@ export default defineComponent({
     const boardId = computed(() => props.boardId || null);
     const myId = computed(() => props.myId || null);
     const content = computed(() => props.item.content || null);
+    const isDeleted = computed(()=>props.item.content == '작성자가 삭제한 댓글입니다' || false)
+    const commentId = computed(()=>props.item.id || null);
     const actionBtnRef = ref(null);
     const actionModal = ref(false);
     const editMode = ref(false);
@@ -171,6 +177,15 @@ export default defineComponent({
     function endEditMode() {
       editMode.value = false;
     }
+    async function toggleSupportBtn() {
+      try {
+        if(isDeleted.value) return;
+        await toggleSupportComments(commentId.value);
+        emit('refresh');
+      } catch (e) {
+        console.error(e);
+      }
+    }
     return {
       actionModal,
       actionBtnRef,
@@ -186,6 +201,8 @@ export default defineComponent({
       dependentMode,
       registDependentReply,
       dependentInput,
+      toggleSupportBtn: debounce(toggleSupportBtn, 500),
+      isDeleted,
     };
   },
   unmounted() {
@@ -398,6 +415,9 @@ line-height: 17px;
     color: var(--text-color-3);
       @include breakpoint-down-sm {
       font-size: 12px;
+    }
+    &.helpful-btn-primary{
+      color: var(--secondary-green-color-1);
     }
   }
 
