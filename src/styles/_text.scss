@@ -90,14 +90,27 @@ h2 {
     }
 }
 
+.md-up-only-inline {
+    display: none;
+
+    @include breakpoint-up-sm {
+        display: inline-block;
+    }
+}
 .md-up-only {
     display: none;
 
-    @include breakpoint-up-md {
+    @include breakpoint-up-sm {
         display: block;
     }
 }
+.md-down-only-inline {
+    display: none;
 
+    @include breakpoint-down-sm {
+        display: inline-block;
+    }
+}
 .md-down-only {
     display: none;
 

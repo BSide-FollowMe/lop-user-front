@@ -12,8 +12,8 @@
       @start-loading="isLoading = true"
     />
     <div class="input-item" v-if="plantName == '직접입력'">
-      <input id="plant-water-cycle" v-model="plantNameSubjective" :class="{ 'is-empty': plantNameSubjective === '' }" maxlength="50" />
-      <label for="plant-water-cycle">식물 이름을 직접 입력해주세요</label>
+      <input id="plant-subjective-name" v-model="plantNameSubjective" :class="{ 'is-empty': plantNameSubjective === '' }" maxlength="50" />
+      <label for="plant-subjective-name">식물 이름을 직접 입력해주세요</label>
     </div>
     <div class="input-title">
       궁금한 내용을 작성해주세요
@@ -30,7 +30,7 @@
     </div>
     <PhotoUploader ref="photoUploader" class="photo-uploader" v-model:value="images" />
     <div class="text-center submit-btn">
-      <VueButton color="primary" v-if="id && id != ''" @click="submitEdit">수정하기</VueButton>
+      <VueButton color="primary" v-if="id && id != ''" @click="submitModify">수정하기</VueButton>
       <VueButton color="primary" v-else @click="submit">등록하기</VueButton>
     </div>
   </form>
@@ -137,9 +137,16 @@ export default defineComponent({
       };
       if (plantName.value != '직접입력' && selectedPlant) payload.plantId = selectedPlant.id;
       if (images.value.length) payload.images = images.value;
-      console.log(payload);
       if (!validatePayload(payload)) return;
-      modifyQnaBoard(payload);
+      modifyQuestion(payload, id.value);
+    }
+    async function modifyQuestion(payload:BoardParamModel, questionId:string){
+      try {
+        const res: any = await modifyQnaBoard(payload, questionId);
+        ROUTE_TO.QNABOARD_DETAIL(res.data.id);
+      } catch (error) {
+        console.log(error)
+      }
     }
 
     async function registQuestion(payload: BoardParamModel) {
