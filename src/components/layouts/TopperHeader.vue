@@ -2,12 +2,9 @@
   <div class="container">
     <div class="inner-container flex-row">
       <div class="title">
-        <img id="logo" src="@/assets/logo.png" @click="ROUTE_TO.HOME" />
-        <img id="logo-title" src="@/assets/logo-title.png" @click="ROUTE_TO.HOME" />
+        <img id="logo" src="@/assets/logo.svg" @click="ROUTE_TO.HOME" />
+        <img id="logo-title" src="@/assets/logo-title.svg" @click="ROUTE_TO.HOME" />
       </div>
-      {{a.id}}
-      {{a.nickname}}
-      {{a?.memberLevel?.grade}}
       <div class="tab">
         <span @click="ROUTE_TO.QNABOARD">질문 · 답변</span>
         <span v-if="isLoggedIn" @click="ROUTE_TO.MYPAGE">마이페이지</span>
@@ -18,10 +15,9 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref } from 'vue';
+import { defineComponent, ref } from 'vue';
 import { ROUTE_TO } from '@/router/routing';
 import { tokenSvc } from '@/api/token-service';
-import store from '@/store';
 
 export default defineComponent({
   setup(props, { emit }) {
@@ -33,12 +29,10 @@ export default defineComponent({
     async function checkLoggedIn() {
       isLoggedIn.value = await tokenSvc.isValidToken();
     }
-    const a = computed(() => store.getters.getUserInfo);
     return {
       ROUTE_TO,
       isLoggedIn,
       onToggleDrawer,
-      a
     };
   },
 });
@@ -72,10 +66,10 @@ export default defineComponent({
     align-items: center;
     @include breakpoint-down-sm {
       img#logo-title {
-        content: url('@/assets/mobile-title.png');
+        content: url('@/assets/mobile-title.svg');
       }
       img#logo {
-        content: url('@/assets/mobile-logo.png');
+        content: url('@/assets/mobile-logo.svg');
       }
     }
   }
