@@ -43,7 +43,7 @@ import { getPlantList } from '@/api/plant';
 import VueButton from '@/components/buttons/VueButton.vue';
 import VueAutocomplete from '@/components/inputs/VueAutocomplete.vue';
 import PhotoUploader from '@/components/inputs/PhotoUploader.vue';
-import { registQnaBoard, getQnaBoardDetail,modifyQnaBoard } from '@/api/qnaboard';
+import { registQnaBoard, getQnaBoardDetail,modifyQnaBoard, testUploadImages } from '@/api/qnaboard';
 import { BoardParamModel } from '@/api/model/boardModel';
 import { ROUTE_TO } from '@/router/routing';
 import store from '@/store';
@@ -151,8 +151,17 @@ export default defineComponent({
 
     async function registQuestion(payload: BoardParamModel) {
       try {
+        testUploadImagesFunc(payload)
         const res: any = await registQnaBoard(payload);
         ROUTE_TO.QNABOARD_DETAIL(res.data.id);
+      } catch (e) {
+        console.error(e);
+      }
+    }
+    async function testUploadImagesFunc(payload:any){
+      try {
+        const res: any = await testUploadImages({image:payload.images[0]});
+        console.log(res);
       } catch (e) {
         console.error(e);
       }
