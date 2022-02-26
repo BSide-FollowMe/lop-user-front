@@ -21,7 +21,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, watch } from 'vue';
-import { getImageBlobFromUrl } from '@/api/qnaboard';
+import {dataURLtoFile} from '@/utils/global';
 export default defineComponent({
   name: 'PhotoUpload',
   props: ['value'],
@@ -63,23 +63,28 @@ export default defineComponent({
       imageList.splice(index, 1);
     }
     function setImageFromUrls(images: any) {
+      console.log(images);
       let count = images.length;
       let index = 0;
       if (images) {
         while (count--) {
-          const currentUrl = images[index]['imageUrl'];
           const name = images[index]['name'];
-          fetch(currentUrl)
-            .then((response) => response.blob())
-            .then((blob) => {
-              const file = new File([blob], name);
-              imageList.value.push(file);
-              previewList.value.push(currentUrl);
-            });
+          const nameSplit= name.split('.');
+          const ext = nameSplit[nameSplit.length - 1];
+          const blob = images[index]['imageBinary'];
+          const file = dataURLtoFile(`data:image/${ext};base64,${blob}`, name);
+          const reader = new FileReader();
+          reader.onload = (e: any) => {
+            const target: any = e.target;
+            previewList.value.push(target.result);
+          };
+          imageList.value.push(file);
+          reader.readAsDataURL(file);
           index++;
         }
       }
     }
+
     return {
       imageList,
       previewList,

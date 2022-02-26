@@ -43,7 +43,7 @@ import { getPlantList } from '@/api/plant';
 import VueButton from '@/components/buttons/VueButton.vue';
 import VueAutocomplete from '@/components/inputs/VueAutocomplete.vue';
 import PhotoUploader from '@/components/inputs/PhotoUploader.vue';
-import { registQnaBoard, getQnaBoardDetail,modifyQnaBoard, testUploadImages } from '@/api/qnaboard';
+import { registQnaBoard, getQnaBoardDetail, modifyQnaBoard, getQuestionImages } from '@/api/qnaboard';
 import { BoardParamModel } from '@/api/model/boardModel';
 import { ROUTE_TO } from '@/router/routing';
 import store from '@/store';
@@ -81,15 +81,25 @@ export default defineComponent({
         plantNameOptions.value = [{ name: data.plantName, id: data.plantId }];
         plantSelector.value.onSelect(data.plantName);
         content.value = data.content;
+        const blobImages = await getImageBlob(id);
         const pu: any = photoUploader.value;
         if (pu) {
-          pu.setImageFromUrls(data.images);
+          pu.setImageFromUrls(blobImages);
         }
       } catch (e) {
         console.log(e);
       }
     }
+    async function getImageBlob(id:string){
+      try {
+        const { data }:any = await getQuestionImages(id);
+        return data.imageList;
+      } catch (e) {
+        console.error(e);
+        return [];
+      }
 
+    }
     function checkIsMine({ id }: { id: string }) {
       if(myId.value != id) {
         alert("다른 사람의 글은 수정 할 수 없습니다.")
@@ -151,17 +161,8 @@ export default defineComponent({
 
     async function registQuestion(payload: BoardParamModel) {
       try {
-        testUploadImagesFunc(payload)
         const res: any = await registQnaBoard(payload);
         ROUTE_TO.QNABOARD_DETAIL(res.data.id);
-      } catch (e) {
-        console.error(e);
-      }
-    }
-    async function testUploadImagesFunc(payload:any){
-      try {
-        const res: any = await testUploadImages({image:payload.images[0]});
-        console.log(res);
       } catch (e) {
         console.error(e);
       }
