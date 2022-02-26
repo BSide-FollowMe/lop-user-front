@@ -7,15 +7,11 @@
     <br />
     <router-link to="/search?q=콩난">검색결과</router-link>
     <br />
-    <router-link to="/search?q=EMPTY_SAMPLE">검색결과(empty)</router-link>
-    <br />
     <router-link to="/modal-test">모달테스트 페이지</router-link>
     <br />
     <router-link to="/qna">질문 답변 게시판</router-link>
     <br/>
     <router-link to="/qna/edit">질문 답변 글쓰기</router-link>
-    <br/>
-    <router-link to="/qna/detail">질문 상세</router-link>
     <br/>
     <router-link to="/plant/1">식물상세</router-link>
     <br />
