@@ -1,3 +1,5 @@
+import {blight, category, sunlightType, winterTemperatureUpDown} from 'plant';
+
 export interface GetAccountInfoModel {
   email: string;
   name: string;
@@ -20,7 +22,7 @@ export interface PlantListRespModel {
   totalPage: string;
 }
 
-interface PlantListData {
+export interface PlantListData {
   category?: string;
   categoryTitle?: string;
   createdDateTime?: string;
@@ -39,8 +41,8 @@ export interface PlantDetailParamModel {
 }
 
 export interface PlantDetailRespModel {
-  blights?: string[];
-  category?: string;
+  blights?: blight[];
+  category?: category;
   categoryTitle?: string;
   createdDateTime?: string;
   fileName?: string;
@@ -59,16 +61,16 @@ export interface PlantDetailRespModel {
   name?: string;
   nickname?: string;
   pollGrowth?: {
-    growthEasy?: string;
-    growthHard?: string;
+    growthEasy?: number;
+    growthHard?: number;
   }
   properTemperature?: string;
   scientificName?: string;
   soil?: string;
   sunlight?: string;
-  sunlightTypes?: string[];
+  sunlightTypes?: sunlightType[];
   temperatureExtra?: string;
   waterPeriod?: string;
   winterTemperature?: string;
-  winterTemperatureUpDown?: string;
+  winterTemperatureUpDown?: winterTemperatureUpDown;
 }

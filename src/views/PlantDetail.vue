@@ -1,6 +1,17 @@
 <template>
   <div class="container">
-    <Summary />
+    <Summary
+      :name="plantDetail.name"
+      :scientificName="plantDetail.scientificName"
+      :nickname="plantDetail.nickname"
+      :growthEasy="plantDetail.growthEasy"
+      :growthHard="plantDetail.growthHard"
+      :category="plantDetail.category"
+      :fileName="plantDetail.fileName"
+      :fileUrl="plantDetail.fileUrl"
+      :fileSource="plantDetail.fileSource"
+      :fileSourceLink="plantDetail.fileSourceLink"
+    />
     <Water />
     <Sunlight />
     <TemperatureHumidity />
@@ -13,17 +24,35 @@
 <script lang="ts">
 import { defineComponent } from '@vue/runtime-core';
 import Summary from '@/views/detail/Summary.vue';
-import Water from '@/views/detail//Water.vue';
-import Sunlight from '@/views/detail//Sunlight.vue';
-import TemperatureHumidity from '@/views/detail//TemperatureHumidity.vue';
-import Ventilation from '@/views/detail//Ventilation.vue';
-import Soil from '@/views/detail//Soil.vue';
-import Report from '@/views/detail//Report.vue';
-import Question from '@/views/detail//Question.vue';
+import Water from '@/views/detail/Water.vue';
+import Sunlight from '@/views/detail/Sunlight.vue';
+import TemperatureHumidity from '@/views/detail/TemperatureHumidity.vue';
+import Ventilation from '@/views/detail/Ventilation.vue';
+import Soil from '@/views/detail/Soil.vue';
+import Report from '@/views/detail/Report.vue';
+import Question from '@/views/detail/Question.vue';
+
+import { getPlantDetail } from '@/api/plant';
+import { PlantDetailRespModel } from '@/api/model/plantModel';
+import { onMounted, ref } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 
 export default defineComponent({
   setup() {
-    // not implemented yet
+    const route = useRoute();
+    const router = useRouter();
+    const plantDetail = ref({} as PlantDetailRespModel);
+    onMounted(async () => {
+      try {
+        plantDetail.value = await getPlantDetail({ plantId: route.path.split('/')[2] });
+        console.log(plantDetail.value.growthEasy);
+      } catch (e) {
+        router.push('/not-found');
+      }
+    });
+    return {
+      plantDetail,
+    };
   },
   components: {
     Summary,
@@ -45,8 +74,8 @@ export default defineComponent({
   margin-left: auto;
   margin-right: auto;
   padding: var(--m-content-container-padding) var(--content-container-padding) 0 var(--content-container-padding);
-  @include breakpoint-down-sm{
-    margin-top:0;
+  @include breakpoint-down-sm {
+    margin-top: 0;
     padding: 0 var(--m-content-container-padding);
     min-width: var(--m-content-container-max-width);
   }
