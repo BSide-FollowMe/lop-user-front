@@ -78,3 +78,7 @@ export function uncomma(str:string | number) {
   str = String(str);
   return str.replace(/[^\d]+/g, '');
 }
+
+export function translate<T,U>(dict:{value:T,label:U}[],value:T):U | undefined{
+  return dict.find(item=>item.value===value)?.label;
+}
