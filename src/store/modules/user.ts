@@ -56,7 +56,7 @@ const user = {
   actions: {
     async signOut({ commit }: any): Promise<void> {
       try {
-        return commit('resetState');
+        return await commit('resetState');
       } catch (e) {
         console.error(e);
       }

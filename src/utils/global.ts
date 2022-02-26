@@ -12,8 +12,8 @@ export const handleInfiniteListScroll = (e: any, list: any, totalLength: any, ca
   if (isAtTheBottom) callBack();
 };
 export function dataURLtoFile(dataurl: any, filename: any) {
-  const arr = dataurl.split(',')
-  const mime = arr[0].match(/:(.*?);/)[1]
+  const arr = dataurl.split(',');
+  const mime = arr[0].match(/:(.*?);/)[1];
   const bstr = atob(arr[1]);
   let n = bstr.length;
   const u8arr = new Uint8Array(n);
@@ -23,4 +23,14 @@ export function dataURLtoFile(dataurl: any, filename: any) {
   }
 
   return new File([u8arr], filename, { type: mime });
+}
+
+export function copyUrl() {
+  const val = window.document.location.href;
+  const t = document.createElement('textarea');
+  document.body.appendChild(t);
+  t.value = val;
+  t.select();
+  document.execCommand('copy');
+  document.body.removeChild(t);
 }
