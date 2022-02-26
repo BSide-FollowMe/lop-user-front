@@ -8,7 +8,7 @@
       <div class="upper-content">
         <div class="content">
           <div class="category-icon">
-            <div class="inner-category-icon">{{ category }}</div>
+            <div class="inner-category-icon">{{ translatedCategory }}</div>
           </div>
           <div class="plant-name">{{ name }}</div>
           <div class="plant-scientificName">{{ scientificName }}</div>
@@ -98,21 +98,21 @@ export default defineComponent({
       contextMenu.value.toggleContextMenu();
     };
 
-    // const translatedCategory = computed(
-    //   () =>
-    //     translate(
-    //       [
-    //         { value: 'FERNS', label: '양치식물' },
-    //         { value: 'BULBOUS', label: '구근식물' },
-    //         { value: 'AQUATIC', label: '수생식물' },
-    //         { value: 'CACTUS', label: '선인장류' },
-    //         { value: 'SUCCULENTS', label: '다육식물' },
-    //         { value: 'CARNIVOROUS', label: '식충식물' },
-    //         { value: 'HOUSEPLANT', label: '관엽식물' },
-    //       ],
-    //       props.category,
-    //     ) || '미등록',
-    // );
+    const translatedCategory = computed(
+      () =>
+        translate(
+          [
+            { value: 'FERNS', label: '양치식물' },
+            { value: 'BULBOUS', label: '구근식물' },
+            { value: 'AQUATIC', label: '수생식물' },
+            { value: 'CACTUS', label: '선인장류' },
+            { value: 'SUCCULENTS', label: '다육식물' },
+            { value: 'CARNIVOROUS', label: '식충식물' },
+            { value: 'HOUSEPLANT', label: '관엽식물' },
+          ],
+          props.category,
+        ) || '미등록',
+    );
 
     const shareKakao = () => {
       kakao.value.Link.sendDefault({
@@ -130,13 +130,13 @@ export default defineComponent({
     };
     const copyLink = () => {
       //copy url
-      // const currentUrl = window.document.location.href;
-      // const t = document.createElement('textarea');
-      // document.body.appendChild(t);
-      // t.value = currentUrl;
-      // t.select();
-      // document.execCommand('copy');
-      // document.body.removeChild(t);
+      const currentUrl = window.document.location.href;
+      const t = document.createElement('textarea');
+      document.body.appendChild(t);
+      t.value = currentUrl;
+      t.select();
+      document.execCommand('copy');
+      document.body.removeChild(t);
       store.dispatch('snack/openSnack', { text: '링크가 복사되었어요!', color: '#48B57A' });
     };
     const contextMenuItems = [
@@ -168,7 +168,7 @@ export default defineComponent({
       EmptyHeartIcon,
       FullHeartIcon,
       pollItems,
-      // translatedCategory,
+      translatedCategory,
       dummyImage,
     };
   },
