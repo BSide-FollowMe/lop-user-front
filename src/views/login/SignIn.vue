@@ -120,15 +120,15 @@ export default defineComponent({
   }
   .kakao-login {
     background-color: #fee500;
-    background-image: url('@/assets/icon/sns-kakao.png');
+    background-image: url('@/assets/icon/sns-kakao.svg');
     background-repeat: no-repeat;
-    background-size: 24px;
-    background-position: 9px;
+    background-size: 16px;
+    background-position: 13px;
   }
   .naver-login {
     color: #fff;
     background-color: #03c75a;
-    background-image: url('@/assets/icon/sns-naver.png');
+    background-image: url('@/assets/icon/sns-naver.svg');
     background-repeat: no-repeat;
     background-size: 24px;
     background-position: 9px;

@@ -2,7 +2,7 @@
   <DefaultModal @close="closeModal">
     <div class="conatiner">
       <div class="title">
-        <img src="@/assets/icon/feedback.png" />
+        <img src="@/assets/icon/feedback.svg" />
         <span class="text-bold">{{ options?.modalTitle }}</span>
       </div>
       <hr class="divider" />
@@ -18,7 +18,7 @@
         <label for="email">ex) plantslang@naver.com</label>
       </div>
       <span class="description">
-        <img src="@/assets/icon/task-alt-black.png" />
+        <img src="@/assets/icon/task_alt_black_24dp.svg" />
         보내주신 내용은 식물의언어 팀에서 확인 후 이메일로 빠르게 답변 드리겠습니다.
       </span>
       <div class="bottom">

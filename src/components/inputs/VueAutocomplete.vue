@@ -12,7 +12,7 @@
       :disabled="isSelected"
     />
     <label for="autocomplete-input">{{ label || '' }}</label>
-    <button v-if="isSelected" class="clear-btn" @click="resetSelectedItem"><img src="@/assets/icon/close.png" /></button>
+    <button v-if="isSelected" class="clear-btn" @click="resetSelectedItem"><img src="@/assets/icon/close.svg" /></button>
     <transition name="slide-fade">
       <ul class="item-list shadow pull-right" v-if="showSelect">
         <li class="text-ellipsis" v-if="isLoading && localVal !== ''">

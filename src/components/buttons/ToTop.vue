@@ -1,5 +1,5 @@
 <template>
-  <button id="toTop" class="to-top-btn" @click="clickToTop" :style="{position:isFixed?'fixed':''}"><img src="@/assets/icon/arrow_upward.png" /></button>
+  <button id="toTop" class="to-top-btn" @click="clickToTop" :style="{position:isFixed?'fixed':''}"><img src="@/assets/icon/arrow_upward.svg" /></button>
 </template>
 <script lang="ts">
 import { defineComponent, computed } from 'vue';

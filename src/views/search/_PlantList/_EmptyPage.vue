@@ -1,7 +1,7 @@
 <template>
   <div class="is-empty">
     <section class="request-container">
-      <img src="@/assets/icon/exclamation.png" />
+      <img src="@/assets/icon/exclamation.svg" />
       <h2 class="text-medium">검색하신 식물을 찾지 못했어요</h2>
       <div class="search-tip">
         찾고 계신 식물을 알려주시면

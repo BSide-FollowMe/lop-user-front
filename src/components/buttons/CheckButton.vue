@@ -2,7 +2,7 @@
   <div class="toggle-my-question">
     <input id="my-question" type="checkbox" v-model="value" :class="{ 'is-active': value }" class="cursor-pointer" />
     <label for="my-question">
-      <img src="@/assets/icon/check.png" />
+      <img src="@/assets/icon/check-secondary.svg" />
       <span>내 질문 보기</span>
     </label>
   </div>
@@ -36,7 +36,7 @@ input[type='checkbox'] {
   &.is-active + label {
     color: var(--secondary-green-color-1);
     img {
-      content: url('@/assets/icon/check-active.png');
+      content: url('@/assets/icon/check-active.svg');
     }
   }
 }
@@ -51,7 +51,8 @@ label {
   left: 18px;
   word-break: keep-all;
   img {
-    vertical-align: text-top;
+    vertical-align: middle;
+    width:16px;
   }
   span {
     margin-left: 6px;

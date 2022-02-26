@@ -1,7 +1,7 @@
 <template>
   <div class="is-empty">
     <section class="request-container">
-      <img src="@/assets/icon/question-request.png" />
+      <img src="@/assets/icon/question-request.svg" />
       <h2 class="text-medium">등록된 질문 · 답변이 없어요</h2>
       <div class="search-tip">
         식물이 아프거나 키우기 어렵다면

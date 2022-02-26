@@ -80,7 +80,7 @@ export default defineComponent({
     position: absolute;
     height: 50px;
     width: 50px;
-    background-image: url('@/assets/icon/magnifier.png');
+    background-image: url('@/assets/icon/magnifier.svg');
     background-size: 100%;
     cursor: pointer;
     z-index: 2;

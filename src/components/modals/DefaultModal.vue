@@ -2,7 +2,7 @@
   <div class="modal">
     <div class="modal__wrapper">
       <slot />
-      <button type="button" class="modal__close" @click="closeModal"><img src="@/assets/icon/close.png" /></button>
+      <button type="button" class="modal__close" @click="closeModal"><img src="@/assets/icon/close.svg" /></button>
     </div>
   </div>
 </template>

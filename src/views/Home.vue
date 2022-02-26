@@ -2,7 +2,7 @@
   <div class="container">
     <section class="search-plant">
       <div class="inner-infinety-container">
-        <img src="@/assets/images/home/quotes.png" />
+        <img src="@/assets/images/home/quotes.svg" />
         <h1>
           <span class="accent text-bold">{{myNickname}}님</span>
           환영합니다.
@@ -46,24 +46,24 @@
       </h1>
       <div class="btn-group">
         <button>
-          <img src="@/assets/icon/water-fall.png" alt="" />
+          <img src="@/assets/icon/water-fall.svg" alt="" />
           <div>물 주기</div>
         </button>
         <button>
-          <img src="@/assets/icon/sunrise.png" alt="" />
+          <img src="@/assets/icon/sunrise.svg" alt="" />
           <div>햇빛</div>
         </button>
         <button>
-          <img src="@/assets/icon/wind.png" alt="" />
+          <img src="@/assets/icon/wind.svg" alt="" />
           <div>통풍</div>
         </button>
         <button>
-          <img src="@/assets/icon/bug-eatting.png" alt="" />
+          <img src="@/assets/icon/bug-eatting.svg" alt="" />
           <div>병충해</div>
         </button>
         <button class="large-button">
           <span>직접 질문하기</span>
-          <img src="@/assets/icon/question-feedback.png" alt="" />
+          <img src="@/assets/icon/question-feedback.svg" alt="" />
         </button>
       </div>
     </section>
@@ -162,11 +162,11 @@ export default defineComponent({
   height: 617px;
   width: 100vw;
   margin-left: calc(-50vw + 50%);
-  background: url('@/assets/images/home/bg-sun.png') no-repeat 80% -20%;
+  background: url('@/assets/images/home/bg-sun.svg') no-repeat 80% -20%;
 
   @include breakpoint-down-sm {
     height: 362px;
-    background: url('@/assets/images/home/bg-sun.png') no-repeat calc(100% + 30px) -20%;
+    background: url('@/assets/images/home/bg-sun.svg') no-repeat calc(100% + 30px) -20%;
     background-size: 215px;
   }
 
@@ -215,7 +215,7 @@ export default defineComponent({
       position: absolute;
       height: 50px;
       width: 50px;
-      background-image: url('@/assets/icon/magnifier.png');
+      background-image: url('@/assets/icon/magnifier.svg');
       background-size: 100%;
       cursor: pointer;
       z-index: 2;
@@ -387,12 +387,12 @@ export default defineComponent({
   position: relative;
   height: 681px;
   padding: var(--content-container-padding);
-  background: url('@/assets/images/home/guide-banner-image.png') no-repeat 90% 45%;
+  background: url('@/assets/images/home/guide-banner-image.svg') no-repeat 90% 45%;
 
   @include breakpoint-down-sm {
     height: 574px;
     padding: var(--m-content-container-padding);
-    background: url('@/assets/images/home/guide-banner-image.png') no-repeat 0 0;
+    background: url('@/assets/images/home/guide-banner-image.svg') no-repeat 0 0;
     background-size: 260px 170px;
     background-position: bottom right;
   }
