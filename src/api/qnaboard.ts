@@ -78,3 +78,13 @@ export function toggleSupportQuestions(questionId: string): Promise<unknown> {
 export function getImageBlobFromUrl(url: string): Promise<unknown> {
   return axios.get(url, { responseType: 'blob' });
 }
+
+
+// 직접 스토리지 업로드 테스트
+const nhnUrl = 'https://api-storage.cloud.toast.com/lop/static/7c43e92f-0818-40ae-84eb-d502f7c6c87c?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20220226T034807Z&X-Amz-SignedHeaders=host&X-Amz-Expires=899&X-Amz-Credential=13dc6ffb2a4546c9b1adf9bb20362cb7%2F20220226%2FKR1%2Fs3%2Faws4_request&X-Amz-Signature=7130749291bce718c80805d2b9eba7bf01464278fc13e27ae0f2194d1d301bb7'
+export function testUploadImages(payload:any): Promise<unknown> {
+  const formdata = objectToFormdata(payload);
+  return axios.post(nhnUrl, formdata, {
+    headers: { 'Content-Type': `multipart/form-data` },
+  });
+}
