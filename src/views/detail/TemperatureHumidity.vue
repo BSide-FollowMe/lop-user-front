@@ -72,18 +72,15 @@ export default defineComponent({
   border-bottom: 1px solid #e5e5e5;
 }
 .temperature-humidity {
+  display:flex;
+  gap:20px;
   >*{
-    width:306px;
-    height:120px;
-    &:not(:last-child){
-      margin-right:20px;
-    }
-    @include breakpoint-down-sm{
-      margin-right:0;
-      margin-bottom:10px;
-      min-width:100%;
-      width:100%;
-      height:136px !important;
+    flex-grow:1;
+  }
+  @include breakpoint-down-sm{
+    flex-direction:column;
+    >*{
+      height:116px;
     }
   }
 }
