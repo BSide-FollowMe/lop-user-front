@@ -77,7 +77,7 @@ import { getPlantList } from '@/api/plant';
 import VueButton from '@/components/buttons/VueButton.vue';
 import VueAutocomplete from '@/components/inputs/VueAutocomplete.vue';
 import PhotoUploader from '@/components/inputs/PhotoUploader.vue';
-import { registQnaBoard, getQnaBoardDetail, modifyQnaBoard } from '@/api/qnaboard';
+import { registQnaBoard, getQnaBoardDetail, modifyQnaBoard, getQuestionImages } from '@/api/qnaboard';
 import { BoardParamModel } from '@/api/model/boardModel';
 import { ROUTE_TO } from '@/router/routing';
 import store from '@/store';
@@ -121,15 +121,24 @@ export default defineComponent({
         plantLifeCycle.value = data.plantLifeCycle;
         plantCountermeasure.value = data.plantCountermeasure;
         content.value = data.content;
+        const blobImages = await getImageBlob(id);
         const pu: any = photoUploader.value;
         if (pu) {
-          pu.setImageFromUrls(data.images);
+          pu.setImageFromUrls(blobImages);
         }
       } catch (e) {
         console.log(e);
       }
     }
-
+    async function getImageBlob(id:string){
+      try {
+        const { data }:any = await getQuestionImages(id);
+        return data.imageList;
+      } catch (e) {
+        console.error(e);
+        return [];
+      }
+    }
     function checkIsMine({ id }: { id: string }) {
       if(myId.value != id) {
         alert("다른 사람의 글은 수정 할 수 없습니다.")
