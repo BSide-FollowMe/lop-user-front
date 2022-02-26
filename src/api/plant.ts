@@ -1,17 +1,35 @@
 import axios from '@/utils/http/axios';
 import { payloadToQueryString } from '@/utils/text';
-import { PlantListParamModel, PlantListRespModel, PlantDetailParamModel, PlantDetailRespModel } from './model/plantModel';
+import { PlantListParamModel, PlantListRespModel, PlantListData, PlantDetailParamModel, PlantDetailRespModel } from './model/plantModel';
+import { getClientIpAddress } from '@/utils/http/client';
 
 const API_PREFIX = '/v1';
 enum Api {
   PLANT_LIST = '/plants',
   PLANT_DETAIL = '/plants', // required` + /${plantId}`
+  POLL_DIFFICULTY = '/plants',
 }
 
-export function getPlantList(payload: PlantListParamModel): Promise<unknown> {
-  return axios.get<PlantListRespModel>(API_PREFIX + Api.PLANT_LIST + '?' + payloadToQueryString(payload));
+export async function getPlantList(payload: PlantListParamModel): Promise<PlantListData[]> {
+  const res = await axios.get<PlantListRespModel>(API_PREFIX + Api.PLANT_LIST + '?' + payloadToQueryString(payload));
+  return res.data.data;
 }
 
-export function getPlantDetail(payload: PlantDetailParamModel): Promise<unknown> {
-  return axios.get<PlantDetailRespModel>(API_PREFIX + Api.PLANT_LIST + '?' + payloadToQueryString(payload));
+export async function getPlantDetail(payload: PlantDetailParamModel): Promise<PlantDetailRespModel> {
+  const res = await axios.get<PlantDetailRespModel>(API_PREFIX + Api.PLANT_DETAIL + '/' + payload.plantId);
+  return res.data;
+}
+
+// export function registerFavorite({plantId:integer}): Promise<unknown> {
+//   return axios.put()
+// }
+
+export async function pollDifficulty({ plantId, memberId, type }: { plantId: number; memberId?: number; type: string }): Promise<void> {
+  const ip = await getClientIpAddress();
+  return await axios.put(`${API_PREFIX}${Api.POLL_DIFFICULTY}/${plantId}/poll-growth`, {
+    ip,
+    plantId,
+    memberId,
+    type,
+  });
 }
