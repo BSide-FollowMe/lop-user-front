@@ -80,20 +80,18 @@ export default defineComponent({
 .main {
   display: flex;
   flex-wrap: wrap;
-  .card {
-    &:first-child{
-      margin:0 20px 20px 0;
-    }
-    width:470px;
+  gap: 20px;
+  >.card {
+    max-width:50%;
+    flex-grow:1;
     height:176px;
+    &:last-child{
+      max-width: calc(50% - 20px);
+    }
+    
     @include breakpoint-down-sm{
-      &:first-child{
-        margin:0;
-      }
-      margin-right:0;
-      margin-bottom:10px !important;
-      width:100%;
-      height:136px !important;
+      max-width:100% !important;
+      height:136px;
     }
   }
   

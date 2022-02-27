@@ -2,7 +2,7 @@
   <div class="container">
     {{ title }}
     <div class="row" v-for="(item, index) in items" :key="index">
-      <div ref="guideBar" :class="['guide-bar', index === active ? 'hover' : '']" @mouseover="mouseOver(index)" @mouseleave="mouseLeave(index)">
+      <div ref="guideBar" :class="['guide-bar', index === active ? 'hover' : '']" @mouseover="mouseOver(index)" @mouseleave="mouseLeave(index)" @click="poll(index)">
         <div class="inner-guide-bar">
           <span class="check-icon" />
           {{ item.text }}
@@ -20,7 +20,7 @@ import { defineComponent, PropType } from 'vue';
 export default defineComponent({
   props: {
     items: {
-      type: Array as PropType<{ text: string; value: string; hoverColor: string }[]>,
+      type: Array as PropType<{ text: string; value: string; hoverColor: string ; onClick: ()=>void}[]>,
       default: () => [],
     },
     title: {
@@ -46,6 +46,9 @@ export default defineComponent({
     mouseLeave: function (index: number) {
       this.active = -1;
     },
+    poll : function(index:number){
+      this.items[index].onClick();
+    }
   },
 });
 </script>
