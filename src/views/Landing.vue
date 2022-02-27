@@ -28,6 +28,8 @@
     <router-link to="/guide/sunlight">가이드 양지/음지</router-link>
     <br />
     <router-link to="/guide/blight">가이드 아플 때</router-link>
+    <br />
+    <router-link to="/logout">로그아웃</router-link>
   </div>
 </template>
 <script lang="ts">
