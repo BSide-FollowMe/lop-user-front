@@ -98,7 +98,7 @@ import store from '@/store';
 import { ROUTE_TO } from '@/router/routing';
 import ContextMenu from '@/components/ContextMenu.vue';
 import { useKakao } from 'vue3-kakao-sdk';
-import dummyImage from '@/assets/images/detail/dummy.png';
+import dummyImage from '@/assets/images/search/img-error.svg';
 
 export default defineComponent({
   head() {
