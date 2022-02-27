@@ -4,13 +4,16 @@
     <div class="main">
       <Card :imgSrc="VentilationIcon" title="통풍" :content="ventilation">
         <template v-slot:action>
-          <GuideBox content="통풍이 왜 중요한가요?" />
+          <GuideBox @click="emitOpenGuide({ componentName: 'Ventilation', modalTitle: '통풍이 왜 중요한가요?' })" content="통풍이 왜 중요한가요?" />
         </template>
       </Card>
       <Card :imgSrc="ToxicityIcon" title="독성" :content="toxicity"></Card>
       <Card :imgSrc="BlightIcon" title="유의할 병충해" :content="blights.join(',')">
         <template v-slot:action>
-          <GuideBox content="병충해는 어떻게 관리하나요?" />
+          <GuideBox
+            @click="emitOpenGuide({ componentName: 'Blight', modalTitle: '병충해는 어떻게 관리하나요?' })"
+            content="병충해는 어떻게 관리하나요?"
+          />
         </template>
       </Card>
     </div>
@@ -44,11 +47,15 @@ export default defineComponent({
     Card,
     GuideBox,
   },
-  setup() {
+  setup(props, { emit }) {
+    const emitOpenGuide = ({ componentName, modalTitle }: { componentName: string; modalTitle: string }) => {
+      emit('openGuide', { componentName, modalTitle });
+    };
     return {
       VentilationIcon,
       ToxicityIcon,
       BlightIcon,
+      emitOpenGuide,
     };
   },
 });
@@ -62,8 +69,8 @@ export default defineComponent({
   font-size: 24px;
   line-height: 29px;
   margin-bottom: 20px;
-  @include breakpoint-down-sm{
-    font-size:18px;
+  @include breakpoint-down-sm {
+    font-size: 18px;
     padding-bottom: 10px;
   }
   /* identical to box height */
@@ -81,19 +88,18 @@ export default defineComponent({
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
-  >.card {
-    max-width:50%;
-    flex-grow:1;
-    height:176px;
-    &:last-child{
+  > .card {
+    max-width: 50%;
+    flex-grow: 1;
+    height: 176px;
+    &:last-child {
       max-width: calc(50% - 20px);
     }
-    
-    @include breakpoint-down-sm{
-      max-width:100% !important;
-      height:136px;
+
+    @include breakpoint-down-sm {
+      max-width: 100% !important;
+      height: 136px;
     }
   }
-  
 }
 </style>

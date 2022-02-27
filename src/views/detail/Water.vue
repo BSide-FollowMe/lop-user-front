@@ -3,8 +3,21 @@
     <div class="title">물은 이렇게 주세요</div>
     <p class="content" v-html="content"></p>
     <div class="guide">
-      <GuideBox content="흙이 마른 건 이렇게 알 수 있어요" hover-color="#48B57A" />
-      <GuideBox content="물을 잘 주는 TIP" hover-color="#48B57A" />
+      <GuideBox
+        @click="emitOpenGuide({ componentName: 'WaterInspect', modalTitle: '흙이 마른 건 이렇게 알 수 있어요' })"
+        content="흙이 마른 건 이렇게 알 수 있어요"
+        hover-color="#48B57A"
+      />
+      <GuideBox
+        @click="
+          emitOpenGuide({
+            componentName: 'WaterKnowHow',
+            modalTitle: '물을 잘 주려면 이렇게 하세요',
+          })
+        "
+        content="물을 잘 주는 TIP"
+        hover-color="#48B57A"
+      />
     </div>
   </div>
 </template>
@@ -22,6 +35,14 @@ export default defineComponent({
   components: {
     GuideBox,
   },
+  setup(props, { emit }) {
+    const emitOpenGuide = ({ componentName, modalTitle }: { componentName: string; modalTitle: string }) => {
+      emit('openGuide', { componentName, modalTitle });
+    };
+    return {
+      emitOpenGuide,
+    };
+  },
 });
 </script>
 
@@ -31,8 +52,8 @@ export default defineComponent({
   padding-bottom: 14px;
   font-weight: var(--font-weight-bold);
   font-size: 24px;
-  @include breakpoint-down-sm{
-    font-size:18px;
+  @include breakpoint-down-sm {
+    font-size: 18px;
     padding-bottom: 10px;
   }
   line-height: 29px;
@@ -59,27 +80,26 @@ export default defineComponent({
 
   color: var(--text-color-2);
 
-  @include breakpoint-down-sm{
+  @include breakpoint-down-sm {
     font-size: 16px;
   }
 }
 .guide {
   > * {
-    width:100%;
-    &:first-child{
+    width: 100%;
+    &:first-child {
       margin-right: 20px;
     }
-    
   }
   display: flex;
   justify-content: space-between;
-  @include breakpoint-down-sm{
-    display:block;
-    
-    > *{
-      &:first-child{
-        margin:0;
-        margin-bottom:10px;  
+  @include breakpoint-down-sm {
+    display: block;
+
+    > * {
+      &:first-child {
+        margin: 0;
+        margin-bottom: 10px;
       }
     }
   }

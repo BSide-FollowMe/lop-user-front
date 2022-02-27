@@ -1,7 +1,8 @@
 <template>
   <div class="inner-container">
     <div class="plant-image">
-      <img class="fileImage" :src="fileUrl || dummyImage" />
+      <img v-if="!fileUrl" class="fileImage" src="@/assets/images/detail/sample-plant.png" />
+      <img v-else class="fileImage" :src="fileUrl"/>
       <div v-if="fileSource" class="fileSource">{{ fileSource }}</div>
     </div>
     <div class="plant-content">
@@ -32,7 +33,6 @@ import { computed, defineComponent, PropType, ref } from 'vue';
 import { useStore } from 'vuex';
 import { category } from 'plant';
 import { translate } from '@/utils/text';
-import dummyImage from '@/assets/images/detail/dummy.png';
 import ContextMenu from '@/components/ContextMenu.vue';
 import ShareIcon from '@/assets/icon/share.svg';
 import EmptyHeartIcon from '@/assets/icon/heart-empty.svg';
@@ -43,7 +43,6 @@ import Poll from '@/components/detail/Poll.vue';
 import { useKakao } from 'vue3-kakao-sdk';
 
 export default defineComponent({
-  head() { return { script: [ {src: '//developers.kakao.com/sdk/js/kakao.min.js'}, ], } },
   props: {
     name: {
       type: String,
@@ -113,13 +112,13 @@ export default defineComponent({
           props.category,
         ) || '미등록',
     );
-
-    const shareKakao = () => {
+    
+    const shareKakao = async () => {
       kakao.value.Link.sendDefault({
         objectType: 'feed',
         content: {
           title: `식물의 언어 - ${props.name}`,
-          imageUrl: props.fileUrl || dummyImage,
+          imageUrl: props.fileUrl || 'https://plantslang.com/img/sample-plant.7e3b4dd0..png',
           link: {
             mobileWebUrl: window.document.location.href,
             webUrl: window.document.location.href,
@@ -169,7 +168,6 @@ export default defineComponent({
       FullHeartIcon,
       pollItems,
       translatedCategory,
-      dummyImage,
     };
   },
   components: {
