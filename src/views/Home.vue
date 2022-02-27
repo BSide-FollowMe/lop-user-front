@@ -45,23 +45,23 @@
         <span class="text-bold">돌봄 가이드</span>
       </h1>
       <div class="btn-group">
-        <button>
+        <button @click="ROUTE_TO.GUIDE_WATTER">
           <img src="@/assets/icon/water-fall.svg" alt="" />
           <div>물 주기</div>
         </button>
-        <button>
+        <button @click="ROUTE_TO.GUIDE_SUNLIGHT">
           <img src="@/assets/icon/sunrise.svg" alt="" />
           <div>햇빛</div>
         </button>
-        <button>
+        <button @click="ROUTE_TO.GUIDE_VENTILATION">
           <img src="@/assets/icon/wind.svg" alt="" />
           <div>통풍</div>
         </button>
-        <button>
+        <button @click="ROUTE_TO.GUIDE_BLIGHT">
           <img src="@/assets/icon/bug-eatting.svg" alt="" />
           <div>병충해</div>
         </button>
-        <button class="large-button">
+        <button class="large-button" @click="ROUTE_TO.QNABOARD">
           <span>직접 질문하기</span>
           <img src="@/assets/icon/question-feedback.svg" alt="" />
         </button>
@@ -134,6 +134,7 @@ export default defineComponent({
       clickToTop,
       onSubmit,
       myNickname,
+      ROUTE_TO,
     };
   },
 });

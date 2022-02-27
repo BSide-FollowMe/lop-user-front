@@ -74,3 +74,10 @@ export interface PlantDetailRespModel {
   winterTemperature?: string;
   winterTemperatureUpDown?: winterTemperatureUpDown;
 }
+
+export interface ReportParamModel {
+  content: string;
+  email: string;
+  plantId?: number | number;
+  reportType: string;
+}

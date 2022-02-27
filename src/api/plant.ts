@@ -1,6 +1,6 @@
 import axios from '@/utils/http/axios';
 import { payloadToQueryString } from '@/utils/text';
-import { PlantListParamModel, PlantListRespModel, PlantListData, PlantDetailParamModel, PlantDetailRespModel } from './model/plantModel';
+import { PlantListParamModel, PlantListRespModel, PlantListData, PlantDetailParamModel, PlantDetailRespModel, ReportParamModel } from './model/plantModel';
 import { getClientIpAddress } from '@/utils/http/client';
 
 const API_PREFIX = '/v1';
@@ -8,11 +8,11 @@ enum Api {
   PLANT_LIST = '/plants',
   PLANT_DETAIL = '/plants', // required` + /${plantId}`
   POLL_DIFFICULTY = '/plants',
+  REPORT_REGIST = '/reports',
 }
 
 export async function getPlantList(payload: PlantListParamModel): Promise<PlantListData[]> {
-  const res = await axios.get<PlantListRespModel>(API_PREFIX + Api.PLANT_LIST + '?' + payloadToQueryString(payload));
-  return res.data.data;
+  return axios.get(API_PREFIX + Api.PLANT_LIST + '?' + payloadToQueryString(payload));
 }
 
 export async function getPlantDetail(payload: PlantDetailParamModel): Promise<PlantDetailRespModel> {
@@ -32,4 +32,8 @@ export async function pollDifficulty({ plantId, memberId, type }: { plantId: num
     memberId,
     type,
   });
+}
+
+export async function registReport(payload: ReportParamModel): Promise<void> {
+  return axios.post(API_PREFIX + Api.REPORT_REGIST, payload);
 }

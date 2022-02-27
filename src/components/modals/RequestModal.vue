@@ -22,7 +22,7 @@
         보내주신 내용은 식물의언어 팀에서 확인 후 이메일로 빠르게 답변 드리겠습니다.
       </span>
       <div class="bottom">
-        <VueButton color="primary" class="confirm-btn">등록하기</VueButton>
+        <VueButton color="primary" class="confirm-btn" @click="confirm">등록하기</VueButton>
       </div>
     </div>
   </DefaultModal>
@@ -46,7 +46,13 @@ export default defineComponent({
     function closeModal() {
       emit('close');
     }
-    return { closeModal, email, contents, props };
+    function confirm() {
+      emit('confirm', {
+        email: email.value,
+        contents: contents.value,
+      });
+    }
+    return { closeModal, email, contents, props, confirm };
   },
 });
 </script>
