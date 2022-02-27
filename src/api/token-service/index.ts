@@ -49,9 +49,9 @@ const svc = {
     localStorage.setLocalItem(STORAGE_KEY, token);
   },
   async removeToken(): Promise<void> {
-    $store.dispatch('signout');
     await localStorage.removeLocalItem(STORAGE_KEY);
     await localStorage.removeLocalItem(STORAGE_USR);
+    await $store.dispatch('signOut');
   },
 };
 

@@ -74,7 +74,8 @@
             도움돼요 {{ details.supportCount }}
           </button>
           <span class="separator">|</span>
-          <button @click="copyUrl">
+          <button  @click="openContextMenu">
+            <ContextMenu ref="shareCotextRef" class="context-menu" :items="contextMenuItems" />
             <img src="@/assets/icon/share-gray.svg" />
             <br class="md-down-only" />
             공유하기
@@ -92,12 +93,14 @@ import { getQnaBoardDetail, removeQnaBoard, toggleSupportQuestions } from '@/api
 import Reply from './_ReplyList.vue';
 import { useRoute } from 'vue-router';
 import { getTimeDistanceWithNaturalStr } from '@/utils/text';
-import { debounce } from '@/utils/global';
+import { debounce, copyUrl } from '@/utils/global';
 import store from '@/store';
 import { ROUTE_TO } from '@/router/routing';
+import ContextMenu from '@/components/ContextMenu.vue';
+
 export default defineComponent({
   name: 'Question Detail',
-  components: { Reply },
+  components: { Reply,ContextMenu },
   setup() {
     const myUserInfo = computed(() => store.getters.getUserInfo);
     const myId = computed(() => myUserInfo.value?.id || null);
@@ -106,6 +109,7 @@ export default defineComponent({
     const actionModal = ref(false);
     const boardId: any = computed(() => route.query.id || '');
     const actionBtnRef = ref(null);
+    const shareCotextRef = ref(ContextMenu);
     getDetails();
 
     document.addEventListener('click', documentClick);
@@ -137,16 +141,7 @@ export default defineComponent({
         actionModal.value = false;
       }
     }
-    function copyUrl() {
-      const val = window.document.location.href;
-      const t = document.createElement('textarea');
-      document.body.appendChild(t);
-      t.value = val;
-      t.select();
-      document.execCommand('copy');
-      document.body.removeChild(t);
-      alert('이 페이지의 URL이 클립보드에 저장되었습니다. \n다른곳에 붙여넣어보세요!');
-    }
+
     async function toggleSupportBtn() {
       try {
         await toggleSupportQuestions(boardId.value);
@@ -155,6 +150,21 @@ export default defineComponent({
         console.error(e);
       }
     }
+
+    const openContextMenu = () => {
+      shareCotextRef.value.toggleContextMenu();
+    };
+    const shareKakao = () => {
+      console.log('shareKakao');
+    };
+    const copyLink = () => {
+      copyUrl();
+      store.dispatch('snack/openSnack', { text: '링크가 복사되었어요!', color: '#48B57A' });
+    };
+    const contextMenuItems = [
+      { text: '카카오톡 공유', func: shareKakao, icon: require('@/assets/icon/logo_카카오톡.svg') },
+      { text: '링크 복사', func: copyLink, icon: require('@/assets/icon/icon_link.svg') },
+    ];
     return {
       documentClick,
       details,
@@ -168,6 +178,9 @@ export default defineComponent({
       refresh: getDetails,
       copyUrl,
       toggleSupportBtn: debounce(toggleSupportBtn, 500),
+      shareCotextRef,
+      openContextMenu,
+      contextMenuItems,
     };
   },
   unmounted() {
@@ -502,5 +515,8 @@ button {
 }
 .separator {
   color: var(--background-color-1);
+}
+.context-menu {
+  text-align:left
 }
 </style>
