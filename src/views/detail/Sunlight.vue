@@ -2,8 +2,17 @@
   <div class="inner-container">
     <div class="title">이런 장소를 좋아해요</div>
     <span class="sunlight-type" v-for="(sunlightType, index) in sunlightTypes" :key="index">{{ sunlightType }}</span>
-    <p class="content" v-html="content"/>
-    <GuideBox class="guide" content="양지와 음지는 어떻게 구분하나요?"/>
+    <p class="content" v-html="content" />
+    <GuideBox
+      @click="
+        emitOpenGuide({
+          componentName: 'Sunlight',
+          modalTitle: '양지와 음지를 어떻게 구분하나요?',
+        })
+      "
+      class="guide"
+      content="양지와 음지는 어떻게 구분하나요?"
+    />
   </div>
 </template>
 <script lang="ts">
@@ -20,9 +29,17 @@ export default defineComponent({
       default: '밝은 빛을 좋아해요. 어두운 환경에서는 느리게 자랄 수 있으니 창가 햇빛 드는 곳에서 키워주세요.',
     },
   },
-  components:{
+  components: {
     GuideBox,
-  }
+  },
+  setup(props, { emit }) {
+    const emitOpenGuide = ({ componentName, modalTitle }: { componentName: string; modalTitle: string }) => {
+      emit('openGuide', { componentName, modalTitle });
+    };
+    return {
+      emitOpenGuide,
+    };
+  },
 });
 </script>
 
@@ -33,9 +50,9 @@ export default defineComponent({
   font-weight: var(--font-weight-bold);
   font-size: 24px;
   line-height: 29px;
-  margin-bottom:20px;
-  @include breakpoint-down-sm{
-    font-size:18px;
+  margin-bottom: 20px;
+  @include breakpoint-down-sm {
+    font-size: 18px;
     padding-bottom: 10px;
   }
   /* identical to box height */
@@ -53,17 +70,17 @@ export default defineComponent({
   margin-right: 10px;
   background: #e5f4eb;
   border-radius: 2px;
-  @include breakpoint-down-sm{
+  @include breakpoint-down-sm {
     font-size: 15px;
     line-height: 20px;
   }
 }
-.content{
-  margin:20px 0 36px 0;
+.content {
+  margin: 20px 0 36px 0;
   font-weight: var(--font-weight-medium);
   font-size: 18px;
   line-height: 26px;
-  @include breakpoint-down-sm{
+  @include breakpoint-down-sm {
     font-size: 16px;
   }
   /* identical to box height, or 144% */
@@ -76,10 +93,9 @@ export default defineComponent({
 }
 
 .guide {
-  width:470px;
-  @include breakpoint-down-sm{
-    width:100%;
+  width: 470px;
+  @include breakpoint-down-sm {
+    width: 100%;
   }
 }
-
 </style>

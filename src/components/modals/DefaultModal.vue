@@ -12,8 +12,10 @@ export default defineComponent({
   name: 'DefaultModal',
   props: [],
   setup(props, { emit }) {
+    window.document.body.style.overflow = "hidden";
     function closeModal() {
       emit('close');
+      window.document.body.style.overflow = "auto";
     }
     return {
       closeModal,

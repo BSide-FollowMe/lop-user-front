@@ -58,7 +58,7 @@ export interface PlantDetailRespModel {
   maxHumidity?: string;
   minHumidity?: string;
   modifiedDateTime?: string;
-  name?: string;
+  name: string;
   nickname?: string;
   pollGrowth?: {
     growthEasy?: number;
