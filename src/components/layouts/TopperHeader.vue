@@ -15,15 +15,18 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref, computed, watch } from 'vue';
 import { ROUTE_TO } from '@/router/routing';
 import { tokenSvc } from '@/api/token-service';
+import { useRoute } from 'vue-router';
 
 export default defineComponent({
-  setup(props, { emit }) {
-    const onToggleDrawer = () => {
-      emit('toggleDrawer');
-    };
+  setup() {
+    const route = useRoute();
+    const currentPath = computed(() => route.path);
+    watch(currentPath, () => {
+      checkLoggedIn();
+    });
     const isLoggedIn = ref(false);
     checkLoggedIn();
     async function checkLoggedIn() {
@@ -32,7 +35,6 @@ export default defineComponent({
     return {
       ROUTE_TO,
       isLoggedIn,
-      onToggleDrawer,
     };
   },
 });

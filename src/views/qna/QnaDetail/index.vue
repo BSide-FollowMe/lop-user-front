@@ -74,7 +74,7 @@
             도움돼요 {{ details.supportCount }}
           </button>
           <span class="separator">|</span>
-          <button  @click="openContextMenu">
+          <button @click="openContextMenu">
             <ContextMenu ref="shareCotextRef" class="context-menu" :items="contextMenuItems" />
             <img src="@/assets/icon/share-gray.svg" />
             <br class="md-down-only" />
@@ -97,11 +97,17 @@ import { debounce, copyUrl } from '@/utils/global';
 import store from '@/store';
 import { ROUTE_TO } from '@/router/routing';
 import ContextMenu from '@/components/ContextMenu.vue';
+import { useKakao } from 'vue3-kakao-sdk';
+import dummyImage from '@/assets/images/detail/dummy.png';
 
 export default defineComponent({
+  head() {
+    return { script: [{ src: '//developers.kakao.com/sdk/js/kakao.min.js' }] };
+  },
   name: 'Question Detail',
-  components: { Reply,ContextMenu },
+  components: { Reply, ContextMenu },
   setup() {
+    const { kakao } = useKakao();
     const myUserInfo = computed(() => store.getters.getUserInfo);
     const myId = computed(() => myUserInfo.value?.id || null);
     const route = useRoute();
@@ -154,7 +160,23 @@ export default defineComponent({
     const openContextMenu = () => {
       shareCotextRef.value.toggleContextMenu();
     };
-    const shareKakao = () => {
+    const shareKakao = (details: any) => {
+      const title = details.plantName;
+      let imageUrl = dummyImage;
+      if (details?.images && details.images.length) {
+        imageUrl = details.images[0].imageUrl;
+      }
+      kakao.value.Link.sendDefault({
+        objectType: 'feed',
+        content: {
+          title: `식물의 언어 - 질문: ${title}`,
+          imageUrl: imageUrl,
+          link: {
+            mobileWebUrl: window.document.location.href,
+            webUrl: window.document.location.href,
+          },
+        },
+      });
       console.log('shareKakao');
     };
     const copyLink = () => {
@@ -384,7 +406,7 @@ export default defineComponent({
       }
       font-size: 12px;
     }
-    &.helpful-btn-primary{
+    &.helpful-btn-primary {
       color: var(--secondary-green-color-1);
     }
   }
@@ -495,10 +517,10 @@ export default defineComponent({
   }
 }
 
-.helpful-btn{
-  img{
-    width:20px;
-  height:20px;
+.helpful-btn {
+  img {
+    width: 20px;
+    height: 20px;
   }
 }
 .helpful-btn:hover {
@@ -517,6 +539,6 @@ button {
   color: var(--background-color-1);
 }
 .context-menu {
-  text-align:left
+  text-align: left;
 }
 </style>

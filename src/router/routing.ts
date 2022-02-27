@@ -12,6 +12,10 @@ export const ROUTE_TO = {
   QNABOARD_DETAIL: (id: string) => router.push(PageEnum.QNABOARD_DETAIL + '?id=' + id),
   QNABOARD_REGIST: () => router.push(PageEnum.QNABOARD_EDIT),
   QNABOARD_EDIT: (id: string, type: string) => router.push(PageEnum.QNABOARD_EDIT + '?id=' + id + '&type=' + type),
+  GUIDE_WATTER: () => router.push(PageEnum.WATER_GUIDE),
+  GUIDE_VENTILATION: () => router.push(PageEnum.VENTILATION_GUIDE),
+  GUIDE_SUNLIGHT: () => router.push(PageEnum.SUNLIGHT_GUIDE),
+  GUIDE_BLIGHT: () => router.push(PageEnum.BLIGHT_GUIDE),
   MYPAGE: () => router.push(PageEnum.My_Page),
 };
 export const OPEN_LINK = {

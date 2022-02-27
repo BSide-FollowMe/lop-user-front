@@ -27,7 +27,8 @@ import { defineComponent, ref } from 'vue';
 import AskHelp from './_AskSick.vue';
 import AskQuestion from './_AskWonder.vue';
 import { useRoute } from 'vue-router';
-
+import { tokenSvc } from '@/api/token-service';
+import { ROUTE_TO } from '@/router/routing';
 export default defineComponent({
   name: 'Question Edit',
   components: {
@@ -38,6 +39,16 @@ export default defineComponent({
     const route = useRoute();
     const page = ref(route.query['type']=='WONDER' ? 'WONDER' : 'SICK');
     const boardId = ref(route.query['id'] || null);
+
+    checkIsLoggedIn();
+    async function checkIsLoggedIn() {
+      const isLoggedIn = await tokenSvc.isValidToken();
+      if (!isLoggedIn) {
+        alert('먼저 로그인해주세요!');
+        ROUTE_TO.LOGIN();
+        return;
+      }
+    }
     return { page,boardId };
   },
 });

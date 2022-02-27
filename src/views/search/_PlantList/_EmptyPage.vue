@@ -8,7 +8,7 @@
         <br />
         새로운 식물의 언어를 빠르게 들려드릴게요.
       </div>
-      <VueButton color="primary" class="plant-request-btn">식물 등록 요청하기</VueButton>
+      <VueButton color="primary" class="plant-request-btn" @click="checkIsLoggedIn">식물 등록 요청하기</VueButton>
     </section>
     <section class="recommend-container">
       <div class="inner-infinety-container">
@@ -24,20 +24,67 @@
         </ul>
       </div>
     </section>
+    <RequestModal
+      v-if="showModal"
+      :options="{
+        modalTitle: '식물 등록 요청하기',
+        contentsLabel: '더 자세히 알고 싶은 식물명을 알려주세요. ',
+        type: 'Request',
+      }"
+      @close="showModal = false"
+      @confirm="registPlant"
+    />
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, computed } from 'vue';
+import { defineComponent, computed, ref } from 'vue';
 import VueButton from '@/components/buttons/VueButton.vue';
+import RequestModal from '@/components/modals/RequestModal.vue';
+import { registReport } from '@/api/plant';
+import { tokenSvc } from '@/api/token-service';
+import { ROUTE_TO } from '@/router/routing';
 export default defineComponent({
   components: {
     VueButton,
+    RequestModal,
   },
   props: ['text'],
   setup(props) {
     const searchTarget = computed(() => props.text);
+    const showModal = ref(false);
+    const isLoggedIn = ref(false);
+    checkLoggedIn();
+    async function registPlant({ email, contents }: { email: string; contents: string }) {
+      try {
+        const payload = {
+          content: contents,
+          email: email,
+          reportType: 'REQUEST_PLANT',
+        };
+        await registReport(payload);
+        alert('식물 등록 요청이 접수되었습니다. 관리자가 식물을 등록해드릴 예정입니다.');
+        showModal.value = false;
+      } catch (e) {
+        console.error(e);
+      }
+    }
+    async function checkLoggedIn() {
+      isLoggedIn.value = await tokenSvc.isValidToken();
+    }
+    function checkIsLoggedIn() {
+      if (!isLoggedIn.value) {
+        alert('먼저 로그인해주세요!');
+        ROUTE_TO.LOGIN();
+        return;
+      }
+      showModal.value = true;
+    }
+
     return {
       searchTarget,
+      showModal,
+      registPlant,
+      checkIsLoggedIn,
     };
   },
 });
@@ -55,7 +102,7 @@ export default defineComponent({
       height: 116px;
     }
     @include breakpoint-down-sm {
-      padding:60px;
+      padding: 60px;
       height: 378px;
       img {
         width: 60px;
@@ -82,7 +129,7 @@ export default defineComponent({
     width: 180px;
     height: 48px;
     @include breakpoint-down-sm {
-      width:147px;
+      width: 147px;
       margin-top: 40px;
     }
   }

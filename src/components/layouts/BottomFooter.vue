@@ -24,15 +24,8 @@ import { defineComponent, ref } from 'vue';
 import { ROUTE_TO, OPEN_LINK } from '@/router/routing';
 
 export default defineComponent({
-  setup(_, { emit }) {
-    const onToggleDrawer = () => {
-      emit('toggleDrawer');
-    };
-    const isLoggedIn = ref(false);
-
+  setup() {
     return {
-      isLoggedIn,
-      onToggleDrawer,
       OPEN_LINK,
       ROUTE_TO,
     };
