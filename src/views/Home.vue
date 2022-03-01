@@ -28,11 +28,11 @@
           <span class="text-bold">좋을 식물</span>
         </h1>
         <ul class="plant-list">
-          <li class="item" v-for="count in 5" :key="`item-${count}`">
-            <img src="@/assets/images/home/sample-plant.png" />
-            <span class="category">관엽식물</span>
+          <li class="item" v-for="(item, index) in recommended" :key="`item-${index}`" @click="ROUTE_TO.PLANT_DETAILS(item.id)">
+            <img :src="item.fileUrl" @error="$event.target.src = require('@/assets/images/search/img-error.svg')" />
+            <span class="category" v-if="item.categoryTitle && item.categoryTitle != ''"> {{item.categoryTitle}} </span>
             <hr />
-            <span class="plant-name text-light">보로니아</span>
+            <span class="plant-name text-light">{{item.name}}</span>
           </li>
         </ul>
       </div>
@@ -76,6 +76,8 @@ import ToTopButton from '@/components/buttons/ToTop.vue';
 import { validateSearchStr } from '@/utils/validation';
 import store from '@/store';
 import { ROUTE_TO } from '@/router/routing';
+
+import {getRecommendPlantList} from '@/api/plant';
 export default defineComponent({
   name: 'Home',
 
@@ -87,10 +89,14 @@ export default defineComponent({
     const myUserInfo = computed(() => store.getters.getUserInfo);
     const myNickname = computed(()=> myUserInfo.value?.nickname || '식집사');
     const searchText = ref('');
+    const recommended = ref([]);
+
+    getRecommended()
 
     onMounted(() => {
       horizontalMouseScroll();
     });
+
     function horizontalMouseScroll() {
       const slider: any = document.querySelector('.plant-list');
       if (!slider) return;
@@ -129,12 +135,24 @@ export default defineComponent({
       }
       ROUTE_TO.SEARCH_RESULT(newVal);
     }
+    async function getRecommended(){
+      try {
+        const {data}:any = await getRecommendPlantList();
+        recommended.value = data;
+      } catch (e) {
+        console.error(e)
+      }
+
+    }
+
+
     return {
       searchText,
       clickToTop,
       onSubmit,
       myNickname,
       ROUTE_TO,
+      recommended,
     };
   },
 });

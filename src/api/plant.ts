@@ -9,10 +9,15 @@ enum Api {
   PLANT_DETAIL = '/plants', // required` + /${plantId}`
   POLL_DIFFICULTY = '/plants',
   REPORT_REGIST = '/reports',
+  RECOMMEND_PLANT_LIST = '/recommend-plants',
 }
 
 export async function getPlantList(payload: PlantListParamModel): Promise<PlantListData[]> {
   return axios.get(API_PREFIX + Api.PLANT_LIST + '?' + payloadToQueryString(payload));
+}
+
+export async function getRecommendPlantList(): Promise<PlantListData[]> {
+  return axios.get(API_PREFIX + Api.RECOMMEND_PLANT_LIST);
 }
 
 export async function getPlantDetail(payload: PlantDetailParamModel): Promise<PlantDetailRespModel> {
