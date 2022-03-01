@@ -13,7 +13,7 @@
     <br/>
     <router-link to="/qna/edit">질문 답변 글쓰기</router-link>
     <br/>
-    <router-link to="/plant/1">식물상세</router-link>
+    <router-link to="/plant/45">식물상세</router-link>
     <br />
     <router-link to="/me">마이페이지</router-link>
     <br />

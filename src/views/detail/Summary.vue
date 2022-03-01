@@ -2,7 +2,7 @@
   <div class="inner-container">
     <div class="plant-image">
       <img v-if="!fileUrl" class="fileImage" src="@/assets/images/detail/sample-plant.png" />
-      <img v-else class="fileImage" :src="fileUrl"/>
+      <img v-else class="fileImage" :src="fileUrl" />
       <div v-if="fileSource" class="fileSource">{{ fileSource }}</div>
     </div>
     <div class="plant-content">
@@ -19,8 +19,24 @@
           <ContextMenu ref="contextMenu" class="ContextMenu" :items="contextMenuItems" />
           <div class="icon-group">
             <img class="icon" :src="ShareIcon" @click="openContextMenu" />
-            <img class="icon heart-fill-icon" :src="FullHeartIcon" @click="unRegitserLike" />
-            <img class="icon heart-empty-icon" :src="EmptyHeartIcon" @click="registerLike" />
+            <img
+              v-if="isLoggedIn && currentLike"
+              class="icon heart-fill-icon"
+              :src="FullHeartIcon"
+              @click="
+                toggleLike();
+                requestChangeLike(false);
+              "
+            />
+            <img
+              v-if="isLoggedIn && !currentLike"
+              class="icon heart-empty-icon"
+              :src="EmptyHeartIcon"
+              @click="
+                toggleLike();
+                requestChangeLike(true);
+              "
+            />
           </div>
         </div>
       </div>
@@ -29,10 +45,12 @@
   </div>
 </template>
 <script lang="ts">
-import { computed, defineComponent, PropType, ref } from 'vue';
+import { computed, defineComponent, PropType, ref, nextTick, onMounted, watchEffect } from 'vue';
 import { useStore } from 'vuex';
 import { category } from 'plant';
 import { translate } from '@/utils/text';
+import { registerLike, pollDifficulty } from '@/api/plant';
+import { debounce } from 'lodash';
 import ContextMenu from '@/components/ContextMenu.vue';
 import ShareIcon from '@/assets/icon/share.svg';
 import EmptyHeartIcon from '@/assets/icon/heart-empty.svg';
@@ -44,6 +62,14 @@ import { useKakao } from 'vue3-kakao-sdk';
 
 export default defineComponent({
   props: {
+    plantId: {
+      type: Number,
+      default: 0,
+    },
+    isFavorite: {
+      type: Boolean || null,
+      default: null,
+    },
     name: {
       type: String,
       default: '',
@@ -90,7 +116,7 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const { kakao } = useKakao()
+    const { kakao } = useKakao();
     const store = useStore();
     const contextMenu = ref(ContextMenu);
     const openContextMenu = () => {
@@ -112,7 +138,7 @@ export default defineComponent({
           props.category,
         ) || '미등록',
     );
-    
+
     const shareKakao = async () => {
       kakao.value.Link.sendDefault({
         objectType: 'feed',
@@ -143,23 +169,58 @@ export default defineComponent({
       { text: '링크 복사', func: copyLink, icon: LinkIcon },
     ];
 
-    const registerLike = () => {
-      console.log('register like');
-      store.dispatch('snack/openSnack', { text: '내가 저장한 식물에 추가했어요!', link: '/', color: '#C9704C' });
+    const currentLike = ref(null as null | boolean);
+    watchEffect(() => {
+      if (props.isFavorite != null) {
+        currentLike.value = props.isFavorite;
+      }
+    });
+
+    const toggleLike = () => {
+      currentLike.value = !currentLike.value;
+      if (currentLike.value) {
+        store.dispatch('snack/openSnack', { text: '내가 저장한 식물에 추가했어요!', link: '/', color: '#C9704C' });
+      } else {
+        store.dispatch('snack/openSnack', { text: '내가 저장한 식물에서 삭제했어요!', color: '#C9704C' });
+      }
     };
-    const unRegitserLike = () => {
-      console.log('unregister like');
-      store.dispatch('snack/openSnack', { text: '내가 저장한 식물에서 삭제했어요!', color: '#C9704C' });
+    const requestChangeLike = debounce(async (isAdded: boolean) => {
+      try {
+        await registerLike({ plantId: props.plantId, memberId: store.state.user.id, isAdded });
+      } catch (e) {
+        if (e instanceof Error) {
+          alert(e.message);
+        } else {
+          alert(e);
+        }
+      }
+    }, 300);
+
+    const requestPollDifficulty = async (type: string) => {
+      try {
+        await pollDifficulty({ memberId: store.state.user.id, plantId: props.plantId, type }); //todo 한번만 투표하실 수 있습니다 error message 추가
+      } catch (e) {
+        if (e instanceof Error) {
+          alert(e.message);
+        } else {
+          alert(e);
+        }
+      }
     };
+
     const pollItems = computed(() => {
       return [
-        { text: '쉬워요', value: props.growthEasy + '%', hoverColor: '#48B57A' },
-        { text: '어려워요', value: props.growthHard + '%', hoverColor: '#C9704C' },
+        { text: '쉬워요', value: props.growthEasy + '%', hoverColor: '#48B57A', onClick: () => requestPollDifficulty('EASY') },
+        { text: '어려워요', value: props.growthHard + '%', hoverColor: '#C9704C', onClick: () => requestPollDifficulty('HARD') },
       ];
     });
+
+    const isLoggedIn = computed(() => !!store.state.user.token);
+
     return {
-      registerLike,
-      unRegitserLike,
+      currentLike,
+      toggleLike,
+      requestChangeLike,
       openContextMenu,
       contextMenu,
       contextMenuItems,
@@ -168,6 +229,7 @@ export default defineComponent({
       FullHeartIcon,
       pollItems,
       translatedCategory,
+      isLoggedIn,
     };
   },
   components: {
@@ -341,28 +403,6 @@ export default defineComponent({
     margin-bottom: 25px;
     width: 18px;
     height: 20px;
-  }
-  .heart-empty-icon:hover {
-    -webkit-mask-image: url('@/assets/icon/heart-fill.svg');
-    mask-image: url('@/assets/icon/heart-fill.svg');
-    -webkit-mask-repeat: no-repeat;
-    mask-repeat: no-repeat;
-    -webkit-mask-position: center center;
-    mask-position: center center;
-    width: 18px;
-    height: 20px;
-    background-color: var(--primary-color-1);
-  }
-  .heart-fill-icon:hover {
-    -webkit-mask-image: url('@/assets/icon/heart-empty.svg');
-    mask-image: url('@/assets/icon/heart-empty.svg');
-    -webkit-mask-repeat: no-repeat;
-    mask-repeat: no-repeat;
-    -webkit-mask-position: center center;
-    mask-position: center center;
-    width: 18px;
-    height: 20px;
-    background-color: var(--primary-color-1);
   }
 }
 </style>

@@ -30,7 +30,7 @@
           써주세요. 화분 받침에 물이 고여 있으면 뿌리가 상할 수 있거든요. 배수가 잘 되지 않아 흙 위에 물이 고여있다면, 나무젓가락으로 흙을 여러 번
           찔러주세요. 흙 속에 산소도 공급하고 배수에도 도움이 될 거예요.
         </div>
-        <img style="width: 100%" src="@/assets/images/guide/물주기1_1.png" />
+        <img style="width:100%" class="responsive" src="@/assets/images/guide/물주기1_1.png" />
       </section>
       <section class="sub">
         <div class="sub__title">저면관수는 어떻게 하나요?</div>
@@ -39,7 +39,7 @@
           물을 채워서, 식물의 겉흙이 촉촉해지면 꺼내주세요. 가끔 저면관수로 물을 주면 뿌리가 골고루 물을 머금어서 더 건강하게 자랄 수 있는데요. 위에서
           물을 뿌리는 방식으로만 물을 주면 화분 안에 물길이 생겨 물이 닿지 않는 곳이 생길 수 있기 때문이에요.
         </div>
-        <img style="width: 100%" src="@/assets/images/guide/물주기1_2.png" />
+        <img style="width:100%" class="responsive" src="@/assets/images/guide/물주기1_2.png" />
       </section>
     </section>
   </section>
@@ -57,7 +57,9 @@
 </template>
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
-export default defineComponent({});
+export default defineComponent({
+  
+});
 </script>
 <style lang="scss" scoped>
 @import '@/styles/';
@@ -101,7 +103,7 @@ export default defineComponent({});
     gap: 40px;
   }
   .sub {
-    flex-basis: auto;
+    flex-basis: 450px;
     flex-grow: 1;
     position: relative;
     margin-bottom: 0;
@@ -133,7 +135,7 @@ export default defineComponent({});
           right: 0;
           top: -30px;
           height: 0;
-          width: 100%; /* or 100px */
+          width: 450px; /* or 100px */
           border-top: 1px solid #e5e5e5;
         }
         &:after {
@@ -217,6 +219,10 @@ export default defineComponent({});
     img {
       margin-right: 7px;
       vertical-align: text-top;
+      &.responsive {
+        width: fill-available;
+        width: -webkit-fill-available;
+      }
       @include breakpoint-down-sm {
         width: 12px;
         height: 16px;
@@ -258,10 +264,6 @@ export default defineComponent({});
         }
       }
     }
-  }
-  .responsive {
-    width: fill-available;
-    width: -webkit-fill-available;
   }
 }
 </style>
