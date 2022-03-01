@@ -2,11 +2,11 @@
   <section class="question-container">
     <ul class="question-list">
       <div class="list-summary paragraph-2">
-        <span v-if="searchTarget">
-          녹영&nbsp;
+        <span v-if="plantName != ''">
+          {{ plantName }}&nbsp;
           <span class="list-summary__count">{{ totalLength }}</span>
         </span>
-        <CheckButton class="toggle-my-question" />
+        <CheckButton v-if="isLoggedIn" class="toggle-my-question" @toggle="toggleIsMyList"/>
       </div>
       <li class="item" v-for="(item, index) in items" :key="`plant-item-${index}`" @click="ROUTE_TO.QNABOARD_DETAIL(item.id)">
         <div class="item__infomations">
@@ -26,33 +26,76 @@
   </section>
 </template>
 <script lang="ts">
-import { defineComponent, ref, computed } from 'vue';
+import { defineComponent, ref, computed, watch } from 'vue';
+import { useRoute } from 'vue-router';
 import CheckButton from '@/components/buttons/CheckButton.vue';
 import { getTimeDistanceWithNaturalStr } from '@/utils/text';
 import { handleInfiniteListScroll } from '@/utils/global';
 import { ROUTE_TO } from '@/router/routing';
 import { debounce } from '@/utils/global';
+import { tokenSvc } from '@/api/token-service';
+import router from '@/router';
+
+import { getPlantDetail } from '@/api/plant';
+
 export default defineComponent({
   components: {
     CheckButton,
   },
-  props: ['text', 'searchTarget', 'items', 'totalLength'],
+  props: ['text', 'plantId', 'items', 'totalLength'],
   setup(props, { emit }) {
+    const route = useRoute();
     const items = computed(() => props.items);
     const totalLength = computed(() => props.totalLength);
+    const listType: any = computed(() => route.query.list);
+    const plantId = computed(()=>props.plantId);
+    const plantName = ref('');
+    const isLoggedIn = ref(false);
+    checkLoggedIn()
+    async function checkLoggedIn() {
+      isLoggedIn.value = await tokenSvc.isValidToken();
+    }
+    if(plantId.value != ''){
+      getPlantName();
+    }
+
+
     const onScroll = debounce(($event:any) => {
         handleInfiniteListScroll($event, items.value, totalLength.value, onAtTheBottom);
       }, 500);
     document.addEventListener('scroll', onScroll);
+
+    async function getPlantName(){
+      try {
+        const res = await getPlantDetail({ plantId: plantId.value });
+        plantName.value = res.name;
+        console.log(res);
+      } catch (e) {
+        router.push('/not-found');
+      }
+    }
+
     function onAtTheBottom() {
       emit('atBottom');
     }
+    const routeToPathWithParam = (key: string, value: string) => {
+      const query = { ...route.query };
+      query[key] = value;
+      router.push({ query: query });
+    };
+    function toggleIsMyList(checked:boolean){
+      routeToPathWithParam('mine', checked? '1' : '0');
 
+    }
     return {
       ROUTE_TO,
       getTimeDistanceWithNaturalStr,
       onAtTheBottom,
       onScroll,
+      routeToPathWithParam,
+      toggleIsMyList,
+      isLoggedIn,
+      plantName,
     };
   },
   unmounted() {

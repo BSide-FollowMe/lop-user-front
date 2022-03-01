@@ -8,12 +8,19 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref, watch } from 'vue';
 
 export default defineComponent({
-  setup() {
+  setup(_,{emit}) {
     const value = ref(false);
-    return { value };
+
+    watch(() => value.value, (newValue: boolean) => {
+      onToggleEvent(newValue);
+    });
+    function onToggleEvent(payload: string | boolean){
+      emit('toggle', payload);
+    }
+    return { value};
   },
 });
 </script>

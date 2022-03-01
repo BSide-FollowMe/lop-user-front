@@ -12,6 +12,7 @@ enum Api {
   BLOB_IMAGES = '/images', // required `/questions/{questionId}/images`
   TOGGLE_SUPPORT_COMMENTS = '/supports', // required '/comments/{commentId}/supports'
   TOGGLE_SUPPORT_BOARD = '/supports', // required '/qustions/{commentId}/supports'
+  MY_QUESTIONS = '/questions/me',
 }
 
 export function registQnaBoard(payload: BoardParamModel): Promise<unknown> {
@@ -58,6 +59,10 @@ export function deleteQnaBoardComment(questionId: string, commentId: string): Pr
 
 export function getQnaBoardList(payload: BoardListParamModel): Promise<unknown> {
   return axios.get(API_PREFIX + Api.BOARD_LIST + '?' + payloadToQueryString(payload));
+}
+
+export function getMyQnaBoardList(payload: {plantId?:string}): Promise<unknown> {
+  return axios.get(API_PREFIX + Api.MY_QUESTIONS + '?' + payloadToQueryString(payload));
 }
 
 export function getQnaBoardDetail(boardId: string): Promise<unknown> {
