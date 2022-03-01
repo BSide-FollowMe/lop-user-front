@@ -9,20 +9,20 @@
         <div>
           <div class="level-text">
             <div class="inner-level-text">
-              {{ myLevel }}
+              {{ myAccountInfo.memberLevel?.grade }}
             </div>
           </div>
-          <img class="help icon" :src="helpIcon" />
+          <img class="help icon" :src="helpIcon" @click="openGradeGuideModal()" />
         </div>
       </div>
       <div class="username">
-        {{ username }}
+        {{ myAccountInfo.nickname }}
         <span>님</span>
-        <img class="setting icon" :src="settingIcon" />
+        <img class="setting icon" :src="settingIcon" @click="moveToSetting()" />
       </div>
-      <div class="email">{{ email }}</div>
+      <div class="email">{{ myAccountInfo.email }}</div>
       <section class="button-group">
-        <div class="button">
+        <div class="button" @click="moveToMyPlant()">
           <div class="button-icon heart-fill-icon" />
           내가 저장한 식물
         </div>
@@ -35,38 +35,69 @@
           서비스 소개
         </div>
       </section>
-      <div class="logout">
-        <div class="logout-icon" />로그아웃
+      <div class="logout" @click="logout()">
+        <div class="logout-icon" />
+        로그아웃
       </div>
     </section>
   </div>
+  <GradeGuideModal
+    v-if="gradeGuideOpened"
+    :options="{ nickname: myAccountInfo.nickname, memberLevel: myAccountInfo.memberLevel }"
+    @close="gradeGuideOpened = false"
+  />
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, onMounted, ref } from 'vue';
+import { Member } from '@/api/model/memberModel';
+import { getMyAccountInfo, updateMyAccount } from '@/api/member';
 import level from '@/assets/images/level/level.svg';
 import helpIcon from '@/assets/icon/help.svg';
 import settingIcon from '@/assets/icon/setting.svg';
+import { useRouter } from 'vue-router';
+import { tokenSvc } from '@/api/token-service';
+import GradeGuideModal from '@/components/modals/GradeGuideModal.vue';
+
 export default defineComponent({
-  props: {
-    myLevel: {
-      type: String,
-      default: '줄기집사',
-    },
-    username: {
-      type: String,
-      default: '물주는삐약이',
-    },
-    email: {
-      type: String,
-      default: 'bbbiyac@gmail.com',
-    },
+  components: {
+    GradeGuideModal,
   },
   setup() {
+    const myAccountInfo = ref({} as Member);
+    const router = useRouter();
+    const gradeGuideOpened = ref(false);
+
+    onMounted(async () => {
+      try {
+        myAccountInfo.value = await getMyAccountInfo();
+      } catch (e) {
+        router.push('/not-found');
+      }
+    });
+    const moveToMyPlant = () => {
+      router.push('/me/my-plant');
+    };
+    const logout = () => {
+      tokenSvc.removeToken();
+      router.push('/home');
+    };
+    const openGradeGuideModal = () => {
+      gradeGuideOpened.value = true;
+    };
+    const moveToSetting = () => {
+      router.push('/me/setting');
+    };
     return {
+      myAccountInfo,
       level,
       settingIcon,
       helpIcon,
+      logout,
+      moveToMyPlant,
+      openGradeGuideModal,
+      gradeGuideOpened,
+      moveToSetting,
     };
   },
 });
@@ -83,7 +114,7 @@ export default defineComponent({
   color: var(--primary-color-1);
 
   margin-bottom: 50px;
-  @include breakpoint-down-sm{
+  @include breakpoint-down-sm {
     font-size: 18px;
     line-height: 22px;
     margin-bottom: 40px;
@@ -98,9 +129,9 @@ export default defineComponent({
   flex-direction: column;
   align-items: center;
   padding: 78px 0 60px 0;
-  @include breakpoint-down-sm{
-    padding:40px 0 40px 0;
-    height:499px;
+  @include breakpoint-down-sm {
+    padding: 40px 0 40px 0;
+    height: 499px;
   }
 }
 .level {
@@ -116,19 +147,19 @@ export default defineComponent({
     align-items: center;
     justify-content: center;
     border-radius: 50px;
-    @include breakpoint-down-sm{
-      padding:12px;
+    @include breakpoint-down-sm {
+      padding: 12px;
       border-radius: 40px;
     }
   }
   .help {
     vertical-align: middle;
     margin-left: 5.57px;
-    width:16px;
-    height:16px;
-    @include breakpoint-down-sm{
-      width:13.5px;
-      height:13.5px;
+    width: 16px;
+    height: 16px;
+    @include breakpoint-down-sm {
+      width: 13.5px;
+      height: 13.5px;
     }
   }
   .level-text {
@@ -194,15 +225,15 @@ export default defineComponent({
   .setting {
     vertical-align: middle;
     margin-left: 6.57px;
-    width:18px;
-    height:19px;
-    @include breakpoint-down-sm{
-      width:15px;
-      height:16px;
+    width: 18px;
+    height: 19px;
+    @include breakpoint-down-sm {
+      width: 15px;
+      height: 16px;
     }
   }
-  
-  @include breakpoint-down-sm{
+
+  @include breakpoint-down-sm {
     font-size: 16px;
     margin-bottom: 2px;
   }
@@ -221,7 +252,7 @@ export default defineComponent({
 
   color: var(--text-color-3);
   margin-bottom: 38px;
-  @include breakpoint-down-sm{
+  @include breakpoint-down-sm {
     font-size: 13px;
     line-height: 16px;
     margin-bottom: 22px;
@@ -252,7 +283,7 @@ export default defineComponent({
     /* text/3 */
 
     color: var(--text-color-3);
-    @include breakpoint-down-sm{
+    @include breakpoint-down-sm {
       width: 280px;
       height: 56px;
       font-size: 16px;
@@ -272,13 +303,13 @@ export default defineComponent({
     mask-position: center center;
     mask-size: 16px;
     background-color: var(--secondary-green-color-1);
-    @include breakpoint-down-sm{
+    @include breakpoint-down-sm {
       width: 13px;
       height: 13px;
       mask-size: 13.33px;
     }
   }
-  margin-bottom:20px;
+  margin-bottom: 20px;
 }
 
 .logout {
@@ -295,7 +326,7 @@ export default defineComponent({
   /* text/4 */
 
   color: var(--text-color-4);
-  @include breakpoint-down-sm{
+  @include breakpoint-down-sm {
     font-size: 13px;
     line-height: 16px;
   }
@@ -319,17 +350,17 @@ export default defineComponent({
   mask-image: url('@/assets/icon/info.svg');
 }
 .logout-icon {
-  display:inline-block;
+  display: inline-block;
   -webkit-mask-image: url('@/assets/icon/logout.svg');
   mask-image: url('@/assets/icon/logout.svg');
   width: 13px;
   height: 12px;
-  mask-size:13px;
+  mask-size: 13px;
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center center;
   mask-position: center center;
-  background-color:var(--text-color-4);
-  margin-right:7.3px;
+  background-color: var(--text-color-4);
+  margin-right: 7.3px;
 }
 </style>

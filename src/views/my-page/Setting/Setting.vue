@@ -5,21 +5,21 @@
         <div class="setting-icon" />
         <div class="title">설정</div>
       </div>
-      <div class="resign">탈퇴하기</div>
+      <div class="resign" @click="oepnWithdrawl">탈퇴하기</div>
     </section>
     <section class="main">
       <form @submit.prevent="submitNickName">
         <div class="label">닉네임 수정</div>
         <div class="input">
-          <input type="text" v-model="nickName" @input="checkValidation"/>
+          <input type="text" v-model="nickName" @input="checkValidation" />
           <div v-if="error" class="error">
-            {{error}}
+            {{ error }}
           </div>
           <div v-if="success" class="success">
             <div>새로운 닉네임이 저장되었습니다.</div>
           </div>
         </div>
-        <button class="button save" ><span>저장</span></button>
+        <button class="button save"><span>저장</span></button>
       </form>
       <div>
         <div class="label">문의하기</div>
@@ -29,46 +29,83 @@
           문의하기 버튼을 눌러 식물의언어 팀에 연락주세요
           <img :src="smile" />
         </div>
-        <button class="button ask"><span>문의하기</span></button>
+        <button
+          class="button ask"
+          @click="
+            openReport({
+              modalTitle: '문의하기',
+              contentsLabel: '잘못된 정보나 건의하고 싶으신 내용을 작성해주세요.',
+            })
+          "
+        >
+          <span>문의하기</span>
+        </button>
       </div>
     </section>
   </div>
+  <RequestModal v-if="reportOpened" :options="reportOptions" @close="reportOpened = false" />
+  <DeleteAccountModal v-if="withdrawalOpened" @close="withdrawalOpened = false"></DeleteAccountModal>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 import smile from '@/assets/icon/smile.svg';
-import {getBytes} from '@/utils/text';
+import { getBytes } from '@/utils/text';
+import { updateMyAccount } from '@/api/member';
+import RequestModal from '@/components/modals/RequestModal.vue';
+import DeleteAccountModal from '@/components/modals/DeleteAccountModal.vue';
+
 export default defineComponent({
+  components: {
+    RequestModal,
+    DeleteAccountModal,
+  },
   setup() {
     const nickName = ref('');
     const error = ref('');
     const success = ref(false);
-    const submitNickName = () => {
-      if(error.value){
+    const reportOpened = ref(false);
+    const withdrawalOpened = ref(false);
+    const reportOptions = ref({} as { modalTitle: string; contentsLabel: string });
+    const submitNickName = async () => {
+      if (error.value) {
         alert('error!');
         return;
       }
-      return new Promise((resolve) => {
-        setTimeout(() => {
-          alert(nickName.value + ' has been submitted!');
-          success.value=true;
-          // error.value='중복된 닉네임입니다. 다른 이름을 입력해주세요.'
-          resolve(true);
-        }, 500);
-      });
+      try {
+        await updateMyAccount({ nickname: nickName.value });
+        success.value = true;
+      } catch (e) {
+        if (e instanceof Error) {
+          error.value = '중복된 닉네임입니다. 다른 이름을 입력해주세요.';
+        }
+      }
     };
-    const checkValidation = ()=>{
+    const checkValidation = () => {
       error.value = '';
-      error.value = getBytes(nickName.value)>20 ? '최대 10자 (20byte)까지 입력할 수 있어요.' : '';
+      error.value = getBytes(nickName.value) > 20 ? '최대 10자 (20byte)까지 입력할 수 있어요.' : '';
     };
+    const openReport = ({ modalTitle, contentsLabel }: { modalTitle: string; contentsLabel: string }) => {
+      reportOpened.value = true;
+      reportOptions.value = { modalTitle,  contentsLabel };
+    };
+
+    const oepnWithdrawl = () => {
+      withdrawalOpened.value = true;
+    };
+
     return {
       smile,
       submitNickName,
       nickName,
       checkValidation,
       error,
-      success
+      success,
+      openReport,
+      reportOpened,
+      oepnWithdrawl,
+      withdrawalOpened,
+      reportOptions,
     };
   },
 });
@@ -198,14 +235,14 @@ export default defineComponent({
   }
 }
 .input {
-  width:508px;
-  margin-right:7px;
+  width: 508px;
+  margin-right: 7px;
   @include breakpoint-down-sm {
     width: 100%;
   }
-  >input{
+  > input {
     padding: 11px 12px 10px;
-    width:100%;
+    width: 100%;
     height: 40px;
 
     /* bg,line/2 */

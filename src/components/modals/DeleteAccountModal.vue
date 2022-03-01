@@ -3,7 +3,7 @@
     <div class="conatiner">
       <div class="title">{{ option.title }}</div>
       <div class="content" v-html="option.content" />
-      <div v-for="(button, index) in option.buttons" :key="index" :class="['button', button.class]">
+      <div v-for="(button, index) in option.buttons" :key="index" :class="['button', button.class]" @click="button.action">
         <span>{{ button.content }}</span>
       </div>
     </div>
@@ -11,43 +11,61 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, ref } from 'vue';
+import { computed, defineComponent, PropType, ref } from 'vue';
 import DefaultModal from './DefaultModal.vue';
-const options = {
-  confirm: {
-    title: '정말 탈퇴하시겠습니까?',
-    content: `탈퇴후에는 계정을 복구할 수 없어요<br />이미 남겨주신 글 , 좋아요 , 난이도 투표 등은 탈퇴 후에도 삭제되지 않습니다.`,
-    buttons: [
-      { class: 'fill', content: `다시 한 번 생각해볼게요` },
-      { class: 'empty', content: `네, 탈퇴하겠습니다` },
-    ],
-  },
-  complete: {
-    title: '탈퇴가 완료되었습니다.',
-    content: `이용해주셔서 감사합니다.<br/>더 만족스러운 서비스를 제공할 수 있도록 노력하겠습니다.`,
-    buttons: [{ class: 'fill', content: `홈으로` }],
-  },
-};
+import { withdrawal } from '@/api/member';
+import { useRouter } from 'vue-router';
+import { tokenSvc } from '@/api/token-service';
+
 export default defineComponent({
   name: 'Report Modal',
   components: {
     DefaultModal,
   },
-  props: {
-    options: {
-      type: Object as PropType<{ type: 'confirm' | 'complete' }>,
-      default: () => ({
-        type: 'confirm',
-      }),
-    },
-  },
   setup(props, { emit }) {
-    const option = options[props.options.type];
+    const router = useRouter();
     function closeModal() {
       emit('close');
     }
-    console.log(option);
-    console.log(props.options.type);
+    const type = ref('confirm' as 'confirm' | 'complete');
+    const options = {
+      confirm: {
+        title: '정말 탈퇴하시겠습니까?',
+        content: `탈퇴후에는 계정을 복구할 수 없어요<br />이미 남겨주신 글 , 좋아요 , 난이도 투표 등은 탈퇴 후에도 삭제되지 않습니다.`,
+        buttons: [
+          {
+            class: 'fill',
+            content: `다시 한 번 생각해볼게요`,
+            action: () => {
+              closeModal();
+            },
+          },
+          {
+            class: 'empty',
+            content: `네, 탈퇴하겠습니다`,
+            action: async () => {
+              await withdrawal();
+              type.value = 'complete';
+            },
+          },
+        ],
+      },
+      complete: {
+        title: '탈퇴가 완료되었습니다.',
+        content: `이용해주셔서 감사합니다.<br/>더 만족스러운 서비스를 제공할 수 있도록 노력하겠습니다.`,
+        buttons: [
+          {
+            class: 'fill',
+            content: `홈으로`,
+            action: () => {
+              tokenSvc.removeToken();
+              router.push('/home');
+            },
+          },
+        ],
+      },
+    };
+    const option = computed(() => options[type.value]);
     return { closeModal, option };
   },
 });
@@ -79,7 +97,7 @@ export default defineComponent({
 
     color: var(--text-color-1);
     margin-bottom: 15px;
-    @include breakpoint-down-sm{
+    @include breakpoint-down-sm {
       font-size: 18px;
       line-height: 22px;
     }
@@ -97,9 +115,9 @@ export default defineComponent({
 
     color: var(--text-color-3);
     margin-bottom: 40px;
-    @include breakpoint-down-sm{
+    @include breakpoint-down-sm {
       font-size: 16px;
-      line-height: 24px;  
+      line-height: 24px;
     }
   }
 
@@ -117,8 +135,8 @@ export default defineComponent({
     /* deepgreen/1-main */
 
     border-radius: 2px;
-    @include breakpoint-down-sm{
-      width:100%;
+    @include breakpoint-down-sm {
+      width: 100%;
     }
     span {
       font-weight: var(--font-weight-medium);
