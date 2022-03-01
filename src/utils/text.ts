@@ -49,7 +49,7 @@ export function leadingZeroes(n:any) {
 }
 
 export function formatDateOnly(dt:Date) {
-  return dt.getFullYear() + '-' + leadingZeroes(dt.getMonth() + 1) + '-' + leadingZeroes(dt.getDate());
+  return dt.getFullYear() + '.' + leadingZeroes(dt.getMonth() + 1) + '.' + leadingZeroes(dt.getDate());
 }
 
 export function getTimeDistanceWithNaturalStr(createdAt: any) {
@@ -66,6 +66,7 @@ export function getTimeDistanceWithNaturalStr(createdAt: any) {
   if (hours < 24) return `${Math.floor(hours)}시간 전`;
   const days = hours / 24;
   if (days < 7) return `${Math.floor(days)}일 전`;
+  if (currTime.getFullYear() == target.getFullYear()) return `${leadingZeroes(target.getMonth() + 1)}월 ${leadingZeroes(target.getDate())}일`;
   return formatDateOnly(target);
 }
 
