@@ -1,11 +1,13 @@
 <template>
   <div class="container">
     <Summary
+      :plantId="Number(plantDetail.id)"
+      :isFavorite="plantDetail.isFavorite"
       :name="plantDetail.name"
       :scientificName="plantDetail.scientificName"
       :nickname="plantDetail.nickname"
-      :growthEasy="plantDetail.growthEasy"
-      :growthHard="plantDetail.growthHard"
+      :growthEasy="Number(plantDetail.growthEasy)"
+      :growthHard="Number(plantDetail.growthHard)"
       :category="plantDetail.category"
       :fileName="plantDetail.fileName"
       :fileUrl="plantDetail.fileUrl"
@@ -13,9 +15,9 @@
       :fileSourceLink="plantDetail.fileSourceLink"
     />
     <Water @openGuide="openGuide" />
-    <Sunlight @openGuide="openGuide" />
+    <Sunlight @openGuide="openGuide" :sunlightTypes="plantDetail.sunlightTypes"/>
     <TemperatureHumidity @openGuide="openGuide" />
-    <Ventilation @openGuide="openGuide" />
+    <Ventilation @openGuide="openGuide" :blights="plantDetail.blights"/>
     <Soil />
     <Report @openReport="openReport" />
     <Question />

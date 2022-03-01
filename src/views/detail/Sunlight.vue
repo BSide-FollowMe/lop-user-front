@@ -1,7 +1,7 @@
 <template>
   <div class="inner-container">
     <div class="title">이런 장소를 좋아해요</div>
-    <span class="sunlight-type" v-for="(sunlightType, index) in sunlightTypes" :key="index">{{ sunlightType }}</span>
+    <span class="sunlight-type" v-for="(sunlightType, index) in translatedSunlightTypes" :key="index">{{ sunlightType }}</span>
     <p class="content" v-html="content" />
     <GuideBox
       @click="
@@ -16,13 +16,16 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, PropType } from 'vue';
+import { defineComponent, PropType, computed } from 'vue';
 import GuideBox from '@/components/detail/GuideBox.vue';
+import { sunlightType } from 'plant';
+import { translate } from '@/utils/text';
+
 export default defineComponent({
   props: {
     sunlightTypes: {
-      type: Array as PropType<string[]>,
-      default: () => ['양지', '반양지'],
+      type: Array as PropType<sunlightType[]>,
+      default: () => [],
     },
     content: {
       type: String,
@@ -36,8 +39,23 @@ export default defineComponent({
     const emitOpenGuide = ({ componentName, modalTitle }: { componentName: string; modalTitle: string }) => {
       emit('openGuide', { componentName, modalTitle });
     };
+    const translatedSunlightTypes = computed(() =>
+      props.sunlightTypes.map((sunlightType) => {
+        return translate(
+          [
+            { value: 'DIRECT_SUN', label: '직사광선' },
+            { value: 'SUN', label: '양지' },
+            { value: 'HALF_SUN', label: '반양지' },
+            { value: 'HALF_SHADE', label: '반음지' },
+            { value: 'SHADE', label: '음지' },
+          ],
+          sunlightType,
+        );
+      }),
+    );
     return {
       emitOpenGuide,
+      translatedSunlightTypes,
     };
   },
 });

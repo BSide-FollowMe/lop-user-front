@@ -7,6 +7,7 @@ const API_PREFIX = '/v1';
 enum Api {
   PLANT_LIST = '/plants',
   PLANT_DETAIL = '/plants', // required` + /${plantId}`
+  REGISTER_LIKE = '/plants',
   POLL_DIFFICULTY = '/plants',
   REPORT_REGIST = '/reports',
   RECOMMEND_PLANT_LIST = '/recommend-plants',
@@ -25,9 +26,13 @@ export async function getPlantDetail(payload: PlantDetailParamModel): Promise<Pl
   return res.data;
 }
 
-// export function registerFavorite({plantId:integer}): Promise<unknown> {
-//   return axios.put()
-// }
+export async function registerLike({ plantId, memberId, isAdded }: { plantId: number; memberId: number; isAdded: boolean }): Promise<unknown> {
+  return await axios.put(`${API_PREFIX}${Api.REGISTER_LIKE}/${plantId}/favorite`, {
+    plantId,
+    memberId,
+    isAdded,
+  });
+}
 
 export async function pollDifficulty({ plantId, memberId, type }: { plantId: number; memberId?: number; type: string }): Promise<void> {
   const ip = await getClientIpAddress();

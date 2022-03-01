@@ -8,7 +8,7 @@
         </template>
       </Card>
       <Card :imgSrc="ToxicityIcon" title="독성" :content="toxicity"></Card>
-      <Card :imgSrc="BlightIcon" title="유의할 병충해" :content="blights.join(',')">
+      <Card :imgSrc="BlightIcon" title="유의할 병충해" :content="translatedBlights">
         <template v-slot:action>
           <GuideBox
             @click="emitOpenGuide({ componentName: 'Blight', modalTitle: '병충해는 어떻게 관리하나요?' })"
@@ -21,12 +21,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue';
+import { defineComponent, PropType, computed } from 'vue';
 import VentilationIcon from '@/assets/icon/통풍.svg';
 import ToxicityIcon from '@/assets/icon/독성.svg';
 import BlightIcon from '@/assets/icon/병충해.svg';
 import Card from '@/components/cards/Card.vue';
 import GuideBox from '@/components/detail/GuideBox.vue';
+import { blight } from 'plant';
+import { translate } from '@/utils/text';
 
 export default defineComponent({
   props: {
@@ -39,8 +41,8 @@ export default defineComponent({
       default: '독성이 있으니 어린아이나 반려동물이 있다면 섭취하지 않도록 조심해주세요',
     },
     blights: {
-      type: Array as PropType<string[]>,
-      default: () => ['깍지벌레', '응애'],
+      type: Array as PropType<blight[]>,
+      default: () => [],
     },
   },
   components: {
@@ -51,11 +53,32 @@ export default defineComponent({
     const emitOpenGuide = ({ componentName, modalTitle }: { componentName: string; modalTitle: string }) => {
       emit('openGuide', { componentName, modalTitle });
     };
+    const translatedBlights = computed(() =>
+      props.blights
+        .map((blight) => {
+          return translate(
+            [
+              { value: 'SCALE_INSECT', label: '깍지벌레' },
+              { value: 'APHID', label: '진딧물' },
+              { value: 'WHITEFLY', label: '가루이' },
+              { value: 'PIDER_MITE', label: '응애' },
+              { value: 'BRADYSIA', label: '뿌리파리' },
+              { value: 'THYSANOPTERA', label: '총채벌레' },
+              { value: 'SNAIL', label: '달팽이' },
+              { value: 'ROOT_ROT', label: '뿌리썩음병' },
+              { value: 'POWDERY_MILDEW', label: '흰가루병' },
+            ],
+            blight,
+          );
+        })
+        .join(','),
+    );
     return {
       VentilationIcon,
       ToxicityIcon,
       BlightIcon,
       emitOpenGuide,
+      translatedBlights,
     };
   },
 });

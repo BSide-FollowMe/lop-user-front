@@ -29,7 +29,7 @@ export interface PlantListData {
   fileName?: string;
   fileUrl?: string;
   hasImage?: string;
-  id?: string;
+  id: string;
   isVisible?: string;
   modifiedDateTime?: string;
   name?: string;
@@ -49,9 +49,9 @@ export interface PlantDetailRespModel {
   fileSource?: string;
   fileSourceLink?: string;
   fileUrl?: string;
-  growthEasy?: string;
-  growthHard?: string;
-  id?: string;
+  growthEasy: string;
+  growthHard: string;
+  id: string;
   isToxicity?: string;
   isVentilation?: string;
   isVisible?: string;
@@ -61,9 +61,10 @@ export interface PlantDetailRespModel {
   name: string;
   nickname?: string;
   pollGrowth?: {
-    growthEasy?: number;
-    growthHard?: number;
+    growthEasy: number;
+    growthHard: number;
   }
+  isFavorite:boolean,
   properTemperature?: string;
   scientificName?: string;
   soil?: string;
