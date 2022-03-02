@@ -26,7 +26,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, ref, watchEffect } from 'vue';
+import { defineComponent, onUnmounted, PropType, ref, watchEffect } from 'vue';
 import EmptyHeartIcon from '@/assets/icon/heart-empty.svg';
 import FullHeartIcon from '@/assets/icon/heart-fill.svg';
 import { debounce } from 'lodash';
@@ -58,7 +58,9 @@ export default defineComponent({
       handleInfiniteListScroll($event, newItems.value, props.totalElement, () => emit('atBottom'));
     }, 500);
     document.addEventListener('scroll', onScroll);
-
+    onUnmounted(() => {
+      document.removeEventListener('scroll',onScroll);
+    });
     const toggleLike = (index: number) => {
       newItems.value[index].isAdded = !newItems.value[index].isAdded;
       if (newItems.value[index].isAdded) {

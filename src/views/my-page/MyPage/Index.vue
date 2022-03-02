@@ -26,7 +26,7 @@
           <div class="button-icon heart-fill-icon" />
           내가 저장한 식물
         </div>
-        <div class="button">
+        <div class="button" @click="moveToMyQuestion()">
           <div class="button-icon question-answer-icon" />
           나의 질문 · 답변
         </div>
@@ -58,6 +58,7 @@ import settingIcon from '@/assets/icon/setting.svg';
 import { useRouter } from 'vue-router';
 import { tokenSvc } from '@/api/token-service';
 import GradeGuideModal from '@/components/modals/GradeGuideModal.vue';
+import axios, { AxiosError } from 'axios';
 
 export default defineComponent({
   components: {
@@ -69,14 +70,14 @@ export default defineComponent({
     const gradeGuideOpened = ref(false);
 
     onMounted(async () => {
-      try {
-        myAccountInfo.value = await getMyAccountInfo();
-      } catch (e) {
-        router.push('/not-found');
-      }
+      myAccountInfo.value = await getMyAccountInfo(); 
     });
     const moveToMyPlant = () => {
       router.push('/me/my-plant');
+    };
+    const moveToMyQuestion = () => {
+      console.log('asdfasdf');
+      router.push('/me/qna?list=questions');
     };
     const logout = () => {
       tokenSvc.removeToken();
@@ -98,6 +99,7 @@ export default defineComponent({
       openGradeGuideModal,
       gradeGuideOpened,
       moveToSetting,
+      moveToMyQuestion,
     };
   },
 });

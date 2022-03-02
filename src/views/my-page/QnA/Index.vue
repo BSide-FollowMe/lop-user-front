@@ -4,9 +4,9 @@
     <div class="inner-container">
       <RouterTabs class="router-tabs" />
       <div class="main">
-        <QuestionList v-if="listType === 'questions'" :questions="list"></QuestionList>
-        <AnswerList v-if="listType === 'answers'" :answers="list"></AnswerList>
-        <Empty v-if="list.length==0" :type="listType"></Empty>
+        <QuestionList v-if="listType === 'questions'" :items="list" :totalElement="totalElement" @atBottom="loadMore"></QuestionList>
+        <AnswerList v-if="listType === 'answers'" :items="list" :totalElement="totalElement" @atBottom="loadMore"></AnswerList>
+        <Empty v-if="list.length == 0" :type="listType"></Empty>
       </div>
     </div>
   </div>
@@ -17,8 +17,12 @@ import { defineComponent, computed, watchEffect, ref } from 'vue';
 import RouterTabs from './_RouterTabs.vue';
 import QuestionList from './QuestionList.vue';
 import AnswerList from './AnswerList.vue';
-import Empty from './_Empty.vue'
+import Empty from './_Empty.vue';
 import { useRoute } from 'vue-router';
+import { getMyQuestions, getMyAnswers } from '@/api/member';
+import { ListResponse } from '@/api/model/common';
+import { Question, Answer } from '@/api/model/memberModel';
+
 export default defineComponent({
   name: 'Search Result',
   components: {
@@ -30,120 +34,40 @@ export default defineComponent({
   setup() {
     const route = useRoute();
     const listType = computed(() => route.query.list);
-    const getQuestions = () => {
-      return [
-        // {
-        //   commentCount: 1,
-        //   content:
-        //     '이거 해충인가요? 잎에 검은 반점이 생겼는데요 화원에서 데려올 때부터 이상태여서 크게 신경 안쓰고 있었는데 이거 해충인가요?  잎에 검은 반점이 생겼는데요 화원에서 데려올 때부터 이상태...',
-        //   createdDateTime: '2022-02-23T18:21:35.974Z',
-        //   id: 0,
-        //   imageUrl: 'string',
-        //   plantName: '녹영',
-        //   supportCount: 0,
-        // },
-        // {
-        //   commentCount: 1,
-        //   content:
-        //     '이거 해충인가요? 잎에 검은 반점이 생겼는데요 화원에서 데려올 때부터 이상태여서 크게 신경 안쓰고 있었는데 이거 해충인가요?  잎에 검은 반점이 생겼는데요 화원에서 데려올 때부터 이상태...',
-        //   createdDateTime: '2022-02-23T18:21:35.974Z',
-        //   id: 1,
-        //   imageUrl: 'string',
-        //   plantName: '녹영',
-        //   supportCount: 0,
-        // },
-        // {
-        //   commentCount: 1,
-        //   content:
-        //     '이거 해충인가요? 잎에 검은 반점이 생겼는데요 화원에서 데려올 때부터 이상태여서 크게 신경 안쓰고 있었는데 이거 해충인가요?  잎에 검은 반점이 생겼는데요 화원에서 데려올 때부터 이상태...',
-        //   createdDateTime: '2022-02-23T18:21:35.974Z',
-        //   id: 2,
-        //   imageUrl: '',
-        //   plantName: '녹영',
-        //   supportCount: 0,
-        // },
-        // {
-        //   commentCount: 1,
-        //   content:
-        //     '이거 해충인가요? 잎에 검은 반점이 생겼는데요 화원에서 데려올 때부터 이상태여서 크게 신경 안쓰고 있었는데 이거 해충인가요?  잎에 검은 반점이 생겼는데요 화원에서 데려올 때부터 이상태...',
-        //   createdDateTime: '2022-02-23T18:21:35.974Z',
-        //   id: 3,
-        //   imageUrl: '',
-        //   plantName: '녹영',
-        //   supportCount: 0,
-        // },
-      ];
-    };
-    const getAnswers = () => {
-      return [
-        // {
-        //   commentContent:
-        //     '겨울이라 과습일 가능성이 있습니다. 과습이 아니면 냉해일텐데 실내에서 키우셨다면 과습일 가능성이 높겠네요 . 물은 어느 정도의 양으로 주셨나요? 겨울이라 과습일 가능성이 있습니다 . 과습이 아니면 냉해일텐데 실내에서 키우셨다면 과습일 가...',
-        //   createdDateTime: '2022-02-23T18:26:02.959Z',
-        //   id: 4,
-        //   plantName: '몬스테라',
-        //   questionContent: '이거 해충인가요? 잎에 검은 반점이 생겼...',
-        //   supportCount: 12,
-        // },
-        // {
-        //   commentContent:
-        //     '겨울이라 과습일 가능성이 있습니다. 과습이 아니면 냉해일텐데 실내에서 키우셨다면 과습일 가능성이 높겠네요 . 물은 어느 정도의 양으로 주셨나요? 겨울이라 과습일 가능성이 있습니다 . 과습이 아니면 냉해일텐데 실내에서 키우셨다면 과습일 가...',
-        //   createdDateTime: '2022-02-23T18:26:02.959Z',
-        //   id: 5,
-        //   plantName: '몬스테라',
-        //   questionContent: '이거 해충인가요? 잎에 검은 반점이 생겼...',
-        //   supportCount: 0,
-        // },
-        // {
-        //   commentContent:
-        //     '겨울이라 과습일 가능성이 있습니다. 과습이 아니면 냉해일텐데 실내에서 키우셨다면 과습일 가능성이 높겠네요 . 물은 어느 정도의 양으로 주셨나요? 겨울이라 과습일 가능성이 있습니다 . 과습이 아니면 냉해일텐데 실내에서 키우셨다면 과습일 가...',
-        //   createdDateTime: '2022-02-23T18:26:02.959Z',
-        //   id: 6,
-        //   plantName: '몬스테라',
-        //   questionContent: '이거 해충인가요? 잎에 검은 반점이 생겼...',
-        //   supportCount: 5,
-        // },
-        // {
-        //   commentContent:
-        //     '겨울이라 과습일 가능성이 있습니다. 과습이 아니면 냉해일텐데 실내에서 키우셨다면 과습일 가능성이 높겠네요 . 물은 어느 정도의 양으로 주셨나요? 겨울이라 과습일 가능성이 있습니다 . 과습이 아니면 냉해일텐데 실내에서 키우셨다면 과습일 가...',
-        //   createdDateTime: '2022-02-23T18:26:02.959Z',
-        //   id: 1,
-        //   plantName: '몬스테라',
-        //   questionContent: '이거 해충인가요? 잎에 검은 반점이 생겼...',
-        //   supportCount: 1,
-        // },
-      ];
-    };
-    const list = ref(
-      [] as
-        | {
-            commentCount: number;
-            content: string;
-            createdDateTime: string;
-            id: number;
-            imageUrl: string;
-            plantName: string;
-            supportCount: number;
-          }[]
-        | {
-            commentContent: string;
-            createdDateTime: string;
-            id: number;
-            plantName: string;
-            questionContent: string;
-            supportCount: number;
-          }[],
-    );
-    watchEffect(() => {
+    const size = 5;
+    const page = ref(0);
+    const totalElement = ref(0);
+
+    const list = ref([] as (Question | Answer)[]);
+    const init = async () => {
+      let res = {} as ListResponse<Question | Answer>;
       if (listType.value === 'questions') {
-        list.value = getQuestions();
+        res = await getMyQuestions({ size, page: page.value });
       } else {
-        list.value = getAnswers();
+        res = await getMyAnswers({ size, page: page.value });
       }
+      totalElement.value = res.totalElement;
+      list.value = res.data;
+    };
+    watchEffect(() => {
+      page.value = 0;
+      list.value=[];
+      totalElement.value=0;
+      init();
     });
+
+    const loadMore = () => {
+      page.value++;
+      //deep copy
+      const temp = JSON.parse(JSON.stringify(list.value));
+      init();
+      list.value = [...temp, list.value];
+    };
     return {
       listType,
-      list
+      list,
+      totalElement,
+      loadMore,
     };
   },
 });
