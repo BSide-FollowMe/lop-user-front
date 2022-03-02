@@ -1,7 +1,7 @@
 <template>
   <div class="inner-container">
     <div class="plant" v-for="(plant, index) in newItems" :key="index" @click="moveToPlantDetail(plant)">
-      <img class="image" :src="plant.fileUrl" />
+      <img class="image" :src="plant.fileUrl || DummyImage" />
       <div class="info">
         <span class="name">{{ plant.name }}</span>
         <div
@@ -35,6 +35,7 @@ import { useStore } from 'vuex';
 import { PlantListData } from '@/api/model/plantModel';
 import { registerLike } from '@/api/plant';
 import { useRouter } from 'vue-router';
+import DummyImage from '@/assets/images/detail/dummy-image.png';
 export default defineComponent({
   props: {
     items: {
@@ -90,6 +91,7 @@ export default defineComponent({
       toggleLike,
       newItems,
       moveToPlantDetail,
+      DummyImage,
     };
   },
 });
