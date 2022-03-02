@@ -1,4 +1,4 @@
-import {blight, category, sunlightType, winterTemperatureUpDown} from 'plant';
+import { blight, category, sunlightType, winterTemperatureUpDown } from 'plant';
 
 export interface GetAccountInfoModel {
   email: string;
@@ -63,8 +63,8 @@ export interface PlantDetailRespModel {
   pollGrowth?: {
     growthEasy: number;
     growthHard: number;
-  }
-  isFavorite:boolean,
+  };
+  isFavorite: boolean;
   properTemperature?: string;
   scientificName?: string;
   soil?: string;

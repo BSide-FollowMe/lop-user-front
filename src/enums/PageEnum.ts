@@ -27,6 +27,7 @@ export enum PageNameEnum {
   My_Page = 'My page',
   SETTING = 'My Page - Setting',
   My_Plant = 'My Page - My Plant',
+  MY_QNA = 'My Page - My QnA',
   QNABOARD = 'QNA Board',
   QNABOARD_DETAIL = 'QNA Board - Detail',
   QNABOARD_EDIT = 'QNA Board - Edit',

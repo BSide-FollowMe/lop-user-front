@@ -11,3 +11,22 @@ export interface Member {
   memberLevel: MemberLevel;
   nickname: string;
 }
+
+export interface Answer {
+  commentContent: string;
+  createdDateTime: string;
+  id: number;
+  plantName: string;
+  questionContent: string;
+  supportCount: number;
+}
+
+export interface Question {
+  commentCount: number;
+  content: string;
+  createdDateTime: string;
+  id: number;
+  imageUrl: string;
+  plantName: string;
+  supportCount: number;
+}
