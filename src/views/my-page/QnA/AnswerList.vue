@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="item" v-for="answer in answers" :key="answer.id">
+    <div class="item" v-for="answer in items" :key="answer.id">
       <div>
         <span class="plantName">{{ answer.plantName }}</span>
         <span class="questionContent">{{ answer.questionContent }}</span>
@@ -15,25 +15,23 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue';
+import { defineComponent, onUnmounted, PropType } from 'vue';
+import { Answer } from '@/api/model/memberModel';
+import { debounce } from 'lodash';
+import { handleInfiniteListScroll } from '@/utils/global';
 
 export default defineComponent({
   props: {
-    answers: {
-      type: Array as PropType<
-        {
-          commentContent: string;
-          createdDateTime: string;
-          id: number;
-          plantName: string;
-          questionContent: string;
-          supportCount: number;
-        }[]
-      >,
+    items: {
+      type: Array as PropType<Answer[]>,
       default: () => [],
     },
+    totalElement: {
+      type: Number,
+      default: 0,
+    },
   },
-  setup() {
+  setup(props,{emit}) {
     const preview = (content: string) => {
       if (window.innerWidth > 767 && content.length > 184) {
         return content.slice(0, 132) + '...';
@@ -47,6 +45,13 @@ export default defineComponent({
       const d = new Date(date);
       return `${d.getFullYear()}.${(d.getMonth() + 1).toString().padStart(2, '0')}.${d.getDate().toString().padStart(2, '0')}`;
     };
+     const onScroll = debounce(($event: Event) => {
+      handleInfiniteListScroll($event, props.items, props.totalElement, () => emit('atBottom'));
+    }, 500);
+    document.addEventListener('scroll', onScroll);
+    onUnmounted(() => {
+      document.removeEventListener('scroll',onScroll);
+    });
     return {
       preview,
       formatDate,
