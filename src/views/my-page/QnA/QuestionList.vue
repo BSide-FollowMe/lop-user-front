@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="item" v-for="(question) in questions" :key="question.id">
+    <div class="item" v-for="question in items" :key="question.id" @click="moveToQuestion(question.id)">
       <div>
         <div class="plantName">{{ question.plantName }}</div>
         <div class="content">{{ preview(question.content) }}</div>
@@ -16,56 +16,67 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue';
+import { defineComponent, onUnmounted, PropType } from 'vue';
+import { Question } from '@/api/model/memberModel';
+import { debounce } from 'lodash';
+import { handleInfiniteListScroll } from '@/utils/global';
+import { useRouter } from 'vue-router';
 
 export default defineComponent({
   props: {
-    questions: {
-      type: Array as PropType<
-        {
-          commentCount: number;
-          content: string;
-          createdDateTime: string;
-          id: number;
-          imageUrl: string;
-          plantName: string;
-          supportCount: number;
-        }[]
-      >,
+    items: {
+      type: Array as PropType<Question[]>,
       default: () => [],
     },
+    totalElement: {
+      type: Number,
+      default: 0,
+    },
   },
-  setup(){
-    const preview = (content:string) =>{
-      if(window.innerWidth > 767 && content.length > 184){
-        return content.slice(0,102) + '...'
+  setup(props, { emit }) {
+    const router = useRouter();
+    const preview = (content: string) => {
+      if (window.innerWidth > 767 && content.length > 184) {
+        return content.slice(0, 102) + '...';
       }
-      if(window.innerWidth <= 767 && content.length > 62){
-        return content.slice(0,43) + '...'
+      if (window.innerWidth <= 767 && content.length > 62) {
+        return content.slice(0, 43) + '...';
       }
       return content;
-    }
-    const formatDate = (date:string)=>{
+    };
+    const formatDate = (date: string) => {
       const d = new Date(date);
-      return `${d.getFullYear()}.${(d.getMonth()+1).toString().padStart(2,'0')}.${d.getDate().toString().padStart(2,'0')}`;
+      return `${d.getFullYear()}.${(d.getMonth() + 1).toString().padStart(2, '0')}.${d.getDate().toString().padStart(2, '0')}`;
+    };
+    const onScroll = debounce(($event: Event) => {
+      handleInfiniteListScroll($event, props.items, props.totalElement, () => emit('atBottom'));
+    }, 500);
+    document.addEventListener('scroll', onScroll);
+    onUnmounted(() => {
+      document.removeEventListener('scroll',onScroll);
+    });
+    const moveToQuestion = (id:number) =>{
+      router.push(`/qna/detail?id=${id}`);
     }
-    return{
+    return {
       preview,
       formatDate,
-    }
-  }
+      moveToQuestion,
+    };
+  },
 });
 </script>
 
 <style lang="scss" scoped>
 @import '@/styles/';
-.item{
+.item {
+  cursor:pointer;
   padding: 20px 0 20px 0;
-  display:flex;
+  display: flex;
   justify-content: space-between;
-  border-bottom: 1px solid #F3F3F3;
+  border-bottom: 1px solid #f3f3f3;
 }
-.plantName{
+.plantName {
   font-weight: var(--font-weight-medium);
   font-size: 18px;
   line-height: 26px;
@@ -76,14 +87,14 @@ export default defineComponent({
   /* text/3 */
 
   color: var(--text-color-3);
-  margin-bottom:10px;
-  @include breakpoint-down-sm{
+  margin-bottom: 10px;
+  @include breakpoint-down-sm {
     font-size: 12px;
     line-height: 18px;
-    margin-bottom:4px;
+    margin-bottom: 4px;
   }
 }
-.content{
+.content {
   font-weight: var(--font-weight-normal);
   font-size: 18px;
   line-height: 26px;
@@ -94,15 +105,15 @@ export default defineComponent({
   /* text/1 */
 
   color: var(--text-color-1);
-  margin-bottom:30px;
-  @include breakpoint-down-sm{
+  margin-bottom: 30px;
+  @include breakpoint-down-sm {
     font-size: 12px;
     line-height: 20px;
-    margin-bottom:18px;
+    margin-bottom: 18px;
   }
 }
-.bottom div{
-  display:inline-block;
+.bottom div {
+  display: inline-block;
   font-weight: var(--font-weight-medium);
   font-size: 16px;
   line-height: 18px;
@@ -115,37 +126,32 @@ export default defineComponent({
   color: var(--text-color-3);
 
   padding: 0 10px;
-  &:first-child{
-    padding-left:0;
+  &:first-child {
+    padding-left: 0;
   }
-  &:last-child{
-    padding-right:0;
+  &:last-child {
+    padding-right: 0;
   }
-  &:not(:last-child){
-    border-right:1px solid #DDDDDD;
+  &:not(:last-child) {
+    border-right: 1px solid #dddddd;
   }
-  @include breakpoint-down-sm{
+  @include breakpoint-down-sm {
     font-size: 12px;
     line-height: 18px;
-  } 
+  }
 }
 
-
-.plantImage{
+.plantImage {
   display: inline-block;
   align-self: center;
-  width:140px;
-  height:140px;
-  margin-left:30px;
-  vertical-align:middle;
-  @include breakpoint-down-sm{
-    width:76px;
-    height:76px;
-    margin-left:10px;
+  width: 140px;
+  height: 140px;
+  margin-left: 30px;
+  vertical-align: middle;
+  @include breakpoint-down-sm {
+    width: 76px;
+    height: 76px;
+    margin-left: 10px;
   }
-  
 }
-
-
-
 </style>
