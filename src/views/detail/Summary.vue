@@ -1,8 +1,7 @@
 <template>
   <div class="inner-container">
     <div class="plant-image">
-      <img v-if="!fileUrl" class="fileImage" src="@/assets/images/detail/sample-plant.png" />
-      <img v-else class="fileImage" :src="fileUrl" />
+      <img :src="fileUrl || DummyImage" class="fileImage" />
       <div v-if="fileSource" class="fileSource">{{ fileSource }}</div>
     </div>
     <div class="plant-content">
@@ -59,6 +58,7 @@ import KakaoIcon from '@/assets/icon/logo_카카오톡.svg';
 import LinkIcon from '@/assets/icon/icon_link.svg';
 import Poll from '@/components/detail/Poll.vue';
 import { useKakao } from 'vue3-kakao-sdk';
+import DummyImage from '@/assets/images/detail/dummy-image.png';
 
 export default defineComponent({
   props: {
@@ -138,13 +138,12 @@ export default defineComponent({
           props.category,
         ) || '미등록',
     );
-
     const shareKakao = async () => {
       kakao.value.Link.sendDefault({
         objectType: 'feed',
         content: {
           title: `식물의 언어 - ${props.name}`,
-          imageUrl: props.fileUrl || 'https://plantslang.com/img/sample-plant.7e3b4dd0..png',
+          imageUrl: props.fileUrl,
           link: {
             mobileWebUrl: window.document.location.href,
             webUrl: window.document.location.href,
@@ -216,7 +215,6 @@ export default defineComponent({
     });
 
     const isLoggedIn = computed(() => !!store.state.user.token);
-
     return {
       currentLike,
       toggleLike,
@@ -230,6 +228,7 @@ export default defineComponent({
       pollItems,
       translatedCategory,
       isLoggedIn,
+      DummyImage,
     };
   },
   components: {
