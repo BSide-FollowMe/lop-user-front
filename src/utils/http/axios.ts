@@ -1,5 +1,7 @@
 import axios from 'axios';
 import { tokenSvc } from '@/api/token-service';
+import { ignorableKeyModifiers } from '@vue/test-utils/dist/constants/dom-events';
+import router from '@/router';
 
 const options: any = {};
 const { NODE_ENV } = process.env;
@@ -34,6 +36,9 @@ _axios.interceptors.response.use(
     return response;
   },
   function (error) {
+    if (axios.isAxiosError(error) && error.response?.status === 401) {
+      router.push('/signin');
+    }
     return Promise.reject(error);
   },
 );
