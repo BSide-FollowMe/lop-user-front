@@ -15,9 +15,9 @@
       :fileSourceLink="plantDetail.fileSourceLink"
     />
     <Water @openGuide="openGuide" />
-    <Sunlight @openGuide="openGuide" :sunlightTypes="plantDetail.sunlightTypes"/>
+    <Sunlight @openGuide="openGuide" :sunlightTypes="plantDetail.sunlightTypes || []"/>
     <TemperatureHumidity @openGuide="openGuide" />
-    <Ventilation @openGuide="openGuide" :blights="plantDetail.blights"/>
+    <Ventilation @openGuide="openGuide" :blights="plantDetail.blights || []"/>
     <Soil />
     <Report @openReport="openReport" />
     <Question />

@@ -1,13 +1,13 @@
 <template>
   <div class="inner-container">
-    <div class="plant" v-for="(plant, index) in newPlants" :key="index">
-      <img class="image" :src="plant.imgUrl" />
+    <div class="plant" v-for="(plant, index) in newItems" :key="index" @click="moveToPlantDetail(plant)">
+      <img class="image" :src="plant.fileUrl" />
       <div class="info">
         <span class="name">{{ plant.name }}</span>
         <div
-          v-if="plant.like"
+          v-if="plant.isAdded"
           class="icon heart-fill-icon"
-          @click="
+          @click.stop="
             toggleLike(index);
             requestChangeLike(index);
           "
@@ -15,7 +15,7 @@
         <div
           v-else
           class="icon heart-empty-icon"
-          @click="
+          @click.stop="
             toggleLike(index);
             requestChangeLike(index);
           "
@@ -26,45 +26,68 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, ref } from 'vue';
+import { defineComponent, PropType, ref, watchEffect } from 'vue';
 import EmptyHeartIcon from '@/assets/icon/heart-empty.svg';
 import FullHeartIcon from '@/assets/icon/heart-fill.svg';
 import { debounce } from 'lodash';
+import { handleInfiniteListScroll } from '@/utils/global';
 import { useStore } from 'vuex';
+import { PlantListData } from '@/api/model/plantModel';
+import { registerLike } from '@/api/plant';
+import { useRouter } from 'vue-router';
 export default defineComponent({
   props: {
-    plants: {
-      type: Array as PropType<
-        {
-          imgUrl: string;
-          name: string;
-          like: boolean;
-        }[]
-      >,
+    items: {
+      type: Array as PropType<(PlantListData & { isAdded: boolean })[]>,
       default: () => [],
     },
+    totalElement: {
+      type: Number,
+      default: 0,
+    },
   },
-  setup(props) {
+  setup(props, { emit }) {
     const store = useStore();
-    const newPlants = ref([...props.plants]);
+    const router = useRouter();
+    const newItems = ref([...props.items]);
+
+    watchEffect(() => {
+      newItems.value = [...props.items];
+    });
+    const onScroll = debounce(($event: Event) => {
+      handleInfiniteListScroll($event, newItems.value, props.totalElement, () => emit('atBottom'));
+    }, 500);
+    document.addEventListener('scroll', onScroll);
+
     const toggleLike = (index: number) => {
-      newPlants.value[index].like = !newPlants.value[index].like;
-      if (newPlants.value[index].like) {
+      newItems.value[index].isAdded = !newItems.value[index].isAdded;
+      if (newItems.value[index].isAdded) {
         store.dispatch('snack/openSnack', { text: '내가 저장한 식물에 추가했어요!', link: '/', color: '#C9704C' });
       } else {
         store.dispatch('snack/openSnack', { text: '내가 저장한 식물에서 삭제했어요!', color: '#C9704C' });
       }
     };
-    const requestChangeLike = debounce((index: number) => {
-      console.log('turned into ' + newPlants.value[index].like);
+    const requestChangeLike = debounce(async (index: number) => {
+      try {
+        await registerLike({ plantId: Number(newItems.value[index].id), memberId: store.state.user.id, isAdded: newItems.value[index].isAdded });
+      } catch (e) {
+        if (e instanceof Error) {
+          alert(e.message);
+        } else {
+          alert(e);
+        }
+      }
     }, 300);
-
+    const moveToPlantDetail = (plant:PlantListData & { isAdded: boolean }) =>{
+      router.push(`/plant/${plant.id}`);
+    }
     return {
       EmptyHeartIcon,
       FullHeartIcon,
       requestChangeLike,
       toggleLike,
-      newPlants,
+      newItems,
+      moveToPlantDetail,
     };
   },
 });
@@ -76,32 +99,39 @@ export default defineComponent({
   background: #ffffff;
   border-radius: 4px;
   padding: 60px;
-  min-width: 960px;
   display: flex;
   gap: 40px 32px;
   flex-wrap: wrap;
   @include breakpoint-down-sm {
     min-width: 320px;
     gap: 20px;
-    justify-content: space-between;
     padding: 20px;
   }
 }
 .plant {
+  cursor: pointer;
   display: inline-block;
+  flex-basis:calc(25% - 24px);
+  max-width:calc(25% - 24px);
+  flex-shrink:1;
+  height:230px;
+  @include breakpoint-down-sm {
+    flex-basis: calc(50% - 10px);
+    max-width:calc(50% - 10px);
+  }
 }
 .image {
-  width: 186px;
-  height: 186px;
+  width:100%;
+  height:calc(100% - 44px);
   @include breakpoint-down-sm {
-    width: 130px;
-    height: 130px;
+    height:calc(100% - 38px);
   }
 }
 .info {
   padding: 10px;
   display: flex;
   justify-content: space-between;
+  align-items: flex-start;
 }
 .icon {
   cursor: pointer;
@@ -112,8 +142,8 @@ export default defineComponent({
     mask-repeat: no-repeat;
     -webkit-mask-position: center center;
     mask-position: center center;
-    width: 18px;
-    height: 20px;
+    min-width: 18px;
+    min-height: 20px;
     background-color: var(--secondray-color-3);
   }
   &.heart-empty-icon {
@@ -123,8 +153,8 @@ export default defineComponent({
     mask-repeat: no-repeat;
     -webkit-mask-position: center center;
     mask-position: center center;
-    width: 18px;
-    height: 20px;
+    min-width: 18px;
+    min-height: 20px;
     background-color: var(--secondray-color-3);
   }
 }
