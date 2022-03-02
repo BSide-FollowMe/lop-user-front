@@ -1,72 +1,39 @@
 <template>
   <div class="inner-container">
     <section class="title">내가 저장한 식물</section>
-    <List v-if="plants.length > 0" :plants="plants" />
+    <List v-if="res.data?.length" :items="res.data" :totalElement="res.totalElement" @atBottom="loadMore" />
     <Empty v-else />
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue';
+import { defineComponent, onMounted, ref } from 'vue';
+import { getMyFavorite } from '@/api/member';
 import Empty from './Empty.vue';
 import List from './List.vue';
+import { PlantListData } from '@/api/model/plantModel';
+import { ListResponse } from '@/api/model/common';
 
 export default defineComponent({
-  props: {
-    plants: {
-      type: Array as PropType<
-        {
-          imgUrl: string;
-          name: string;
-          like: boolean;
-        }[]
-      >,
-      default: () => [{
-        imgUrl:'',
-        name:'1',
-        like:true
-      },{
-        imgUrl:'',
-        name:'2',
-        like:true
-      },{
-        imgUrl:'',
-        name:'3',
-        like:true
-      },{
-        imgUrl:'',
-        name:'4',
-        like:true
-      },{
-        imgUrl:'',
-        name:'5',
-        like:true
-      },{
-        imgUrl:'',
-        name:'6',
-        like:true
-      },{
-        imgUrl:'',
-        name:'7',
-        like:true
-      },{
-        imgUrl:'',
-        name:'8',
-        like:true
-      },{
-        imgUrl:'',
-        name:'9',
-        like:true
-      },{
-        imgUrl:'',
-        name:'10',
-        like:true
-      },{
-        imgUrl:'',
-        name:'11',
-        like:true
-      }],
-    },
+  setup() {
+    const size = 8;
+    const page = ref(0);
+    const res = ref({} as ListResponse<PlantListData & { isAdded: boolean }>);
+    const init = async () => {
+      const favorites = await getMyFavorite({ size, page: page.value });
+      res.value = { ...favorites, data: [...(res.value.data || []), ...favorites.data.map((item) => ({ ...item, isAdded: true }))] };
+    };
+    onMounted(() => {
+      init();
+    });
+    const loadMore = () => {
+      page.value++;
+      init();
+    };
+    return {
+      res,
+      loadMore,
+    };
   },
   components: { Empty, List },
 });
