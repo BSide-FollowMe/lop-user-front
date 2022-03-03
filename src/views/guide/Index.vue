@@ -8,12 +8,15 @@
 
     <section class="content">
       <slot />
+      <GuideLinkBox class="guide-link-box"/>
     </section>
   </div>
+  
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import GuideLinkBox from './GuideLinkBox.vue';
 export default defineComponent({
   props: {
     bannerImage: {
@@ -25,6 +28,7 @@ export default defineComponent({
       default: '',
     },
   },
+  components: { GuideLinkBox },
 });
 </script>
 
@@ -37,7 +41,7 @@ export default defineComponent({
   text-align: center;
   padding: 213px 0 215px 0;
   background-size: cover;
-  margin-bottom:70px;
+  margin-bottom: 70px;
   @include breakpoint-down-sm {
     height: 260px;
     padding: 94px 56px 102px 56px;
@@ -131,5 +135,8 @@ hr.bookmark-content {
   }
   border: 1px solid #e5e5e5;
   margin: 0;
+}
+.guide-link-box{
+  margin-bottom:120px;
 }
 </style>

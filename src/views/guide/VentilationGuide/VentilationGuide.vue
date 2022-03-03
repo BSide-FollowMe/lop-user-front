@@ -151,7 +151,7 @@ export default defineComponent({
   margin-bottom: 40px;
 }
 .tip {
-  max-width: 959px;
+  width:100%;
   padding: 28px 44px 30px 44px;
 
   /* green/3-bg */
