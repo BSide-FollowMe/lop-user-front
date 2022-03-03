@@ -14,13 +14,13 @@
         <div class="description">
           {{ blight.description }}
         </div>
-        <section>
+        <section class="sub">
           <div class="sub__title">확인법</div>
           <div class="sub__content">
             {{ blight.inspect }}
           </div>
         </section>
-        <section>
+        <section class="sub">
           <div class="sub__title">이렇게 치료하세요</div>
           <div class="sub__content">
             {{ blight.therapy }}
@@ -243,10 +243,13 @@ export default defineComponent({
   }
 }
 .dropdown {
-  cursor: pointer;
+  > div:first-child {
+    cursor: pointer;
+  }
   &__title {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     padding: 20px 0 20px 0;
     border-top: 1px solid #bababa;
     font-weight: var(--font-weight-meidum);
@@ -281,6 +284,9 @@ export default defineComponent({
     }
     padding: 40px 20px 40px 20px;
     background-color: var(--background-color-5);
+    @include breakpoint-down-sm{
+      padding: 16px 10px;
+    }
     .description {
       font-weight: var(--font-weight-medium);
       font-size: 16px;
@@ -315,6 +321,9 @@ export default defineComponent({
       &__title {
         font-weight: var(--font-weight-bold);
         margin-bottom: 8px;
+        @include breakpoint-down-sm{
+          margin-bottom:4px;
+        }
       }
       &__content {
         font-weight: var(--font-weight-medium);
