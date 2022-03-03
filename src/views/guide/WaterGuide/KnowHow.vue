@@ -6,7 +6,7 @@
       건강하게 자랄 수 있도록 꼭 기억해두세요.
     </div>
     <section class="sub-group">
-      <section class="sub">
+      <section :class="['sub',isModal ? 'modal' : '']">
         <div class="sub__title">어떤 물을 줘야 하나요?</div>
         <div class="sub__content">
           1~2일 전에 받아 실내에 둔 수돗물을 주는 게 가장 좋아요.그 과정에서 수돗물의 염소 성분이 휘발되고, 물 온도도 실온과 비슷해지거든요. 식물의
@@ -15,7 +15,7 @@
           빗물에는 인위적인 환경에서 얻기 힘든 영양소가 많이 들어있답니다.
         </div>
       </section>
-      <section class="sub">
+      <section :class="['sub',isModal ? 'modal' : '']">
         <div class="sub__title">물을 주기 적절한 시간이 있나요?</div>
         <div class="sub__content">
           오전에 물을 주는게 좋아요.대체로 식물은 햇빛이 있을 때 물을 더 필요로 하기 때문이에요. 밤에는 물이 잘 마르지 않아 과습이 될 위험도 있고요.
@@ -23,7 +23,7 @@
           있거든요. 겨울철에는 이른 아침부터 정오 사이가 물주기 가장 좋은 시간입니다. 너무 추울 때 물을 주면 냉해를 입을 수 있어요.
         </div>
       </section>
-      <section class="sub">
+      <section :class="['sub',isModal ? 'modal' : '']">
         <div class="sub__title">물을 어떻게 줘야 하나요?</div>
         <div class="sub__content">
           약한 물줄기로 화분 전체에 골고루 천천히 주세요. 물은 화분 밑으로 빠져나올 때까지 흠뻑 주는 게 좋고, 빠져나온 물은 고여있지 않도록 신경
@@ -32,7 +32,7 @@
         </div>
         <img style="width:100%" class="responsive" src="@/assets/images/guide/물주기1_1.png" />
       </section>
-      <section class="sub">
+      <section :class="['sub',isModal ? 'modal' : '']">
         <div class="sub__title">저면관수는 어떻게 하나요?</div>
         <div class="sub__content">
           저면관수는 아래로부터 물을 줘서 식물의 뿌리가 스스로 물을 빨아들이게 만드는 물주기 방식이에요. 큰 용기나 욕조에 화분이 1/3 정도 잠기도록
@@ -58,7 +58,12 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 export default defineComponent({
-  
+  props:{
+    isModal:{
+      type:Boolean,
+      default:false,
+    }
+  }
 });
 </script>
 <style lang="scss" scoped>
@@ -107,7 +112,8 @@ export default defineComponent({
     flex-grow: 1;
     position: relative;
     margin-bottom: 0;
-    @include breakpoint-up-md {
+    &:not(.modal){
+      @include breakpoint-up-md {
       &:first-child {
         &:before {
           content: '';
@@ -149,6 +155,8 @@ export default defineComponent({
         }
       }
     }
+    }
+    
   }
 }
 .sub {
@@ -203,7 +211,7 @@ export default defineComponent({
   margin-bottom: 40px;
 }
 .tip {
-  max-width: 959px;
+  width:100%;
   padding: 28px 44px 30px 44px;
   /* green/3-bg */
   background: var(--secondary-green-color-3);
