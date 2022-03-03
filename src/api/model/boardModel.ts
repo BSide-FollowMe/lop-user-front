@@ -1,7 +1,8 @@
 export interface BoardListParamModel {
-  keyword: string;
+  keyword?: string;
   page: number;
   size?: number;
+  plantId?:number;
 }
 
 export interface BoardParamModel {
@@ -60,12 +61,12 @@ interface CommentData {
   };
 }
 
-export interface CommentParamModel{
+export interface CommentParamModel {
   content: string;
   refId?: number | string;
 }
 
-export interface CommentRespModel{
+export interface CommentRespModel {
   commentOrder: number | string;
   content: string;
   createdDateTime: string;
@@ -78,5 +79,15 @@ export interface CommentRespModel{
   writer: {
     id: number | string;
     nickname: string;
-  }
+  };
+}
+
+export interface Question {
+  commentCount: number;
+  content: string;
+  createdDateTime: string;
+  id: number;
+  imageUrl: string;
+  plantName: string;
+  supportCount: number;
 }

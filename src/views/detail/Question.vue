@@ -3,25 +3,25 @@
     <div class="main">
       <div class="top">
         <span class="title">질문 · 답변</span>
-        <span v-if="questions.length" class="see-all-button">
+        <span v-if="questions.length" class="see-all-button" @click="moveToQuestionList">
           전체보기
           <img :src="ArrowForward" />
         </span>
       </div>
       <div v-if="questions.length" class="question">
-        <div class="question-item" v-for="(question, index) in questions" :key="index">
+        <div class="question-item" v-for="(question, index) in questions" :key="index" @click="moveToQuestionDetail(question.id)">
           <div class="text">
-            <div class="question-content">{{ preview(question.text) }}</div>
+            <div class="question-content">{{ preview(question.content) }}</div>
             <div>
               <div class="question-sub">
-                <span class="question-comments">댓글 {{ formatNumber(question.comments) }}</span>
-                <span class="question-likes">도움돼요 {{ formatNumber(question.likes) }}</span>
+                <span class="question-comments">댓글 {{ formatNumber(question.commentCount) }}</span>
+                <span class="question-likes">도움돼요 {{ formatNumber(question.supportCount) }}</span>
               </div>
             </div>
           </div>
-          <img class="question-img" :src="question.fileUrl" />
+          <img v-show="question.imageUrl" class="question-img" :src="question.imageUrl" />
         </div>
-        <div class="question-button">질문하기</div>
+        <div class="question-button" @click="moveToQuestionPost()">질문하기</div>
       </div>
       <div v-else class="no-question">
         <img class="question-box" :src="QuestionBox" />
@@ -30,7 +30,7 @@
           <br />
           다른 식집사 분들의 도움을 받아보세요
         </div>
-        <div class="question-button">질문하기</div>
+        <div class="question-button" @click="moveToQuestionPost()">질문하기</div>
       </div>
     </div>
   </div>
@@ -41,54 +41,48 @@ import { defineComponent, PropType } from 'vue';
 import { formatNumber } from '@/utils/text';
 import ArrowForward from '@/assets/icon/arrow_forward.svg';
 import QuestionBox from '@/assets/images/detail/질문하기.svg';
+import { useRouter } from 'vue-router';
+import { Question as QuestionModel } from '@/api/model/boardModel';
 
 export default defineComponent({
   props: {
+    plantName: {
+      type: String,
+      default: '',
+    },
     questions: {
-      type: Array as PropType<{ text: string; comments: number; likes: number; fileUrl: string }[]>,
-      default: () => [
-        {
-          text: '이거 해충인가요? 잎에 검은 반점이 생겼는데요 화원에서 데려올 때부터 이상태여서 크게 신경 안쓰고 있었는데 이거 해충인가요? 잎에 검은 반점이 생겼는데요 화원에서 데려올 때부터 이상태여서 크게 신경 안쓰고 있었는데 이거 해충인가요? 잎에 검은 반점이 생겼는데요 화원에서 데려올 때부터 이상태여서 크게 신경 안쓰고 있었는데 이거 해...',
-          comments: 1,
-          likes: 1568,
-          fileUrl:
-            'https://api-storage.cloud.toast.com/lop/static/cfebdc09-73ff-4978-8123-040725e687c5?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20220206T113438Z&X-Amz-SignedHeaders=host&X-Amz-Expires=3600&X-Amz-Credential=13dc6ffb2a4546c9b1adf9bb20362cb7%2F20220206%2FKR1%2Fs3%2Faws4_request&X-Amz-Signature=d0802c605a9ff75a0cc99094368c5fefd976643335803a9f3a785b046fc73be0',
-        },
-        {
-          text: '잎이 노랗게 변하는데 과습인지 물부족인지 모르겠어요. 물은 일주일에 한번씩 주고 있고 베란다에서 키우고 있어요! 혹시 아시는 분...?',
-          comments: 1,
-          likes: 1568,
-          fileUrl:
-            'https://api-storage.cloud.toast.com/lop/static/cfebdc09-73ff-4978-8123-040725e687c5?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20220206T113438Z&X-Amz-SignedHeaders=host&X-Amz-Expires=3600&X-Amz-Credential=13dc6ffb2a4546c9b1adf9bb20362cb7%2F20220206%2FKR1%2Fs3%2Faws4_request&X-Amz-Signature=d0802c605a9ff75a0cc99094368c5fefd976643335803a9f3a785b046fc73be0',
-        },
-        {
-          text: '이거 해충인가요? 잎에 검은 반점이 생겼는데요 화원에서 데려올 때부터 이상태여서 크게 신경 안쓰고 있었는데 이거 해충인가요? 잎에 검은 반점이 생겼는데요 화원에서 데려올 때부터 이상태여서 크게 신경 안쓰고 있었는데 이거 해충인가요? 잎에 검은 반점이 생겼는데요 화원에서 데려올 때부터 이상태여서 크게 신경 안쓰고 있었는데 이거 해...',
-          comments: 1,
-          likes: 1568,
-          fileUrl:
-            'https://api-storage.cloud.toast.com/lop/static/cfebdc09-73ff-4978-8123-040725e687c5?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20220206T113438Z&X-Amz-SignedHeaders=host&X-Amz-Expires=3600&X-Amz-Credential=13dc6ffb2a4546c9b1adf9bb20362cb7%2F20220206%2FKR1%2Fs3%2Faws4_request&X-Amz-Signature=d0802c605a9ff75a0cc99094368c5fefd976643335803a9f3a785b046fc73be0',
-        },
-      ],
+      type: Array as PropType<QuestionModel[]>,
+      default: () => [],
     },
   },
-  setup() {
-    const preview = (content:string) =>{
-      console.log(window.innerWidth)
-      console.log( content.slice(0,184) + '...');
-
-      if(window.innerWidth > 767 && content.length > 184){
-        return content.slice(0,184) + '...'
+  setup(props) {
+    const router = useRouter();
+    const preview = (content: string) => {
+      if (window.innerWidth > 767 && content.length > 184) {
+        return content.slice(0, 184) + '...';
       }
-      if(window.innerWidth <= 767 && content.length > 62){
-        return content.slice(0,62) + '...'
+      if (window.innerWidth <= 767 && content.length > 62) {
+        return content.slice(0, 62) + '...';
       }
       return content;
-    }
+    };
+    const moveToQuestionDetail = (id: number) => {
+      router.push(`/qna/detail?id=${id}`);
+    };
+    const moveToQuestionList = () => {
+      router.push(`/search?q=${props.plantName}&list=questions`);
+    };
+    const moveToQuestionPost = () => {
+      router.push(`/qna/edit?name=${props.plantName}`);
+    };
     return {
       formatNumber,
       ArrowForward,
       QuestionBox,
       preview,
+      moveToQuestionDetail,
+      moveToQuestionList,
+      moveToQuestionPost,
     };
   },
 });
@@ -163,10 +157,10 @@ export default defineComponent({
     font-weight: var(--font-weight-medium);
     font-size: 14px;
     line-height: 20px;
-    @include breakpoint-down-sm{
+    @include breakpoint-down-sm {
       font-size: 14px;
-      width:76px;
-      height:26px;
+      width: 76px;
+      height: 26px;
       padding: 0 2px 0 8px;
     }
     /* identical to box height, or 143% */
@@ -182,10 +176,12 @@ export default defineComponent({
 }
 
 .question {
-  width:100%;
+  width: 100%;
   .question-item {
+    width:100%;
     cursor: pointer;
     display: flex;
+    justify-content: space-between;
     padding: 40px 0;
 
     &:not(:first-of-type) {
@@ -194,15 +190,15 @@ export default defineComponent({
 
     .text {
       margin-right: 30px;
-      @include breakpoint-down-sm{
-        margin-right:12px;
+      @include breakpoint-down-sm {
+        margin-right: 12px;
       }
       .question-content {
         height: 78px;
         font-weight: var(--font-weight-medium);
         font-size: 18px;
         line-height: 26px;
-        @include breakpoint-down-sm{
+        @include breakpoint-down-sm {
           height: 60px;
           font-size: 13px;
           line-height: 20px;
@@ -227,7 +223,7 @@ export default defineComponent({
         /* text/3 */
 
         color: var(--text-color-3);
-        @include breakpoint-down-sm{
+        @include breakpoint-down-sm {
           padding-top: 30px;
           font-size: 12px;
           line-height: 18px;
@@ -241,12 +237,12 @@ export default defineComponent({
         }
       }
     }
-    .question-img{
-      width:140px;
-      height:140px;
-      @include breakpoint-down-sm{
-        width:108px;
-        height:108px;
+    .question-img {
+      width: 140px;
+      height: 140px;
+      @include breakpoint-down-sm {
+        width: 108px;
+        height: 108px;
       }
     }
   }
@@ -268,7 +264,7 @@ export default defineComponent({
     letter-spacing: -0.01em;
 
     /* deepgreen/1-main */
-    @include breakpoint-down-sm{
+    @include breakpoint-down-sm {
       height: 40px;
       font-size: 15px;
       line-height: 40px;

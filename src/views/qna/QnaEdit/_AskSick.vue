@@ -4,7 +4,7 @@
     <VueAutocomplete
       ref="plantSelector"
       label="식물명 검색"
-      v-model="plantName"
+      :value="plantName"
       :is-loading="isLoading"
       :items="plantNameOptions.map((item) => item.name)"
       @change="({ newVal }) => (plantName = newVal)"
@@ -89,7 +89,7 @@ export default defineComponent({
     VueAutocomplete,
     PhotoUploader,
   },
-  props: ['boardId'],
+  props: ['boardId', 'plant'],
   setup(props) {
     const plantSelector:any = ref(null);
     const photoUploader = ref(null);
@@ -98,7 +98,7 @@ export default defineComponent({
     const myUserInfo = computed(() => store.getters.getUserInfo);
     const myId = computed(() => myUserInfo.value?.id || null);
 
-    const plantName = ref('');
+    const plantName = ref(props.plant);
     const plantNameOptions: any = ref([]);
     const plantNameSubjective = ref('');
     const plantWaterCycle = ref('');

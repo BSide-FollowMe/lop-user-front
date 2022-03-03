@@ -136,7 +136,7 @@ export default defineComponent({
             { value: 'HOUSEPLANT', label: '관엽식물' },
           ],
           props.category,
-        ) || '미등록',
+        ) || '미분류',
     );
     const shareKakao = async () => {
       kakao.value.Link.sendDefault({
@@ -178,7 +178,7 @@ export default defineComponent({
     const toggleLike = () => {
       currentLike.value = !currentLike.value;
       if (currentLike.value) {
-        store.dispatch('snack/openSnack', { text: '내가 저장한 식물에 추가했어요!', link: '/', color: '#C9704C' });
+        store.dispatch('snack/openSnack', { text: '내가 저장한 식물에 추가했어요!', link: '/me/my-plant', color: '#C9704C' });
       } else {
         store.dispatch('snack/openSnack', { text: '내가 저장한 식물에서 삭제했어요!', color: '#C9704C' });
       }
