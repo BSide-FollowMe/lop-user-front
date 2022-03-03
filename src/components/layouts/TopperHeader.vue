@@ -59,7 +59,7 @@ export default defineComponent({
   }
   .title {
     img#logo-title {
-      padding-left: 12px;
+      margin-left: 12px;
     }
     img {
       cursor: pointer;
@@ -87,12 +87,21 @@ export default defineComponent({
     letter-spacing: -0.0025em;
     > span {
       cursor: pointer;
+      // margin: 0 10px;
     }
-    span:not(:last-child):after {
-      cursor: default;
-      content: '|';
-      margin: 0 20px;
+    span:last-child{
+      margin-left:10px;
     }
+    span:not(:last-child) {
+      margin-right:10px;
+      &:after {
+        cursor: default;
+        content: "|";
+        position: absolute;
+        margin: 0 10px;
+      }
+    }
+
     @include breakpoint-down-sm {
       font-size: 13px;
       line-height: 16px;
