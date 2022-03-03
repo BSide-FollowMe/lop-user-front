@@ -30,7 +30,7 @@
           <div class="button-icon question-answer-icon" />
           나의 질문 · 답변
         </div>
-        <div class="button">
+        <div class="button" @click="OPEN_LINK.INTRODUCTION">
           <div class="button-icon info-icon" />
           서비스 소개
         </div>
@@ -58,7 +58,7 @@ import settingIcon from '@/assets/icon/setting.svg';
 import { useRouter } from 'vue-router';
 import { tokenSvc } from '@/api/token-service';
 import GradeGuideModal from '@/components/modals/GradeGuideModal.vue';
-import axios, { AxiosError } from 'axios';
+import { OPEN_LINK } from '@/router/routing';
 
 export default defineComponent({
   components: {
@@ -100,6 +100,7 @@ export default defineComponent({
       gradeGuideOpened,
       moveToSetting,
       moveToMyQuestion,
+      OPEN_LINK,
     };
   },
 });

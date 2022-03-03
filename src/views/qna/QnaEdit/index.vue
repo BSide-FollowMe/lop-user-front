@@ -15,8 +15,8 @@
             <img src="@/assets/icon/ask-question-secondary.svg" alt="" />
           </button>
         </div>
-        <AskHelp v-if="page == 'SICK'" :boardId="boardId" />
-        <AskQuestion v-if="page == 'WONDER'" :boardId="boardId" />
+        <AskHelp v-if="page == 'SICK'" :boardId="boardId" :plant="plantName" />
+        <AskQuestion v-if="page == 'WONDER'" :boardId="boardId" :plant="plantName" />
       </section>
     </div>
   </div>
@@ -37,8 +37,11 @@ export default defineComponent({
   },
   setup() {
     const route = useRoute();
-    const page = ref(route.query['type']=='WONDER' ? 'WONDER' : 'SICK');
+    console.log(route.query);
+    const page = ref(route.query['type'] == 'WONDER' ? 'WONDER' : 'SICK');
     const boardId = ref(route.query['id'] || null);
+    console.log(route.query);
+    const plantName = route.query.name;
 
     checkIsLoggedIn();
     async function checkIsLoggedIn() {
@@ -49,7 +52,7 @@ export default defineComponent({
         return;
       }
     }
-    return { page,boardId };
+    return { page, boardId, plantName };
   },
 });
 </script>
@@ -80,16 +83,16 @@ export default defineComponent({
       display: block;
       margin-top: 60px;
       margin-bottom: 30px;
-      color:var(--primary-color-1);
+      color: var(--primary-color-1);
       @include breakpoint-down-sm {
-        font-size:18px;
+        font-size: 18px;
         margin-top: 40px;
         margin-bottom: 22px;
       }
     }
   }
   @include breakpoint-down-sm {
-    padding-bottom:60px;
+    padding-bottom: 60px;
   }
 }
 .edit-form {
@@ -98,8 +101,8 @@ export default defineComponent({
   padding: 60px;
 
   @include breakpoint-down-sm {
-    margin-left:20px;
-    margin-right:20px;
+    margin-left: 20px;
+    margin-right: 20px;
     padding: 40px var(--m-content-container-padding);
   }
 }
@@ -143,32 +146,32 @@ export default defineComponent({
       }
     }
     @include breakpoint-down-sm {
-      position:relative;
+      position: relative;
       width: 135px;
       height: 85px;
-      padding:10px;
-      text-align:center;
+      padding: 10px;
+      text-align: center;
       margin: 0px 0px 10px;
-      &.ask-help{
-        margin-right:5px;
+      &.ask-help {
+        margin-right: 5px;
       }
-      &.ask-question{
-        margin-left:5px;
+      &.ask-question {
+        margin-left: 5px;
       }
-      span{
-        position:relative;
-        top:20px;
-        left:50%;
-        transform:translateX(-50%);
+      span {
+        position: relative;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
         font-size: 14px;
         line-height: 17px;
         // word-break:keep-all;
       }
       img {
-        position:absolute;
-        top:10px;
-        left:50%;
-        transform:translateX(-50%);
+        position: absolute;
+        top: 10px;
+        left: 50%;
+        transform: translateX(-50%);
         width: 40px;
         height: 40px;
       }

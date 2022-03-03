@@ -15,12 +15,12 @@
       :fileSourceLink="plantDetail.fileSourceLink"
     />
     <Water @openGuide="openGuide" />
-    <Sunlight @openGuide="openGuide" :sunlightTypes="plantDetail.sunlightTypes || []"/>
+    <Sunlight @openGuide="openGuide" :sunlightTypes="plantDetail.sunlightTypes || []" />
     <TemperatureHumidity @openGuide="openGuide" />
-    <Ventilation @openGuide="openGuide" :blights="plantDetail.blights || []"/>
+    <Ventilation @openGuide="openGuide" :blights="plantDetail.blights || []" />
     <Soil />
     <Report @openReport="openReport" />
-    <Question />
+    <Question :plantName="plantDetail.name" :questions="questions" />
   </div>
   <GuideModal v-if="guideOpened" :options="guideOptions" @close="closeGuide()" />
   <RequestModal v-if="reportOpened" :options="reportOptions" @close="closeReport()" />
@@ -39,15 +39,18 @@ import GuideModal from '@/components/modals/GuideModal.vue';
 import RequestModal from '@/components/modals/RequestModal.vue';
 
 import { getPlantDetail } from '@/api/plant';
+import { getQnaBoardList } from '@/api/qnaboard';
 import { PlantDetailRespModel } from '@/api/model/plantModel';
 import { onMounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
+import { Question as QuestionModel } from '@/api/model/boardModel';
 
 export default defineComponent({
   setup() {
     const route = useRoute();
     const router = useRouter();
     const plantDetail = ref({} as PlantDetailRespModel);
+    const questions = ref([] as QuestionModel[]);
     const guideOpened = ref(false);
     const reportOpened = ref(false);
     const guideOptions = ref({} as { componentName: string; modalTitle: string });
@@ -61,7 +64,7 @@ export default defineComponent({
     };
     const openReport = ({ modalTitle, contentsLabel }: { modalTitle: string; contentsLabel: string }) => {
       reportOpened.value = true;
-      reportOptions.value = { modalTitle, objective:plantDetail.value.name, contentsLabel };
+      reportOptions.value = { modalTitle, objective: plantDetail.value.name, contentsLabel };
     };
     const closeGuide = () => {
       guideOpened.value = false;
@@ -72,6 +75,14 @@ export default defineComponent({
     onMounted(async () => {
       try {
         plantDetail.value = await getPlantDetail({ plantId: route.path.split('/')[2] });
+        const {
+          data: { data },
+        }: any = await getQnaBoardList({
+          plantId: Number(plantDetail.value.id),
+          size: 3,
+          page: 0,
+        });
+        questions.value = data as QuestionModel[];
       } catch (e) {
         router.push('/not-found');
       }
@@ -86,6 +97,7 @@ export default defineComponent({
       openReport,
       closeReport,
       reportOptions,
+      questions,
     };
   },
   components: {
@@ -124,29 +136,3 @@ export default defineComponent({
   }
 }
 </style>
-
-<!-- WaterInspectGuideModal: {
-    type: 'Guide',
-    componentName: 'WaterInspect',
-    modalTitle: '흙이 마른 건 이렇게 알 수 있어요',
-  },
-  WaterKnowHowGuideModal: {
-    type: 'Guide',
-    componentName: 'WaterKnowHow',
-    modalTitle: '물을 잘 주려면 이렇게 하세요',
-  },
-  VentilationGuideModal: {
-    type: 'Guide',
-    componentName: 'Ventilation',
-    modalTitle: '통풍이 왜 중요한가요?',
-  },
-  SunlightGuideModal: {
-    type: 'Guide',
-    componentName: 'Sunlight',
-    modalTitle: '양지와 음지를 어떻게 구분하나요?',
-  },
-  BlightGuideModal: {
-    type: 'Guide',
-    componentName: 'Blight',
-    modalTitle: '병충해는 어떻게 관리하나요?', 
-  },-->
