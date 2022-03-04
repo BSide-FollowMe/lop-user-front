@@ -84,6 +84,16 @@ export default defineComponent({
   border-bottom: 1px solid #e5e5e5;
 }
 .sunlight-type {
+  font-weight: var(--font-weight-medium);
+  font-size: 15px;
+  line-height: 20px;
+  /* identical to box height, or 133% */
+
+  letter-spacing: -0.01em;
+
+  /* text/2 */
+
+  color: var(--text-color-2);
   padding: 2px 8px;
   margin-right: 10px;
   background: #e5f4eb;

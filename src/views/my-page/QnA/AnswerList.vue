@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="item" v-for="answer in items" :key="answer.id">
+    <div class="item" v-for="answer in items" :key="answer.id" @click="moveToAnswer(answer.questionId, answer.id)">
       <div>
         <span class="plantName">{{ answer.plantName }}</span>
         <span class="questionContent">{{ answer.questionContent }}</span>
@@ -19,6 +19,7 @@ import { defineComponent, onUnmounted, PropType } from 'vue';
 import { Answer } from '@/api/model/memberModel';
 import { debounce } from 'lodash';
 import { handleInfiniteListScroll } from '@/utils/global';
+import { useRouter } from 'vue-router';
 
 export default defineComponent({
   props: {
@@ -31,7 +32,8 @@ export default defineComponent({
       default: 0,
     },
   },
-  setup(props,{emit}) {
+  setup(props, { emit }) {
+    const router = useRouter();
     const preview = (content: string) => {
       if (window.innerWidth > 767 && content.length > 184) {
         return content.slice(0, 132) + '...';
@@ -45,16 +47,26 @@ export default defineComponent({
       const d = new Date(date);
       return `${d.getFullYear()}.${(d.getMonth() + 1).toString().padStart(2, '0')}.${d.getDate().toString().padStart(2, '0')}`;
     };
-     const onScroll = debounce(($event: Event) => {
+    const onScroll = debounce(($event: Event) => {
       handleInfiniteListScroll($event, props.items, props.totalElement, () => emit('atBottom'));
     }, 500);
     document.addEventListener('scroll', onScroll);
     onUnmounted(() => {
-      document.removeEventListener('scroll',onScroll);
+      document.removeEventListener('scroll', onScroll);
     });
+    const moveToAnswer = (questionId: number, answerId: number) => {
+      router.push({
+        path: `/qna/detail`,
+        query: {
+          id: questionId,
+        },
+        hash: `#${answerId}`,
+      });
+    };
     return {
       preview,
       formatDate,
+      moveToAnswer,
     };
   },
 });
@@ -64,6 +76,7 @@ export default defineComponent({
 @import '@/styles/';
 .item {
   padding: 20px 0 20px 0;
+  cursor: pointer;
 
   border-bottom: 1px solid #f3f3f3;
 }

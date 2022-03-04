@@ -19,6 +19,8 @@ export interface Answer {
   plantName: string;
   questionContent: string;
   supportCount: number;
+  questionId: number;
+  commentOrder: number;
 }
 
 export interface Question {
