@@ -24,6 +24,7 @@
       <ReplyItem
         v-for="(item, index) in comments.data"
         :key="`reply-item-${index}`"
+        :id="item.id"
         :boardId="boardId"
         :boardWriterId="boardWriterId"
         :myId="myId"
@@ -35,16 +36,19 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, ref } from 'vue';
+import { defineComponent, computed, ref, onMounted, nextTick } from 'vue';
 import store from '@/store';
 import { debounce } from '@/utils/global';
 import ReplyItem from './_ReplyItem.vue';
 import { registQnaBoardComment } from '@/api/qnaboard';
+import { useRoute } from 'vue-router';
+import router from '@/router';
 export default defineComponent({
   name: 'Reply List',
   components: { ReplyItem },
   props: ['comments', 'boardId', 'boardWriterId'],
   setup(props, { emit }) {
+    const route = useRoute();
     const myUserInfo = computed(() => store.getters.getUserInfo);
     const myId = computed(() => myUserInfo.value?.id || null);
     const replyCount = computed(() => {
@@ -79,6 +83,19 @@ export default defineComponent({
     function orderDependentReply(targetId: any, sourceList: any) {
       return sourceList.filter((item: any) => item.refId && item.refId != 0 && item.refId == targetId);
     }
+    const scrollFix = (hashbang: string) => {
+      setTimeout(()=>{
+        location.hash = hashbang;
+      },0)
+    };
+
+    if (route.hash) {
+      router.replace(route.path + '?id=' + route.query.id);
+      nextTick(() => {
+        scrollFix(`${route.hash}`);
+      });
+    }
+
     return {
       replyCount,
       replyInput,

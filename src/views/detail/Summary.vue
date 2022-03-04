@@ -44,7 +44,7 @@
   </div>
 </template>
 <script lang="ts">
-import { computed, defineComponent, PropType, ref, nextTick, onMounted, watchEffect } from 'vue';
+import { computed, defineComponent, PropType, ref, nextTick, onMounted, watchEffect, onUnmounted } from 'vue';
 import { useStore } from 'vuex';
 import { category } from 'plant';
 import { translate } from '@/utils/text';
@@ -209,12 +209,30 @@ export default defineComponent({
 
     const pollItems = computed(() => {
       return [
-        { text: '쉬워요', value: props.growthEasy + '%', hoverColor: '#48B57A', onClick: () => requestPollDifficulty('EASY') },
-        { text: '어려워요', value: props.growthHard + '%', hoverColor: '#C9704C', onClick: () => requestPollDifficulty('HARD') },
+        {
+          text: '쉬워요',
+          value: props.growthEasy + '%',
+          hoverColor: '#48B57A',
+          onClick: () => {
+            requestPollDifficulty('EASY');
+          },
+        },
+        {
+          text: '어려워요',
+          value: props.growthHard + '%',
+          hoverColor: '#C9704C',
+          onClick: () => {
+            requestPollDifficulty('HARD');
+          },
+        },
       ];
     });
 
     const isLoggedIn = computed(() => !!store.state.user.token);
+
+    onUnmounted(() => {
+      store.dispatch('snack/closeSnack');
+    });
     return {
       currentLike,
       toggleLike,
@@ -256,7 +274,6 @@ export default defineComponent({
     @include breakpoint-down-sm {
       margin-left: -20px;
       width: 100vw;
-      margin-bottom: 46px;
     }
   }
   .plant-content {
@@ -268,6 +285,11 @@ export default defineComponent({
     @include breakpoint-down-sm {
       height: auto;
     }
+  }
+}
+.content{
+  @include breakpoint-down-sm{
+    margin-top: 16px;
   }
 }
 .fileImage {
@@ -301,9 +323,6 @@ export default defineComponent({
   }
 }
 .category-icon {
-  @include breakpoint-down-sm {
-    display: none;
-  }
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -396,6 +415,7 @@ export default defineComponent({
   @include breakpoint-down-sm {
     flex-direction: row;
     gap: 21px;
+    margin-top: 46px;
   }
   .icon {
     cursor: pointer;

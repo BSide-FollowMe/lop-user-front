@@ -1,5 +1,5 @@
 <template>
-  <li class="item" :class="{ 'is-dependent': item.refId && item.refId != 0 }">
+  <li :id="`${id}`" class="item" :class="{ 'is-dependent': item.refId && item.refId != 0 }">
     <div class="item__topper">
       <div class="group">
         <span class="nickname">{{ item.writer.nickname }}</span>
@@ -91,17 +91,17 @@
 <script lang="ts">
 import { defineComponent, computed, ref } from 'vue';
 import { getTimeDistanceWithNaturalStr } from '@/utils/text';
-import { deleteQnaBoardComment, modifyQnaBoardComment, registQnaBoardComment,toggleSupportComments } from '@/api/qnaboard';
+import { deleteQnaBoardComment, modifyQnaBoardComment, registQnaBoardComment, toggleSupportComments } from '@/api/qnaboard';
 import { debounce } from '@/utils/global';
 export default defineComponent({
   name: 'Reply Item',
-  props: ['item', 'boardId', 'myId', 'boardWriterId'],
+  props: ['id', 'item', 'boardId', 'myId', 'boardWriterId'],
   setup(props, { emit }) {
     const boardId = computed(() => props.boardId || null);
     const myId = computed(() => props.myId || null);
     const content = computed(() => props.item.content || null);
-    const isDeleted = computed(()=>props.item.content == '작성자가 삭제한 댓글입니다' || false)
-    const commentId = computed(()=>props.item.id || null);
+    const isDeleted = computed(() => props.item.content == '작성자가 삭제한 댓글입니다' || false);
+    const commentId = computed(() => props.item.id || null);
     const actionBtnRef = ref(null);
     const actionModal = ref(false);
     const editMode = ref(false);
@@ -179,7 +179,7 @@ export default defineComponent({
     }
     async function toggleSupportBtn() {
       try {
-        if(isDeleted.value) return;
+        if (isDeleted.value) return;
         await toggleSupportComments(commentId.value);
         emit('refresh');
       } catch (e) {
@@ -223,10 +223,10 @@ export default defineComponent({
     .group {
       display: block;
     }
-    .nickname{
-        @include breakpoint-down-sm{
-            font-size: 12px;
-        }
+    .nickname {
+      @include breakpoint-down-sm {
+        font-size: 12px;
+      }
     }
     .is-writer {
       margin-left: 8px;
@@ -254,8 +254,8 @@ export default defineComponent({
       color: var(--text-color-3);
     }
     @include breakpoint-down-sm {
-        font-size: 13px;
-        line-height: 20px;
+      font-size: 13px;
+      line-height: 20px;
     }
   }
 }
@@ -263,8 +263,8 @@ export default defineComponent({
   padding-left: 40px;
   background-color: var(--background-color-5);
   @include breakpoint-down-sm {
-     padding-left:20px;
-    }
+    padding-left: 20px;
+  }
 }
 .dependent-input {
   padding-top: 20px;
@@ -272,7 +272,6 @@ export default defineComponent({
   &.is-dependent {
     padding-right: 20px;
   }
-
 }
 .edit-btn-group {
   right: 8px;
@@ -285,7 +284,7 @@ export default defineComponent({
     font-weight: var(--font-weight-bold);
     @include breakpoint-down-sm {
       font-size: 14px;
-line-height: 17px;
+      line-height: 17px;
     }
   }
   .separator {
@@ -299,7 +298,7 @@ line-height: 17px;
 
     @include breakpoint-down-sm {
       font-size: 14px;
-line-height: 17px;
+      line-height: 17px;
     }
   }
 }
@@ -349,13 +348,13 @@ line-height: 17px;
       color: var(--text-color-3);
     }
   }
-    @include breakpoint-down-sm {
-      img{
-          width:20px;
-          height:20px;
-          vertical-align: middle;
-      }
+  @include breakpoint-down-sm {
+    img {
+      width: 20px;
+      height: 20px;
+      vertical-align: middle;
     }
+  }
 }
 .textarea-item {
   margin-top: 10px;
@@ -413,17 +412,16 @@ line-height: 17px;
   }
   button {
     color: var(--text-color-3);
-      @include breakpoint-down-sm {
+    @include breakpoint-down-sm {
       font-size: 12px;
     }
-    &.helpful-btn-primary{
+    &.helpful-btn-primary {
       color: var(--secondary-green-color-1);
     }
   }
-
 }
-.helpful-btn:hover{
-  text-decoration:underline;
+.helpful-btn:hover {
+  text-decoration: underline;
 }
 button {
   padding: 0px;

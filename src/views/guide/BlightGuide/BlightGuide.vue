@@ -243,6 +243,7 @@ export default defineComponent({
   }
 }
 .dropdown {
+  margin-bottom: 61px;
   > div:first-child {
     cursor: pointer;
   }

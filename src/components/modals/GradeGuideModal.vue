@@ -2,7 +2,7 @@
   <DefaultModal @close="closeModal">
     <div class="conatiner">
       <div class="title">
-        <span class="text-bold">{{ options?.modalTitle }}</span>
+        <span class="text-bold">등급안내</span>
       </div>
       <hr class="divider" />
       <div class="mygrade">

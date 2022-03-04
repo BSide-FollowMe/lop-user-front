@@ -76,7 +76,6 @@ export default defineComponent({
       router.push('/me/my-plant');
     };
     const moveToMyQuestion = () => {
-      console.log('asdfasdf');
       router.push('/me/qna?list=questions');
     };
     const logout = () => {

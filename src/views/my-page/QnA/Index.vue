@@ -13,7 +13,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, watchEffect, ref } from 'vue';
+import { defineComponent, computed, watch, ref, onMounted } from 'vue';
 import RouterTabs from './_RouterTabs.vue';
 import QuestionList from './QuestionList.vue';
 import AnswerList from './AnswerList.vue';
@@ -47,21 +47,19 @@ export default defineComponent({
         res = await getMyAnswers({ size, page: page.value });
       }
       totalElement.value = res.totalElement;
-      list.value = res.data;
+      list.value.push(...res.data);
     };
-    watchEffect(() => {
-      page.value = 0;
-      list.value=[];
-      totalElement.value=0;
+    watch(listType, () => {
+      list.value = [];
+      totalElement.value = 0;
       init();
     });
-
+    onMounted(() => {
+      init();
+    });
     const loadMore = () => {
       page.value++;
-      //deep copy
-      const temp = JSON.parse(JSON.stringify(list.value));
       init();
-      list.value = [...temp, list.value];
     };
     return {
       listType,

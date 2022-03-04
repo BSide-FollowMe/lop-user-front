@@ -19,7 +19,7 @@
             <div>새로운 닉네임이 저장되었습니다.</div>
           </div>
         </div>
-        <button class="button save"><span>저장</span></button>
+        <button :disabled="!!error" class="button save"><span>저장</span></button>
       </form>
       <div>
         <div class="label">문의하기</div>
@@ -54,6 +54,7 @@ import { getBytes } from '@/utils/text';
 import { updateMyAccount } from '@/api/member';
 import RequestModal from '@/components/modals/RequestModal.vue';
 import DeleteAccountModal from '@/components/modals/DeleteAccountModal.vue';
+import axios from 'axios';
 
 export default defineComponent({
   components: {
@@ -76,16 +77,15 @@ export default defineComponent({
         await updateMyAccount({ nickname: nickName.value });
         success.value = true;
       } catch (e) {
-        if (e instanceof Error) {
-          if (e.message == '중복된 개체가 있습니다.') {
-            error.value = '중복된 닉네임입니다. 다른 이름을 입력해주세요.';
-          } else {
-            error.value = e.message;
-          }
+        if (axios.isAxiosError(e)) {
+          error.value = e.response?.data.message;
+        } else if (e instanceof Error) {
+          error.value = e.message;
         }
       }
     };
     const checkValidation = () => {
+      success.value = false;
       error.value = '';
       error.value = getBytes(nickName.value) > 20 ? '최대 10자 (20byte)까지 입력할 수 있어요.' : '';
     };
@@ -215,6 +215,12 @@ export default defineComponent({
   &.ask {
     background: var(--primary-color-1);
     color: #ffffff;
+  }
+  &[disabled] {
+    cursor:default;
+    border: 1px solid #999999 !important;
+    background: #cccccc !important;
+    color: var(--text-color-2) !important;
   }
   border: 1px solid #365650;
   box-sizing: border-box;
