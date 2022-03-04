@@ -8,7 +8,7 @@
       <div class="tab">
         <span @click="ROUTE_TO.QNABOARD">질문 · 답변</span>
         <span v-if="isLoggedIn" @click="ROUTE_TO.MYPAGE">마이페이지</span>
-        <span v-else @click="ROUTE_TO.LOGIN">Login</span>
+        <span v-else @click="ROUTE_TO.LOGIN">로그인</span>
       </div>
     </div>
   </div>

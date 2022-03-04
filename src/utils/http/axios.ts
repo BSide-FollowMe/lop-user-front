@@ -37,6 +37,7 @@ _axios.interceptors.response.use(
   },
   function (error) {
     if (axios.isAxiosError(error) && error.response?.status === 401) {
+      alert('먼저 로그인 해주세요!');
       router.push('/signin');
     }
     return Promise.reject(error);
