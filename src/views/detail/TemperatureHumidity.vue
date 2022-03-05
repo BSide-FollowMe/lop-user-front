@@ -3,8 +3,8 @@
     <div class="title">온도와 습도는 이렇게 맞추세요</div>
     <div class="temperature-humidity">
       <Card :imgSrc="Temperature" title="적정온도" :content="`${temperature.split(',')[0] }℃ ~ ${temperature.split(',')[1] }℃`"></Card>
-      <Card :imgSrc="WinterTemperature" title="겨울철 온도" :content="`${winterTemperature}℃`"></Card>
-      <Card :imgSrc="Humidity" title="습도" :content="`${ humidity.split(',')[0] }% ~ ${ humidity.split(',')[1] }%`"></Card>
+      <Card v-if="winterTemperature" :imgSrc="WinterTemperature" title="겨울철 온도" :content="`${winterTemperature}℃`"></Card>
+      <Card v-if="minHumidity && maxHumidity" :imgSrc="Humidity" title="습도" :content="`${ minHumidity }% ~ ${ maxHumidity }%`"></Card>
     </div>
     <p class="content" v-html="content" />
   </div>
@@ -28,12 +28,16 @@ export default defineComponent({
     },
     winterTemperature: {
       type: String,
-      default: '5',
+      default: '',
     },
-    humidity: {
+    minHumidity: {
       type: String,
-      default: '40,70',
+      default: '',
     },
+    maxHumidity:{
+      type: String,
+      default: '',
+    }
   },
   components:{
     Card,
