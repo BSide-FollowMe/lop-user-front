@@ -72,6 +72,9 @@ export default defineComponent({
     const isLoading = ref(false);
 
     if (id.value) getEditDetails(id.value);
+    if (plantName.value && plantName.value != ''){
+      getPlantNameList(plantName.value);
+    }
     const changeSubjective = debounce(getPlantNameList, 1000);
 
     async function getEditDetails(id: string) {
