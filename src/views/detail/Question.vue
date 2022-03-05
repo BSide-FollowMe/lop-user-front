@@ -54,6 +54,10 @@ export default defineComponent({
       type: Array as PropType<QuestionModel[]>,
       default: () => [],
     },
+    plantId:{
+      type: String,
+      default: '',
+    }
   },
   setup(props) {
     const router = useRouter();
@@ -70,7 +74,7 @@ export default defineComponent({
       router.push(`/qna/detail?id=${id}`);
     };
     const moveToQuestionList = () => {
-      router.push(`/search?q=${props.plantName}&list=questions`);
+      router.push(`/qna?plantId=${props.plantId}`);
     };
     const moveToQuestionPost = () => {
       router.push(`/qna/edit?name=${props.plantName}`);
