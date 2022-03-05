@@ -12,7 +12,7 @@ export default defineComponent({
   props:{
     content:{
       type:String,
-      default:'토양은 배양토보다 마사토를 좀 더 많이 해서 4:6으로 하고, 흙이 콩알에 직접 안 닿도록 위에는 마사토를 꼼꼼하게 채워주세요.',
+      default:'',
     }
   }
 })

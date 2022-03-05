@@ -29,7 +29,7 @@ export default defineComponent({
     },
     content: {
       type: String,
-      default: '밝은 빛을 좋아해요. 어두운 환경에서는 느리게 자랄 수 있으니 창가 햇빛 드는 곳에서 키워주세요.',
+      default: '',
     },
   },
   components: {

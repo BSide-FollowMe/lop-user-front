@@ -29,7 +29,7 @@ export default defineComponent({
   props: {
     content: {
       type: String,
-      default: '겉 흑의 표면이 마르면 2일 정도 기다린 후 물주세요.<br/> 겨울철에는 공기중의 습도를 유지해주는 정도로 분무해주세요.',
+      default: '',
     },
   },
   components: {
