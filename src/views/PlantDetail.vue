@@ -6,16 +6,8 @@
       :name="plantDetail.name"
       :scientificName="plantDetail.scientificName"
       :nickname="plantDetail.nickname"
-      :growthEasy="
-        plantDetail.pollGrowth?.growthEasy + plantDetail.pollGrowth?.growthHard
-          ? (Number(plantDetail.pollGrowth?.growthEasy / (plantDetail.pollGrowth?.growthEasy + plantDetail.pollGrowth?.growthHard)) * 100).toFixed(0)
-          : 0
-      "
-      :growthHard="
-        plantDetail.pollGrowth?.growthEasy + plantDetail.pollGrowth?.growthHard
-          ? (Number(plantDetail.pollGrowth?.growthHard / (plantDetail.pollGrowth?.growthEasy + plantDetail.pollGrowth?.growthHard)) * 100).toFixed(0)
-          : 0
-      "
+      :growthEasy="calculatedGrowthEasy"
+      :growthHard="calculatedGrowthHard"
       :currentPollGrowth="plantDetail.pollGrowth?.type"
       :category="plantDetail.category"
       :fileName="plantDetail.fileName"
@@ -51,7 +43,7 @@ import RequestModal from '@/components/modals/RequestModal.vue';
 import { getPlantDetail } from '@/api/plant';
 import { getQnaBoardList } from '@/api/qnaboard';
 import { PlantDetailRespModel } from '@/api/model/plantModel';
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { Question as QuestionModel } from '@/api/model/boardModel';
 
@@ -103,7 +95,35 @@ export default defineComponent({
     const refresh = () => {
       init();
     };
+    const calculatedGrowthEasy = computed(() => {
+      if (plantDetail.value?.growthEasy === undefined) return 0;
+      const total = Number(
+        plantDetail.value.growthEasy +
+          plantDetail.value.pollGrowth.growthEasy +
+          plantDetail.value.growthHard +
+          plantDetail.value.pollGrowth.growthHard,
+      );
+      if (total == 0) {
+        return 0;
+      }
+      return ((Number(plantDetail.value.growthEasy + plantDetail.value.pollGrowth.growthEasy) / total) * 100).toFixed(0);
+    });
+    const calculatedGrowthHard = computed(() => {
+      if (plantDetail.value?.growthHard === undefined) return 0;
+      const total = Number(
+        plantDetail.value.growthEasy +
+          plantDetail.value.pollGrowth.growthEasy +
+          plantDetail.value.growthHard +
+          plantDetail.value.pollGrowth.growthHard,
+      );
+      if (total == 0) {
+        return 0;
+      }
+      return ((Number(plantDetail.value.growthHard + plantDetail.value.pollGrowth.growthHard) / total) * 100).toFixed(0);
+    });
     return {
+      calculatedGrowthEasy,
+      calculatedGrowthHard,
       plantDetail,
       guideOpened,
       openGuide,
