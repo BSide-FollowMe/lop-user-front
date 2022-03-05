@@ -6,8 +6,16 @@
       :name="plantDetail.name"
       :scientificName="plantDetail.scientificName"
       :nickname="plantDetail.nickname"
-      :growthEasy="(Number(plantDetail.pollGrowth?.growthEasy / (plantDetail.pollGrowth?.growthEasy + plantDetail.pollGrowth?.growthHard)) * 100).toFixed(0)"
-      :growthHard="(Number(plantDetail.pollGrowth?.growthHard / (plantDetail.pollGrowth?.growthEasy + plantDetail.pollGrowth?.growthHard)) * 100).toFixed(0)"
+      :growthEasy="
+        plantDetail.pollGrowth?.growthEasy + plantDetail.pollGrowth?.growthHard
+          ? (Number(plantDetail.pollGrowth?.growthEasy / (plantDetail.pollGrowth?.growthEasy + plantDetail.pollGrowth?.growthHard)) * 100).toFixed(0)
+          : 0
+      "
+      :growthHard="
+        plantDetail.pollGrowth?.growthEasy + plantDetail.pollGrowth?.growthHard
+          ? (Number(plantDetail.pollGrowth?.growthHard / (plantDetail.pollGrowth?.growthEasy + plantDetail.pollGrowth?.growthHard)) * 100).toFixed(0)
+          : 0
+      "
       :currentPollGrowth="plantDetail.pollGrowth?.type"
       :category="plantDetail.category"
       :fileName="plantDetail.fileName"
@@ -22,7 +30,7 @@
     <Ventilation @openGuide="openGuide" :blights="plantDetail.blights || []" />
     <Soil />
     <Report @openReport="openReport" />
-    <Question :plantName="plantDetail.name" :questions="questions" />
+    <Question :plantName="plantDetail.name" :plantId="Number(plantDetail.id)" :questions="questions" />
   </div>
   <GuideModal v-if="guideOpened" :options="guideOptions" @close="closeGuide()" />
   <RequestModal v-if="reportOpened" :options="reportOptions" @close="closeReport()" />
@@ -74,7 +82,7 @@ export default defineComponent({
     const closeReport = () => {
       reportOpened.value = false;
     };
-    const init = async () =>{
+    const init = async () => {
       try {
         plantDetail.value = await getPlantDetail({ plantId: route.path.split('/')[2] });
         const {
@@ -88,13 +96,13 @@ export default defineComponent({
       } catch (e) {
         router.push('/not-found');
       }
-    }
+    };
     onMounted(async () => {
       init();
     });
-    const refresh = () =>{
+    const refresh = () => {
       init();
-    }
+    };
     return {
       plantDetail,
       guideOpened,
