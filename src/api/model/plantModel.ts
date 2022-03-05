@@ -60,9 +60,10 @@ export interface PlantDetailRespModel {
   modifiedDateTime?: string;
   name: string;
   nickname?: string;
-  pollGrowth?: {
+  pollGrowth: {
     growthEasy: number;
     growthHard: number;
+    type: 'EASY' | 'HARD';
   };
   isFavorite: boolean;
   properTemperature?: string;

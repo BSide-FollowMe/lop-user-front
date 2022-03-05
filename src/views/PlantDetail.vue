@@ -6,13 +6,15 @@
       :name="plantDetail.name"
       :scientificName="plantDetail.scientificName"
       :nickname="plantDetail.nickname"
-      :growthEasy="Number(plantDetail.growthEasy)"
-      :growthHard="Number(plantDetail.growthHard)"
+      :growthEasy="(Number(plantDetail.pollGrowth?.growthEasy / (plantDetail.pollGrowth?.growthEasy + plantDetail.pollGrowth?.growthHard)) * 100).toFixed(0)"
+      :growthHard="(Number(plantDetail.pollGrowth?.growthHard / (plantDetail.pollGrowth?.growthEasy + plantDetail.pollGrowth?.growthHard)) * 100).toFixed(0)"
+      :currentPollGrowth="plantDetail.pollGrowth?.type"
       :category="plantDetail.category"
       :fileName="plantDetail.fileName"
       :fileUrl="plantDetail.fileUrl"
       :fileSource="plantDetail.fileSource"
       :fileSourceLink="plantDetail.fileSourceLink"
+      @refresh="refresh"
     />
     <Water @openGuide="openGuide" />
     <Sunlight @openGuide="openGuide" :sunlightTypes="plantDetail.sunlightTypes || []" />
@@ -72,7 +74,7 @@ export default defineComponent({
     const closeReport = () => {
       reportOpened.value = false;
     };
-    onMounted(async () => {
+    const init = async () =>{
       try {
         plantDetail.value = await getPlantDetail({ plantId: route.path.split('/')[2] });
         const {
@@ -86,7 +88,13 @@ export default defineComponent({
       } catch (e) {
         router.push('/not-found');
       }
+    }
+    onMounted(async () => {
+      init();
     });
+    const refresh = () =>{
+      init();
+    }
     return {
       plantDetail,
       guideOpened,
@@ -98,6 +106,7 @@ export default defineComponent({
       closeReport,
       reportOptions,
       questions,
+      refresh,
     };
   },
   components: {
