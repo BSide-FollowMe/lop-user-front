@@ -74,7 +74,7 @@
             도움돼요 {{ details.supportCount }}
           </button>
           <span class="separator">|</span>
-          <button @click="openContextMenu">
+          <button @click="openContextMenu" class="share-button">
             <ContextMenu ref="shareCotextRef" class="context-menu" :items="contextMenuItems" />
             <img src="@/assets/icon/share-gray.svg" />
             <br class="md-down-only" />
@@ -160,16 +160,16 @@ export default defineComponent({
     const openContextMenu = () => {
       shareCotextRef.value.toggleContextMenu();
     };
-    const shareKakao = (details: any) => {
-      const title = details.plantName;
+    const shareKakao = async () => {
+      const item = details.value;
       let imageUrl = dummyImage;
-      if (details?.images && details.images.length) {
-        imageUrl = details.images[0].imageUrl;
+      if (item?.images && item.images.length) {
+        imageUrl = item.images[0].imageUrl;
       }
       kakao.value.Link.sendDefault({
         objectType: 'feed',
         content: {
-          title: `식물의 언어 - 질문: ${title}`,
+          title: `식물의 언어 - ${item.plantName}`,
           imageUrl: imageUrl,
           link: {
             mobileWebUrl: window.document.location.href,
@@ -538,7 +538,17 @@ button {
 .separator {
   color: var(--background-color-1);
 }
+.share-button {
+  position:relative;
+}
 .context-menu {
+  position:absolute;
+  bottom:-110px;
   text-align: left;
+  width: 172px;
+  // height: 96px;
+  @include breakpoint-down-sm {
+    right:0px;
+  }
 }
 </style>
