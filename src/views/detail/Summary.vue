@@ -39,7 +39,7 @@
           </div>
         </div>
       </div>
-      <Poll class="poll" title="저를 키우는 건 어떠셨어요?" :items="pollItems"></Poll>
+      <Poll class="poll" title="저를 키우는 건 어떠셨어요?" :items="pollItems" :current="currentPollGrowth"></Poll>
     </div>
   </div>
 </template>
@@ -59,6 +59,7 @@ import LinkIcon from '@/assets/icon/icon_link.svg';
 import Poll from '@/components/detail/Poll.vue';
 import { useKakao } from 'vue3-kakao-sdk';
 import DummyImage from '@/assets/images/detail/dummy-image.png';
+import axios from 'axios';
 
 export default defineComponent({
   props: {
@@ -90,6 +91,10 @@ export default defineComponent({
       type: Number,
       default: 0,
     },
+    currentPollGrowth: {
+      type: String as PropType<'EASY' | 'HARD'>,
+      default: '',
+    },
     category: {
       type: String as PropType<category>,
       default: '',
@@ -115,14 +120,14 @@ export default defineComponent({
       default: true,
     },
   },
-  setup(props) {
+  setup(props, { emit }) {
     const { kakao } = useKakao();
     const store = useStore();
     const contextMenu = ref(ContextMenu);
     const openContextMenu = () => {
       contextMenu.value.toggleContextMenu();
     };
-
+    const updatedCurrentGrowth = ref(props.currentPollGrowth);
     const translatedCategory = computed(
       () =>
         translate(
@@ -198,6 +203,7 @@ export default defineComponent({
     const requestPollDifficulty = async (type: string) => {
       try {
         await pollDifficulty({ memberId: store.state.user.id, plantId: props.plantId, type }); //todo 한번만 투표하실 수 있습니다 error message 추가
+      
       } catch (e) {
         if (e instanceof Error) {
           alert(e.message);
@@ -210,19 +216,45 @@ export default defineComponent({
     const pollItems = computed(() => {
       return [
         {
-          text: '쉬워요',
+          label: '쉬워요',
+          labelValue: 'EASY',
+          activeColor: `rgba(72, 181, 122, 0.2)`,
           value: props.growthEasy + '%',
           hoverColor: '#48B57A',
-          onClick: () => {
-            requestPollDifficulty('EASY');
+          onClick: async () => {
+            try {
+              await requestPollDifficulty('EASY');
+              emit('refresh');
+            } catch (e) {
+              if (axios.isAxiosError(e)) {
+                alert(e.response?.data?.message);
+              } else if (e instanceof Error) {
+                alert(e.message);
+              } else {
+                alert('erorr');
+              }
+            }
           },
         },
         {
-          text: '어려워요',
+          label: '어려워요',
+          labelValue: 'HARD',
+          activeColor: `rgba(201, 112, 76, 0.2)`,
           value: props.growthHard + '%',
           hoverColor: '#C9704C',
-          onClick: () => {
-            requestPollDifficulty('HARD');
+          onClick: async () => {
+            try {
+              await requestPollDifficulty('HARD');
+              emit('refresh');
+            } catch (e) {
+              if (axios.isAxiosError(e)) {
+                alert(e.response?.data?.message);
+              } else if (e instanceof Error) {
+                alert(e.message);
+              } else {
+                alert('erorr');
+              }
+            }
           },
         },
       ];
@@ -247,6 +279,7 @@ export default defineComponent({
       translatedCategory,
       isLoggedIn,
       DummyImage,
+      
     };
   },
   components: {
@@ -287,8 +320,8 @@ export default defineComponent({
     }
   }
 }
-.content{
-  @include breakpoint-down-sm{
+.content {
+  @include breakpoint-down-sm {
     margin-top: 16px;
   }
 }
