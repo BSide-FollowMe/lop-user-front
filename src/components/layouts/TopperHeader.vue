@@ -89,16 +89,18 @@ export default defineComponent({
       cursor: pointer;
       // margin: 0 10px;
     }
-    span:last-child{
-      margin-left:10px;
+    span:last-child {
+      margin-left: 20px;
     }
     span:not(:last-child) {
-      margin-right:10px;
+      margin-right: 20px;
       &:after {
         cursor: default;
-        content: "|";
+        font-size: 12px;
+        content: '|';
+        color: var(--background-color-1);
         position: absolute;
-        margin: 0 10px;
+        margin: 0 20px;
       }
     }
 
@@ -106,6 +108,19 @@ export default defineComponent({
       font-size: 13px;
       line-height: 16px;
       letter-spacing: -0.0025em;
+      span:last-child {
+        margin-left: 10px;
+      }
+      span:not(:last-child) {
+        margin-right: 12px;
+        &:after {
+          font-size:12px;
+          cursor: default;
+          content: '|';
+          position: absolute;
+          margin: 0 10px;
+        }
+      }
     }
   }
 }

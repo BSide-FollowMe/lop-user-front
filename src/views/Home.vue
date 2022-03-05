@@ -4,12 +4,10 @@
       <div class="inner-infinety-container">
         <img src="@/assets/images/home/quotes.svg" />
         <h1>
-          <span class="accent text-bold">{{myNickname}}님</span>
-          환영합니다.
+          <span class="accent text-bold">{{myNickname}}님,</span>
           <br />
           어떤
-          <span class="accent text-bold">식물의 언어</span>
-          가
+          <span class="accent text-bold">식물의 언어</span>가
           <br class="md-down-only" />
           궁금하신가요?
         </h1>
@@ -29,7 +27,9 @@
         </h1>
         <ul class="plant-list">
           <li class="item" v-for="(item, index) in recommended" :key="`item-${index}`" @click="ROUTE_TO.PLANT_DETAILS(item.id)">
-            <img :src="item.fileUrl" @error="$event.target.src = require('@/assets/images/search/img-error.svg')" />
+            <div class="img-container">
+              <img :src="item.fileUrl" @error="$event.target.src = require('@/assets/images/search/img-error.svg')" />
+            </div>
             <span class="category" v-if="item.categoryTitle && item.categoryTitle != ''"> {{item.categoryTitle}} </span>
             <hr />
             <span class="plant-name text-light">{{item.name}}</span>
@@ -181,7 +181,7 @@ export default defineComponent({
   height: 617px;
   width: 100vw;
   margin-left: calc(-50vw + 50%);
-  background: url('@/assets/images/home/bg-sun.svg') no-repeat 80% -20%;
+  background: url('@/assets/images/home/bg-sun.svg') no-repeat 80% -70%;
 
   @include breakpoint-down-sm {
     height: 362px;
@@ -360,16 +360,27 @@ export default defineComponent({
           margin-right: 20px;
         }
       }
-
-      img {
+      .img-container{
         height: 176px;
         width: 176px;
+        overflow: hidden;
         border-radius: 4px;
         -webkit-user-drag: none;
         @include breakpoint-down-sm {
           height: 144px;
           width: 144px;
         }
+        img {
+          width:100%;
+          height:100%;
+          transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+      }
+      &:hover{
+        img{
+           transform: scale(1.1);
+        }
+
       }
       .category {
         display: block;
@@ -384,6 +395,7 @@ export default defineComponent({
         width: 12px;
         border: none;
         border-bottom: 1px solid var(--secondary-green-color-1);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
       }
       .plant-name {
         display: block;
@@ -397,7 +409,8 @@ export default defineComponent({
         }
       }
       &:hover hr {
-        border-bottom: 2px solid var(--secondary-green-color-1);
+        transform: scaleY(2);
+        // border-bottom: 2px solid var(--secondary-green-color-1);
       }
     }
   }

@@ -15,8 +15,7 @@
             회원가입 시 이용자는 식물의언어
             <a @click="OPEN_LINK.TOS">이용약관</a>
             및
-            <a @click="OPEN_LINK.PP">개인정보처리방침</a>
-            에
+            <a @click="OPEN_LINK.PP">개인정보처리방침</a>에
             <br />
             동의하게 됩니다.
           </span>
@@ -61,6 +60,7 @@ export default defineComponent({
   background-color: #fff;
   text-align: left;
   @include breakpoint-down-sm {
+    padding: var(--m-content-container-padding);
     min-width: var(--m-content-container-inner);
     min-height: 602px;
   }

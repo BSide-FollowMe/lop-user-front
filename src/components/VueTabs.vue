@@ -43,19 +43,22 @@ export default {
 <style lang="scss" scoped>
 @import '@/styles/mixin';
 .tabs {
-    display:flex;
+  display: flex;
   & > div.tab {
     display: block;
-    flex-grow:1;
+    flex-grow: 1;
     height: 56px;
     text-align: center;
     cursor: pointer;
     border-bottom: 1px solid var(--background-color-2);
+    color: var(--text-color-3);
+
     @include breakpoint-down-sm {
       height:46px;
     }
 
     &.tab-active {
+      color: var(--text-color-1);
       border-bottom: 2px solid var(--text-color);
     }
     span {
