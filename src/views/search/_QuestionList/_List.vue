@@ -7,7 +7,7 @@
       </div>
       <li class="item" v-for="(item, index) in items" :key="`plant-item-${index}`" @click="ROUTE_TO.QNABOARD_DETAIL(item.id)">
         <div class="item__infomations">
-          <p class="target-plant">{{ item.plantName }}</p>
+          <p class="target-plant" v-html="stylizeBySearchTarget(searchTarget,  item.plantName)"></p>
           <p class="details text-medium" v-html="stylizeBySearchTarget(searchTarget, item.content)"></p>
           <p class="status">
             <span class="reg-date">{{ getTimeDistanceWithNaturalStr(item.createdDateTime) }}</span>
@@ -30,8 +30,9 @@ import { ROUTE_TO } from '@/router/routing';
 import { debounce } from '@/utils/global';
 
 export default defineComponent({
-  props: ['text', 'searchTarget', 'items', 'totalLength'],
+  props: ['text', 'items', 'totalLength'],
   setup(props, { emit }) {
+    const searchTarget = computed(() => props.text);
     const items = computed(() => props.items);
     const totalLength = computed(() => props.totalLength);
     const onScroll = debounce(($event: any) => {
@@ -42,7 +43,11 @@ export default defineComponent({
       emit('atBottom');
     }
     function stylizeBySearchTarget(searchStr: string, targetStr: string) {
-      return targetStr.replaceAll(searchStr, `<span style="color:var(--secondray-color-2)">${searchStr}</span>`);
+      try {
+        return targetStr.replaceAll(searchStr, `<span style="color:var(--secondray-color-2)">${searchStr}</span>`);
+      } catch (error) {
+        return targetStr
+      }
     }
     return {
       ROUTE_TO,
@@ -50,6 +55,8 @@ export default defineComponent({
       onAtTheBottom,
       onScroll,
       stylizeBySearchTarget,
+      searchTarget,
+
     };
   },
   unmounted() {

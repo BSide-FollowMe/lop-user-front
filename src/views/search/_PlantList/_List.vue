@@ -36,7 +36,11 @@ export default defineComponent({
       emit('atBottom');
     }
     function stylizeBySearchTarget(searchStr: string, targetStr: string) {
-      return targetStr.replaceAll(searchStr, `<span style="color:var(--secondray-color-2)">${searchStr}</span>`);
+      try {
+        return targetStr.replaceAll(searchStr, `<span style="color:var(--secondray-color-2)">${searchStr}</span>`);
+      } catch (error) {
+        return targetStr
+      }
     }
     return {
       ROUTE_TO,
