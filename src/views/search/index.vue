@@ -16,6 +16,9 @@ import RouterTabs from './_RouterTabs.vue';
 import { useRoute } from 'vue-router';
 import router from '@/router';
 import { PageEnum } from '@/enums/PageEnum';
+import { getPlantList } from '@/api/plant';
+import { getQnaBoardList } from '@/api/qnaboard';
+
 export default defineComponent({
   name: 'Search Result',
   components: {
@@ -30,6 +33,7 @@ export default defineComponent({
     const listType: any = computed(() => route.query.list);
 
     queryController(searchStr.value, listType.value);
+    getPlantsList();
 
     function queryController(text?: string, list?: string) {
       const isInputted: boolean = isNotInputtedQuery(text);
@@ -47,6 +51,46 @@ export default defineComponent({
         return false;
       }
       return true;
+    }
+
+    async function getPlantsList() {
+      try {
+        const payload: any = {
+          size: 1,
+          page: 0,
+        };
+        if (searchStr.value != '') payload.keyword = searchStr.value;
+
+        const { data }: any = await getPlantList(payload);
+        const resList: any = data.data;
+        if (!resList.length) {
+          if (await getQuestionsList()) {
+            const query = { ...route.query };
+            query.list = 'questions';
+            router.push({ query: query });
+          }
+          return;
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    }
+    async function getQuestionsList() {
+      try {
+        const payload: any = {
+          size: 1,
+          page: 0,
+        };
+        if (searchStr.value != '') payload.keyword = searchStr.value;
+        const { data }: any = await getQnaBoardList(payload);
+        const resList: any = data.data;
+        if (!resList.length) {
+          return false;
+        }
+        return true;
+      } catch (e) {
+        console.error(e);
+      }
     }
     return {
       searchStr,
