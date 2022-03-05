@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <img src="@/assets/images/guide/unsplash_eA2z1JSzZFI.png" />
+    <img class="image" />
     <section class="link">
       <div class="title">식물의 언어 가이드</div>
       <ul class="link__items">
@@ -21,10 +21,10 @@ export default defineComponent({
     const route = useRoute();
     const router = useRouter();
     const currentGuide = route.fullPath.split('/')[2];
-    const moveGuide = (guide:string) => {
-      if(currentGuide===guide) return;
+    const moveGuide = (guide: string) => {
+      if (currentGuide === guide) return;
       router.push(`/guide/${guide}`);
-    }
+    };
     return {
       currentGuide,
       moveGuide,
@@ -42,19 +42,29 @@ export default defineComponent({
   margin-right: auto;
   border: 1px solid #e5e5e5;
   box-sizing: border-box;
-  @include breakpoint-down-sm{
-    max-width:226px;
-    display:block;
-    img{
-      height:140px;
-      width:100%;
+  @include breakpoint-down-sm {
+    max-width: 226px;
+    display: block;
+    img {
+      height: 140px;
+      width: 100%;
     }
   }
   .link {
-    padding:40px;
-    @include breakpoint-down-sm{
-      padding:30px;
+    padding: 40px;
+    @include breakpoint-down-sm {
+      padding: 30px;
     }
+  }
+}
+.image {
+  background: url('@/assets/images/guide/unsplash_eA2z1JSzZFI.png');
+  width: 183px;
+  height: 224px;
+  @include breakpoint-down-sm {
+    width: 226px;
+    height: 140px;
+    background: url('@/assets/images/guide/unsplash_eA2z1JSzZFI_mobile.png');
   }
 }
 .title {
@@ -71,16 +81,15 @@ export default defineComponent({
 
   color: var(--text-color-2);
   margin-bottom: 20px;
-  @include breakpoint-down-sm{
+  @include breakpoint-down-sm {
     font-size: 14px;
     line-height: 17px;
   }
 }
 .link__items {
-  padding-left:12px;
+  padding-left: 12px;
   > li {
-    
-    cursor:pointer;
+    cursor: pointer;
     list-style: disc;
     font-weight: var(--font-weight-medium);
     font-size: 14px;
@@ -92,7 +101,7 @@ export default defineComponent({
     /* text/3 */
 
     color: var(--text-color-3);
-    @include breakpoint-down-sm{
+    @include breakpoint-down-sm {
       font-size: 12px;
       line-height: 18px;
     }
@@ -100,7 +109,7 @@ export default defineComponent({
       margin-bottom: 8px;
     }
     &.active {
-      cursor:default;
+      cursor: default;
       font-weight: var(--font-weight-bold);
       color: var(--primary-color-1);
     }

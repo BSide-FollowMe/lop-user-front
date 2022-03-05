@@ -243,9 +243,12 @@ export default defineComponent({
   }
 }
 .dropdown {
-  margin-bottom: 61px;
+  
   > div:first-child {
     cursor: pointer;
+  }
+  &:last-child{
+    margin-bottom: 61px;
   }
   &__title {
     display: flex;
