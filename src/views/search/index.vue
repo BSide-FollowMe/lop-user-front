@@ -8,7 +8,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from 'vue';
+import { defineComponent, computed,watch } from 'vue';
 import TopperSearcher from './_TopperSearcher.vue';
 import PlantList from './_PlantList/index.vue';
 import QuestionList from './_QuestionList/index.vue';
@@ -34,6 +34,12 @@ export default defineComponent({
 
     queryController(searchStr.value, listType.value);
     getPlantsList();
+
+
+    watch(searchStr, () => {
+      queryController(searchStr.value, listType.value);
+      getPlantsList();
+    });
 
     function queryController(text?: string, list?: string) {
       const isInputted: boolean = isNotInputtedQuery(text);

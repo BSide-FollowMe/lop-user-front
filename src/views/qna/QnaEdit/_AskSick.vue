@@ -118,8 +118,14 @@ export default defineComponent({
       try {
         const { data }: any = await getQnaBoardDetail(id);
         await checkIsMine(data.writer);
-        plantNameOptions.value = [{ name: data.plantName, id: data.plantId }];
-        plantSelector.value.onSelect(data.plantName);
+        if(data.plantId && data.plantId.length){
+          plantNameOptions.value = [{ name: data.plantName, id: data.plantId }];
+          plantSelector.value.onSelect(data.plantName);
+        }
+        else {
+          plantSelector.value.onSelect('직접입력');
+          plantNameSubjective.value = data.plantName;
+        }
         plantWaterCycle.value = data.plantWaterCycle;
         plantLifeCycle.value = data.plantLifeCycle;
         plantCountermeasure.value = data.plantCountermeasure;
@@ -177,7 +183,7 @@ export default defineComponent({
       };
       if (plantName.value != '직접입력' && selectedPlant) payload.plantId = selectedPlant.id;
       if (images.value.length) payload.images = images.value;
-      console.log(payload);
+      else payload.images =[]
       if (!validatePayload(payload)) return;
       registQuestion(payload);
     }
@@ -194,7 +200,7 @@ export default defineComponent({
       };
       if (plantName.value != '직접입력' && selectedPlant) payload.plantId = selectedPlant.id;
       if (images.value.length) payload.images = images.value;
-      console.log(payload);
+      else payload.images =[]
       if (!validatePayload(payload)) return;
     modifyQuestion(payload, id.value);
     }

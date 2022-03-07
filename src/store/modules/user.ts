@@ -6,18 +6,18 @@ import { tokenSvc } from '@/api/token-service';
 
 interface UserState {
   id: string;
-  memberLevel: {
-    grade: string;
-    likeCount: number;
-    pollCount: number;
-    postingCotentCount: number;
-  };
+  memberLevel: MemberLevel | null;
   nickname: string;
   token: string;
   authenticated: boolean;
   sessionTimeout?: boolean;
 }
-
+interface MemberLevel {
+  grade: string;
+  likeCount: number;
+  pollCount: number;
+  postingCotentCount: number;
+}
 const initState = () => {
   return {
     id: '',
@@ -52,6 +52,10 @@ const user = {
     updateToken(state: UserState, payload: string): void {
       state.token = payload;
     },
+    updateUserInfo(state: UserState, payload: { memberLevel: MemberLevel, nickname: string  }): void {
+      state.memberLevel = payload.memberLevel;
+      state.nickname = payload.nickname;
+    }
   },
   actions: {
     async signOut({ commit }: any): Promise<void> {
@@ -72,6 +76,9 @@ const user = {
     async updateToken({ commit }: any, token: string): Promise<void> {
       return commit('updateToken', token);
     },
+    async updateUserInfo({ commit }: any, payload: { memberLevel: MemberLevel, nickname: string }): Promise<void> {
+      return commit('updateUserInfo', payload);
+    }
   },
 };
 export default user;

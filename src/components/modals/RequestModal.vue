@@ -51,6 +51,7 @@ export default defineComponent({
         email: email.value,
         contents: contents.value,
       });
+      window.document.body.style.overflow = "auto";
     }
     return { closeModal, email, contents, props, confirm };
   },

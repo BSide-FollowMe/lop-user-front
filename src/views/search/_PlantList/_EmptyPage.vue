@@ -98,7 +98,7 @@ export default defineComponent({
           reportType: 'REQUEST_PLANT',
         };
         await registReport(payload);
-        alert('식물 등록 요청이 접수되었습니다. 관리자가 식물을 등록해드릴 예정입니다.');
+        await alert('식물 등록 요청이 접수되었습니다. 관리자가 식물을 등록해드릴 예정입니다.');
         showModal.value = false;
       } catch (e) {
         console.error(e);

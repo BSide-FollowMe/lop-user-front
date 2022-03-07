@@ -28,6 +28,7 @@
       <br class="md-down-only" />
       <span class="input-tips">사진은 최대 3장까지 등록하실 수 있어요</span>
     </div>
+    {{images}}
     <PhotoUploader ref="photoUploader" class="photo-uploader" v-model:value="images" />
     <div class="text-center submit-btn">
       <VueButton color="primary" v-if="id && id != ''" @click="submitModify">수정하기</VueButton>
@@ -81,8 +82,14 @@ export default defineComponent({
       try {
         const { data }: any = await getQnaBoardDetail(id);
         await checkIsMine(data.writer);
-        plantNameOptions.value = [{ name: data.plantName, id: data.plantId }];
-        plantSelector.value.onSelect(data.plantName);
+        if(data.plantId && data.plantId.length){
+          plantNameOptions.value = [{ name: data.plantName, id: data.plantId }];
+          plantSelector.value.onSelect(data.plantName);
+        }
+        else {
+          plantSelector.value.onSelect('직접입력');
+          plantNameSubjective.value = data.plantName;
+        }
         content.value = data.content;
         const blobImages = await getImageBlob(id);
         const pu: any = photoUploader.value;
@@ -150,6 +157,7 @@ export default defineComponent({
       };
       if (plantName.value != '직접입력' && selectedPlant) payload.plantId = selectedPlant.id;
       if (images.value.length) payload.images = images.value;
+      else payload.images =[]
       if (!validatePayload(payload)) return;
       modifyQuestion(payload, id.value);
     }

@@ -21,7 +21,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, watch } from 'vue';
-import {dataURLtoFile} from '@/utils/global';
+import { dataURLtoFile } from '@/utils/global';
 export default defineComponent({
   name: 'PhotoUpload',
   props: ['value'],
@@ -47,13 +47,16 @@ export default defineComponent({
       if (input.files) {
         while (count--) {
           const currentFile = input.files[index];
-          const reader = new FileReader();
-          reader.onload = (e: any) => {
-            const target: any = e.target;
-            previewList.value.push(target.result);
-          };
-          imageList.value.push(currentFile);
-          reader.readAsDataURL(currentFile);
+          const fileName = currentFile.name;
+          resizeImage({file: currentFile, maxSize:1200}).then((resized:any)=>{
+            const reader = new FileReader();
+            reader.onload = (e: any) => {
+              const target: any = e.target;
+              previewList.value.push(target.result);
+            }
+            imageList.value.push(new File([resized], fileName));
+            reader.readAsDataURL(resized);
+          })
           index++;
         }
       }
@@ -69,7 +72,7 @@ export default defineComponent({
       if (images) {
         while (count--) {
           const name = images[index]['name'];
-          const nameSplit= name.split('.');
+          const nameSplit = name.split('.');
           const ext = nameSplit[nameSplit.length - 1];
           const blob = images[index]['imageBinary'];
           const file = dataURLtoFile(`data:image/${ext};base64,${blob}`, name);
@@ -83,6 +86,55 @@ export default defineComponent({
           index++;
         }
       }
+    }
+
+    function resizeImage(settings:any) {
+      let file = settings.file;
+      let maxSize = settings.maxSize;
+      let reader = new FileReader();
+      let image: any = new Image();
+      let canvas: any = document.createElement('canvas');
+      let dataURItoBlob = function (dataURI:any) {
+        let bytes = dataURI.split(',')[0].indexOf('base64') >= 0 ? atob(dataURI.split(',')[1]) : unescape(dataURI.split(',')[1]);
+        let mime = dataURI.split(',')[0].split(':')[1].split(';')[0];
+        let max = bytes.length;
+        let ia = new Uint8Array(max);
+        for (let i = 0; i < max; i++) ia[i] = bytes.charCodeAt(i);
+        return new Blob([ia], { type: mime });
+      };
+      let resize = function () {
+        var width = image.width;
+        var height = image.height;
+        if (width > height) {
+          if (width > maxSize) {
+            height *= maxSize / width;
+            width = maxSize;
+          }
+        } else {
+          if (height > maxSize) {
+            width *= maxSize / height;
+            height = maxSize;
+          }
+        }
+        canvas.width = width;
+        canvas.height = height;
+        canvas.getContext('2d').drawImage(image, 0, 0, width, height);
+        var dataUrl = canvas.toDataURL('image/jpeg');
+        return dataURItoBlob(dataUrl);
+      };
+      return new Promise(function (ok, no) {
+        if (!file.type.match(/image.*/)) {
+          no(new Error('Not an image'));
+          return;
+        }
+        reader.onload = function (readerEvent: any) {
+          image.onload = function () {
+            return ok(resize());
+          };
+          image.src = readerEvent.target.result;
+        };
+        reader.readAsDataURL(file);
+      });
     }
 
     return {

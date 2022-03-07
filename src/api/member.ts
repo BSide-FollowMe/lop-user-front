@@ -3,6 +3,7 @@ import { Member, Answer, Question } from './model/memberModel';
 import { PlantListData } from './model/plantModel';
 import { ListResponse } from './model/common';
 import { payloadToQueryString, objectToFormdata } from '@/utils/text';
+import $store from '@/store';
 
 const API_PREFIX = '/v1';
 enum Api {
@@ -23,6 +24,8 @@ export async function updateMyAccount({ nickname }: { nickname: string }): Promi
   const res = await axios.put<{ nickname: string }>(`${API_PREFIX}${Api.UPDATE_ME}`, {
     nickname,
   });
+  const myinfo = await getMyAccountInfo();
+  $store.dispatch('updateUserInfo', myinfo);
   return res.data;
 }
 
