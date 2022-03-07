@@ -1,5 +1,5 @@
 <template>
-  <GuideLayout :bannerImage="`url(${bannerImage})`" title="식물이 아플 때">
+  <GuideLayout :bannerImage="bannerImage" title="식물이 아플 때">
     <BlightGuide/>
   </GuideLayout>
 </template>
@@ -14,6 +14,9 @@ export default defineComponent({
     BlightGuide,
   },
   setup(){
+    
+    console.log(bannerImage)
+    console.log(typeof bannerImage)
     return {
       bannerImage,
     }

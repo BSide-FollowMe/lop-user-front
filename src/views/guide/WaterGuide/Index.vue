@@ -1,5 +1,5 @@
 <template>
-  <GuideLayout :bannerImage="`url(${bannerImage})`" title="식물이 좋아하는 물 주기 방법">
+  <GuideLayout :bannerImage="bannerImage" title="식물이 좋아하는 물 주기 방법">
     <Inspect></Inspect>
     <div class="dot-divider"><img src="@/assets/dot-divider.svg" /></div>
     <Know-how></Know-how>
