@@ -25,7 +25,7 @@
     <Question :plantName="plantDetail.name" :plantId="Number(plantDetail.id)" :questions="questions" />
   </div>
   <GuideModal v-if="guideOpened" :options="guideOptions" @close="closeGuide()" />
-  <RequestModal v-if="reportOpened" :options="reportOptions" @close="closeReport()" />
+  <RequestModal v-if="reportOpened" :options="reportOptions" @confirm="report" @close="closeReport()" />
 </template>
 <script lang="ts">
 import { defineComponent } from '@vue/runtime-core';
@@ -40,7 +40,7 @@ import Question from '@/views/detail/Question.vue';
 import GuideModal from '@/components/modals/GuideModal.vue';
 import RequestModal from '@/components/modals/RequestModal.vue';
 
-import { getPlantDetail } from '@/api/plant';
+import { getPlantDetail, registReport } from '@/api/plant';
 import { getQnaBoardList } from '@/api/qnaboard';
 import { PlantDetailRespModel } from '@/api/model/plantModel';
 import { computed, onMounted, ref } from 'vue';
@@ -121,6 +121,20 @@ export default defineComponent({
       }
       return ((Number(plantDetail.value.growthHard + plantDetail.value.pollGrowth.growthHard) / total) * 100).toFixed(0);
     });
+    async function report({ email, contents }: { email: string; contents: string }) {
+      try {
+        const payload = {
+          content: contents,
+          email: email,
+          reportType: 'REPORT',
+        };
+        await registReport(payload);
+        alert('요청이 제보 되었습니다. 확인 후 반영하도록 하겠습니다.');
+        reportOpened.value = false;
+      } catch (e) {
+        console.error(e);
+      }
+    }
     return {
       calculatedGrowthEasy,
       calculatedGrowthHard,
@@ -135,6 +149,7 @@ export default defineComponent({
       reportOptions,
       questions,
       refresh,
+      report
     };
   },
   components: {
