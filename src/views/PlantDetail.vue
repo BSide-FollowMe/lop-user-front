@@ -16,7 +16,7 @@
       :fileSourceLink="plantDetail.fileSourceLink"
       @refresh="refresh"
     />
-    <Water :content="plantDetail.waterPeriod" openGuide="openGuide" />
+    <Water :content="plantDetail.waterPeriod" @openGuide="openGuide" />
     <Sunlight :content="plantDetail.sunlight" @openGuide="openGuide" :sunlightTypes="plantDetail.sunlightTypes || []" />
     <TemperatureHumidity :minHumidity="plantDetail.minHumidity" :maxHumidity="plantDetail.maxHumidity" :content="plantDetail.temperatureExtra" :temperature="plantDetail.properTemperature" :winterTemperature="plantDetail.winterTemperature" @openGuide="openGuide" />
     <Ventilation @openGuide="openGuide" :blights="plantDetail.blights || []" />
