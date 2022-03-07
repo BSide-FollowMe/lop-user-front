@@ -6,7 +6,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent,computed } from 'vue';
 
 export default defineComponent({
   props: {
@@ -22,8 +22,17 @@ export default defineComponent({
     },
     hoverColor: {
       type: String,
-      default: '#c9704c',
+      default: '#969696',
     },
+  },
+  setup(props){
+
+    const borderColor = computed(()=>{
+      return props.hoverColor==='#969696' ? 'transparent' : props.hoverColor;
+    })
+    return{
+      borderColor,
+    }
   },
 });
 </script>
@@ -53,6 +62,7 @@ export default defineComponent({
   align-items: center;
   justify-content: space-between;
   padding: 0 15px 0 22.5px;
+  border: 1px solid transparent;
   .arrow-icon {
     display: inline-block;
     -webkit-mask-image: url('@/assets/icon/simple-arrow-right-pc.svg');
@@ -63,9 +73,11 @@ export default defineComponent({
     mask-position: center center;
     width: 20px;
     height: 18.35px;
-    background-color: var(--primary-color-1);
+    background-color: var(--text-color-3);
   }
+  
   &:hover {
+    border: 1px solid v-bind(borderColor);
     color: v-bind(hoverColor);
     .arrow-icon {
       background-color: v-bind(hoverColor);

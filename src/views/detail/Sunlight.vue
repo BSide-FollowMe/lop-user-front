@@ -12,6 +12,7 @@
       "
       class="guide"
       content="양지와 음지는 어떻게 구분하나요?"
+      hover-color="#C9704C"
     />
   </div>
 </template>
