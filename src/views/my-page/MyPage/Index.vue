@@ -4,7 +4,7 @@
     <section class="form">
       <div class="level">
         <div class="level-icon">
-          <img :src="level" />
+          <img :src="getImgUrl(myAccountInfo.memberLevel?.grade)" />
         </div>
         <div>
           <div class="level-text">
@@ -52,7 +52,7 @@
 import { defineComponent, onMounted, ref } from 'vue';
 import { Member } from '@/api/model/memberModel';
 import { getMyAccountInfo, updateMyAccount } from '@/api/member';
-import level from '@/assets/images/level/level.svg';
+import level from '@/assets/images/level/씨앗집사.svg';
 import helpIcon from '@/assets/icon/help.svg';
 import settingIcon from '@/assets/icon/setting.svg';
 import { useRouter } from 'vue-router';
@@ -88,6 +88,11 @@ export default defineComponent({
     const moveToSetting = () => {
       router.push('/me/setting');
     };
+    const getImgUrl=(level:string | undefined)=>{
+      if(level===undefined) return;
+      var images = require.context('@/assets/images/level/', false, /\.svg$/)
+      return images('./' + level + ".svg")
+    }
     return {
       myAccountInfo,
       level,
@@ -100,6 +105,7 @@ export default defineComponent({
       moveToSetting,
       moveToMyQuestion,
       OPEN_LINK,
+      getImgUrl,
     };
   },
 });
