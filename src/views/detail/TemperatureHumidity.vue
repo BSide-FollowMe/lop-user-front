@@ -2,9 +2,14 @@
   <div class="inner-container">
     <div class="title">온도와 습도는 이렇게 맞추세요</div>
     <div class="temperature-humidity">
-      <Card :imgSrc="Temperature" title="적정온도" :content="`${temperature.split(',')[0] }℃ ~ ${temperature.split(',')[1] }℃`"></Card>
+      <Card
+        v-if="temperature"
+        :imgSrc="Temperature"
+        title="적정온도"
+        :content="`${temperature.split(',')[0]}℃ ~ ${temperature.split(',')[1]}℃`"
+      ></Card>
       <Card v-if="winterTemperature" :imgSrc="WinterTemperature" title="겨울철 온도" :content="`${winterTemperature}℃`"></Card>
-      <Card v-if="minHumidity && maxHumidity" :imgSrc="Humidity" title="습도" :content="`${ minHumidity }% ~ ${ maxHumidity }%`"></Card>
+      <Card v-if="minHumidity && maxHumidity" :imgSrc="Humidity" title="습도" :content="`${minHumidity}% ~ ${maxHumidity}%`"></Card>
     </div>
     <p class="content" v-html="content" />
   </div>
@@ -34,35 +39,37 @@ export default defineComponent({
       type: String,
       default: '',
     },
-    maxHumidity:{
+    maxHumidity: {
       type: String,
       default: '',
-    }
+    },
   },
-  components:{
+  components: {
     Card,
   },
-  setup(){
-    return{
+  setup() {
+    return {
       Temperature,
       WinterTemperature,
       Humidity,
-    }
-  }
+    };
+  },
 });
-
 </script>
 
 <style lang="scss" scoped>
 @import '@/styles/';
+.card{
+  max-width:33.3%;
+}
 .title {
   padding-bottom: 14px;
   font-weight: var(--font-weight-bold);
   font-size: 24px;
   line-height: 29px;
   margin-bottom: 20px;
-  @include breakpoint-down-sm{
-    font-size:18px;
+  @include breakpoint-down-sm {
+    font-size: 18px;
     padding-bottom: 10px;
   }
   /* identical to box height */
@@ -76,15 +83,15 @@ export default defineComponent({
   border-bottom: 1px solid #e5e5e5;
 }
 .temperature-humidity {
-  display:flex;
-  gap:20px;
-  >*{
-    flex-grow:1;
+  display: flex;
+  gap: 20px;
+  > * {
+    flex-grow: 1;
   }
-  @include breakpoint-down-sm{
-    flex-direction:column;
-    >*{
-      height:116px;
+  @include breakpoint-down-sm {
+    flex-direction: column;
+    > * {
+      height: 116px;
     }
   }
 }
@@ -93,7 +100,7 @@ export default defineComponent({
   font-weight: var(--font-weight-medium);
   font-size: 18px;
   line-height: 26px;
-  @include breakpoint-down-sm{
+  @include breakpoint-down-sm {
     font-size: 16px;
   }
   /* identical to box height, or 144% */
@@ -104,5 +111,4 @@ export default defineComponent({
 
   color: var(--text-color-2);
 }
-
 </style>
