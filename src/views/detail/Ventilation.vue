@@ -7,7 +7,12 @@
           <GuideBox @click="emitOpenGuide({ componentName: 'Ventilation', modalTitle: '통풍이 왜 중요한가요?' })" content="통풍이 왜 중요한가요?" />
         </template>
       </Card>
-      <Card v-if="toxicity" :imgSrc="ToxicityIcon" title="독성" :content="'독성이 있으니 어린아이나 반려동물이 있다면 섭취하지 않도록 조심해주세요'"></Card>
+      <Card
+        v-if="toxicity"
+        :imgSrc="ToxicityIcon"
+        title="독성"
+        content="독성이 있으니 어린아이나 반려동물이 있다면 섭취하지 않도록 조심해주세요"
+      ></Card>
       <Card v-if="translatedBlights" :imgSrc="BlightIcon" title="유의할 병충해" :content="translatedBlights">
         <template v-slot:action>
           <GuideBox
