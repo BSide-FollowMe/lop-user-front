@@ -4,7 +4,7 @@
     <div class="main">
       <Card v-if="ventilation" :imgSrc="VentilationIcon" title="통풍" :content="'통풍이 잘되는 환경이 중요해요'">
         <template v-slot:action>
-          <GuideBox @click="emitOpenGuide({ componentName: 'Ventilation', modalTitle: '통풍이 왜 중요한가요?' })" content="통풍이 왜 중요한가요?" />
+          <GuideBox class="inner-guide" @click="emitOpenGuide({ componentName: 'Ventilation', modalTitle: '통풍이 왜 중요한가요?' })" content="통풍이 왜 중요한가요?" />
         </template>
       </Card>
       <Card
@@ -16,6 +16,7 @@
       <Card v-if="translatedBlights" :imgSrc="BlightIcon" title="유의할 병충해" :content="translatedBlights">
         <template v-slot:action>
           <GuideBox
+            class="inner-guide"
             @click="emitOpenGuide({ componentName: 'Blight', modalTitle: '병충해는 어떻게 관리하나요?' })"
             content="병충해는 어떻게 관리하나요?"
           />
@@ -128,6 +129,13 @@ export default defineComponent({
       max-width: 100% !important;
       height: 136px;
     }
+  }
+}
+.inner-guide:hover{
+  background: #E5E5E5;
+  color: #969696;
+  .arrow-icon{
+    color: #969696;
   }
 }
 </style>
