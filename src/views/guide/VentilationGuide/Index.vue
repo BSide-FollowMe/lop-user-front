@@ -1,5 +1,5 @@
 <template>
-  <GuideLayout :bannerImage="`url(${bannerImage})`" title="통풍이 중요한 이유">
+  <GuideLayout :bannerImage="bannerImage" title="통풍이 중요한 이유">
     <VentilationGuide/>
   </GuideLayout>
 </template>

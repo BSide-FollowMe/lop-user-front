@@ -1,5 +1,5 @@
 <template>
-  <GuideLayout :bannerImage="`url(${bannerImage})`" title="양지와 음지 구분하기">
+  <GuideLayout :bannerImage="bannerImage" title="양지와 음지 구분하기">
     <SunlightGuide/>
   </GuideLayout>
 </template>

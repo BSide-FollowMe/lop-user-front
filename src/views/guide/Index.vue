@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div class="banner">
+    <div class="banner" :style="backgroundImage(bannerImage)">
       <div class="banner__common__title">식물의언어 가이드</div>
       <hr />
       <div class="banner__title">{{ title }}</div>
@@ -28,6 +28,16 @@ export default defineComponent({
       default: '',
     },
   },
+  setup(){
+    const backgroundImage=(image:string)=>{
+      return {
+        'background': `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(${image})`,
+      }
+    };
+    return {
+      backgroundImage,
+    }
+  },
   components: { GuideLinkBox },
 });
 </script>
@@ -35,7 +45,7 @@ export default defineComponent({
 <style lang="scss" scoped>
 @import '@/styles/';
 .banner {
-  background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), v-bind(bannerImage);
+  // background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(v-bind(bannerImage));
   width: 100%;
   height: 520px;
   text-align: center;
