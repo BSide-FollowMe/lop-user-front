@@ -56,6 +56,7 @@ import RequestModal from '@/components/modals/RequestModal.vue';
 import {registReport} from '@/api/plant';
 import DeleteAccountModal from '@/components/modals/DeleteAccountModal.vue';
 import axios from 'axios';
+import {useStore} from 'vuex';
 
 export default defineComponent({
   components: {
@@ -63,7 +64,8 @@ export default defineComponent({
     DeleteAccountModal,
   },
   setup() {
-    const nickName = ref('');
+    const store = useStore();
+    const nickName = ref(store.getters.getUserInfo.nickname);
     const error = ref('');
     const success = ref(false);
     const reportOpened = ref(false);
