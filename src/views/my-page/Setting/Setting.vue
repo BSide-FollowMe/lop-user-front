@@ -43,7 +43,7 @@
       </div>
     </section>
   </div>
-  <RequestModal v-if="reportOpened" :options="reportOptions" @close="reportOpened = false" />
+  <RequestModal v-if="reportOpened" :options="reportOptions" @confirm="report" @close="reportOpened = false" />
   <DeleteAccountModal v-if="withdrawalOpened" @close="withdrawalOpened = false"></DeleteAccountModal>
 </template>
 
@@ -53,6 +53,7 @@ import smile from '@/assets/icon/smile.svg';
 import { getBytes } from '@/utils/text';
 import { updateMyAccount } from '@/api/member';
 import RequestModal from '@/components/modals/RequestModal.vue';
+import {registReport} from '@/api/plant';
 import DeleteAccountModal from '@/components/modals/DeleteAccountModal.vue';
 import axios from 'axios';
 
@@ -98,6 +99,21 @@ export default defineComponent({
       withdrawalOpened.value = true;
     };
 
+    async function report({ email, contents }: { email: string; contents: string }) {
+      try {
+        const payload = {
+          content: contents,
+          email: email,
+          reportType: 'INQUIRE',
+        };
+        await registReport(payload);
+        alert('질문이 등록되었습니다. 입력한 메일 주소로 답변드리겠습니다.');
+        reportOpened.value = false;
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
     return {
       smile,
       submitNickName,
@@ -110,6 +126,7 @@ export default defineComponent({
       oepnWithdrawl,
       withdrawalOpened,
       reportOptions,
+      report,
     };
   },
 });
