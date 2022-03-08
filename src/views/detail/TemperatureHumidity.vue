@@ -61,6 +61,9 @@ export default defineComponent({
 @import '@/styles/';
 .card{
   max-width:33.3%;
+  @include breakpoint-down-sm {
+    width:100%;
+  }
 }
 .title {
   padding-bottom: 14px;
