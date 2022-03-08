@@ -62,7 +62,7 @@ export default defineComponent({
 .card{
   max-width:33.3%;
   @include breakpoint-down-sm {
-    width:100%;
+    min-width:100%;
   }
 }
 .title {
