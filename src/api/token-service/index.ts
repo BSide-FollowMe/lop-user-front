@@ -24,13 +24,23 @@ const svc = {
     return token;
   },
   async isValidToken() {
+    let flag = false;
     const token = await this.getToken();
-    if (!token.token) return false;
-
+    if (!token.token) {
+      return false;
+    }
     const payload = parseJwt(token.token);
-    if (!payload) return false;
-
-    return payload.exp * 1000 > Date.now();
+    if (!payload) {
+      return false;
+    }
+    if (payload.exp * 1000 > Date.now()) {
+      flag = true;
+    }
+    if (!flag) {
+      this.removeToken();
+      return false;
+    }
+    return flag;
   },
   async isExpired() {
     const token = await this.getToken();

@@ -21,30 +21,30 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: PageEnum.My_Page,
-    meta: { public: true, layout: LayoutEnum.DEFAULT, backgroundColor: '#F8F8F8' },
+    meta: { public: false, layout: LayoutEnum.DEFAULT, backgroundColor: '#F8F8F8' },
     component: () => import('@/views/my-page/Index.vue'),
     children: [
       {
         path: '',
-        meta: { public: true },
+        meta: { public: false },
         name: PageNameEnum.My_Page,
         component: () => import('@/views/my-page/MyPage/Index.vue'),
       },
       {
         path: 'setting',
-        meta: { public: true },
+        meta: { public: false },
         name: PageNameEnum.SETTING,
         component: () => import('@/views/my-page/Setting/Index.vue'),
       },
       {
         path: 'my-plant',
-        meta: { public: true },
+        meta: { public: false },
         name: PageNameEnum.My_Plant,
         component: () => import('@/views/my-page/MyPlant/Index.vue'),
       },
       {
         path: 'qna',
-        meta: { public: true },
+        meta: { public: false },
         name: PageNameEnum.MY_QNA,
         component: () => import('@/views/my-page/QnA/Index.vue'),
       },
@@ -89,7 +89,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: PageEnum.QNABOARD_EDIT,
     name: PageNameEnum.QNABOARD_EDIT,
-    meta: { public: true, layout: LayoutEnum.DEFAULT },
+    meta: { public: false, layout: LayoutEnum.DEFAULT },
     component: () => import('@/views/qna/QnaEdit/index.vue'),
   },
   {

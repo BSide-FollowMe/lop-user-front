@@ -1,6 +1,6 @@
 <template>
   <div class="toggle-my-question">
-    <input id="my-question" type="checkbox" v-model="value" :class="{ 'is-active': value }" class="cursor-pointer" />
+    <input id="my-question" type="checkbox" v-model="localVal" :class="{ 'is-active': value }" class="cursor-pointer" />
     <label for="my-question">
       <img src="@/assets/icon/check-secondary.svg" />
       <span>내 질문 보기</span>
@@ -11,16 +11,19 @@
 import { defineComponent, ref, watch } from 'vue';
 
 export default defineComponent({
-  setup(_,{emit}) {
-    const value = ref(false);
+  props:[
+    'value'
+  ],
+  setup(props,{emit}) {
+    const localVal = ref(props.value || false);
 
-    watch(() => value.value, (newValue: boolean) => {
+    watch(() => localVal.value, (newValue: boolean) => {
       onToggleEvent(newValue);
     });
     function onToggleEvent(payload: string | boolean){
       emit('toggle', payload);
     }
-    return { value};
+    return { localVal};
   },
 });
 </script>
