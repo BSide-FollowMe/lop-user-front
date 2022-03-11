@@ -202,7 +202,7 @@ export default defineComponent({
       if (images.value.length) payload.images = images.value;
       else payload.images =[]
       if (!validatePayload(payload)) return;
-    modifyQuestion(payload, id.value);
+      modifyQuestion(payload, id.value);
     }
     async function modifyQuestion(payload:BoardParamModel, questionId:string){
       try {
@@ -220,12 +220,15 @@ export default defineComponent({
         console.error(e);
       }
     }
-    function validatePayload({ plantName, plantWaterCycle, plantLifeCycle, plantCountermeasure, content }: any) {
+    function validatePayload({ plantName, plantId, plantWaterCycle, plantLifeCycle, plantCountermeasure, content }: any) {
       if (plantName == '') {
         alert('식물 이름이 선택되거나 입력되지 않았어요!');
         return;
       }
-
+      if (!plantId && (!plantNameSubjective.value || !plantNameSubjective.value.length)) {
+        alert('식물 이름이 선택되거나 입력되지 않았어요!');
+        return;
+      }
       if (plantWaterCycle == '') {
         alert('물을 얼마나 자주 주셨는지 입력해주세요!');
         return;

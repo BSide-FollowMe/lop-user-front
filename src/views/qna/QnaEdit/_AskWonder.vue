@@ -28,7 +28,6 @@
       <br class="md-down-only" />
       <span class="input-tips">사진은 최대 3장까지 등록하실 수 있어요</span>
     </div>
-    {{images}}
     <PhotoUploader ref="photoUploader" class="photo-uploader" v-model:value="images" />
     <div class="text-center submit-btn">
       <VueButton color="primary" v-if="id && id != ''" @click="submitModify">수정하기</VueButton>
@@ -178,8 +177,12 @@ export default defineComponent({
         console.error(e);
       }
     }
-    function validatePayload({ plantName, content }: any) {
+    function validatePayload({ plantName, plantId, content }: any) {
       if (plantName == '') {
+        alert('식물 이름이 선택되거나 입력되지 않았어요!');
+        return;
+      }
+      if (!plantId && (!plantNameSubjective.value || !plantNameSubjective.value.length)) {
         alert('식물 이름이 선택되거나 입력되지 않았어요!');
         return;
       }

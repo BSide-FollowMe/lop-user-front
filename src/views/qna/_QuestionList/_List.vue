@@ -6,7 +6,7 @@
           {{ plantName }}&nbsp;
           <span class="list-summary__count">{{ totalLength }}</span>
         </span>
-        <CheckButton v-if="isLoggedIn" class="toggle-my-question" @toggle="toggleIsMyList"/>
+        <CheckButton v-if="isLoggedIn" :value="mine == '1'" class="toggle-my-question" @toggle="toggleIsMyList"/>
       </div>
       <li class="item" v-for="(item, index) in items" :key="`plant-item-${index}`" @click="ROUTE_TO.QNABOARD_DETAIL(item.id)">
         <div class="item__infomations">
@@ -48,6 +48,7 @@ export default defineComponent({
     const items = computed(() => props.items);
     const totalLength = computed(() => props.totalLength);
     const listType: any = computed(() => route.query.list);
+    const mine: any = computed(() => route.query.mine || '0');
     const plantId = computed(()=>props.plantId);
     const plantName = ref('');
     const isLoggedIn = ref(false);
@@ -96,6 +97,7 @@ export default defineComponent({
       toggleIsMyList,
       isLoggedIn,
       plantName,
+      mine,
     };
   },
   unmounted() {
