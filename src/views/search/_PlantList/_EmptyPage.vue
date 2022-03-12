@@ -17,7 +17,9 @@
         </h1>
         <ul class="plant-list">
           <li class="item" v-for="(item, index) in recommended" :key="`item-${index}`" @click="ROUTE_TO.PLANT_DETAILS(item.id)">
-            <img :src="item.fileUrl" @error="$event.target.src = require('@/assets/images/search/img-error.svg')" />
+            <div class="img-container">
+              <img :src="item.fileUrl" @error="$event.target.src = require('@/assets/images/search/img-error.svg')" />
+            </div>
             <span class="plant-name text-light">{{item.name}}</span>
           </li>
         </ul>
@@ -276,7 +278,7 @@ export default defineComponent({
         &:last-child {
           margin-right: 20px;
         }
-                &:last-child:after {
+        &:last-child:after {
           content: "";
           top:0px;
           display: block;
@@ -287,15 +289,27 @@ export default defineComponent({
         }
       }
 
-      img {
+      .img-container{
         height: 176px;
         width: 176px;
+        overflow: hidden;
         border-radius: 4px;
         -webkit-user-drag: none;
         @include breakpoint-down-sm {
           height: 144px;
           width: 144px;
         }
+        img {
+          width:100%;
+          height:100%;
+          transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+      }
+      &:hover{
+        img{
+           transform: scale(1.1);
+        }
+
       }
       .plant-name {
         display: block;
