@@ -1,24 +1,21 @@
 <template>
-  <EmptyPage v-if="isEmpty" class="is-empty" />
-  <List v-else :text="searchTarget" :plantId="plantId" :items="list" :totalLength="totalLength" @atBottom="loadMore"/>
+  <List :text="searchTarget" :plantId="plantId" :items="list" :totalLength="totalLength" :isReady="isReady" @atBottom="loadMore"/>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref, computed,watch } from 'vue';
 import { useRoute } from 'vue-router';
-import EmptyPage from './_EmptyPage.vue';
 import List from './_List.vue';
 import { getQnaBoardList,getMyQnaBoardList } from '@/api/qnaboard';
 export default defineComponent({
   name: 'Question List',
   components: {
-    EmptyPage,
     List,
   },
   props: ['text'],
   setup(props) {
     const route = useRoute();
-    const isEmpty = ref(false);
+    const isReady = ref(false);
     const plantId: any = computed(() => route.query.plantId || '');
     const mine: any = computed(() => route.query.mine || '0');
     const page = ref(0);
@@ -29,12 +26,15 @@ export default defineComponent({
       list.value = [];
       init();
     });
-    function init() {
+    async function init() {
+      isReady.value = false;
       if(mine.value == '1'){
-        getMyQuestionsList();
+        await getMyQuestionsList();
+        isReady.value= true
         return
       }
-      getQuestionsList();
+      await getQuestionsList();
+      isReady.value= true
     }
 
     async function getQuestionsList() {
@@ -72,7 +72,7 @@ export default defineComponent({
       init();
     }
     return {
-      isEmpty,
+      isReady,
       list,
       totalLength,
       loadMore,

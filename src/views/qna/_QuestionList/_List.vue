@@ -23,6 +23,16 @@
         </div>
       </li>
     </ul>
+    <div class="is-empty" v-if="isReady && !items.length">
+      <section class="request-container" v-if="mine == '1'">
+        <img src="@/assets/icon/question-request.svg" />
+        <h2 class="text-medium">등록된 내 질문이 없어요</h2>
+      </section>
+      <section class="request-container" v-else>
+        <img src="@/assets/icon/question-request.svg" />
+        <h2 class="text-medium">등록된 질문 · 답변이 없어요</h2>
+      </section>
+    </div>
   </section>
 </template>
 <script lang="ts">
@@ -42,7 +52,7 @@ export default defineComponent({
   components: {
     CheckButton,
   },
-  props: ['text', 'plantId', 'items', 'totalLength'],
+  props: ['text', 'plantId', 'items', 'totalLength', 'isReady'],
   setup(props, { emit }) {
     const route = useRoute();
     const items = computed(() => props.items);
@@ -59,7 +69,6 @@ export default defineComponent({
     if(plantId.value != ''){
       getPlantName();
     }
-
 
     const onScroll = debounce(($event:any) => {
         handleInfiniteListScroll($event, items.value, totalLength.value, onAtTheBottom);
@@ -174,7 +183,11 @@ export default defineComponent({
       margin-top: auto;
       margin-bottom: 0px;
       color: var(--text-color-3);
-
+      font-size: 16px;
+      line-height: 18px;
+      span{
+        color:var(--text-color-3);
+      }
       @include breakpoint-down-sm {
         margin-bottom: 0px;
         font-size: var(--m-font-size-caption);
@@ -237,6 +250,51 @@ export default defineComponent({
       &:active {
         transform: scale(0.81);
       }
+    }
+  }
+}
+.is-empty {
+  .request-container {
+    color: var(--primary-color);
+    text-align: center;
+    min-height:530px;
+    height: calc(100vh - var(--topper-header-height) - var(--bottom-footer-height) - 400px);
+    padding: 80px;
+    img {
+      width: 116px;
+      height: 116px;
+    }
+    @include breakpoint-down-sm {
+      min-height:378px;
+      height: calc(100vh - var(--topper-header-height) - var(--bottom-footer-height) - 146px);
+      padding:60px;
+      img {
+        width: 60px;
+        height: 60px;
+      }
+      h2 {
+        font-size: var(--m-font-size-p);
+      }
+    }
+  }
+  .search-tip {
+    margin-top: 15px;
+    font-size: var(--font-size-p);
+    line-height: 26px;
+    color: var(--text-color-4);
+    @include breakpoint-down-sm {
+      margin-top: 6px;
+      font-size: var(--m-font-size-p-3);
+      line-height: 18px;
+    }
+  }
+  .question-request-btn {
+    margin-top: 50px;
+    width: 180px;
+    height: 48px;
+    @include breakpoint-down-sm {
+      width:147px;
+      margin-top: 40px;
     }
   }
 }

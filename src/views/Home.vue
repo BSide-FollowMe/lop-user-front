@@ -333,8 +333,14 @@ export default defineComponent({
       }
     }
     @include breakpoint-down-sm {
-      margin: 40px calc(var(--content-container-padding) * -1) 0 calc(var(--content-container-padding) * -1);
+      margin-top: 40px;
+      margin-left: calc(var(--content-container-padding) * -1);
+      margin-right: calc(var(--content-container-padding) * -1);
+
       padding: 0 var(--m-content-container-padding);
+      &::-webkit-scrollbar {
+        display: none;
+      }
     }
 
     .item {
@@ -351,6 +357,24 @@ export default defineComponent({
       &:last-child {
         margin-right: 0px;
       }
+      @include breakpoint-down-md {
+        margin: 0 15px 0 0;
+        &:first-child {
+          margin-left: 20px;
+        }
+        &:last-child {
+          margin-right: 20px;
+        }
+        &:last-child:after {
+          content: "";
+          top:0px;
+          display: block;
+          position: absolute;
+          right: -40px;
+          width: 40px;
+          height: 1px;
+        }
+      }
       @include breakpoint-down-sm {
         margin: 0 15px 0 0;
         &:first-child {
@@ -358,6 +382,15 @@ export default defineComponent({
         }
         &:last-child {
           margin-right: 20px;
+        }
+        &:last-child:after {
+          content: "";
+          top:0px;
+          display: block;
+          position: absolute;
+          right: -40px;
+          width: 40px;
+          height: 40px;
         }
       }
       .img-container{
