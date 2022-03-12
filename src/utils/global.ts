@@ -8,7 +8,7 @@ export const debounce = (fn: any, ms = 1000) => {
 export const handleInfiniteListScroll = (e: any, list: any, totalLength: any, callBack: any) => {
   if (list.length >= totalLength) return;
   const { scrollHeight, scrollTop, clientHeight } = e.target.documentElement;
-  const isAtTheBottom = scrollHeight >= scrollTop + clientHeight - 100;
+  const isAtTheBottom = scrollHeight <= scrollTop + clientHeight + 100;
   if (isAtTheBottom) callBack();
 };
 export function dataURLtoFile(dataurl: any, filename: any) {

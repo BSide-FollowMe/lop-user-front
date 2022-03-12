@@ -24,6 +24,9 @@ export default defineComponent({
     init();
     watch(mine, (newVal: string) => {
       list.value = [];
+      page.value = 0;
+      totalLength.value = 0;
+      isReady.value = false;
       init();
     });
     async function init() {
@@ -56,6 +59,8 @@ export default defineComponent({
     async function getMyQuestionsList() {
       try {
         const payload: any = {
+          size: 10,
+          page: page.value,
         };
         if (plantId.value != '') payload.plantId = plantId.value;
 
@@ -68,6 +73,8 @@ export default defineComponent({
       }
     }
     function loadMore(){
+      console.log("이거 나와야되는거아님? ")
+      console.log(page.value)
       page.value++;
       init();
     }
