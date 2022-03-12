@@ -1,5 +1,5 @@
 <template>
-  <section class="plants-container">
+  <section class="questions-container">
     <ul class="question-list">
       <div class="list-summary paragraph-2">
         검색결과
@@ -68,6 +68,10 @@ export default defineComponent({
 <style lang="scss" scoped>
 @import '@/styles/mixin';
 
+.questions-container{
+  min-height: calc(100vh - var(--topper-header-height) - var(--bottom-footer-height));
+}
+
 .question-list {
   list-style: none;
   .item {
@@ -132,6 +136,11 @@ export default defineComponent({
       margin-top: auto;
       margin-bottom: 0px;
       color: var(--text-color-3);
+      font-size: 16px;
+      line-height: 18px;
+      span{
+        color:var(--text-color-3);
+      }
 
       @include breakpoint-down-sm {
         margin-bottom: 0px;

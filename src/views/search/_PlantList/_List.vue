@@ -60,6 +60,9 @@ export default defineComponent({
 <style lang="scss" scoped>
 @import '@/styles/mixin';
 
+.plants-container{
+  min-height: calc(100vh - var(--topper-header-height) - var(--bottom-footer-height));
+}
 .plant-list {
   list-style: none;
   .item {
