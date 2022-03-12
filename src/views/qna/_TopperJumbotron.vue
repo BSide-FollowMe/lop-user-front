@@ -60,6 +60,7 @@ export default defineComponent({
   height: 356px;
   padding: 80px;
   h1 {
+    color:var(--primary-color);
     margin-top: 0px;
     margin-bottom: 0px;
   }
