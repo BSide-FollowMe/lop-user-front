@@ -1,5 +1,5 @@
 <template>
-  <section class="question-container">
+  <section class="questions-container">
     <ul class="question-list">
       <div class="list-summary paragraph-2">
         <span v-if="plantName != ''">
@@ -118,6 +118,9 @@ export default defineComponent({
 <style lang="scss" scoped>
 @import '@/styles/mixin';
 
+.questions-container{
+  min-height: calc(100vh - var(--topper-header-height) - var(--bottom-footer-height));
+}
 .question-list {
   list-style: none;
   .item {
