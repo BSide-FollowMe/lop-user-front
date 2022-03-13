@@ -82,7 +82,7 @@ export default defineComponent({
 
   @include breakpoint-down-sm {
     padding: unset;
-    min-width: var(--m-content-container-max-width);
+    min-width: 320px;
   }
 }
 .title {
@@ -107,6 +107,9 @@ export default defineComponent({
   background-color: #fff;
   .main {
     padding: 20px 60px 40px 60px;
+    @include breakpoint-down-sm{
+      padding: 20px 20px 40px 20px;
+    }
   }
   .router-tabs {
     margin-top: 40px;
