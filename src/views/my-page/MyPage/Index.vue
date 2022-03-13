@@ -149,7 +149,7 @@ export default defineComponent({
   align-items: center;
   margin-bottom: 20px;
   .level-icon {
-    padding: 18px;
+    padding: 18px;  
     background-color: var(--secondary-green-color-3);
     display: flex;
     align-items: center;
@@ -174,7 +174,6 @@ export default defineComponent({
     display: inline-flex;
     justify-content: center;
     align-items: center;
-    padding: 3px 12px;
 
     width: 73px;
     height: 23px;
@@ -187,11 +186,8 @@ export default defineComponent({
     border: 1px solid #599270;
     box-sizing: border-box;
     border-radius: 12px;
-    margin-left: 25px;
+    margin-left: 25px;  
     .inner-level-text {
-      width: 49px;
-      height: 17px;
-
       font-size: 14px;
       line-height: 17px;
       /* identical to box height */
@@ -209,6 +205,7 @@ export default defineComponent({
       order: 0;
       flex-grow: 0;
       margin: 0px 10px;
+      padding:3px 12px;
     }
   }
 }
