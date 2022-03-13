@@ -1,5 +1,5 @@
 <template>
-  <div class="inner-container">
+  <div v-if="content" class="inner-container">
     <div class="title">이런 흙을 좋아해요</div>
     <p class="content" v-html="content"/>
   </div>

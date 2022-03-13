@@ -1,5 +1,5 @@
 <template>
-  <div class="inner-container">
+  <div v-if="ventilation || toxicity || translatedBlights" class="inner-container">
     <div class="title">이런 부분은 더 신경 써주세요</div>
     <div class="main">
       <Card v-if="ventilation" :imgSrc="VentilationIcon" title="통풍" :content="'통풍이 잘되는 환경이 중요해요'">
