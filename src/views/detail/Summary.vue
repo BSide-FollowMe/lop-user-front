@@ -428,6 +428,7 @@ export default defineComponent({
   @include breakpoint-down-sm {
     font-size: 13px;
     line-height: 16px;
+      margin-bottom: 0px;
   }
   /* identical to box height */
   letter-spacing: -0.01em;
