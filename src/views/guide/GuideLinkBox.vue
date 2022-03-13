@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <img class="image" />
+    <object class="image" />
     <section class="link">
       <div class="title">식물의 언어 가이드</div>
       <ul class="link__items">
