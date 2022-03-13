@@ -330,8 +330,10 @@ export default defineComponent({
 .fileImage {
   width: 340px;
   height: 340px;
+  border-radius: 4px;
   @include breakpoint-down-sm {
     width: 100%;
+    border-radius: 0px;
   }
 }
 .fileSource {
