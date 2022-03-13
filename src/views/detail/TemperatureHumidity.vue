@@ -1,6 +1,6 @@
 <template>
   <div class="inner-container">
-    <div class="title">온도와 습도는 이렇게 맞추세요</div>
+    <div class="title">온도와 습도는 이렇게 맞춰주세요</div>
     <div class="temperature-humidity">
       <Card
         v-if="temperature!=null"
