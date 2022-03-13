@@ -273,7 +273,10 @@ export default defineComponent({
     width: 360px;
     height: 60px;
 
-    background: var(--secondary-green-color-3);
+    background: #FFF;
+    &:hover{
+      background-color:var(--secondary-green-color-3);
+    }
     /* bg,line/1 */
 
     border: 1px solid #dddddd;
