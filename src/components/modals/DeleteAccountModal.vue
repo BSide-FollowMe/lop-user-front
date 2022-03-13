@@ -31,7 +31,7 @@ export default defineComponent({
     const options = {
       confirm: {
         title: '정말 탈퇴하시겠습니까?',
-        content: `탈퇴후에는 계정을 복구할 수 없어요<br />이미 남겨주신 글 , 좋아요 , 난이도 투표 등은 탈퇴 후에도 삭제되지 않습니다.`,
+        content: `탈퇴후에는 계정을 복구할 수 없어요<br />이미 남겨주신 글, 좋아요, 난이도 투표 등은 탈퇴 후에도 삭제되지 않습니다.`,
         buttons: [
           {
             class: 'fill',
