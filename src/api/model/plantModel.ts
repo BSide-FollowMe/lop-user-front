@@ -52,9 +52,9 @@ export interface PlantDetailRespModel {
   growthEasy: string;
   growthHard: string;
   id: string;
-  isToxicity?: string;
-  isVentilation?: string;
-  isVisible?: string;
+  isToxicity?: boolean;
+  isVentilation?: boolean;
+  isVisible?: boolean;
   maxHumidity?: string;
   minHumidity?: string;
   modifiedDateTime?: string;
