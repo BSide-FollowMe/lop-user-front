@@ -17,7 +17,7 @@
         겉흙이 마른 것은 눈으로도 확인할 수 있지만, 손가락으로 흙 윗부분을 살짝 팠을 때 촉촉한 느낌이 없고, 손가락에 흙이 묻어나지 않는다면 겉흙이
         마른 거예요. 흙 윗부분이 마사(입자가 굵은 모래), 자갈 등으로 덮여있다면 걷어내고 손가락으로 확인하는 것을 추천해요.
       </div>
-      <img class="responsive" src="@/assets/images/guide/겉흙마름1.png" />
+      <img class="responsive outter-soil" src="@/assets/images/guide/겉흙마름1.png" />
     </section>
     <section class="sub">
       <div class="sub__title">속흙 마름 : 나무젓가락으로 확인하기</div>
@@ -26,7 +26,7 @@
         <br />
         흙이 아직 마르지 않았다면 젓가락이 젖어 색이 변하고, 흙이 전체적으로 묻어 나올 거랍니다.
       </div>
-      <img class="responsive" src="@/assets/images/guide/속흙마름1.png" />
+      <img class="responsive inner-soil" src="@/assets/images/guide/속흙마름1.png" />
     </section>
   </section>
 </template>
@@ -123,5 +123,11 @@ export default defineComponent({
 img.responsive {
   width: fill-available;
   width: -webkit-fill-available;
+}
+img.outter-soil,img.inner-soil{
+  margin-top:40px;
+  @include breakpoint-down-sm{
+    margin-top:10px;
+  }
 }
 </style>
