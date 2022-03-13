@@ -72,6 +72,8 @@ export default defineComponent({
   }
   hr {
     width: 16px;
+    height:0px;
+    border: 1px solid #FFFFFF;
   }
   &__title {
     font-size: 32px;
