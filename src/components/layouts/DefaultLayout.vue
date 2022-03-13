@@ -27,6 +27,7 @@ export default defineComponent({
 </script>
 <style lang="scss" scoped>
 .topper-header{
+  z-index:1000;
   position: sticky;
   top: 0;
   background: #FFF;
