@@ -243,19 +243,19 @@ export default defineComponent({
   }
 }
 .dropdown {
-  
-  > div:first-child {
-    cursor: pointer;
+  &:nth-of-type(3){
+    border-top:1px solid #bababa;
   }
   &:last-child{
     margin-bottom: 61px;
   }
   &__title {
+    cursor: pointer;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px 0 20px 0;
-    border-top: 1px solid #bababa;
+    padding: 20px 0 20px 20px;
+    border-bottom: 1px solid #E5E5E5;
     font-weight: var(--font-weight-meidum);
     font-size: 18px;
     line-height: 26px;
@@ -266,16 +266,19 @@ export default defineComponent({
     /* text/1 */
 
     color: var(--text-color-1);
-    &:last-child{
-      border-bottom: 1px solid #bababa;
-    }
+    
     @include breakpoint-down-sm {
       font-size: 14px;
       line-height: 17px;
     }
     .dropdown__arrow {
-      width: 9px;
-      height: 10px;
+      width: 14px;
+      height: 9px;
+      @include breakpoint-down-sm {
+      width:10px;
+      height:6px;
+      line-height: 10px;
+    }
     }
     &.active {
       font-weight: var(--font-weight-bold);
@@ -289,6 +292,7 @@ export default defineComponent({
     > *:not(:last-child) {
       margin-bottom: 20px;
     }
+    border-bottom: 1px solid #E5E5E5;
     padding: 40px 20px 40px 20px;
     background-color: var(--background-color-5);
     @include breakpoint-down-sm{
