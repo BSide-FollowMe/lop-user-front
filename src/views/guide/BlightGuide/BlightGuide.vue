@@ -266,6 +266,9 @@ export default defineComponent({
     /* text/1 */
 
     color: var(--text-color-1);
+    &:last-child{
+      border-bottom: 1px solid #bababa;
+    }
     @include breakpoint-down-sm {
       font-size: 14px;
       line-height: 17px;
