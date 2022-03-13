@@ -176,6 +176,7 @@ export default defineComponent({});
         min-width: 48px;
         height: 48px;
         border-radius: 15px;
+        background-size: 24px 24px;
       }
       /* bg,line/4 */
       background: var(--background-color-4);
@@ -234,9 +235,13 @@ export default defineComponent({});
           flex-grow: 0;
           &:after {
             content: '';
-            margin-left: 10px;
+            display: inline-block;
+            margin-left: 11px;
             height: 12px;
             border-right: 1px solid #dddddd;
+            @include breakpoint-down-sm{
+              height: 10px;
+            }
           }
         }
         .value {
