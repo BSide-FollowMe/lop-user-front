@@ -165,10 +165,6 @@ export default defineComponent({
     margin-left: 5.57px;
     width: 16px;
     height: 16px;
-    @include breakpoint-down-sm {
-      width: 13.5px;
-      height: 13.5px;
-    }
   }
   .level-text {
     display: inline-flex;
