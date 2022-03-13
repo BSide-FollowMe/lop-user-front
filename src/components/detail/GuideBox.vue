@@ -42,7 +42,7 @@ export default defineComponent({
 .guide-box {
   cursor: pointer;
   background: var(--background-color-4);
-  border-radius: 0px 0px 4px 4px;
+  border-radius: 4px;
   height: 56px;
   font-weight: var(--font-weight-medium);
   font-size: 18px;
