@@ -18,7 +18,15 @@
     />
     <Water :content="plantDetail.waterPeriod" @openGuide="openGuide" />
     <Sunlight :content="plantDetail.sunlight" @openGuide="openGuide" :sunlightTypes="plantDetail.sunlightTypes || []" />
-    <TemperatureHumidity :minHumidity="plantDetail.minHumidity" :maxHumidity="plantDetail.maxHumidity" :content="plantDetail.temperatureExtra" :temperature="plantDetail.properTemperature" :winterTemperature="plantDetail.winterTemperature" :winterTemperatureUpDown="plantDetail.winterTemperatureUpDown" @openGuide="openGuide" />
+    <TemperatureHumidity
+      :minHumidity="plantDetail.minHumidity"
+      :maxHumidity="plantDetail.maxHumidity"
+      :content="plantDetail.temperatureExtra"
+      :temperature="plantDetail.properTemperature"
+      :winterTemperature="plantDetail.winterTemperature"
+      :winterTemperatureUpDown="plantDetail.winterTemperatureUpDown"
+      @openGuide="openGuide"
+    />
     <Ventilation @openGuide="openGuide" :blights="plantDetail.blights || []" />
     <Soil :content="plantDetail.soil" />
     <Report @openReport="openReport" />
@@ -127,6 +135,7 @@ export default defineComponent({
           content: contents,
           email: email,
           reportType: 'REPORT',
+          plantId: plantDetail.value.id,
         };
         await registReport(payload);
         alert('요청이 제보 되었습니다. 확인 후 반영하도록 하겠습니다.');
@@ -149,7 +158,7 @@ export default defineComponent({
       reportOptions,
       questions,
       refresh,
-      report
+      report,
     };
   },
   components: {

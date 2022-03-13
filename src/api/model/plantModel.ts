@@ -80,6 +80,6 @@ export interface PlantDetailRespModel {
 export interface ReportParamModel {
   content: string;
   email: string;
-  plantId?: number | number;
+  plantId?: number | string;
   reportType: string;
 }

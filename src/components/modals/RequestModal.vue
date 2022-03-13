@@ -40,7 +40,6 @@ export default defineComponent({
   },
   props: ['options'],
   setup(props, { emit }) {
-    console.log(props);
     const email = ref('');
     const contents = ref('');
     function closeModal() {
