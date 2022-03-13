@@ -3,6 +3,7 @@ import { Member, Answer, Question } from './model/memberModel';
 import { PlantListData } from './model/plantModel';
 import { ListResponse } from './model/common';
 import { payloadToQueryString, objectToFormdata } from '@/utils/text';
+import { tokenSvc } from '@/api/token-service';
 import $store from '@/store';
 
 const API_PREFIX = '/v1';
@@ -24,8 +25,10 @@ export async function updateMyAccount({ nickname }: { nickname: string }): Promi
   const res = await axios.put<{ nickname: string }>(`${API_PREFIX}${Api.UPDATE_ME}`, {
     nickname,
   });
-  const myinfo = await getMyAccountInfo();
-  $store.dispatch('updateUserInfo', myinfo);
+  const newInfo = await getMyAccountInfo();
+  $store.dispatch('updateUserInfo', newInfo);
+  const originalToken = await tokenSvc.getToken();
+  tokenSvc.setToken({ ...originalToken, ...newInfo });
   return res.data;
 }
 

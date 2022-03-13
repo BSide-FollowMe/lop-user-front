@@ -52,10 +52,11 @@ const user = {
     updateToken(state: UserState, payload: string): void {
       state.token = payload;
     },
-    updateUserInfo(state: UserState, payload: { memberLevel: MemberLevel, nickname: string  }): void {
+    updateUserInfo(state: UserState, payload: { memberLevel: MemberLevel; nickname: string }): UserState {
       state.memberLevel = payload.memberLevel;
       state.nickname = payload.nickname;
-    }
+      return state;
+    },
   },
   actions: {
     async signOut({ commit }: any): Promise<void> {
@@ -76,9 +77,9 @@ const user = {
     async updateToken({ commit }: any, token: string): Promise<void> {
       return commit('updateToken', token);
     },
-    async updateUserInfo({ commit }: any, payload: { memberLevel: MemberLevel, nickname: string }): Promise<void> {
+    updateUserInfo({ commit }: any, payload: { memberLevel: MemberLevel; nickname: string }): UserState {
       return commit('updateUserInfo', payload);
-    }
+    },
   },
 };
 export default user;
