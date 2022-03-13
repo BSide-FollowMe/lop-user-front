@@ -1,6 +1,6 @@
 <template>
   <div>
-    <TopperHeader />
+    <TopperHeader class="topper-header"/>
     <div class="page-container">
       <slot />
     </div>
@@ -26,6 +26,11 @@ export default defineComponent({
 });
 </script>
 <style lang="scss" scoped>
+.topper-header{
+  position: sticky;
+  top: 0;
+  background: #FFF;
+}
 .snack{
   position:fixed;
   top:131px;
