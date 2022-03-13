@@ -12,10 +12,10 @@
         <div class="label">닉네임 수정</div>
         <div class="input">
           <input type="text" v-model="nickName" @input="checkValidation" />
-          <div v-if="error" class="error">
+          <div v-if="error" class="validation-message error">
             {{ error }}
           </div>
-          <div v-if="success" class="success">
+          <div v-if="success" class="validation-message success">
             <div>새로운 닉네임이 저장되었습니다.</div>
           </div>
         </div>
@@ -277,35 +277,30 @@ export default defineComponent({
     box-sizing: border-box;
     border-radius: 2px;
   }
+}
+.validation-message{
+  font-weight: var(--font-weight-medium);
+  font-size: 14px;
+  line-height: 20px;
+  /* identical to box height, or 143% */
 
-  .error {
-    font-weight: var(--font-weight-medium);
-    font-size: 14px;
-    line-height: 20px;
-    /* identical to box height, or 143% */
-
-    letter-spacing: -0.01em;
-
-    /* orangebrown/1-main */
-
-    color: var(--secondray-color-2);
-    @include breakpoint-down-sm {
-      font-size: 12px;
-    }
+  letter-spacing: -0.01em;
+  margin-top:6px;
+  &:first-of-type{
+    margin-top:10px;
   }
-  .success {
-    font-weight: var(--font-weight-medium);
-    font-size: 14px;
-    line-height: 20px;
-    /* identical to box height, or 143% */
-
-    letter-spacing: -0.01em;
-
+  
+  
+  @include breakpoint-down-sm {
+    font-size: 12px;
+  }
+  &.error {
+    /* orangebrown/1-main */
+    color: var(--secondray-color-2);
+  }
+  &.success {
     /* green/2 */
     color: var(--secondary-green-color-2);
-    @include breakpoint-down-sm {
-      font-size: 12px;
-    }
   }
 }
 .content {
