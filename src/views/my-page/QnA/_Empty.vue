@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="inner-container">
     <img src="@/assets/icon/question_bubble.svg" />
     <div class="content">{{ option.content }}</div>
   </div>
@@ -36,7 +36,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @import '@/styles';
-.container{
+.inner-container{
   min-height:583px;
   display:flex;
   flex-direction: column;
