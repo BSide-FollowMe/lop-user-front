@@ -16,6 +16,7 @@
       :fileSourceLink="plantDetail.fileSourceLink"
       @refresh="refresh"
     />
+    <hr class="divider" />
     <Water :content="plantDetail.waterPeriod" @openGuide="openGuide" />
     <Sunlight :content="plantDetail.sunlight" @openGuide="openGuide" :sunlightTypes="plantDetail.sunlightTypes || []" />
     <TemperatureHumidity
@@ -194,6 +195,17 @@ export default defineComponent({
       margin-bottom: 80px;
       padding: 0;
     }
+  }
+}
+.divider{
+  display:none;
+  @include breakpoint-down-sm{
+    display:block;
+    width: calc(100% + 40px);
+    height: 10px;
+    background: var(--background-color-5);
+    margin: -40px 0 40px -20px;
+    border:none;
   }
 }
 </style>
