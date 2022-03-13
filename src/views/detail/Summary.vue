@@ -2,7 +2,7 @@
   <div class="inner-container">
     <div class="plant-image">
       <img :src="fileUrl || DummyImage" class="fileImage" />
-      <div v-if="fileSource" class="fileSource">{{ fileSource }}</div>
+      <div v-if="fileSource" class="fileSource" @click="moveToSource()">{{ fileSource }}</div>
     </div>
     <div class="plant-content">
       <div class="upper-content">
@@ -261,7 +261,9 @@ export default defineComponent({
     });
 
     const isLoggedIn = computed(() => !!store.state.user.token);
-
+    const moveToSource = () =>{
+      window.open(props.fileSourceLink,'_blank');
+    }
     onUnmounted(() => {
       store.dispatch('snack/closeSnack');
     });
@@ -279,7 +281,7 @@ export default defineComponent({
       translatedCategory,
       isLoggedIn,
       DummyImage,
-      
+      moveToSource
     };
   },
   components: {
@@ -333,6 +335,7 @@ export default defineComponent({
   }
 }
 .fileSource {
+  cursor: pointer;
   position: absolute;
   left: 0;
   bottom: 0;
