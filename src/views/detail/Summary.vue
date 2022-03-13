@@ -444,7 +444,8 @@ export default defineComponent({
     width: 172px;
     height: 96px;
     @include breakpoint-down-sm {
-      right: 110px;
+      right: 65px;
+      top: 45px;
     }
   }
 }

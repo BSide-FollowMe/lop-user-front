@@ -3,7 +3,7 @@
     <transition name="snack" >
       <div class="snack" v-if="snack" @click="onClickSnackbar">
         {{ snack }}
-        <InlineSvg v-if="link" ref="linkIcon" :src="SimpleArrowRight" @loaded="setColor"/>
+        <InlineSvg class="link-arrow" v-if="link" :src="SimpleArrowRight" @loaded="setColor"/>
       </div>
     </transition>
   </div>
@@ -76,5 +76,8 @@ export default defineComponent({
 .snack-enter-from {
   transform: translateY(-100%);
   opacity: 1;
+}
+.link-arrow{
+  margin-left:16px;
 }
 </style>
