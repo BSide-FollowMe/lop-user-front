@@ -118,7 +118,7 @@ export default defineComponent({
   flex-basis:calc(25% - 24px);
   max-width:calc(25% - 24px);
   flex-shrink:1;
-  height:230px;
+  max-height:230px;
   @include breakpoint-down-sm {
     flex-basis: calc(50% - 10px);
     max-width:calc(50% - 10px);
