@@ -82,6 +82,7 @@ export default defineComponent({
 
   @include breakpoint-down-sm {
     font-size: 16px;
+    margin: 14px 0 20px 0;
   }
 }
 .guide {

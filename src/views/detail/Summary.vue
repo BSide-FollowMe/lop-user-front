@@ -307,7 +307,7 @@ export default defineComponent({
     height: 340px;
 
     @include breakpoint-down-sm {
-      margin-left: -20px;
+      margin-left: -40px;
       width: 100vw;
     }
   }
