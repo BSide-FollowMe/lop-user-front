@@ -55,6 +55,10 @@ export default defineComponent({
     .icon {
       img {
         vertical-align: middle;
+        @include breakpoint-down-sm{
+          width: 35.71px;
+          height:35.71px;
+        }
       }
       text-align: center;
       line-height: 70px;
