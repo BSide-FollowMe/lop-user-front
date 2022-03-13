@@ -35,7 +35,7 @@
       :blights="plantDetail.blights || []"
     />
     <Soil :content="plantDetail.soil" />
-    <Report @openReport="openReport" />
+    <Report class="report" @openReport="openReport" />
     <Question :plantName="plantDetail.name" :plantId="Number(plantDetail.id)" :questions="questions" />
   </div>
   <GuideModal v-if="guideOpened" :options="guideOptions" @close="closeGuide()" />
@@ -184,24 +184,31 @@ export default defineComponent({
 <style lang="scss" scoped>
 @import '@/styles/';
 .container {
-  margin-top: 83px;
+  margin-top: 80px;
   max-width: var(--content-container-max-width);
   margin-left: auto;
   margin-right: auto;
-  padding: var(--m-content-container-padding) var(--content-container-padding) 0 var(--content-container-padding);
+  padding: 0 60px;
   @include breakpoint-down-sm {
     margin-top: 0;
     padding: 0 var(--m-content-container-padding);
     min-width: var(--m-content-container-max-width);
   }
   > * {
-    margin-bottom: 100px;
-    @include breakpoint-down-sm {
-      margin-bottom: 80px;
-      padding: 0;
+    margin-bottom:100px;
+    @include breakpoint-down-sm{
+      margin-bottom:80px;
+    }
+  }
+  .report{
+    margin-bottom:80px;
+    padding-top:80px;
+    @include breakpoint-down-sm{
+      padding-top:0;
     }
   }
 }
+
 .divider {
   display: none;
   @include breakpoint-down-sm {
@@ -213,4 +220,5 @@ export default defineComponent({
     border: none;
   }
 }
+
 </style>

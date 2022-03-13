@@ -111,6 +111,7 @@ export default defineComponent({
   line-height: 26px;
   @include breakpoint-down-sm {
     font-size: 16px;
+    margin: 10px 0 20px 0;
   }
   /* identical to box height, or 144% */
 

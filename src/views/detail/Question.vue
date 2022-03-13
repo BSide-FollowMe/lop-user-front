@@ -95,14 +95,16 @@ export default defineComponent({
 <style lang="scss" scoped>
 @import '@/styles/';
 .inner-container {
-  margin-left: calc(-50vw + 50%);
-  width: 100vw;
+  width:100vw;
+  margin-left:calc(-50vw + 50%);
 
   background-color: var(--secondary-green-color-3);
   padding: 100px 0 120px 0;
   margin-bottom: 0px !important;
   @include breakpoint-down-sm {
     padding: 60px 20px 100px 20px !important;
+    margin-left: -20px;
+    width: calc(100% + 40px);
   }
   .main {
     margin-left: auto;
@@ -160,12 +162,13 @@ export default defineComponent({
 
     font-weight: var(--font-weight-medium);
     font-size: 14px;
-    line-height: 20px;
+    line-height: 38px;
     @include breakpoint-down-sm {
       font-size: 14px;
       width: 76px;
       height: 26px;
-      padding: 0 2px 0 8px;
+      line-height:26px;
+      padding: 3px 2px 3px 8px;
     }
     /* identical to box height, or 143% */
 
@@ -175,7 +178,7 @@ export default defineComponent({
 
     color: var(--secondary-green-color-1);
 
-    padding: 0 13px 0 18px;
+    padding: 9px 13px 9px 18px;
   }
 }
 
@@ -249,9 +252,13 @@ export default defineComponent({
         height: 108px;
       }
     }
+    @include breakpoint-down-sm{
+      padding: 20px 0;
+    }
   }
   .question-button {
     margin-top: 20px;
+    
     cursor: pointer;
     width: 100%;
     background: #ffffff;
