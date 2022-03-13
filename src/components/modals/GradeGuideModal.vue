@@ -107,12 +107,14 @@ export default defineComponent({
   /* identical to box height, or 100% */
 
   letter-spacing: -0.01em;
+  margin-bottom:10px;
   .bold {
     color: var(--secondary-green-color-1);
   }
   @include breakpoint-down-sm {
     font-size: 16px;
     line-height: 26px;
+    margin-bottom:6px;
   }
 }
 .myexcercise {
