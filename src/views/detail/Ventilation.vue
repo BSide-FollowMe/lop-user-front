@@ -43,8 +43,8 @@ export default defineComponent({
       default: false,
     },
     toxicity: {
-      type: String,
-      default: '독성이 있으니 어린아이나 반려동물이 있다면 섭취하지 않도록 조심해주세요',
+      type: Boolean,
+      default: false,
     },
     blights: {
       type: Array as PropType<blight[]>,
