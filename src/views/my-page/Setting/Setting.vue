@@ -27,7 +27,6 @@
           궁금한점이나 제안하고 싶은 사항이 있나요?
           <br />
           문의하기 버튼을 눌러 식물의언어 팀에 연락주세요
-          <img :src="smile" />
         </div>
         <button
           class="button ask"
@@ -49,7 +48,6 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
-import smile from '@/assets/icon/smile.svg';
 import { getBytes } from '@/utils/text';
 import { updateMyAccount } from '@/api/member';
 import RequestModal from '@/components/modals/RequestModal.vue';
@@ -117,7 +115,6 @@ export default defineComponent({
     }
 
     return {
-      smile,
       submitNickName,
       nickName,
       checkValidation,
