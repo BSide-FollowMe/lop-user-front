@@ -24,15 +24,15 @@
       <section class="button-group">
         <div class="button" @click="moveToMyPlant()">
           <div class="button-icon heart-fill-icon" />
-          내가 저장한 식물
+          <span>내가 저장한 식물</span>
         </div>
         <div class="button" @click="moveToMyQuestion()">
           <div class="button-icon question-answer-icon" />
-          나의 질문 · 답변
+          <span>나의 질문 · 답변</span>
         </div>
         <div class="button" @click="OPEN_LINK.INTRODUCTION">
           <div class="button-icon info-icon" />
-          서비스 소개
+          <span>서비스 소개</span>
         </div>
       </section>
       <div class="logout" @click="logout()">
@@ -269,6 +269,9 @@ export default defineComponent({
 
 .button-group {
   > .button {
+    >*{
+      vertical-align: middle;
+    }
     cursor: pointer;
     width: 360px;
     height: 60px;
@@ -306,18 +309,18 @@ export default defineComponent({
   .button-icon {
     margin-right: 21px;
     display: inline-block;
-    width: 16px;
-    height: 16px;
+    width: 20px;
+    height: 20px;
     -webkit-mask-repeat: no-repeat;
     mask-repeat: no-repeat;
     -webkit-mask-position: center center;
     mask-position: center center;
-    mask-size: 16px;
+    mask-size: 20px;
     background-color: var(--secondary-green-color-1);
     @include breakpoint-down-sm {
-      width: 13px;
-      height: 13px;
-      mask-size: 13.33px;
+      width: 16px;
+      height: 16px;
+      mask-size: 16px;
     }
   }
   margin-bottom: 20px;
