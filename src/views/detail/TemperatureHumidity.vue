@@ -67,12 +67,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @import '@/styles/';
-.card {
-  max-width: 33.3%;
-  @include breakpoint-down-sm {
-    min-width: 100%;
-  }
-}
+
 .title {
   padding-bottom: 14px;
   font-weight: var(--font-weight-bold);
@@ -97,11 +92,14 @@ export default defineComponent({
   display: flex;
   gap: 20px;
   > * {
-    flex-grow: 1;
+    flex-grow: 0;
+    flex-basis: 319px;
   }
   @include breakpoint-down-sm {
     flex-direction: column;
     > * {
+      flex-grow:1;
+      flex-basis:100%;
       height: 116px;
     }
   }
