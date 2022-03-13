@@ -38,7 +38,7 @@
     <div class="tip__content">
       겨울에는 따뜻한 낮 시간에 10분 정도만 환기하면 충분해요!
       <br />
-      선풍기나 서큘레이터를 사용할 때는 바람이 식물에 직접적으로 닿지 않도록 식물 주변을 향하게 해주세요
+      선풍기나 서큘레이터를 사용할 때는 바람이 식물에 직접적으로 닿지 않도록 식물 주변을 향하게 해주세요.
     </div>
   </section>
 </template>
@@ -162,7 +162,7 @@ export default defineComponent({
   margin-bottom: 60px;
   @include breakpoint-down-sm {
     display: inline-block;
-    padding: 10px 11px 10px 21px;
+    padding: 10px 11px 10px 11px;
   }
   &__title {
     margin-right: 30px;
@@ -187,7 +187,6 @@ export default defineComponent({
     @include breakpoint-down-sm {
       font-size: 14px;
       line-height: 16px;
-      margin-left: -7px;
       margin-bottom: 10px;
     }
   }

@@ -13,7 +13,7 @@
         <img class="icon" :src="Feedback" />
         제보하기
       </div>
-      <div class="text">잘못된 정보를 발견하셨나요? 식물의언어 팀에 제보해주세요. 보다 정확한 식물의언어를 전할 수 있도록 노력하겠습니다.</div>
+      <div class="text">잘못된 정보를 발견하셨나요?식물의언어 팀에 제보해주세요.<br />보다 정확한 식물의언어를 전할 수 있도록 노력하겠습니다.</div>
     </div>
   </div>
 </template>

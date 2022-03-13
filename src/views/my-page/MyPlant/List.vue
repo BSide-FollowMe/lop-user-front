@@ -60,7 +60,7 @@ export default defineComponent({
     }, 500);
     document.addEventListener('scroll', onScroll);
     onUnmounted(() => {
-      document.removeEventListener('scroll',onScroll);
+      document.removeEventListener('scroll', onScroll);
     });
     const toggleLike = (index: number) => {
       newItems.value[index].isAdded = !newItems.value[index].isAdded;
@@ -81,9 +81,9 @@ export default defineComponent({
         }
       }
     }, 300);
-    const moveToPlantDetail = (plant:PlantListData & { isAdded: boolean }) =>{
+    const moveToPlantDetail = (plant: PlantListData & { isAdded: boolean }) => {
       router.push(`/plant/${plant.id}`);
-    }
+    };
     return {
       EmptyHeartIcon,
       FullHeartIcon,
@@ -115,20 +115,20 @@ export default defineComponent({
 .plant {
   cursor: pointer;
   display: inline-block;
-  flex-basis:calc(25% - 24px);
-  max-width:calc(25% - 24px);
-  flex-shrink:1;
-  max-height:230px;
+  flex-basis: calc(25% - 24px);
+  max-width: calc(25% - 24px);
+  flex-shrink: 1;
+  max-height: 230px;
   @include breakpoint-down-sm {
     flex-basis: calc(50% - 10px);
-    max-width:calc(50% - 10px);
+    max-width: calc(50% - 10px);
   }
 }
 .image {
-  width:100%;
-  height:calc(100% - 44px);
+  width: 100%;
+  height: calc(100% - 44px);
   @include breakpoint-down-sm {
-    height:calc(100% - 38px);
+    height: calc(100% - 38px);
   }
 }
 .info {
@@ -136,6 +136,19 @@ export default defineComponent({
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
+}
+
+.name {
+  font-weight: var(--font-weight-light);
+  font-size: 20px;
+  line-height: 24px;
+  /* identical to box height */
+
+  letter-spacing: -0.01em;
+  @include breakpoint-down-sm {
+    font-size: 14px;
+    line-height: 17px;
+  }
 }
 .icon {
   cursor: pointer;

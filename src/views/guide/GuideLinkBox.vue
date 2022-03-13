@@ -87,10 +87,21 @@ export default defineComponent({
   }
 }
 .link__items {
-  padding-left: 12px;
   > li {
+    &:before{
+      content: '•';
+      font-size: 16px;
+      vertical-align: middle;
+      line-height: 20px;
+      margin-right: 8px;
+      @include breakpoint-down-sm {
+        font-size: 15px;
+        line-height: 18px;
+        margin-right: 6px;
+      }
+    }
     cursor: pointer;
-    list-style: disc;
+    list-style: none;
     font-weight: var(--font-weight-medium);
     font-size: 14px;
     line-height: 20px;
