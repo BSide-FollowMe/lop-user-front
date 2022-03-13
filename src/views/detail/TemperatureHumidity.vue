@@ -3,19 +3,19 @@
     <div class="title">온도와 습도는 이렇게 맞추세요</div>
     <div class="temperature-humidity">
       <Card
-        v-if="temperature"
+        v-if="temperature!=null"
         :imgSrc="Temperature"
         title="적정온도"
         :content="`${temperature.split(',')[0]}℃ ~ ${temperature.split(',')[1]}℃`"
       ></Card>
-      <Card v-if="winterTemperature" :imgSrc="WinterTemperature" title="겨울철 온도" :content="`${winterTemperature}℃`"></Card>
-      <Card v-if="minHumidity && maxHumidity" :imgSrc="Humidity" title="습도" :content="`${minHumidity}% ~ ${maxHumidity}%`"></Card>
+      <Card v-if="winterTemperature!=null" :imgSrc="WinterTemperature" title="겨울철 온도" :content="`${winterTemperature}℃ ${translatedWinterTemperatureUpDown}`"></Card>
+      <Card v-if="minHumidity!=null && maxHumidity!=null" :imgSrc="Humidity" title="습도" :content="`${minHumidity}% ~ ${maxHumidity}%`"></Card>
     </div>
     <p class="content" v-html="content" />
   </div>
 </template>
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent,computed } from 'vue';
 import Temperature from '@/assets/icon/적정온도.svg';
 import WinterTemperature from '@/assets/icon/겨울철온도.svg';
 import Humidity from '@/assets/icon/습도.svg';
@@ -43,15 +43,23 @@ export default defineComponent({
       type: String,
       default: '',
     },
+    winterTemperatureUpDown: {
+      type: String,
+      default: '',
+    },
   },
   components: {
     Card,
   },
-  setup() {
+  setup(props) {
+    const translatedWinterTemperatureUpDown = computed(() => {
+      return props.winterTemperatureUpDown === 'UP' ? '이상' : props.winterTemperatureUpDown === 'DOWN' ? '이하' : '';
+    });
     return {
       Temperature,
       WinterTemperature,
       Humidity,
+      translatedWinterTemperatureUpDown,
     };
   },
 });
@@ -59,10 +67,10 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @import '@/styles/';
-.card{
-  max-width:33.3%;
+.card {
+  max-width: 33.3%;
   @include breakpoint-down-sm {
-    min-width:100%;
+    min-width: 100%;
   }
 }
 .title {

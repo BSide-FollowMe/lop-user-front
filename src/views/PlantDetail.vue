@@ -18,7 +18,7 @@
     />
     <Water :content="plantDetail.waterPeriod" @openGuide="openGuide" />
     <Sunlight :content="plantDetail.sunlight" @openGuide="openGuide" :sunlightTypes="plantDetail.sunlightTypes || []" />
-    <TemperatureHumidity :minHumidity="plantDetail.minHumidity" :maxHumidity="plantDetail.maxHumidity" :content="plantDetail.temperatureExtra" :temperature="plantDetail.properTemperature" :winterTemperature="plantDetail.winterTemperature" @openGuide="openGuide" />
+    <TemperatureHumidity :minHumidity="plantDetail.minHumidity" :maxHumidity="plantDetail.maxHumidity" :content="plantDetail.temperatureExtra" :temperature="plantDetail.properTemperature" :winterTemperature="plantDetail.winterTemperature" :winterTemperatureUpDown="plantDetail.winterTemperatureUpDown" @openGuide="openGuide" />
     <Ventilation @openGuide="openGuide" :blights="plantDetail.blights || []" />
     <Soil :content="plantDetail.soil" />
     <Report @openReport="openReport" />
