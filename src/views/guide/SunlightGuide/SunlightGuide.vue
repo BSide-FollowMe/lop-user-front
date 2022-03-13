@@ -262,7 +262,7 @@ export default defineComponent({});
   margin-bottom: 60px;
   @include breakpoint-down-sm {
     display: inline-block;
-    padding: 10px 11px 10px 21px;
+    padding: 10px 11px 10px 11px;
   }
   &__title {
     margin-right: 30px;
@@ -284,7 +284,6 @@ export default defineComponent({});
     @include breakpoint-down-sm {
       font-size: 14px;
       line-height: 16px;
-      margin-left: -7px;
       margin-bottom: 10px;
     }
   }
