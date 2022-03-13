@@ -47,7 +47,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref, computed, watchEffect } from 'vue';
 import { getBytes } from '@/utils/text';
 import { updateMyAccount } from '@/api/member';
 import RequestModal from '@/components/modals/RequestModal.vue';
@@ -63,12 +63,15 @@ export default defineComponent({
   },
   setup() {
     const store = useStore();
-    const nickName = ref(store.getters.getUserInfo.nickname);
+    const nickName = ref('');
     const error = ref('');
     const success = ref(false);
     const reportOpened = ref(false);
     const withdrawalOpened = ref(false);
     const reportOptions = ref({} as { modalTitle: string; contentsLabel: string });
+    watchEffect(()=>{
+      nickName.value=store.getters.getUserInfo.nickname;
+    })
     const submitNickName = async () => {
       if (error.value) {
         alert('error!');
