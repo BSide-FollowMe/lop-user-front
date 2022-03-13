@@ -28,7 +28,12 @@
       :winterTemperatureUpDown="plantDetail.winterTemperatureUpDown"
       @openGuide="openGuide"
     />
-    <Ventilation @openGuide="openGuide" :blights="plantDetail.blights || []" />
+    <Ventilation
+      @openGuide="openGuide"
+      :ventilation="plantDetail.isVentilation"
+      :toxicity="plantDetail.isToxicity"
+      :blights="plantDetail.blights || []"
+    />
     <Soil :content="plantDetail.soil" />
     <Report @openReport="openReport" />
     <Question :plantName="plantDetail.name" :plantId="Number(plantDetail.id)" :questions="questions" />
@@ -197,15 +202,15 @@ export default defineComponent({
     }
   }
 }
-.divider{
-  display:none;
-  @include breakpoint-down-sm{
-    display:block;
+.divider {
+  display: none;
+  @include breakpoint-down-sm {
+    display: block;
     width: calc(100% + 40px);
     height: 10px;
     background: var(--background-color-5);
     margin: -40px 0 40px -20px;
-    border:none;
+    border: none;
   }
 }
 </style>
