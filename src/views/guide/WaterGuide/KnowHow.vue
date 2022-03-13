@@ -254,19 +254,20 @@ export default defineComponent({
       display:inline-block;
       list-style: none;
       &:before {
+        font-family: 'Roboto';
         content: '•';
-        font-size: 16px;
-        line-height:16px;
-        
+        font-size: 13px;
+        line-height:13px;
         margin-right: 8px;
+        vertical-align: middle;
         color: var(--primary-color-1);
         @include breakpoint-down-sm {
           font-size:9px;
-          line-height:18px;
+          line-height:9px;
           margin-right: 6px;
+          vertical-align: baseline;
         }
       }
-      vertical-align: middle;
       font-weight: var(--font-weight-medium);
       font-size: 16px;
       line-height: 24px;

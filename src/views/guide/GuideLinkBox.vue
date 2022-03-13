@@ -89,14 +89,15 @@ export default defineComponent({
 .link__items {
   > li {
     &:before{
+      font-family: 'Roboto';
       content: '•';
-      font-size: 16px;
+      font-size: 13px;
       vertical-align: middle;
-      line-height: 20px;
+      line-height: 13px;
       margin-right: 8px;
       @include breakpoint-down-sm {
-        font-size: 15px;
-        line-height: 18px;
+        font-size: 9px;
+        line-height: 9px;
         margin-right: 6px;
       }
     }
