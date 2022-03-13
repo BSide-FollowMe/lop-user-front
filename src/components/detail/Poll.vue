@@ -179,6 +179,8 @@ export default defineComponent({
           @include breakpoint-down-sm {
             width: 14.66px;
             height: 11.18px;
+            mask-size: 14.66px 11.18px;
+            -webkit-mask-size: 14.66px 11.18px;
           }
           background-color: var(--primary-color-1);
         }
