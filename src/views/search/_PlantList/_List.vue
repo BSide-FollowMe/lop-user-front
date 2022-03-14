@@ -10,7 +10,7 @@
           <h2 class="title text-medium" v-html="stylizeBySearchTarget(searchTarget, item.name)"></h2>
           <p class="alias" v-html="stylizeBySearchTarget(searchTarget, item.nickname)"></p>
         </div>
-        <button class="to-details" @click.prevent><img src="@/assets/icon/arrow_right.png" /></button>
+        <button class="to-details" @click.prevent><img src="@/assets/icon/arrow_right.svg" /></button>
       </li>
     </ul>
   </section>
@@ -85,6 +85,7 @@ export default defineComponent({
       object-fit: cover;
       border-radius: 4px;
       background-color: #c4c4c4;
+      overflow:hidden;
       img {
         width: 100%;
         height: 100%;
@@ -137,20 +138,23 @@ export default defineComponent({
       }
     }
     .to-details {
-      width: 24px;
+      width: 28px;
       height: 24px;
+      // overflow:hidden;
       background-color: transparent;
       border: none;
       img {
         width: 24px;
-        height: 24px;
+        // height: 24px;
+        object-fit:contain;
       }
       @include breakpoint-down-sm {
-        width: 18px;
+        width: 24px;
         height: 18px;
         img {
           width: 18px;
           height: 18px;
+          object-fit:contain;
         }
       }
     }

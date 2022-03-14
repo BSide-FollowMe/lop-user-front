@@ -36,7 +36,6 @@ export default defineComponent({
 <style lang="scss" scoped>
 @import '@/styles/', '@/assets/fonts/pretendard/pretendard.css';
 .container {
-  border-bottom: var(--background-color-1) 1px solid;
   background-color: var(--primary-color);
   .inner-container {
     margin-left: auto;

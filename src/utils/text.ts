@@ -53,10 +53,11 @@ export function formatDateOnly(dt:Date) {
 }
 
 export function getTimeDistanceWithNaturalStr(createdAt: any) {
+
   if (!createdAt) return;
   let target = createdAt;
   const currTime:any = new Date();
-  if (!(target instanceof Date)) target = new Date(target);
+  if (!(target instanceof Date)) target = new Date(target.replace(/ /g, 'T'));
   const milliSeconds = currTime - target;
   const seconds = milliSeconds / 1000;
   if (seconds < 60) return `방금 전`;

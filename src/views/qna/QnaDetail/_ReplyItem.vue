@@ -42,7 +42,7 @@
         </div>
       </div>
     </template>
-    <template v-else>
+    <template v-if="!editMode">
       <div class="item__content deleted" v-if="isDeleted">
         <img src="@/assets/icon/error-outline.svg" />
         작성자가 삭제한 댓글입니다
@@ -105,7 +105,7 @@ export default defineComponent({
     const actionBtnRef = ref(null);
     const actionModal = ref(false);
     const editMode = ref(false);
-    const editInput = ref('');
+    const editInput = ref(content.value);
     const dependentMode = ref(false);
     const dependentInput = ref('');
     document.addEventListener('click', documentClick);
@@ -119,7 +119,7 @@ export default defineComponent({
     }
     function autoResize(e: any) {
       const obj = e.target;
-      obj.style.height = '50px';
+      obj.style.height = 'auto';
       obj.style.height = 20 + obj.scrollHeight + 'px';
     }
     async function registDependentReply(bId: string, cId: string, cont: string) {
@@ -151,7 +151,6 @@ export default defineComponent({
           content: cont,
         };
         const res = await modifyQnaBoardComment(payload, bId, cId);
-        console.log(res);
         editMode.value = false;
         dependentMode.value = false;
         editInput.value = '';
@@ -170,9 +169,14 @@ export default defineComponent({
       }
     }
     function startEditMode() {
-      actionModal.value = false;
       editMode.value = true;
       editInput.value = content.value;
+      actionModal.value = false;
+      setTimeout(() => {
+        const obj: any = document.getElementById('comment-edit');
+        obj.focus();
+        autoResize({ target: obj });
+      }, 10);
     }
     function endEditMode() {
       editMode.value = false;
@@ -247,6 +251,7 @@ export default defineComponent({
   &__content {
     color: var(--text-color-1);
     margin-top: 10px;
+    word-break: break-all;
     &.deleted {
       img {
         vertical-align: middle;
@@ -365,10 +370,13 @@ export default defineComponent({
     padding: 16px;
     border: 1px solid #e5e5e5;
     box-sizing: border-box;
+    font-size:16px;
     border-radius: 2px;
     resize: none;
+    font-size:16px;
+    overflow:hidden;
     width: 100%;
-    height: 50px;
+    height: auto;
     &:focus + label {
       display: none;
     }
@@ -380,6 +388,7 @@ export default defineComponent({
     }
     @include breakpoint-down-sm {
       height: 120px;
+      font-size: 14px;
     }
   }
   label {

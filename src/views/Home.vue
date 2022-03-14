@@ -38,7 +38,6 @@
       </div>
     </section>
     <section class="guide-plant">
-      <ToTopButton class="to-top-btn" />
       <h1 class="text-light">
         초보 식집사를 위한
         <br />
@@ -67,6 +66,7 @@
         </button>
       </div>
     </section>
+    <ToTopButton class="to-top-btn" fixed />
   </div>
 </template>
 
@@ -144,8 +144,6 @@ export default defineComponent({
       }
 
     }
-
-
     return {
       searchText,
       clickToTop,
@@ -548,15 +546,16 @@ export default defineComponent({
       }
     }
   }
-  .to-top-btn {
-    position: absolute;
-    bottom: 50px;
-    right: -50px;
+}
+.to-top-btn {
+  // position: absolute;
+  // bottom: 50px;
+  // right: -50px;
 
-    @media (max-width: 1200px) {
-      right: 20px;
-      top: -25px;
-    }
-  }
+  // @media (max-width: 1200px) {
+  //   position:fixed;
+  //   right: 20px;
+  //   bottom: 20px;
+  // }
 }
 </style>

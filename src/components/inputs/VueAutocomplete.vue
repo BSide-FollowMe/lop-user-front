@@ -122,6 +122,7 @@ export default defineComponent({
     width: 100%;
     height: 40px;
     padding-left: 12px;
+    font-size: 16px;
     &:focus + label {
       display: none;
     }
@@ -134,6 +135,9 @@ export default defineComponent({
     &:disabled{
       background: #fff;
       color: var(--secondary-green-color-1);
+    }
+    @include breakpoint-down-sm {
+      font-size:14px;
     }
   }
   button.clear-btn{
@@ -148,7 +152,7 @@ export default defineComponent({
   }
   label {
     pointer-events: none;
-    font-size: var(--font-size-p-2);
+    font-size: 16px;
     line-height: 19px;
     color: var(--text-color-3);
     position: absolute;
