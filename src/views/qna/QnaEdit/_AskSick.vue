@@ -130,6 +130,12 @@ export default defineComponent({
         plantLifeCycle.value = data.plantLifeCycle;
         plantCountermeasure.value = data.plantCountermeasure;
         content.value = data.content;
+        setTimeout(() => {
+          const array:any = document.getElementsByTagName('textarea')
+          for (let i = 0; i < array.length; i++) {
+            autoResize({ target: array[i] });
+          }
+        }, 10);
         const blobImages = await getImageBlob(id);
         const pu: any = photoUploader.value;
         if (pu) {
@@ -254,8 +260,8 @@ export default defineComponent({
 
     function autoResize(e: any) {
       const obj = e.target;
-      obj.style.height = '120px';
-      obj.style.height = 2 + obj.scrollHeight + 'px';
+      obj.style.height = 'auto';
+      obj.style.height = 20 + obj.scrollHeight + 'px';
     }
     return {
       plantSelector,
@@ -317,6 +323,7 @@ export default defineComponent({
     width: 100%;
     height: 40px;
     padding-left: 12px;
+    font-size:16px;
     &:focus + label {
       display: none;
     }
@@ -327,6 +334,7 @@ export default defineComponent({
       border: 1px solid var(--secondary-green-color-1);
     }
     @include breakpoint-down-sm {
+      font-size:14px;
       height: 38px;
     }
   }
@@ -338,7 +346,7 @@ export default defineComponent({
     position: absolute;
     top: 11px;
     left: 12px;
-
+    font-size:16px;
     @include breakpoint-down-sm {
       font-size: 14px;
     }
@@ -375,9 +383,12 @@ export default defineComponent({
     border: 1px solid #e5e5e5;
     box-sizing: border-box;
     border-radius: 2px;
+    font-size:16px;
     resize: none;
     width: 100%;
-    height: 200px;
+    height: 118px;
+    min-height:100px;
+    overflow:hidden;
     &:focus + label {
       display: none;
     }
@@ -388,7 +399,9 @@ export default defineComponent({
       border: 1px solid var(--secondary-green-color-1);
     }
     @include breakpoint-down-sm {
-      height: 120px;
+      font-size:14px;
+      height: 118px;
+      min-height:100px;
     }
   }
   label {

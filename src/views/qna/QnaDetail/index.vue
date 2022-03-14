@@ -15,7 +15,7 @@
             <span class="separator">|</span>
             <span class="datetime">{{ getTimeDistanceWithNaturalStr(details.createdDateTime) }}</span>
             <template v-if="myId && details.writer.id == myId">
-              <span class="separator md-up-only-inline">|</span>
+              <span class="separator md-up-only-inline"></span>
               <button class="action-modal-btn" @click="actionModal = true" ref="actionBtnRef">
                 <img src="@/assets/icon/more.svg" />
                 <ul class="action-list shadow" v-if="actionModal">
@@ -37,7 +37,7 @@
         <template v-if="details.type == 'SICK'">
           <div class="input-title">물은 얼마나 자주 주셨나요?</div>
           <div class="textarea-item">
-            <textarea v-model="details.plantWaterCycle" readonly maxlength="500" @keyup="autoResize" />
+            <textarea class="sub-contents" v-model="details.plantWaterCycle" readonly maxlength="500" @keyup="autoResize" rows="1" />
           </div>
           <div class="input-title">
             식물은 어디에 두셨고 햇빛을 받는 시간은
@@ -45,11 +45,11 @@
             얼마나 되나요?
           </div>
           <div class="textarea-item">
-            <textarea v-model="details.plantLifeCycle" readonly maxlength="500" @keyup="autoResize" />
+            <textarea class="sub-contents" v-model="details.plantLifeCycle" readonly maxlength="500" @keyup="autoResize" rows="1" />
           </div>
           <div class="input-title">증상이 나타났을 때 어떻게 대처하셨나요?</div>
           <div class="textarea-item">
-            <textarea v-model="details.plantCountermeasure" readonly maxlength="500" @keyup="autoResize" />
+            <textarea class="sub-contents" v-model="details.plantCountermeasure" readonly maxlength="500" @keyup="autoResize" rows="1" />
           </div>
         </template>
         <div class="content-item">{{ details.content }}</div>
@@ -119,12 +119,22 @@ export default defineComponent({
     getDetails();
 
     document.addEventListener('click', documentClick);
-
+    function autoResize(e: any) {
+      const obj = e.target;
+      obj.style.height = 'auto';
+      obj.style.height =  obj.scrollHeight + 'px';
+    }
     async function getDetails() {
       try {
         const id: string = boardId.value;
         const { data }: any = await getQnaBoardDetail(id);
         details.value = data;
+        setTimeout(() => {
+          const array:any = document.getElementsByClassName('sub-contents')
+          for (let i = 0; i < array.length; i++) {
+            autoResize({ target: array[i] });
+          }
+        }, 10);
       } catch (e) {
         console.log(e);
       }
@@ -367,10 +377,11 @@ export default defineComponent({
     border-radius: 2px;
     resize: none;
     width: 100%;
-    height: 200px;
+    height: auto;
     font-size: 18px;
     line-height: 26px;
     color: var(--text-color2);
+    overflow:hidden;
     @include breakpoint-down-sm {
       height: auto;
       min-height: 40px;

@@ -6,9 +6,9 @@
         <img id="logo-title" src="@/assets/logo-title.svg" @click="ROUTE_TO.HOME" />
       </div>
       <div class="tab">
-        <span @click="ROUTE_TO.QNABOARD">질문 · 답변</span>
-        <span v-if="isLoggedIn" @click="ROUTE_TO.MYPAGE">마이페이지</span>
-        <span v-else @click="ROUTE_TO.LOGIN">로그인</span>
+        <span @click="ROUTE_TO.QNABOARD" :class="{'active':activeButton=='QNABOARD'}">질문 · 답변</span>
+        <span v-if="isLoggedIn" @click="ROUTE_TO.MYPAGE" :class="{'active':activeButton=='MYPAGE'}">마이페이지</span>
+        <span v-else @click="ROUTE_TO.LOGIN" :class="{'active':activeButton=='LOGIN'}">로그인</span>
       </div>
     </div>
   </div>
@@ -17,6 +17,7 @@
 <script lang="ts">
 import { defineComponent, ref, computed, watch } from 'vue';
 import { ROUTE_TO } from '@/router/routing';
+import {PageEnum} from '@/enums/PageEnum';
 import { tokenSvc } from '@/api/token-service';
 import { useRoute } from 'vue-router';
 
@@ -24,6 +25,22 @@ export default defineComponent({
   setup() {
     const route = useRoute();
     const currentPath = computed(() => route.path);
+    const activeButton = computed(() => {
+      const path:any =  route.path
+      if(!path|| !path.length) return ''
+      if(path.startsWith(PageEnum.QNABOARD)) {
+        return 'QNABOARD';
+      }
+      else if(path.startsWith(PageEnum.My_Page)) {
+        return 'MYPAGE';
+      }
+      else if(path.startsWith(PageEnum.LOGIN)) {
+        return 'LOGIN';
+      }
+      else {
+        return '';
+      }
+    });
     watch(currentPath, () => {
       checkLoggedIn();
     });
@@ -32,9 +49,12 @@ export default defineComponent({
     async function checkLoggedIn() {
       isLoggedIn.value = await tokenSvc.isValidToken();
     }
+
     return {
       ROUTE_TO,
       isLoggedIn,
+      currentPath,
+      activeButton,
     };
   },
 });
@@ -87,7 +107,10 @@ export default defineComponent({
     letter-spacing: -0.0025em;
     > span {
       cursor: pointer;
-      // margin: 0 10px;
+      &.active {
+        font-weight: var(--font-weight-bold);
+        color: var(--secondary-green-color);
+      }
     }
     span:last-child {
       margin-left: 20px;

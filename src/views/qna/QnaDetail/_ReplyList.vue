@@ -77,7 +77,7 @@ export default defineComponent({
     }
     function autoResize(e: any) {
       const obj = e.target;
-      obj.style.height = '50px';
+      obj.style.height = 'auto';
       obj.style.height = 20 + obj.scrollHeight + 'px';
     }
     function orderDependentReply(targetId: any, sourceList: any) {
@@ -167,7 +167,9 @@ export default defineComponent({
     border-radius: 2px;
     resize: none;
     width: 100%;
-    height: 50px;
+    height: 118px;
+    min-height:100px;
+    overflow:hidden;
     &:focus + label {
       display: none;
     }
@@ -178,8 +180,8 @@ export default defineComponent({
       border: 1px solid var(--secondary-green-color-1);
     }
     @include breakpoint-down-sm {
-      height: auto;
-      min-height: 40px;
+      height: 118px;
+      min-height:100px;
     }
   }
   label {
