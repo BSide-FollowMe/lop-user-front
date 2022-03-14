@@ -26,9 +26,11 @@
       <section :class="['sub', isModal ? 'modal' : '']">
         <div class="sub__title">물을 어떻게 줘야 하나요?</div>
         <div class="sub__content">
-          약한 물줄기로 화분 전체에 골고루 천천히 주세요. 물은 화분 밑으로 빠져나올 때까지 흠뻑 주는 게 좋고, 빠져나온 물은 고여있지 않도록 신경
-          써주세요. 화분 받침에 물이 고여 있으면 뿌리가 상할 수 있거든요. 배수가 잘 되지 않아 흙 위에 물이 고여있다면, 나무젓가락으로 흙을 여러 번
-          찔러주세요. 흙 속에 산소도 공급하고 배수에도 도움이 될 거예요.
+          <b>약한 물줄기로 화분 전체에 골고루 천천히 주세요.</b>
+          <br />
+          물은 화분 밑으로 빠져나올 때까지 흠뻑 주는 게 좋고, 빠져나온 물은 고여있지 않도록 신경 써주세요. 화분 받침에 물이 고여 있으면 뿌리가 상할 수
+          있거든요. 배수가 잘 되지 않아 흙 위에 물이 고여있다면, 나무젓가락으로 흙을 여러 번 찔러주세요. 흙 속에 산소도 공급하고 배수에도 도움이 될
+          거예요.
         </div>
         <img style="width: 100%" class="responsive" src="@/assets/images/guide/물주기1_1.png" />
       </section>
@@ -206,6 +208,11 @@ export default defineComponent({
       font-size: 14px;
       line-height: 22px;
     }
+    + img {
+      margin-top: 20px;
+      background: var(--background-color-4);
+      border-radius: 10px;
+    }
   }
   margin-bottom: 40px;
 }
@@ -249,21 +256,20 @@ export default defineComponent({
     }
   }
   &__list {
-    
     li {
-      display:inline-block;
+      display: inline-block;
       list-style: none;
       &:before {
         font-family: 'Roboto';
         content: '•';
         font-size: 13px;
-        line-height:13px;
+        line-height: 13px;
         margin-right: 8px;
         vertical-align: middle;
         color: var(--primary-color-1);
         @include breakpoint-down-sm {
-          font-size:9px;
-          line-height:9px;
+          font-size: 9px;
+          line-height: 9px;
           margin-right: 6px;
           vertical-align: baseline;
         }
