@@ -1,4 +1,5 @@
 import { blight, category, sunlightType, winterTemperatureUpDown } from 'plant';
+import {Question} from './boardModel';
 
 export interface GetAccountInfoModel {
   email: string;
@@ -65,6 +66,9 @@ export interface PlantDetailRespModel {
     growthHard: number;
     type: 'EASY' | 'HARD';
   };
+  questions:{
+    data: Question[];
+  }
   isFavorite: boolean;
   properTemperature?: string;
   scientificName?: string;
