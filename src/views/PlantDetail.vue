@@ -36,7 +36,7 @@
     />
     <Soil :content="plantDetail.soil" />
     <Report class="report" @openReport="openReport" />
-    <Question :plantName="plantDetail.name" :plantId="Number(plantDetail.id)" :questions="questions" />
+    <Question :plantName="plantDetail.name" :plantId="Number(plantDetail.id)" :questions="plantDetail.questions?.data" />
   </div>
   <GuideModal v-if="guideOpened" :options="guideOptions" @close="closeGuide()" />
   <RequestModal v-if="reportOpened" :options="reportOptions" @confirm="report" @close="closeReport()" />
@@ -66,7 +66,6 @@ export default defineComponent({
     const route = useRoute();
     const router = useRouter();
     const plantDetail = ref({} as PlantDetailRespModel);
-    const questions = ref([] as QuestionModel[]);
     const guideOpened = ref(false);
     const reportOpened = ref(false);
     const guideOptions = ref({} as { componentName: string; modalTitle: string });
@@ -91,14 +90,6 @@ export default defineComponent({
     const init = async () => {
       try {
         plantDetail.value = await getPlantDetail({ plantId: route.path.split('/')[2] });
-        const {
-          data: { data },
-        }: any = await getQnaBoardList({
-          plantId: Number(plantDetail.value.id),
-          size: 3,
-          page: 0,
-        });
-        questions.value = data as QuestionModel[];
       } catch (e) {
         router.push('/not-found');
       }
@@ -162,7 +153,6 @@ export default defineComponent({
       openReport,
       closeReport,
       reportOptions,
-      questions,
       refresh,
       report,
     };
