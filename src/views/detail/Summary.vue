@@ -297,7 +297,6 @@ export default defineComponent({
   display: flex;
   @include breakpoint-down-sm {
     display: inline-block;
-    padding: 0 20px;
     width: 100%;
   }
   .plant-image {
