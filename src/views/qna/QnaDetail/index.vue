@@ -180,6 +180,7 @@ export default defineComponent({
         objectType: 'feed',
         content: {
           title: `식물의 언어 - ${item.plantName}`,
+          description:'식물을 키우며 궁금했던 점, 식물의언어에서 물어보세요.',
           imageUrl: imageUrl,
           link: {
             mobileWebUrl: window.document.location.href,
