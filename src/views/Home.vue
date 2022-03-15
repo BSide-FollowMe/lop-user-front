@@ -21,9 +21,9 @@
     <section class="recommend-plant">
       <div class="inner-infinety-container">
         <h1 class="text-light">
-          꽃 피는 봄에 함께하면
+          초보 식집사가 키우기 좋은
           <br class="md-down-only" />
-          <span class="text-bold">좋을 식물</span>
+          <span class="text-bold">봄 식물</span>
         </h1>
         <ul class="plant-list">
           <li class="item" v-for="(item, index) in recommended" :key="`item-${index}`" @click="ROUTE_TO.PLANT_DETAILS(item.id)">
