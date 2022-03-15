@@ -205,6 +205,8 @@ export default defineComponent({
         font-weight: var(--font-weight-medium);
         font-size: 18px;
         line-height: 26px;
+        word-break: break-all;
+        @include textOverflow(2);
         @include breakpoint-down-sm {
           height: 60px;
           font-size: 13px;
@@ -258,7 +260,7 @@ export default defineComponent({
   }
   .question-button {
     margin-top: 20px;
-    
+
     cursor: pointer;
     width: 100%;
     background: #ffffff;

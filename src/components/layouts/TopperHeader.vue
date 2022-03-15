@@ -3,7 +3,6 @@
     <div class="inner-container flex-row">
       <div class="title">
         <img id="logo" src="@/assets/logo.svg" @click="ROUTE_TO.HOME" />
-        <img id="logo-title" src="@/assets/logo-title.svg" @click="ROUTE_TO.HOME" />
       </div>
       <div class="tab">
         <span @click="ROUTE_TO.QNABOARD" :class="{'active':activeButton=='QNABOARD'}">질문 · 답변</span>
@@ -87,9 +86,6 @@ export default defineComponent({
     display: flex;
     align-items: center;
     @include breakpoint-down-sm {
-      img#logo-title {
-        content: url('@/assets/mobile-title.svg');
-      }
       img#logo {
         content: url('@/assets/mobile-logo.svg');
       }

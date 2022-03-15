@@ -20,7 +20,7 @@
                 <img src="@/assets/icon/more.svg" />
                 <ul class="action-list shadow" v-if="actionModal">
                   <li @click="ROUTE_TO.QNABOARD_EDIT(details.id, details.type)">
-                    <img src="@/assets/icon/modify-pencil.svg" />
+                    <img src="@/assets/icon/modify-pencil-gray.svg" />
                     <span>수정하기</span>
                   </li>
                   <hr />
@@ -276,6 +276,7 @@ export default defineComponent({
     margin-top: 40px;
     font-size: 18px;
     line-height: 26px;
+    word-break: break-all;
     @include breakpoint-down-sm {
       margin-top: 30px;
       font-size: 13px;

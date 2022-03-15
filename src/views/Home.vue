@@ -13,7 +13,7 @@
         </h1>
         <div class="searcher">
           <input id="searchText" type="text" v-model="searchText" :class="{ 'is-empty': searchText === '' }" @keyup.enter="onSubmit(searchText)" />
-          <label for="searchText">식물명 또는 카테고리를 입력하세요.</label>
+          <label for="searchText">식물의 이름 또는 궁금하신 점을 입력해주세요.</label>
           <button @click="onSubmit(searchText)"></button>
         </div>
       </div>
@@ -434,6 +434,8 @@ export default defineComponent({
         color: #323232;
         font-size: 20px;
         line-height: 24px;
+        word-break: break-all;
+        @include textOverflow(1);
         @include breakpoint-down-sm {
           font-size: 18px;
           line-height: 22px;

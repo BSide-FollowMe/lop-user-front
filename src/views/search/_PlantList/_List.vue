@@ -81,7 +81,9 @@ export default defineComponent({
     }
     .preview {
       width: 100px;
+      min-width:100px;
       height: 100px;
+      min-height:100px;
       object-fit: cover;
       border-radius: 4px;
       background-color: #c4c4c4;
@@ -121,6 +123,7 @@ export default defineComponent({
       margin-top: 10px;
       margin-bottom: 0px;
       line-height: 29px;
+      @include textOverflow(1);
       @include breakpoint-down-sm {
         margin-top: 6px;
         font-size: 16px;

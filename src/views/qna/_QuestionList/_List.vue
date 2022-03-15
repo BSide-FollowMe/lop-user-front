@@ -175,6 +175,7 @@ export default defineComponent({
       margin-top: 10px;
       margin-bottom: 0px;
       line-height: 26px;
+      word-break: break-all;
       @include textOverflow(2);
       @include breakpoint-down-sm {
         margin-top: 6px;

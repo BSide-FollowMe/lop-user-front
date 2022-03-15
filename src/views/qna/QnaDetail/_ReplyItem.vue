@@ -11,7 +11,7 @@
             <img src="@/assets/icon/more.svg" />
             <ul class="action-list shadow" v-if="actionModal">
               <li @click="startEditMode">
-                <img src="@/assets/icon/modify-pencil.svg" />
+                <img src="@/assets/icon/modify-pencil-gray.svg" />
                 <span>수정하기</span>
               </li>
               <hr />
