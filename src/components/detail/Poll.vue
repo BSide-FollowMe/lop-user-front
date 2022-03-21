@@ -188,7 +188,7 @@ export default defineComponent({
         z-index: 1;
       }
       .bar {
-        border-radius: inherit;
+        border-radius: 4px 0px 0px 4px;
         position: absolute;
         display: inline-block;
         background-color: var(--background-color-3);
