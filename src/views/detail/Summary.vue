@@ -1,7 +1,7 @@
 <template>
   <div class="inner-container">
-    <div class="plant-image">
-      <img :src="fileUrl || DummyImage" class="fileImage" />
+    <div :class="{ 'plant-image': true, dummy: !fileUrl }">
+      <img :src="fileUrl || DummyImage" :class="{ fileImage: !!fileUrl }" />
       <div v-if="fileSource" class="fileSource" @click="moveToSource()">{{ fileSource }}</div>
     </div>
     <div class="plant-content">
@@ -19,21 +19,25 @@
           <div class="icon-group">
             <img class="icon" :src="ShareIcon" @click="openContextMenu" />
             <img
-              v-if="isLoggedIn && currentLike"
+              v-if="currentLike"
               class="icon heart-fill-icon"
               :src="FullHeartIcon"
               @click="
-                toggleLike();
-                requestChangeLike(false);
+                if (isLoggedIn()) {
+                  toggleLike();
+                  requestChangeLike(false);
+                }
               "
             />
             <img
-              v-if="isLoggedIn && !currentLike"
+              v-if="!currentLike"
               class="icon heart-empty-icon"
               :src="EmptyHeartIcon"
               @click="
-                toggleLike();
-                requestChangeLike(true);
+                if (isLoggedIn()) {
+                  toggleLike();
+                  requestChangeLike(true);
+                }
               "
             />
           </div>
@@ -58,7 +62,7 @@ import KakaoIcon from '@/assets/icon/logo_카카오톡.svg';
 import LinkIcon from '@/assets/icon/icon_link.svg';
 import Poll from '@/components/detail/Poll.vue';
 import { useKakao } from 'vue3-kakao-sdk';
-import DummyImage from '@/assets/images/detail/dummy-image.png';
+import DummyImage from '@/assets/images/detail/dummy-image.svg';
 import axios from 'axios';
 
 export default defineComponent({
@@ -148,7 +152,7 @@ export default defineComponent({
         objectType: 'feed',
         content: {
           title: `식물의 언어 - ${props.name}`,
-          description:'내게 맞는 반려식물을 식물의언어에서 만나보세요.',
+          description: '내게 맞는 반려식물을 식물의언어에서 만나보세요.',
           imageUrl: props.fileUrl,
           link: {
             mobileWebUrl: window.document.location.href,
@@ -190,21 +194,12 @@ export default defineComponent({
       }
     };
     const requestChangeLike = debounce(async (isAdded: boolean) => {
-      try {
-        await registerLike({ plantId: props.plantId, memberId: store.state.user.id, isAdded });
-      } catch (e) {
-        if (e instanceof Error) {
-          alert(e.message);
-        } else {
-          alert(e);
-        }
-      }
+      await registerLike({ plantId: props.plantId, memberId: store.state.user.id, isAdded });
     }, 300);
 
     const requestPollDifficulty = async (type: string) => {
       try {
         await pollDifficulty({ memberId: store.state.user.id, plantId: props.plantId, type }); //todo 한번만 투표하실 수 있습니다 error message 추가
-      
       } catch (e) {
         if (e instanceof Error) {
           alert(e.message);
@@ -260,11 +255,13 @@ export default defineComponent({
         },
       ];
     });
-
-    const isLoggedIn = computed(() => !!store.state.user.token);
-    const moveToSource = () =>{
-      window.open(props.fileSourceLink,'_blank');
-    }
+    const isLoggedIn = (): boolean => {
+      if (!store.state.user.token) alert('로그인을 먼저 해주세요!');
+      return !!store.state.user.token;
+    };
+    const moveToSource = () => {
+      window.open(props.fileSourceLink, '_blank');
+    };
     onUnmounted(() => {
       store.dispatch('snack/closeSnack');
     });
@@ -280,9 +277,9 @@ export default defineComponent({
       FullHeartIcon,
       pollItems,
       translatedCategory,
-      isLoggedIn,
       DummyImage,
-      moveToSource
+      moveToSource,
+      isLoggedIn,
     };
   },
   components: {
@@ -301,13 +298,24 @@ export default defineComponent({
     width: 100%;
   }
   .plant-image {
+    flex-basis: 340px;
+    flex-shrink: 0;
     margin-right: 50px;
     position: relative;
-    width: 340px;
     height: 340px;
+    &.dummy {
+      border-radius: 4px;
+      background: var(--background-color-5);
+      > img {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+    }
 
     @include breakpoint-down-sm {
-      margin-left: -40px;
+      margin-left: -20px;
       width: 100vw;
     }
   }
@@ -428,7 +436,7 @@ export default defineComponent({
   @include breakpoint-down-sm {
     font-size: 13px;
     line-height: 16px;
-      margin-bottom: 0px;
+    margin-bottom: 0px;
   }
   /* identical to box height */
   letter-spacing: -0.01em;

@@ -30,8 +30,13 @@ export default defineComponent({
   },
   setup(){
     const backgroundImage=(image:string)=>{
+      console.log({
+        'background': `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(${image})`,
+        'backgroundSize': `cover`,
+      })
       return {
         'background': `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(${image})`,
+        'backgroundSize': `cover`,
       }
     };
     return {
@@ -50,7 +55,6 @@ export default defineComponent({
   height: 520px;
   text-align: center;
   padding: 213px 0 215px 0;
-  background-size: cover;
   margin-bottom: 70px;
   @include breakpoint-down-sm {
     height: 260px;

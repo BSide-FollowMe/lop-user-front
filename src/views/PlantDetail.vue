@@ -178,7 +178,7 @@ export default defineComponent({
   max-width: var(--content-container-max-width);
   margin-left: auto;
   margin-right: auto;
-  padding: 0 60px;
+  padding: 0 40px;
   @include breakpoint-down-sm {
     margin-top: 0;
     padding: 0 var(--m-content-container-padding);

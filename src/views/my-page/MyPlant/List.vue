@@ -35,7 +35,7 @@ import { useStore } from 'vuex';
 import { PlantListData } from '@/api/model/plantModel';
 import { registerLike } from '@/api/plant';
 import { useRouter } from 'vue-router';
-import DummyImage from '@/assets/images/detail/dummy-image.png';
+import DummyImage from '@/assets/images/detail/dummy-image.svg';
 export default defineComponent({
   props: {
     items: {
@@ -161,13 +161,13 @@ export default defineComponent({
     mask-position: center center;
     min-width: 16px;
     min-height: 15px;
-    -webkit-mask-size:16px 15px;
+    -webkit-mask-size: 16px 15px;
     mask-size: 16px 15px;
     background-color: var(--secondray-color-3);
-    @include breakpoint-down-sm{
+    @include breakpoint-down-sm {
       min-width: 15px;
       min-height: 13px;
-      -webkit-mask-size:15px 13px;
+      -webkit-mask-size: 15px 13px;
       mask-size: 15px 13px;
     }
   }
@@ -180,13 +180,13 @@ export default defineComponent({
     mask-position: center center;
     min-width: 16px;
     min-height: 15px;
-    -webkit-mask-size:16px 15px;
+    -webkit-mask-size: 16px 15px;
     mask-size: 16px 15px;
     background-color: var(--secondray-color-3);
-    @include breakpoint-down-sm{
+    @include breakpoint-down-sm {
       min-width: 15px;
       min-height: 13px;
-      -webkit-mask-size:15px 13px;
+      -webkit-mask-size: 15px 13px;
       mask-size: 15px 13px;
     }
   }

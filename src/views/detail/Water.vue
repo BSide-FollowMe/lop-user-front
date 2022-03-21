@@ -88,10 +88,8 @@ export default defineComponent({
 .guide {
   > * {
     width: 100%;
-    &:first-child {
-      margin-right: 20px;
-    }
   }
+  gap: 20px;
   display: flex;
   justify-content: space-between;
   @include breakpoint-down-sm {
