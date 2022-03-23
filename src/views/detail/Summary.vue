@@ -151,7 +151,7 @@ export default defineComponent({
       kakao.value.Link.sendDefault({
         objectType: 'feed',
         content: {
-          title: `식물의 언어 - ${props.name}`,
+          title: `식물의언어 - ${props.name}`,
           description: '내게 맞는 반려식물을 식물의언어에서 만나보세요.',
           imageUrl: props.fileUrl,
           link: {

@@ -270,13 +270,13 @@ export default defineComponent({
     @include breakpoint-down-sm {
       font-size: 14px;
       line-height: 17px;
+      padding: 15px 0 16px 15px;
     }
     .dropdown__arrow {
       width: 14px;
       height: 9px;
       @include breakpoint-down-sm {
-      width:10px;
-      height:6px;
+      height:6.18px;
       line-height: 10px;
     }
     }
