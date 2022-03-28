@@ -2,7 +2,7 @@
   <div class="container">
     <object class="image" />
     <section class="link">
-      <div class="title">식물의 언어 가이드</div>
+      <div class="title">식물의언어 가이드</div>
       <ul class="link__items">
         <li :class="currentGuide === 'water' ? 'active' : ''" @click="moveGuide('water')">식물이 좋아하는 물 주기 방법</li>
         <li :class="currentGuide === 'ventilation' ? 'active' : ''" @click="moveGuide('ventilation')">통풍이 중요한 이유</li>

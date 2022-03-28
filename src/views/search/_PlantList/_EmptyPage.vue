@@ -6,7 +6,7 @@
       <div class="search-tip">
         찾고 계신 식물을 알려주시면
         <br />
-        새로운 식물의 언어를 빠르게 들려드릴게요.
+        새로운 식물의언어를 빠르게 들려드릴게요.
       </div>
       <VueButton color="primary" class="plant-request-btn" @click="checkIsLoggedIn">식물 등록 요청하기</VueButton>
     </section>
