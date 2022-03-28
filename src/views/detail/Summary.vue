@@ -7,7 +7,7 @@
     <div class="plant-content">
       <div class="upper-content">
         <div class="content">
-          <div class="category-icon">
+          <div v-if="!!translatedCategory" class="category-icon">
             <div class="inner-category-icon">{{ translatedCategory }}</div>
           </div>
           <div class="plant-name">{{ name }}</div>
@@ -131,21 +131,19 @@ export default defineComponent({
     const openContextMenu = () => {
       contextMenu.value.toggleContextMenu();
     };
-    const updatedCurrentGrowth = ref(props.currentPollGrowth);
-    const translatedCategory = computed(
-      () =>
-        translate(
-          [
-            { value: 'FERNS', label: '양치식물' },
-            { value: 'BULBOUS', label: '구근식물' },
-            { value: 'AQUATIC', label: '수생식물' },
-            { value: 'CACTUS', label: '선인장류' },
-            { value: 'SUCCULENTS', label: '다육식물' },
-            { value: 'CARNIVOROUS', label: '식충식물' },
-            { value: 'HOUSEPLANT', label: '관엽식물' },
-          ],
-          props.category,
-        ) || '미분류',
+    const translatedCategory = computed(() =>
+      translate(
+        [
+          { value: 'FERNS', label: '양치식물' },
+          { value: 'BULBOUS', label: '구근식물' },
+          { value: 'AQUATIC', label: '수생식물' },
+          { value: 'CACTUS', label: '선인장류' },
+          { value: 'SUCCULENTS', label: '다육식물' },
+          { value: 'CARNIVOROUS', label: '식충식물' },
+          { value: 'HOUSEPLANT', label: '관엽식물' },
+        ],
+        props.category,
+      ),
     );
     const shareKakao = async () => {
       kakao.value.Link.sendDefault({
