@@ -7,7 +7,7 @@
           <span class="accent text-bold">{{myNickname}}님,</span>
           <br />
           어떤
-          <span class="accent text-bold">식물의언어</span>가
+          <span class="accent text-bold">식물의 언어</span>가
           <br class="md-down-only" />
           궁금하신가요?
         </h1>
