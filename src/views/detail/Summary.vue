@@ -332,7 +332,7 @@ export default defineComponent({
     @include breakpoint-down-sm {
       margin-left: -20px;
       width: 100vw;
-      height: 100vw;
+      height: calc(100vw - 20px);
     }
   }
   .plant-content {
