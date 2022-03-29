@@ -1,7 +1,7 @@
 <template>
   <div class="inner-container">
     <div :class="{ 'plant-image': true, dummy: !fileUrl }">
-      <img :src="fileUrl || DummyImage" :class="{ fileImage: !!fileUrl }" />
+      <img :src="fileUrl || DummyImage" :class="{ fileImage: !!fileUrl }" @load="setImageSize"/>
       <div v-if="fileSource" class="fileSource" @click="moveToSource()">{{ fileSource }}</div>
     </div>
     <div class="plant-content">
@@ -48,7 +48,7 @@
   </div>
 </template>
 <script lang="ts">
-import { computed, defineComponent, PropType, ref, nextTick, onMounted, watchEffect, onUnmounted } from 'vue';
+import { computed, defineComponent, PropType, ref, watchEffect, onUnmounted } from 'vue';
 import { useStore } from 'vuex';
 import { category } from 'plant';
 import { translate } from '@/utils/text';
@@ -158,7 +158,6 @@ export default defineComponent({
           },
         },
       });
-      console.log('shareKakao');
     };
     const copyLink = () => {
       //copy url
@@ -206,7 +205,7 @@ export default defineComponent({
         }
       }
     };
-
+    
     const pollItems = computed(() => {
       return [
         {
@@ -263,6 +262,20 @@ export default defineComponent({
     onUnmounted(() => {
       store.dispatch('snack/closeSnack');
     });
+
+    const imageSize = ref({width:0,height: 0});
+    const setImageSize = (e:any)=>{
+      const {width, height} = e.target;
+      imageSize.value = {width,height}
+    }
+    //object type은 css v-bind 안먹는 현상으로 primitive type으로 선언
+    const resizedImageWidth = computed(()=>{
+      return imageSize.value.width > imageSize.value.height ? 'auto' : '100%'
+    })
+    const resizedImageHeight = computed(()=>{
+      return imageSize.value.width > imageSize.value.height ? '100%' : 'auto'
+    })
+
     return {
       currentLike,
       toggleLike,
@@ -278,6 +291,9 @@ export default defineComponent({
       DummyImage,
       moveToSource,
       isLoggedIn,
+      setImageSize,
+      resizedImageWidth,
+      resizedImageHeight
     };
   },
   components: {
@@ -291,6 +307,7 @@ export default defineComponent({
 @import '@/styles/';
 .inner-container {
   display: flex;
+  gap: 50px;
   @include breakpoint-down-sm {
     display: inline-block;
     width: 100%;
@@ -298,9 +315,9 @@ export default defineComponent({
   .plant-image {
     flex-basis: 340px;
     flex-shrink: 0;
-    margin-right: 50px;
     position: relative;
     height: 340px;
+    overflow: hidden;
     &.dummy {
       border-radius: 4px;
       background: var(--background-color-5);
@@ -315,6 +332,7 @@ export default defineComponent({
     @include breakpoint-down-sm {
       margin-left: -20px;
       width: 100vw;
+      height: 100vw;
     }
   }
   .plant-content {
@@ -334,12 +352,13 @@ export default defineComponent({
   }
 }
 .fileImage {
-  width: 340px;
-  height: 340px;
+  width: v-bind(resizedImageWidth);
+  height: v-bind(resizedImageHeight);
+  transform: translateY(calc(340px - 100%));
   border-radius: 4px;
   @include breakpoint-down-sm {
-    width: 100%;
     border-radius: 0px;
+    transform: translateY(calc(100vw - 100%));
   }
 }
 .fileSource {
