@@ -232,7 +232,7 @@ export default defineComponent({
         return;
       }
       if (!plantId && (!plantNameSubjective.value || !plantNameSubjective.value.length)) {
-        alert('식물 이름이 선택되거나 입력되지 않았어요!');
+        alert('식물 이름이 선택되지 않았어요. 찾으시는 식물이 없는 경우 ‘직접 입력’을 클릭해 새로운 입력란에 식물 이름을 남겨주세요.');
         return;
       }
       if (plantWaterCycle == '') {

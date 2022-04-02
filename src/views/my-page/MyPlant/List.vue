@@ -22,11 +22,12 @@
         />
       </div>
     </div>
+    <div v-if="isEnd" class="is-end" />
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, onUnmounted, PropType, ref, watchEffect } from 'vue';
+import { defineComponent, onUnmounted, PropType, ref, watchEffect,computed } from 'vue';
 import EmptyHeartIcon from '@/assets/icon/heart-empty.svg';
 import FullHeartIcon from '@/assets/icon/heart-fill.svg';
 import { debounce } from 'lodash';
@@ -51,7 +52,9 @@ export default defineComponent({
     const store = useStore();
     const router = useRouter();
     const newItems = ref([...props.items]);
-
+    const isEnd = computed(() => {
+      return props.items.length >= props.totalElement;
+    });
     watchEffect(() => {
       newItems.value = [...props.items];
     });
@@ -92,6 +95,7 @@ export default defineComponent({
       newItems,
       moveToPlantDetail,
       DummyImage,
+      isEnd,
     };
   },
 });
@@ -190,5 +194,9 @@ export default defineComponent({
       mask-size: 15px 13px;
     }
   }
+}
+.is-end{
+  width:100%;
+  height:120px;
 }
 </style>

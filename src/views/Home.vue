@@ -66,13 +66,13 @@
         </button>
       </div>
     </section>
-    <ToTopButton class="to-top-btn" fixed />
+    <!-- <ToTopButton class="to-top-btn" fixed /> -->
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref, onMounted,computed } from 'vue';
-import ToTopButton from '@/components/buttons/ToTop.vue';
+// import ToTopButton from '@/components/buttons/ToTop.vue';
 import { validateSearchStr } from '@/utils/validation';
 import store from '@/store';
 import { ROUTE_TO } from '@/router/routing';
@@ -82,7 +82,7 @@ export default defineComponent({
   name: 'Home',
 
   components: {
-    ToTopButton,
+
   },
   setup() {
 
@@ -269,8 +269,9 @@ export default defineComponent({
       }
 
       @include breakpoint-down-sm {
+        padding-top:12px;
         height: 26px;
-        font-size: var(--font-size-p);
+        font-size: 16px;
       }
     }
 
@@ -286,7 +287,7 @@ export default defineComponent({
 
       @include breakpoint-down-sm {
         height: 26px;
-        font-size: var(--font-size-p);
+        font-size: 16px;
       }
     }
   }
