@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { tokenSvc } from '@/api/token-service';
+import $store from '@/store';
 import { ignorableKeyModifiers } from '@vue/test-utils/dist/constants/dom-events';
 import router from '@/router';
 
@@ -15,6 +16,7 @@ const _axios = axios.create(options);
 
 _axios.interceptors.request.use(
   async function (config: any) {
+    $store.dispatch('showLoader');
     // if (await tokenSvc.isExpired()) {
     // }
     const token = await tokenSvc.getToken();
@@ -29,6 +31,7 @@ _axios.interceptors.request.use(
 );
 _axios.interceptors.response.use(
   function (response) {
+    $store.dispatch('hideLoader');
     const token = response.headers.authorization;
     if (token) {
       tokenSvc.updateToken(token);
