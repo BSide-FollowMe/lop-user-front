@@ -73,8 +73,6 @@ export default defineComponent({
       }
     }
     function loadMore(){
-      console.log("이거 나와야되는거아님? ")
-      console.log(page.value)
       page.value++;
       init();
     }

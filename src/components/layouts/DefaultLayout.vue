@@ -6,10 +6,12 @@
     </div>
     <BottomFooter />
     <Snack class="snack"></Snack>
+    <ToTopButton class="to-top-btn" fixed />
   </div>
 </template>
 <script>
 import { defineComponent } from 'vue';
+import ToTopButton from '@/components/buttons/ToTop.vue';
 import TopperHeader from './TopperHeader';
 import BottomFooter from './BottomFooter';
 import Snack from '../Snack'
@@ -19,6 +21,7 @@ export default defineComponent({
     TopperHeader,
     BottomFooter,
     Snack,
+        ToTopButton,
   },
   setup() {
     return {};

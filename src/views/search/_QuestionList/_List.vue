@@ -19,6 +19,7 @@
           <img :src="item.imageUrl" @error="$event.target.src = require('@/assets/images/search/img-error.svg')" />
         </div>
       </li>
+      <div v-if="isEnd" class="is-end" />
     </ul>
   </section>
 </template>
@@ -38,6 +39,10 @@ export default defineComponent({
     const onScroll = debounce(($event: any) => {
       handleInfiniteListScroll($event, items.value, totalLength.value, onAtTheBottom);
     }, 500);
+
+    const isEnd = computed(() => {
+      return props.items.length >= props.totalLength;
+    });
     document.addEventListener('scroll', onScroll);
     function onAtTheBottom() {
       emit('atBottom');
@@ -56,7 +61,7 @@ export default defineComponent({
       onScroll,
       stylizeBySearchTarget,
       searchTarget,
-
+      isEnd,
     };
   },
   unmounted() {
@@ -189,5 +194,9 @@ export default defineComponent({
     margin: 20px;
     font-size: 13px;
   }
+}
+.is-end{
+  width:100%;
+  height:120px;
 }
 </style>

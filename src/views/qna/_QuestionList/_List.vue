@@ -22,6 +22,7 @@
           <img :src="item.imageUrl" @error="$event.target.src = require('@/assets/images/search/img-error.svg')" />
         </div>
       </li>
+      <div v-if="isEnd" class="is-end" />
     </ul>
     <div class="is-empty" v-if="isReady && !items.length">
       <section class="request-container" v-if="mine == '1'">
@@ -62,6 +63,9 @@ export default defineComponent({
     const plantId = computed(()=>props.plantId);
     const plantName = ref('');
     const isLoggedIn = ref(false);
+    const isEnd = computed(() => {
+      return props.items.length >= props.totalLength;
+    });
     checkLoggedIn()
     async function checkLoggedIn() {
       isLoggedIn.value = await tokenSvc.isValidToken();
@@ -107,6 +111,7 @@ export default defineComponent({
       isLoggedIn,
       plantName,
       mine,
+      isEnd,
     };
   },
   unmounted() {
@@ -301,5 +306,9 @@ export default defineComponent({
       margin-top: 40px;
     }
   }
+}
+.is-end{
+  width:100%;
+  height:120px;
 }
 </style>

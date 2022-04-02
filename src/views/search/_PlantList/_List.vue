@@ -12,6 +12,7 @@
         </div>
         <button class="to-details" @click.prevent><img src="@/assets/icon/arrow_right.svg" /></button>
       </li>
+      <div v-if="isEnd" class="is-end" />
     </ul>
   </section>
 </template>
@@ -28,6 +29,9 @@ export default defineComponent({
     const searchTarget = computed(() => props.text);
     const items = computed(() => props.items);
     const totalLength = computed(() => props.totalLength);
+    const isEnd = computed(() => {
+      return props.items.length >= props.totalLength;
+    });
     const onScroll = debounce(($event: any) => {
       handleInfiniteListScroll($event, items.value, totalLength.value, onAtTheBottom);
     }, 500);
@@ -49,6 +53,7 @@ export default defineComponent({
       onScroll,
       stylizeBySearchTarget,
       searchTarget,
+      isEnd,
     };
   },
   unmounted() {
@@ -162,5 +167,9 @@ export default defineComponent({
       }
     }
   }
+}
+.is-end{
+  width:100%;
+  height:120px;
 }
 </style>
