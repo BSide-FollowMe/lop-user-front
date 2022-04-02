@@ -12,11 +12,12 @@
       </div>
       <img v-if="question.imageUrl" class="plantImage" :src="question.imageUrl" />
     </div>
+    <div v-if="isEnd" class="is-end" />
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, onUnmounted, PropType } from 'vue';
+import { defineComponent, onUnmounted, PropType, computed } from 'vue';
 import { Question } from '@/api/model/memberModel';
 import { debounce } from 'lodash';
 import { handleInfiniteListScroll } from '@/utils/global';
@@ -44,6 +45,9 @@ export default defineComponent({
       }
       return content;
     };
+    const isEnd = computed(() => {
+      return props.items.length >= props.totalElement;
+    });
     const formatDate = (date: string) => {
       const d = new Date(date);
       return `${d.getFullYear()}.${(d.getMonth() + 1).toString().padStart(2, '0')}.${d.getDate().toString().padStart(2, '0')}`;
@@ -62,6 +66,7 @@ export default defineComponent({
       preview,
       formatDate,
       moveToQuestion,
+      isEnd,
     };
   },
 });
@@ -154,5 +159,10 @@ export default defineComponent({
     height: 76px;
     margin-left: 10px;
   }
+}
+
+.is-end{
+  width:100%;
+  height:120px;
 }
 </style>

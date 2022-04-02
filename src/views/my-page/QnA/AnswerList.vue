@@ -11,11 +11,12 @@
         </section>
       </div>
     </div>
+    <div v-if="isEnd" class="is-end" />
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, onUnmounted, PropType } from 'vue';
+import { defineComponent, onUnmounted, PropType,computed } from 'vue';
 import { Answer } from '@/api/model/memberModel';
 import { debounce } from 'lodash';
 import { handleInfiniteListScroll } from '@/utils/global';
@@ -43,6 +44,9 @@ export default defineComponent({
       }
       return content;
     };
+    const isEnd = computed(() => {
+      return props.items.length >= props.totalElement;
+    });
     const formatDate = (date: string) => {
       const d = new Date(date);
       return `${d.getFullYear()}.${(d.getMonth() + 1).toString().padStart(2, '0')}.${d.getDate().toString().padStart(2, '0')}`;
@@ -67,6 +71,7 @@ export default defineComponent({
       preview,
       formatDate,
       moveToAnswer,
+      isEnd,
     };
   },
 });
@@ -165,5 +170,9 @@ export default defineComponent({
     line-height: 18px;
     padding: 0 6px;
   }
+}
+.is-end{
+  width:100%;
+  height:120px;
 }
 </style>

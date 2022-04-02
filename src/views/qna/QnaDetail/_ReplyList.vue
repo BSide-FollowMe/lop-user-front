@@ -5,7 +5,7 @@
       <span class="title">댓글</span>
       <span class="count">{{ ' ' + replyCount }}</span>
     </div>
-    <div class="input-item" v-if="myId">
+    <div class="input-item" @click="myId?false:toLogin()">
       <textarea
         id="reply"
         v-model="replyInput"
@@ -42,6 +42,7 @@ import { debounce } from '@/utils/global';
 import ReplyItem from './_ReplyItem.vue';
 import { registQnaBoardComment } from '@/api/qnaboard';
 import { useRoute } from 'vue-router';
+import { ROUTE_TO } from '@/router/routing';
 import router from '@/router';
 export default defineComponent({
   name: 'Reply List',
@@ -83,6 +84,12 @@ export default defineComponent({
     function orderDependentReply(targetId: any, sourceList: any) {
       return sourceList.filter((item: any) => item.refId && item.refId != 0 && item.refId == targetId);
     }
+
+    function toLogin (){
+      alert('로그인이 필요합니다.');
+      ROUTE_TO.LOGIN();
+
+    }
     const scrollFix = (hashbang: string) => {
       setTimeout(()=>{
         location.hash = hashbang;
@@ -106,6 +113,7 @@ export default defineComponent({
       }, 500),
       refresh,
       debounce,
+      toLogin,
     };
   },
 });
