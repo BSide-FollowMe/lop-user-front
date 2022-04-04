@@ -1,4 +1,5 @@
 import { createApp } from 'vue';
+import VueGtag from 'vue-gtag';
 import App from './App.vue';
 import router from './router';
 import store from './store';
@@ -27,4 +28,17 @@ app.directive('click-outside', {
   },
 });
 
-app.use(router).use(store).mount('#app');
+app
+  .use(router)
+  .use(store)
+  .use(
+    VueGtag,
+    {
+      config: {
+        id: 'G-MG82RJWWSE',
+        params: { send_page_view: false },
+      },
+    },
+    router,
+  )
+  .mount('#app');

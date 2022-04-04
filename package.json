@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "vue-cli-service serve",
-    "build": "vue-cli-service build",
+    "build": "node --max_old_space_size=4096 node_modules/@vue/cli-service/bin/vue-cli-service.js build",
     "test:unit": "vue-cli-service test:unit",
     "lint": "vue-cli-service lint"
   },
@@ -15,6 +15,7 @@
     "lodash-es": "^4.17.21",
     "roboto-fontface": "*",
     "vue": "^3.0.0",
+    "vue-gtag": "^2.0.1",
     "vue-inline-svg": "^3.1.0",
     "vue-router": "^4.0.0-0",
     "vue3-kakao-sdk": "^0.2.1",

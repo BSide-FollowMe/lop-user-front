@@ -13,7 +13,7 @@ enum Api {
   RECOMMEND_PLANT_LIST = '/recommend-plants',
 }
 
-export async function getPlantList(payload: PlantListParamModel): Promise<PlantListData[]> {
+export async function getPlantList(payload: PlantListParamModel): Promise<{data:PlantListRespModel}> {
   return axios.get(API_PREFIX + Api.PLANT_LIST + '?' + payloadToQueryString(payload));
 }
 

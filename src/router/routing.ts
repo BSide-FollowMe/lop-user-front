@@ -17,6 +17,7 @@ export const ROUTE_TO = {
   GUIDE_SUNLIGHT: () => router.push(PageEnum.SUNLIGHT_GUIDE),
   GUIDE_BLIGHT: () => router.push(PageEnum.BLIGHT_GUIDE),
   MYPAGE: () => router.push(PageEnum.My_Page),
+  ALLPLANTS: () => router.push(PageEnum.ALL_PLANTS),
 };
 export const OPEN_LINK = {
   TOS: () => {
