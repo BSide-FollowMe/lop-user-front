@@ -1,4 +1,5 @@
 import { createApp } from 'vue';
+import VueGtag from 'vue-gtag';
 import App from './App.vue';
 import router from './router';
 import store from './store';
@@ -11,6 +12,13 @@ loadFonts();
 console.log('환경:', process.env);
 const isDev = process.env.NODE_ENV !== 'production';
 const app = isDev ? createApp(App) : createApp(App).use(createVueKakaoSdk(process.env.VUE_APP_KAKAO_API_KEY));
+
+app.use(VueGtag, {
+  config: {
+    id: 'G-MG82RJWWSE',
+    params: { send_page_view: false }
+  }
+} , router);
 
 // click outside directive 생성 v-click-outside (of component)
 app.directive('click-outside', {
