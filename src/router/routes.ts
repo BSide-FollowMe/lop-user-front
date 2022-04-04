@@ -117,10 +117,10 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('@/views/guide/BlightGuide/Index.vue'),
   },
   {
-    path: '/modal-test',
+    path: PageEnum.ALL_PLANTS,
     name: 'Modal Test',
-    meta: { public: true, layout: LayoutEnum.FILLED },
-    component: () => import('@/views/debug/ModalTest.vue'),
+    meta: { public: true, layout: LayoutEnum.DEFAULT },
+    component: () => import('@/views/allPlants/Index.vue'),
   },
   {
     path: PageEnum.ERROR_PAGE,
