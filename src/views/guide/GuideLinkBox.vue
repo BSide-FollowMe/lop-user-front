@@ -36,6 +36,7 @@ export default defineComponent({
 <style lang="scss" scoped>
 @import '@/styles';
 .container {
+  position:relative;
   max-width: 444px;
   display: flex;
   margin-left: auto;

@@ -269,7 +269,6 @@ export default defineComponent({
       }
 
       @include breakpoint-down-sm {
-        padding-top:12px;
         height: 26px;
         font-size: 16px;
       }
