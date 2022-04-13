@@ -15,6 +15,8 @@ module.exports = {
       },
     },
   },
-
+  transpileDependencies: [
+    'vue-meta',
+  ],
   pluginOptions: {},
 };
