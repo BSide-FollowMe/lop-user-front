@@ -1,4 +1,5 @@
 import { createApp } from 'vue';
+import { createMetaManager } from 'vue-meta';
 import VueGtag from 'vue-gtag';
 import App from './App.vue';
 import router from './router';
@@ -11,7 +12,7 @@ loadFonts();
 
 console.log('환경:', process.env);
 const isDev = process.env.NODE_ENV !== 'production';
-const app = isDev ? createApp(App) : createApp(App).use(createVueKakaoSdk(process.env.VUE_APP_KAKAO_API_KEY));
+const app = isDev ? createApp(App) : createApp(App).use(createVueKakaoSdk(process.env.VUE_APP_KAKAO_API_KEY as string));
 
 // click outside directive 생성 v-click-outside (of component)
 app.directive('click-outside', {
@@ -41,4 +42,5 @@ app
     },
     router,
   )
+  .use(createMetaManager())
   .mount('#app');
