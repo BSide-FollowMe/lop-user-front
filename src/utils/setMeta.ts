@@ -15,7 +15,7 @@ function instanceOfComputedRef(object: syncValue | ComputedRef<syncValue>): obje
 }
 
 const setMeta = (param:ParamType={
-  title:'식물의언어 : 식집사를 위한 식물 정보 플랫폼',
+  title:'식물의언어',
   description:'식집사를 위한 식물 정보 플랫폼, 식물의언어를 찾아오세요',
   keywords:"식물의언어, 식물의 언어, 식물, plantslang",
   path:''
