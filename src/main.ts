@@ -7,12 +7,29 @@ import store from './store';
 import { loadFonts } from './plugins/webfontloader';
 import { createVueKakaoSdk } from 'vue3-kakao-sdk';
 import './styles/index.scss';
+import * as Sentry from "@sentry/vue";
+import { BrowserTracing } from "@sentry/tracing";
 
 loadFonts();
 
-console.log('환경:', process.env);
+console.log('환경!:', process.env);
 const isDev = process.env.NODE_ENV !== 'production';
 const app = isDev ? createApp(App) : createApp(App).use(createVueKakaoSdk(process.env.VUE_APP_KAKAO_API_KEY as string));
+
+Sentry.init({
+  app,
+  dsn: "https://dfbb0b1435cc4de2a0c5aa85c1dbdca2@o1204965.ingest.sentry.io/6334309",
+  integrations: [
+    new BrowserTracing({
+      routingInstrumentation: Sentry.vueRouterInstrumentation(router),
+      tracingOrigins: ["localhost", "https://www.plantslang.com", /^\//],
+    }),
+  ],
+  // Set tracesSampleRate to 1.0 to capture 100%
+  // of transactions for performance monitoring.
+  // We recommend adjusting this value in production
+  tracesSampleRate: 1.0,
+});
 
 // click outside directive 생성 v-click-outside (of component)
 app.directive('click-outside', {
