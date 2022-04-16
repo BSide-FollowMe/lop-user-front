@@ -45,9 +45,15 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-
+import setMeta from '@/utils/setMeta';
 export default defineComponent({
   setup(){
+    setMeta({
+      title:'통풍 가이드 - 식물의언어',
+      description:'실내에서 식물을 키울 때 간과하기 쉬운 것이 바로 통풍인데요. 집안에서 자라는 식물뿐만 아니라 베란다에 서 자라는 식물에게도 바람은 없어서는 안 될 존재랍니다. 내 식물을 더 건강하게 키우려면 주기적으로 창문을 열어 환기해 주고,선풍기나 서큘레이 터를 이용해 공기가 잘 순환될 수 있도록 하는 것이 정말 중요합니다.',
+      keywords:'가이드, 통풍, 바람',
+      path:'/guide/ventilation'
+    })
     return{}
   }
 });

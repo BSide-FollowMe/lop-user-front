@@ -29,6 +29,7 @@ import AskQuestion from './_AskWonder.vue';
 import { useRoute } from 'vue-router';
 import { tokenSvc } from '@/api/token-service';
 import { ROUTE_TO } from '@/router/routing';
+import setMeta from '@/utils/setMeta';
 export default defineComponent({
   name: 'Question Edit',
   components: {
@@ -36,6 +37,12 @@ export default defineComponent({
     AskQuestion,
   },
   setup() {
+    setMeta({
+      title:'질문하기 - 식물의언어',
+      description:'식물을 키우면서 어려운 점이 있거나 돌봄 노하우를 공유하고 싶다면 이곳에서 함께 묻고 답하세요.',
+      keywords:'질문하기',
+      path:'/qna/edit'
+    })
     const route = useRoute();
     console.log(route.query);
     const page = ref(route.query['type'] == 'WONDER' ? 'WONDER' : 'SICK');

@@ -98,7 +98,17 @@
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue';
-export default defineComponent({});
+import setMeta from '@/utils/setMeta';
+export default defineComponent({
+  setup(){
+    setMeta({
+      title:'햇빛 가이드 - 식물의언어',
+      description:'식물마다 건강하게 자라는데 필요한 햇빛의 양이 있어요. 어떤 식물은 강한 햇빛을 좋아해서, 빛이 부족하면 햇빛을 찾아서 키만 커지기도 하고요. 또 어떤 식물은 부드러운 빛을 좋아해서, 너무 강한 빛을 비추면 잎이 타버리기도 해요. 그렇기 때문에 내 식물이 원하는 빛의 양을 잘 알고 적당한 위치에 놓아주는 것이 중요합니다.',
+      keywords:`가이드, 햇빛`,
+      path:'/guide/sunlight'
+    })
+  }
+});
 </script>
 <style lang="scss" scoped>
 @import '@/styles';

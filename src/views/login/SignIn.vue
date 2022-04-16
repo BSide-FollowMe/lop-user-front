@@ -25,20 +25,27 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
-import { useStore } from 'vuex';
-import { OPEN_LINK } from '@/router/routing';
-import { doKakaoLogin, doNaverLogin } from '@/api/account';
+import { defineComponent, ref } from "vue";
+import { useStore } from "vuex";
+import { OPEN_LINK } from "@/router/routing";
+import { doKakaoLogin, doNaverLogin } from "@/api/account";
+import setMeta from "@/utils/setMeta";
 
-const CURRENT_URL = window.location.protocol + '//' + window.location.host;
+const CURRENT_URL = window.location.protocol + "//" + window.location.host;
 
 export default defineComponent({
-  name: 'Sign In',
+  name: "Sign In",
   components: {},
   setup() {
+    setMeta({
+      title: "로그인 - 식물의언어",
+      description: "로그인 페이지입니다.",
+      keywords: "로그인",
+      path: "/signin",
+    });
     const store = useStore();
     const onSubmit = (id: string, pwd: string) => {
-      store.dispatch('signIn', { id: id, password: pwd });
+      store.dispatch("signIn", { id: id, password: pwd });
     };
 
     return { OPEN_LINK, doKakaoLogin, doNaverLogin };
@@ -46,7 +53,7 @@ export default defineComponent({
 });
 </script>
 <style lang="scss" scoped>
-@import '@/styles/mixin';
+@import "@/styles/mixin";
 .container {
   background-color: var(--background-color-5);
 }
@@ -120,7 +127,7 @@ export default defineComponent({
   }
   .kakao-login {
     background-color: #fee500;
-    background-image: url('@/assets/icon/sns-kakao.svg');
+    background-image: url("@/assets/icon/sns-kakao.svg");
     background-repeat: no-repeat;
     background-size: 16px;
     background-position: 13px;
@@ -128,7 +135,7 @@ export default defineComponent({
   .naver-login {
     color: #fff;
     background-color: #03c75a;
-    background-image: url('@/assets/icon/sns-naver.svg');
+    background-image: url("@/assets/icon/sns-naver.svg");
     background-repeat: no-repeat;
     background-size: 24px;
     background-position: 9px;

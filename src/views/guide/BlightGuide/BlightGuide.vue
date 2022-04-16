@@ -31,6 +31,7 @@
   </section>
 </template>
 <script lang="ts">
+import setMeta from '@/utils/setMeta';
 import { defineComponent, ref } from 'vue';
 
 const blights = [
@@ -100,6 +101,15 @@ const blights = [
 ];
 export default defineComponent({
   setup() {
+    setMeta({
+      title:'병충해 가이드 - 식물의언어',
+      description:'정성을 다해 돌봐주어도 식물이 병들거나 해충이 생길 수 있어요. 식물이 자주 걸리는 병의 원인에 따라 어떻게 대처하면 좋을지 알려드릴게요.',
+      keywords:`가이드, 병충해${blights.reduce((acc,item)=>{
+        acc += `, ${item.title}`;
+        return acc
+      },'')}`,
+      path:'/guide/blight'
+    })
     const openedIndex = ref(-1);
     const openDetail = (index: number) => {
       openedIndex.value = openedIndex.value === index ? -1 : index;

@@ -18,6 +18,7 @@
 </template>
 
 <script lang="ts">
+import setMeta from "@/utils/setMeta";
 import { defineComponent, onMounted, ref } from "vue";
 import { getPlantList } from "@/api/plant";
 import { PlantListRespModel, PlantListData } from "@/api/model/plantModel";
@@ -27,6 +28,12 @@ import { ROUTE_TO } from "@/router/routing";
 
 export default defineComponent({
   setup() {
+    setMeta({
+      title: "모든 식물 - 식물의언어",
+      description: "식물의언어 모든 식물 리스트입니다.",
+      keywords: "식물의언어, 식물의 언어, 모든식물, 모든 식물",
+      path: "/plants",
+    });
     const plants = ref([] as PlantListData[]);
     const totalCount = ref(0);
     const pageNumber = ref(0);

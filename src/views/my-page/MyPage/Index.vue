@@ -43,56 +43,65 @@
   </div>
   <GradeGuideModal
     v-if="gradeGuideOpened"
-    :options="{ nickname: myAccountInfo.nickname, memberLevel: myAccountInfo.memberLevel }"
+    :options="{
+      nickname: myAccountInfo.nickname,
+      memberLevel: myAccountInfo.memberLevel,
+    }"
     @close="gradeGuideOpened = false"
   />
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, ref } from 'vue';
-import { Member } from '@/api/model/memberModel';
-import { getMyAccountInfo, updateMyAccount } from '@/api/member';
-import level from '@/assets/images/level/씨앗집사.svg';
-import helpIcon from '@/assets/icon/help.svg';
-import settingIcon from '@/assets/icon/setting.svg';
-import { useRouter } from 'vue-router';
-import { tokenSvc } from '@/api/token-service';
-import GradeGuideModal from '@/components/modals/GradeGuideModal.vue';
-import { OPEN_LINK } from '@/router/routing';
+import setMeta from "@/utils/setMeta";
+import { defineComponent, onMounted, ref } from "vue";
+import { Member } from "@/api/model/memberModel";
+import { getMyAccountInfo, updateMyAccount } from "@/api/member";
+import level from "@/assets/images/level/씨앗집사.svg";
+import helpIcon from "@/assets/icon/help.svg";
+import settingIcon from "@/assets/icon/setting.svg";
+import { useRouter } from "vue-router";
+import { tokenSvc } from "@/api/token-service";
+import GradeGuideModal from "@/components/modals/GradeGuideModal.vue";
+import { OPEN_LINK } from "@/router/routing";
 
 export default defineComponent({
   components: {
     GradeGuideModal,
   },
   setup() {
+    setMeta({
+      title: "마이페이지 - 식물의언어",
+      description: "",
+      path: "/me",
+    });
     const myAccountInfo = ref({} as Member);
     const router = useRouter();
     const gradeGuideOpened = ref(false);
 
     onMounted(async () => {
-      myAccountInfo.value = await getMyAccountInfo(); 
+      myAccountInfo.value = await getMyAccountInfo();
     });
     const moveToMyPlant = () => {
-      router.push('/me/my-plant');
+      router.push("/me/my-plant");
     };
     const moveToMyQuestion = () => {
-      router.push('/me/qna?list=questions');
+      router.push("/me/qna?list=questions");
     };
     const logout = () => {
       tokenSvc.removeToken();
-      router.push('/home');
+      router.push("/home");
     };
     const openGradeGuideModal = () => {
       gradeGuideOpened.value = true;
     };
     const moveToSetting = () => {
-      router.push('/me/setting');
+      router.push("/me/setting");
     };
-    const getImgUrl=(level:string | undefined)=>{
-      if(level===undefined) return;
-      var images = require.context('@/assets/images/level/', false, /\.svg$/)
-      return images('./' + level + ".svg")
-    }
+    const getImgUrl = (level: string | undefined) => {
+      if (level === undefined) return;
+      var images = require.context("@/assets/images/level/", false, /\.svg$/);
+      return images("./" + level + ".svg");
+    };
     return {
       myAccountInfo,
       level,
@@ -112,7 +121,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/';
+@import "@/styles/";
 .title {
   font-weight: var(--font-weight-bold);
   font-size: 32px;
@@ -149,7 +158,7 @@ export default defineComponent({
   align-items: center;
   margin-bottom: 20px;
   .level-icon {
-    padding: 18px;  
+    padding: 18px;
     background-color: var(--secondary-green-color-3);
     display: flex;
     align-items: center;
@@ -182,7 +191,7 @@ export default defineComponent({
     border: 1px solid #599270;
     box-sizing: border-box;
     border-radius: 12px;
-    margin-left: 25px;  
+    margin-left: 25px;
     .inner-level-text {
       font-size: 14px;
       line-height: 17px;
@@ -201,7 +210,7 @@ export default defineComponent({
       order: 0;
       flex-grow: 0;
       margin: 0px 10px;
-      padding:3px 12px;
+      padding: 3px 12px;
     }
   }
 }
@@ -262,16 +271,16 @@ export default defineComponent({
 
 .button-group {
   > .button {
-    >*{
+    > * {
       vertical-align: middle;
     }
     cursor: pointer;
     width: 360px;
     height: 60px;
 
-    background: #FFF;
-    &:hover{
-      background-color:var(--secondary-green-color-3);
+    background: #fff;
+    &:hover {
+      background-color: var(--secondary-green-color-3);
     }
     /* bg,line/1 */
 
@@ -345,21 +354,21 @@ export default defineComponent({
 }
 
 .heart-fill-icon {
-  -webkit-mask-image: url('@/assets/icon/heart-fill.svg');
-  mask-image: url('@/assets/icon/heart-fill.svg');
+  -webkit-mask-image: url("@/assets/icon/heart-fill.svg");
+  mask-image: url("@/assets/icon/heart-fill.svg");
 }
 .question-answer-icon {
-  -webkit-mask-image: url('@/assets/icon/question_answer.svg');
-  mask-image: url('@/assets/icon/question_answer.svg');
+  -webkit-mask-image: url("@/assets/icon/question_answer.svg");
+  mask-image: url("@/assets/icon/question_answer.svg");
 }
 .info-icon {
-  -webkit-mask-image: url('@/assets/icon/info.svg');
-  mask-image: url('@/assets/icon/info.svg');
+  -webkit-mask-image: url("@/assets/icon/info.svg");
+  mask-image: url("@/assets/icon/info.svg");
 }
 .logout-icon {
   display: inline-block;
-  -webkit-mask-image: url('@/assets/icon/logout.svg');
-  mask-image: url('@/assets/icon/logout.svg');
+  -webkit-mask-image: url("@/assets/icon/logout.svg");
+  mask-image: url("@/assets/icon/logout.svg");
   width: 13px;
   height: 12px;
   mask-size: 13px;

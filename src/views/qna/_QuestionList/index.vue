@@ -1,23 +1,37 @@
 <template>
-  <List :text="searchTarget" :plantId="plantId" :items="list" :totalLength="totalLength" :isReady="isReady" @atBottom="loadMore"/>
+  <List
+    :text="searchTarget"
+    :plantId="plantId"
+    :items="list"
+    :totalLength="totalLength"
+    :isReady="isReady"
+    @atBottom="loadMore"
+  />
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed,watch } from 'vue';
-import { useRoute } from 'vue-router';
-import List from './_List.vue';
-import { getQnaBoardList,getMyQnaBoardList } from '@/api/qnaboard';
+import { defineComponent, ref, computed, watch } from "vue";
+import { useRoute } from "vue-router";
+import List from "./_List.vue";
+import { getQnaBoardList, getMyQnaBoardList } from "@/api/qnaboard";
+import setMeta from "@/utils/setMeta";
 export default defineComponent({
-  name: 'Question List',
+  name: "Question List",
   components: {
     List,
   },
-  props: ['text'],
+  props: ["text"],
   setup(props) {
+    setMeta({
+      title: `질문 · 답변 - 식물의언어`,
+      description: "식물의언어 모든 식물 관련 질문 및 답변 리스트입니다.",
+      keywords: "식물의언어, 식물의 언어, 질문, 답변, 질문 답변, 질문하기, 답변하기",
+      path: "/qna",
+    });
     const route = useRoute();
     const isReady = ref(false);
-    const plantId: any = computed(() => route.query.plantId || '');
-    const mine: any = computed(() => route.query.mine || '0');
+    const plantId: any = computed(() => route.query.plantId || "");
+    const mine: any = computed(() => route.query.mine || "0");
     const page = ref(0);
     const list = ref([] as any);
     const totalLength = ref(0);
@@ -31,13 +45,13 @@ export default defineComponent({
     });
     async function init() {
       isReady.value = false;
-      if(mine.value == '1'){
+      if (mine.value == "1") {
         await getMyQuestionsList();
-        isReady.value= true
-        return
+        isReady.value = true;
+        return;
       }
       await getQuestionsList();
-      isReady.value= true
+      isReady.value = true;
     }
 
     async function getQuestionsList() {
@@ -46,7 +60,7 @@ export default defineComponent({
           size: 10,
           page: page.value,
         };
-        if (plantId.value != '') payload.plantId = plantId.value;
+        if (plantId.value != "") payload.plantId = plantId.value;
 
         const { data }: any = await getQnaBoardList(payload);
         const resList: any = data.data;
@@ -62,7 +76,7 @@ export default defineComponent({
           size: 10,
           page: page.value,
         };
-        if (plantId.value != '') payload.plantId = plantId.value;
+        if (plantId.value != "") payload.plantId = plantId.value;
 
         const { data }: any = await getMyQnaBoardList(payload);
         const resList: any = data.data;
@@ -72,7 +86,7 @@ export default defineComponent({
         console.error(e);
       }
     }
-    function loadMore(){
+    function loadMore() {
       page.value++;
       init();
     }
