@@ -37,9 +37,6 @@ module.exports = {
           // Add 'data-server-rendered' attribute so app knows to hydrate with any changes
           const $ = cheerio.load(context.html);
           $("#app").attr("data-server-rendered", "true");
-          console.log(context.originalRoute)
-          console.log(context.route)
-          context.route= '/asdf'
           context.html = $.html();
           if (context.route.endsWith('.html')) {
             context.outputPath = path.join(__dirname, 'dist', context.route)
