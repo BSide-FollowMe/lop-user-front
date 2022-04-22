@@ -19,6 +19,9 @@ export const ROUTE_TO = {
   MYPAGE: () => router.push(PageEnum.My_Page),
   ALLPLANTS: () => router.push(PageEnum.ALL_PLANTS),
 };
+export const REPLACE_TO = {
+  HOME: () => router.replace(PageEnum.HOME),
+}
 export const OPEN_LINK = {
   TOS: () => {
     openLink('https://sudden-daphne-2de.notion.site/e9a28847f12549b39923c048ea26f394');

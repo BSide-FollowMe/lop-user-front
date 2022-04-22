@@ -12,9 +12,10 @@ import { BrowserTracing } from "@sentry/tracing";
 
 loadFonts();
 
-console.log('환경!:', process.env);
+
 const isDev = process.env.NODE_ENV !== 'production';
-const app = isDev ? createApp(App) : createApp(App).use(createVueKakaoSdk(process.env.VUE_APP_KAKAO_API_KEY as string));
+if(isDev) console.log('환경!:', process.env);
+const app = createApp(App).use(createVueKakaoSdk(process.env.VUE_APP_KAKAO_API_KEY as string));
 
 Sentry.init({
   app,
