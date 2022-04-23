@@ -3,11 +3,11 @@
 </template>
 <script lang="ts">
 import { defineComponent } from "vue";
-import { ROUTE_TO } from "@/router/routing";
+import { REPLACE_TO } from "@/router/routing";
 export default defineComponent({
   name: "Landing",
   setup() {
-    ROUTE_TO.HOME();
+    REPLACE_TO.HOME();
     return {};
   },
 });
