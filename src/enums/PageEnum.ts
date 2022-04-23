@@ -1,6 +1,6 @@
 export enum PageEnum {
   LOGIN = '/signin/',
-  HOME = '/home/',
+  HOME = '/home',
   ERROR_PAGE = '/not-found/',
   LANDING = '/',
   OAUTH_LANDING = '/login/oauth',

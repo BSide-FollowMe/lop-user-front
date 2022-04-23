@@ -15,7 +15,8 @@ export function setupNavigationGuarder(router: Router) {
     //   next('/signin');
     //   return;
     // }
-    to.fullPath.endsWith('/') ? next() : next(to.fullPath + '/');
+    // to.fullPath.endsWith('/') ? next() : next(to.fullPath + '/');
+    next();
     return;
   });
 }
