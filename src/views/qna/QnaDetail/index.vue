@@ -159,7 +159,7 @@ export default defineComponent({
   },
   name: "Question Detail",
   components: { Reply, ContextMenu },
-  setup() {
+  setup(props, { emit }) {
     const { kakao } = useKakao();
     const myUserInfo = computed(() => store.getters.getUserInfo);
     const myId = computed(() => myUserInfo.value?.id || null);
@@ -225,6 +225,7 @@ export default defineComponent({
         getDetails();
       } catch (e) {
         console.error(e);
+        getDetails();
       }
     }
 
