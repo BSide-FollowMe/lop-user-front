@@ -14,6 +14,8 @@ RUN npm install
 
 COPY . .
 
+RUN echo 'VUE_APP_API_URL=http://125.6.39.126:8083' > .env.production.local
+
 RUN npm run build
 
 
