@@ -102,14 +102,15 @@ const blights = [
 export default defineComponent({
   setup() {
     setMeta({
-      title:'병충해 가이드 - 식물의언어',
-      description:'정성을 다해 돌봐주어도 식물이 병들거나 해충이 생길 수 있어요. 식물이 자주 걸리는 병의 원인에 따라 어떻게 대처하면 좋을지 알려드릴게요.',
-      keywords:`가이드, 병충해${blights.reduce((acc,item)=>{
+      title: '병충해 가이드 - 식물의언어',
+      description:
+        '정성을 다해 돌봐주어도 식물이 병들거나 해충이 생길 수 있어요. 식물이 자주 걸리는 병의 원인에 따라 어떻게 대처하면 좋을지 알려드릴게요.',
+      keywords: `가이드, 병충해${blights.reduce((acc, item) => {
         acc += `, ${item.title}`;
-        return acc
-      },'')}`,
-      path:'/guide/blight'
-    })
+        return acc;
+      }, '')}`,
+      path: '/guide/blight',
+    });
     const openedIndex = ref(-1);
     const openDetail = (index: number) => {
       openedIndex.value = openedIndex.value === index ? -1 : index;
@@ -253,10 +254,10 @@ export default defineComponent({
   }
 }
 .dropdown {
-  &:nth-of-type(3){
-    border-top:1px solid #bababa;
+  &:nth-of-type(3) {
+    border-top: 1px solid #bababa;
   }
-  &:last-child{
+  &:last-child {
     margin-bottom: 61px;
   }
   &__title {
@@ -265,7 +266,7 @@ export default defineComponent({
     justify-content: space-between;
     align-items: center;
     padding: 20px 0 20px 20px;
-    border-bottom: 1px solid #E5E5E5;
+    border-bottom: 1px solid #e5e5e5;
     font-weight: var(--font-weight-meidum);
     font-size: 18px;
     line-height: 26px;
@@ -276,7 +277,7 @@ export default defineComponent({
     /* text/1 */
 
     color: var(--text-color-1);
-    
+
     @include breakpoint-down-sm {
       font-size: 14px;
       line-height: 17px;
@@ -286,9 +287,9 @@ export default defineComponent({
       width: 14px;
       height: 9px;
       @include breakpoint-down-sm {
-      height:6.18px;
-      line-height: 10px;
-    }
+        height: 6.18px;
+        line-height: 10px;
+      }
     }
     &.active {
       font-weight: var(--font-weight-bold);
@@ -302,10 +303,10 @@ export default defineComponent({
     > *:not(:last-child) {
       margin-bottom: 20px;
     }
-    border-bottom: 1px solid #E5E5E5;
+    border-bottom: 1px solid #e5e5e5;
     padding: 40px 20px 40px 20px;
     background-color: var(--background-color-5);
-    @include breakpoint-down-sm{
+    @include breakpoint-down-sm {
       padding: 16px 10px;
     }
     .description {
@@ -342,8 +343,8 @@ export default defineComponent({
       &__title {
         font-weight: var(--font-weight-bold);
         margin-bottom: 8px;
-        @include breakpoint-down-sm{
-          margin-bottom:4px;
+        @include breakpoint-down-sm {
+          margin-bottom: 4px;
         }
       }
       &__content {

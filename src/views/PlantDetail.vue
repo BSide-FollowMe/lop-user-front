@@ -18,11 +18,7 @@
     />
     <hr class="divider" />
     <Water :content="plantDetail.waterPeriod" @openGuide="openGuide" />
-    <Sunlight
-      :content="plantDetail.sunlight"
-      @openGuide="openGuide"
-      :sunlightTypes="plantDetail.sunlightTypes || []"
-    />
+    <Sunlight :content="plantDetail.sunlight" @openGuide="openGuide" :sunlightTypes="plantDetail.sunlightTypes || []" />
     <TemperatureHumidity
       :minHumidity="plantDetail.minHumidity"
       :maxHumidity="plantDetail.maxHumidity"
@@ -40,40 +36,31 @@
     />
     <Soil :content="plantDetail.soil" />
     <Report class="report" @openReport="openReport" />
-    <Question
-      :plantName="plantDetail.name"
-      :plantId="Number(plantDetail.id)"
-      :questions="plantDetail.questions?.data"
-    />
+    <Question :plantName="plantDetail.name" :plantId="Number(plantDetail.id)" :questions="plantDetail.questions?.data" />
   </div>
   <GuideModal v-if="guideOpened" :options="guideOptions" @close="closeGuide()" />
-  <RequestModal
-    v-if="reportOpened"
-    :options="reportOptions"
-    @confirm="report"
-    @close="closeReport()"
-  />
+  <RequestModal v-if="reportOpened" :options="reportOptions" @confirm="report" @close="closeReport()" />
 </template>
 <script lang="ts">
-import { defineComponent } from "@vue/runtime-core";
-import Summary from "@/views/detail/Summary.vue";
-import Water from "@/views/detail/Water.vue";
-import Sunlight from "@/views/detail/Sunlight.vue";
-import TemperatureHumidity from "@/views/detail/TemperatureHumidity.vue";
-import Ventilation from "@/views/detail/Ventilation.vue";
-import Soil from "@/views/detail/Soil.vue";
-import Report from "@/views/detail/Report.vue";
-import Question from "@/views/detail/Question.vue";
-import GuideModal from "@/components/modals/GuideModal.vue";
-import RequestModal from "@/components/modals/RequestModal.vue";
+import { defineComponent } from '@vue/runtime-core';
+import Summary from '@/views/detail/Summary.vue';
+import Water from '@/views/detail/Water.vue';
+import Sunlight from '@/views/detail/Sunlight.vue';
+import TemperatureHumidity from '@/views/detail/TemperatureHumidity.vue';
+import Ventilation from '@/views/detail/Ventilation.vue';
+import Soil from '@/views/detail/Soil.vue';
+import Report from '@/views/detail/Report.vue';
+import Question from '@/views/detail/Question.vue';
+import GuideModal from '@/components/modals/GuideModal.vue';
+import RequestModal from '@/components/modals/RequestModal.vue';
 
-import { getPlantDetail, registReport } from "@/api/plant";
-import { getQnaBoardList } from "@/api/qnaboard";
-import { PlantDetailRespModel } from "@/api/model/plantModel";
-import { computed, onMounted, ref, onBeforeMount, watch } from "vue";
-import { useRoute, useRouter } from "vue-router";
-import { Question as QuestionModel } from "@/api/model/boardModel";
-import setMeta from "@/utils/setMeta";
+import { getPlantDetail, registReport } from '@/api/plant';
+import { getQnaBoardList } from '@/api/qnaboard';
+import { PlantDetailRespModel } from '@/api/model/plantModel';
+import { computed, onMounted, ref, onBeforeMount, watch } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import { Question as QuestionModel } from '@/api/model/boardModel';
+import setMeta from '@/utils/setMeta';
 
 export default defineComponent({
   setup() {
@@ -83,29 +70,15 @@ export default defineComponent({
     const guideOpened = ref(false);
     const reportOpened = ref(false);
     const guideOptions = ref({} as { componentName: string; modalTitle: string });
-    const reportOptions = ref(
-      {} as { modalTitle: string; objective: string; contentsLabel: string }
-    );
-    const openGuide = ({
-      componentName,
-      modalTitle,
-    }: {
-      componentName: string;
-      modalTitle: string;
-    }) => {
+    const reportOptions = ref({} as { modalTitle: string; objective: string; contentsLabel: string });
+    const openGuide = ({ componentName, modalTitle }: { componentName: string; modalTitle: string }) => {
       guideOpened.value = true;
       guideOptions.value = {
         componentName,
         modalTitle,
       };
     };
-    const openReport = ({
-      modalTitle,
-      contentsLabel,
-    }: {
-      modalTitle: string;
-      contentsLabel: string;
-    }) => {
+    const openReport = ({ modalTitle, contentsLabel }: { modalTitle: string; contentsLabel: string }) => {
       reportOpened.value = true;
       reportOptions.value = {
         modalTitle,
@@ -121,9 +94,9 @@ export default defineComponent({
     };
     const init = async () => {
       try {
-        plantDetail.value = await getPlantDetail({ plantId: route.path.split("/")[2] });
+        plantDetail.value = await getPlantDetail({ plantId: route.path.split('/')[2] });
       } catch (e) {
-        router.push("/not-found");
+        router.push('/not-found');
       }
     };
 
@@ -131,7 +104,7 @@ export default defineComponent({
       title: `${plantDetail.value.name} - 식물의언어`,
       description: `${plantDetail.value.name} 상세 식물정보입니다. 키워본 식물이신가요? 키워보셨다면 어땠는지 알려주세요`,
       keywords: `${plantDetail.value.name}, ${plantDetail.value.nickname}, ${plantDetail.value.scientificName}`,
-      path: `/plant/${route.path.split("/")[2]}`,
+      path: `/plant/${route.path.split('/')[2]}`,
     }));
     setMeta(computedMeta);
 
@@ -147,16 +120,12 @@ export default defineComponent({
         plantDetail.value.growthEasy +
           plantDetail.value.pollGrowth.growthEasy +
           plantDetail.value.growthHard +
-          plantDetail.value.pollGrowth.growthHard
+          plantDetail.value.pollGrowth.growthHard,
       );
       if (total == 0) {
         return 0;
       }
-      return (
-        (Number(plantDetail.value.growthEasy + plantDetail.value.pollGrowth.growthEasy) /
-          total) *
-        100
-      ).toFixed(0);
+      return ((Number(plantDetail.value.growthEasy + plantDetail.value.pollGrowth.growthEasy) / total) * 100).toFixed(0);
     });
     const calculatedGrowthHard = computed(() => {
       if (plantDetail.value?.growthHard === undefined) return 0;
@@ -164,27 +133,23 @@ export default defineComponent({
         plantDetail.value.growthEasy +
           plantDetail.value.pollGrowth.growthEasy +
           plantDetail.value.growthHard +
-          plantDetail.value.pollGrowth.growthHard
+          plantDetail.value.pollGrowth.growthHard,
       );
       if (total == 0) {
         return 0;
       }
-      return (
-        (Number(plantDetail.value.growthHard + plantDetail.value.pollGrowth.growthHard) /
-          total) *
-        100
-      ).toFixed(0);
+      return ((Number(plantDetail.value.growthHard + plantDetail.value.pollGrowth.growthHard) / total) * 100).toFixed(0);
     });
     async function report({ email, contents }: { email: string; contents: string }) {
       try {
         const payload = {
           content: contents,
           email: email,
-          reportType: "REPORT",
+          reportType: 'REPORT',
           plantId: plantDetail.value.id,
         };
         await registReport(payload);
-        alert("요청이 제보 되었습니다. 확인 후 반영하도록 하겠습니다.");
+        alert('요청이 제보 되었습니다. 확인 후 반영하도록 하겠습니다.');
         reportOpened.value = false;
       } catch (e) {
         console.error(e);
@@ -221,7 +186,7 @@ export default defineComponent({
 });
 </script>
 <style lang="scss" scoped>
-@import "@/styles/";
+@import '@/styles/';
 .container {
   margin-top: 80px;
   max-width: var(--content-container-max-width);

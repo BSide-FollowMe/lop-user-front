@@ -1,5 +1,5 @@
 <template>
-  <component :is="`${layoutName}Layout`" class="layout" :class="{'loading':isLoading}">
+  <component :is="`${layoutName}Layout`" class="layout" :class="{ loading: isLoading }">
     <router-view />
     <transition name="fade">
       <LoadingProgress v-if="isLoading" />
@@ -23,13 +23,13 @@ export default defineComponent({
     const isLoading = computed(() => store.getters.isLoading);
     const route = useRoute();
     const layoutName = computed(() => route.meta?.layout as string | undefined);
-    const backgroundColor = computed(()=>route.meta?.backgroundColor || 'transparent');
+    const backgroundColor = computed(() => route.meta?.backgroundColor || 'transparent');
     return { layoutName, backgroundColor, isLoading };
   },
 });
 </script>
 <style lang="scss" scoped>
-.layout::v-deep .page-container{
+.layout::v-deep .page-container {
   background-color: v-bind(backgroundColor) !important;
 }
 </style>

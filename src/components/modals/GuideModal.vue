@@ -5,7 +5,7 @@
         <span class="text-bold">{{ options?.modalTitle }}</span>
       </div>
       <hr class="divider" />
-      <component :is="options.componentName" isModal="true"/>
+      <component :is="options.componentName" isModal="true" />
     </div>
   </DefaultModal>
 </template>

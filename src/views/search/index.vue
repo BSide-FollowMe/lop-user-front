@@ -8,7 +8,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed,watch } from 'vue';
+import { defineComponent, computed, watch } from 'vue';
 import TopperSearcher from './_TopperSearcher.vue';
 import PlantList from './_PlantList/index.vue';
 import QuestionList from './_QuestionList/index.vue';
@@ -29,19 +29,17 @@ export default defineComponent({
     QuestionList,
   },
   setup() {
-    
     const route = useRoute();
     const searchStr: any = computed(() => route.query.q);
     const listType: any = computed(() => route.query.list);
     setMeta({
-      title:`${route.query.q} - 식물의언어 검색`,
-      description:`${route.query.q}의 식물의언어 통합검색 결과입니다.`,
-      keywords:`검색결과, ${route.query.q}`,
-      path:`${route.path}`
-    })
+      title: `${route.query.q} - 식물의언어 검색`,
+      description: `${route.query.q}의 식물의언어 통합검색 결과입니다.`,
+      keywords: `검색결과, ${route.query.q}`,
+      path: `${route.path}`,
+    });
     queryController(searchStr.value, listType.value);
     getPlantsList();
-
 
     watch(searchStr, () => {
       queryController(searchStr.value, listType.value);

@@ -1,15 +1,11 @@
 <template>
   <div class="inner-container">
     <div class="count">
-      전체 <span class="count__value">{{ totalCount }} </span>
+      전체
+      <span class="count__value">{{ totalCount }}</span>
     </div>
     <div class="content__wrapper">
-      <div
-        class="content"
-        v-for="(item, index) in plants"
-        :key="index"
-        @click="moveToPlantDetail(item.id)"
-      >
+      <div class="content" v-for="(item, index) in plants" :key="index" @click="moveToPlantDetail(item.id)">
         <section :class="{ image__wrapper: true, dummy__wrapper: !item.fileUrl }">
           <img
             :class="{
@@ -24,20 +20,16 @@
         <div class="name">{{ item.name }}</div>
       </div>
     </div>
-    <Pagination
-      :page="currentPage + 1"
-      :length="Math.ceil(totalCount / 20)"
-      @changePage="onChangePageEvt"
-    />
+    <Pagination :page="currentPage + 1" :length="Math.ceil(totalCount / 20)" @changePage="onChangePageEvt" />
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, ref, computed } from "vue";
-import DummyImage from "@/assets/images/detail/dummy-image.svg";
-import { PlantListData } from "@/api/model/plantModel";
-import Pagination from "@/components/Pagination.vue";
-import { useRouter } from "vue-router";
+import { defineComponent, PropType, ref, computed } from 'vue';
+import DummyImage from '@/assets/images/detail/dummy-image.svg';
+import { PlantListData } from '@/api/model/plantModel';
+import Pagination from '@/components/Pagination.vue';
+import { useRouter } from 'vue-router';
 
 export default defineComponent({
   props: {
@@ -58,11 +50,11 @@ export default defineComponent({
     const router = useRouter();
     const onChangePageEvt = ({ page }: { page: number }) => {
       const payload = {
-        size: "20",
+        size: '20',
         page: (page - 1).toString(),
       };
       currentPage.value = page - 1;
-      emit("onChangePage", payload);
+      emit('onChangePage', payload);
     };
     const moveToPlantDetail = (id: string) => {
       router.push(`/plant/${id}`);
@@ -92,7 +84,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-@import "@/styles/";
+@import '@/styles/';
 
 .count {
   margin-bottom: 40px;

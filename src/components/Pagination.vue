@@ -1,30 +1,17 @@
 <template>
   <div class="pagination text-center">
-    <img
-      class="arrow-icon left"
-      src="@/assets/images/pagination/arrow-left-icon.svg"
-      @click="onClickPrevIcon"
-    />
+    <img class="arrow-icon left" src="@/assets/images/pagination/arrow-left-icon.svg" @click="onClickPrevIcon" />
     <section class="number__wrapper">
-      <div
-        :class="{ number: true, current: currentPage === item }"
-        v-for="(item, index) in pagination"
-        :key="index"
-        @click="onChangePage(item)"
-      >
+      <div :class="{ number: true, current: currentPage === item }" v-for="(item, index) in pagination" :key="index" @click="onChangePage(item)">
         {{ item }}
       </div>
     </section>
 
-    <img
-      class="arrow-icon right"
-      src="@/assets/images/pagination/arrow-right-icon.svg"
-      @click="onClickNextIcon"
-    />
+    <img class="arrow-icon right" src="@/assets/images/pagination/arrow-right-icon.svg" @click="onClickNextIcon" />
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, ref, computed } from "vue";
+import { defineComponent, ref, computed } from 'vue';
 
 export default defineComponent({
   props: {
@@ -41,7 +28,7 @@ export default defineComponent({
     const currentPage = ref(props.page);
     const totalPageLength = ref(props.length);
     function onChangePage(to: number): void {
-      emit("changePage", { page: to });
+      emit('changePage', { page: to });
     }
     const startPage = computed(() => {
       return Math.floor((currentPage.value - 1) / 10) * 10 + 1;
@@ -51,10 +38,7 @@ export default defineComponent({
     });
 
     const pagination = computed(() => {
-      return Array.from(
-        { length: endPage.value - startPage.value + 1 },
-        (_, i) => i + 1 + Math.floor((currentPage.value - 1) / 10) * 10
-      );
+      return Array.from({ length: endPage.value - startPage.value + 1 }, (_, i) => i + 1 + Math.floor((currentPage.value - 1) / 10) * 10);
     });
 
     const onClickPrevIcon = () => {
@@ -90,7 +74,7 @@ export default defineComponent({
 });
 </script>
 <style lang="scss" scoped>
-@import "@/styles/";
+@import '@/styles/';
 .arrow-icon {
   cursor: pointer;
   &.left {

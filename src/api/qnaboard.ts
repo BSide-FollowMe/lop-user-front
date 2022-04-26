@@ -61,7 +61,7 @@ export function getQnaBoardList(payload: BoardListParamModel): Promise<unknown> 
   return axios.get(API_PREFIX + Api.BOARD_LIST + '?' + payloadToQueryString(payload));
 }
 
-export function getMyQnaBoardList(payload: {plantId?:string}): Promise<unknown> {
+export function getMyQnaBoardList(payload: { plantId?: string }): Promise<unknown> {
   return axios.get(API_PREFIX + Api.MY_QUESTIONS + '?' + payloadToQueryString(payload));
 }
 
@@ -88,4 +88,3 @@ export function getImageBlobFromUrl(url: string): Promise<unknown> {
 export function getQuestionImages(boardId: string): Promise<unknown> {
   return axios.get(API_PREFIX + Api.REGIST_BOARD + '/' + boardId + Api.BLOB_IMAGES);
 }
-

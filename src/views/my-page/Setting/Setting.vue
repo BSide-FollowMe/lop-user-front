@@ -51,10 +51,10 @@ import { defineComponent, ref, computed, watchEffect } from 'vue';
 import { getBytes } from '@/utils/text';
 import { updateMyAccount } from '@/api/member';
 import RequestModal from '@/components/modals/RequestModal.vue';
-import {registReport} from '@/api/plant';
+import { registReport } from '@/api/plant';
 import DeleteAccountModal from '@/components/modals/DeleteAccountModal.vue';
 import axios from 'axios';
-import {useStore} from 'vuex';
+import { useStore } from 'vuex';
 
 export default defineComponent({
   components: {
@@ -69,9 +69,9 @@ export default defineComponent({
     const reportOpened = ref(false);
     const withdrawalOpened = ref(false);
     const reportOptions = ref({} as { modalTitle: string; contentsLabel: string });
-    watchEffect(()=>{
-      nickName.value=store.getters.getUserInfo.nickname;
-    })
+    watchEffect(() => {
+      nickName.value = store.getters.getUserInfo.nickname;
+    });
     const submitNickName = async () => {
       if (error.value) {
         alert('error!');
@@ -236,7 +236,7 @@ export default defineComponent({
     color: #ffffff;
   }
   &[disabled] {
-    cursor:default;
+    cursor: default;
     border: 1px solid #999999 !important;
     background: #cccccc !important;
     color: var(--text-color-2) !important;
@@ -281,19 +281,18 @@ export default defineComponent({
     border-radius: 2px;
   }
 }
-.validation-message{
+.validation-message {
   font-weight: var(--font-weight-medium);
   font-size: 14px;
   line-height: 20px;
   /* identical to box height, or 143% */
 
   letter-spacing: -0.01em;
-  margin-top:6px;
-  &:first-of-type{
-    margin-top:10px;
+  margin-top: 6px;
+  &:first-of-type {
+    margin-top: 10px;
   }
-  
-  
+
   @include breakpoint-down-sm {
     font-size: 12px;
   }

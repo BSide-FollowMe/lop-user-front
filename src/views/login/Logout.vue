@@ -13,7 +13,6 @@ export default defineComponent({
     async function logout() {
       await tokenSvc.removeToken();
       ROUTE_TO.HOME();
-
     }
     return {};
   },

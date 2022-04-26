@@ -2,7 +2,7 @@ export interface BoardListParamModel {
   keyword?: string;
   page: number;
   size?: number;
-  plantId?:number;
+  plantId?: number;
 }
 
 export interface BoardParamModel {

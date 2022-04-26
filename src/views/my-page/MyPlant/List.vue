@@ -1,11 +1,6 @@
 <template>
   <div class="inner-container">
-    <div
-      class="plant"
-      v-for="(plant, index) in newItems"
-      :key="index"
-      @click="moveToPlantDetail(plant)"
-    >
+    <div class="plant" v-for="(plant, index) in newItems" :key="index" @click="moveToPlantDetail(plant)">
       <img class="image" :src="plant.fileUrl || DummyImage" />
       <div class="info">
         <span class="name">{{ plant.name }}</span>
@@ -32,17 +27,17 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onUnmounted, PropType, ref, watchEffect, computed } from "vue";
-import EmptyHeartIcon from "@/assets/icon/heart-empty.svg";
-import FullHeartIcon from "@/assets/icon/heart-fill.svg";
-import { debounce } from "lodash";
-import { handleInfiniteListScroll } from "@/utils/global";
-import { useStore } from "vuex";
-import { PlantListData } from "@/api/model/plantModel";
-import { registerLike } from "@/api/plant";
-import { useRouter } from "vue-router";
-import DummyImage from "@/assets/images/detail/dummy-image.svg";
-import setMeta from "@/utils/setMeta";
+import { defineComponent, onUnmounted, PropType, ref, watchEffect, computed } from 'vue';
+import EmptyHeartIcon from '@/assets/icon/heart-empty.svg';
+import FullHeartIcon from '@/assets/icon/heart-fill.svg';
+import { debounce } from 'lodash';
+import { handleInfiniteListScroll } from '@/utils/global';
+import { useStore } from 'vuex';
+import { PlantListData } from '@/api/model/plantModel';
+import { registerLike } from '@/api/plant';
+import { useRouter } from 'vue-router';
+import DummyImage from '@/assets/images/detail/dummy-image.svg';
+import setMeta from '@/utils/setMeta';
 export default defineComponent({
   props: {
     items: {
@@ -56,9 +51,9 @@ export default defineComponent({
   },
   setup(props, { emit }) {
     setMeta({
-      title: "내가 저장한 식물 - 식물의언어",
-      description: "내가 저장한 식물 리스트입니다",
-      path: "/me/my-plant",
+      title: '내가 저장한 식물 - 식물의언어',
+      description: '내가 저장한 식물 리스트입니다',
+      path: '/me/my-plant',
     });
     const store = useStore();
     const router = useRouter();
@@ -70,26 +65,24 @@ export default defineComponent({
       newItems.value = [...props.items];
     });
     const onScroll = debounce(($event: Event) => {
-      handleInfiniteListScroll($event, newItems.value, props.totalElement, () =>
-        emit("atBottom")
-      );
+      handleInfiniteListScroll($event, newItems.value, props.totalElement, () => emit('atBottom'));
     }, 500);
-    document.addEventListener("scroll", onScroll);
+    document.addEventListener('scroll', onScroll);
     onUnmounted(() => {
-      document.removeEventListener("scroll", onScroll);
+      document.removeEventListener('scroll', onScroll);
     });
     const toggleLike = (index: number) => {
       newItems.value[index].isAdded = !newItems.value[index].isAdded;
       if (newItems.value[index].isAdded) {
-        store.dispatch("snack/openSnack", {
-          text: "내가 저장한 식물에 추가했어요!",
-          link: "/",
-          color: "#C9704C",
+        store.dispatch('snack/openSnack', {
+          text: '내가 저장한 식물에 추가했어요!',
+          link: '/',
+          color: '#C9704C',
         });
       } else {
-        store.dispatch("snack/openSnack", {
-          text: "내가 저장한 식물에서 삭제했어요!",
-          color: "#C9704C",
+        store.dispatch('snack/openSnack', {
+          text: '내가 저장한 식물에서 삭제했어요!',
+          color: '#C9704C',
         });
       }
     };
@@ -126,7 +119,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-@import "@/styles/";
+@import '@/styles/';
 .inner-container {
   background: #ffffff;
   border-radius: 4px;
@@ -181,8 +174,8 @@ export default defineComponent({
 .icon {
   cursor: pointer;
   &.heart-fill-icon {
-    -webkit-mask-image: url("@/assets/icon/heart-fill.svg");
-    mask-image: url("@/assets/icon/heart-fill.svg");
+    -webkit-mask-image: url('@/assets/icon/heart-fill.svg');
+    mask-image: url('@/assets/icon/heart-fill.svg');
     -webkit-mask-repeat: no-repeat;
     mask-repeat: no-repeat;
     -webkit-mask-position: center center;
@@ -200,8 +193,8 @@ export default defineComponent({
     }
   }
   &.heart-empty-icon {
-    -webkit-mask-image: url("@/assets/icon/heart-empty.svg");
-    mask-image: url("@/assets/icon/heart-empty.svg");
+    -webkit-mask-image: url('@/assets/icon/heart-empty.svg');
+    mask-image: url('@/assets/icon/heart-empty.svg');
     -webkit-mask-repeat: no-repeat;
     mask-repeat: no-repeat;
     -webkit-mask-position: center center;

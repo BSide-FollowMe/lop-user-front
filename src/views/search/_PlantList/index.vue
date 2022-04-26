@@ -36,7 +36,7 @@ export default defineComponent({
 
         const { data }: any = await getPlantList(payload);
         const resList: any = data.data;
-        if(!resList.length){
+        if (!resList.length) {
           isEmpty.value = true;
           return;
         }
@@ -46,7 +46,7 @@ export default defineComponent({
         console.error(e);
       }
     }
-    function loadMore(){
+    function loadMore() {
       page.value++;
       getPlantsList();
     }

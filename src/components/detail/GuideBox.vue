@@ -6,7 +6,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent,computed } from 'vue';
+import { defineComponent, computed } from 'vue';
 
 export default defineComponent({
   props: {
@@ -25,14 +25,13 @@ export default defineComponent({
       default: '#969696',
     },
   },
-  setup(props){
-
-    const borderColor = computed(()=>{
-      return props.hoverColor==='#969696' ? 'transparent' : props.hoverColor;
-    })
-    return{
+  setup(props) {
+    const borderColor = computed(() => {
+      return props.hoverColor === '#969696' ? 'transparent' : props.hoverColor;
+    });
+    return {
       borderColor,
-    }
+    };
   },
 });
 </script>
@@ -46,9 +45,9 @@ export default defineComponent({
   height: 56px;
   font-weight: var(--font-weight-medium);
   font-size: 18px;
-  @include breakpoint-down-sm{
+  @include breakpoint-down-sm {
     font-size: 15px;
-    height:46px;
+    height: 46px;
   }
   line-height: 26px;
   /* identical to box height, or 144% */
@@ -75,7 +74,7 @@ export default defineComponent({
     height: 18.35px;
     background-color: var(--text-color-3);
   }
-  
+
   &:hover {
     border: 1px solid v-bind(borderColor);
     color: v-bind(hoverColor);

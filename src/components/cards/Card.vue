@@ -42,32 +42,32 @@ export default defineComponent({
   display: inline-flex;
   flex-wrap: nowrap;
   flex-direction: column;
-  justify-content:center;
+  justify-content: center;
   .card-main {
     display: flex;
     align-items: center;
     padding: 0 40px;
     min-height: 120px;
-    @include breakpoint-down-sm{
-      min-height:90px;
+    @include breakpoint-down-sm {
+      min-height: 90px;
       padding: 0 30px 0 25px;
     }
     .icon {
       img {
         vertical-align: middle;
-        @include breakpoint-down-sm{
+        @include breakpoint-down-sm {
           width: 35.71px;
-          height:35.71px;
+          height: 35.71px;
         }
       }
       text-align: center;
       line-height: 70px;
       min-width: 70px;
       height: 70px;
-      @include breakpoint-down-sm{
+      @include breakpoint-down-sm {
         line-height: 50px;
         min-width: 50px;
-        height:50px;
+        height: 50px;
       }
       background: white;
       -moz-border-radius: 35px;
@@ -77,7 +77,7 @@ export default defineComponent({
     .text {
       margin-left: 30px;
       width: 100%;
-      @include breakpoint-down-sm{
+      @include breakpoint-down-sm {
         margin-left: 25px;
       }
       .card-title {
@@ -86,8 +86,8 @@ export default defineComponent({
         font-weight: bold;
         font-size: 18px;
         line-height: 26px;
-        @include breakpoint-down-sm{
-          font-size:16px;
+        @include breakpoint-down-sm {
+          font-size: 16px;
         }
         /* identical to box height, or 144% */
 
@@ -105,8 +105,8 @@ export default defineComponent({
         /* identical to box height, or 144% */
 
         letter-spacing: -0.01em;
-        @include breakpoint-down-sm{
-          font-size:16px;
+        @include breakpoint-down-sm {
+          font-size: 16px;
           line-height: 19px;
         }
 

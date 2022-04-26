@@ -80,7 +80,7 @@ export default defineComponent({
       return targetStr.replaceAll(searchStr, `<span style="color:var(--secondary-green-color)">${searchStr}</span>`);
     }
 
-    function resetSelectedItem(){
+    function resetSelectedItem() {
       emit('change', { oldVal: val.value, newVal: '' });
       val.value = '';
       localVal.value = '';
@@ -132,23 +132,23 @@ export default defineComponent({
     &:focus {
       border: 1px solid var(--secondary-green-color-1);
     }
-    &:disabled{
+    &:disabled {
       background: #fff;
       color: var(--secondary-green-color-1);
     }
     @include breakpoint-down-sm {
-      font-size:14px;
+      font-size: 14px;
     }
   }
-  button.clear-btn{
-    top:50%;
-    right:8px;
-    position:absolute;
-    transform:translateY(-50%);
-    border:none;
-    background:none;
-    filter:brightness(0);
-    cursor:pointer;
+  button.clear-btn {
+    top: 50%;
+    right: 8px;
+    position: absolute;
+    transform: translateY(-50%);
+    border: none;
+    background: none;
+    filter: brightness(0);
+    cursor: pointer;
   }
   label {
     pointer-events: none;
@@ -159,7 +159,7 @@ export default defineComponent({
     top: 11px;
     left: 12px;
     @include breakpoint-down-sm {
-      font-size:14px;
+      font-size: 14px;
     }
   }
   .item-list {
@@ -180,17 +180,17 @@ export default defineComponent({
       padding: 0px 15px;
       font-size: 16px;
       line-height: 40px;
-      img{
-        margin-right:6px;
-        width:16px;
-        height:16px;
+      img {
+        margin-right: 6px;
+        width: 16px;
+        height: 16px;
       }
       @include breakpoint-down-sm {
-        font-size:14px;
-        img{
-          margin-right:4px;
-          width:12px;
-          height:12px;
+        font-size: 14px;
+        img {
+          margin-right: 4px;
+          width: 12px;
+          height: 12px;
         }
       }
     }

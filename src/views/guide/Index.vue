@@ -8,10 +8,9 @@
 
     <section class="content">
       <slot />
-      <GuideLinkBox class="guide-link-box"/>
+      <GuideLinkBox class="guide-link-box" />
     </section>
   </div>
-  
 </template>
 
 <script lang="ts">
@@ -28,20 +27,20 @@ export default defineComponent({
       default: '',
     },
   },
-  setup(){
-    const backgroundImage=(image:string)=>{
+  setup() {
+    const backgroundImage = (image: string) => {
       console.log({
-        'background': `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(${image})`,
-        'backgroundSize': `cover`,
-      })
+        background: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(${image})`,
+        backgroundSize: `cover`,
+      });
       return {
-        'background': `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(${image})`,
-        'backgroundSize': `cover`,
-      }
+        background: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(${image})`,
+        backgroundSize: `cover`,
+      };
     };
     return {
       backgroundImage,
-    }
+    };
   },
   components: { GuideLinkBox },
 });
@@ -76,8 +75,8 @@ export default defineComponent({
   }
   hr {
     width: 16px;
-    height:0px;
-    border: 1px solid #FFFFFF;
+    height: 0px;
+    border: 1px solid #ffffff;
   }
   &__title {
     font-size: 32px;
@@ -152,7 +151,7 @@ hr.bookmark-content {
   border: 1px solid #e5e5e5;
   margin: 0;
 }
-.guide-link-box{
-  margin-bottom:120px;
+.guide-link-box {
+  margin-bottom: 120px;
 }
 </style>

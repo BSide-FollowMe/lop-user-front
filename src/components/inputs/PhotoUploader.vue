@@ -48,15 +48,15 @@ export default defineComponent({
         while (count--) {
           const currentFile = input.files[index];
           const fileName = currentFile.name;
-          resizeImage({file: currentFile, maxSize:1200}).then((resized:any)=>{
+          resizeImage({ file: currentFile, maxSize: 1200 }).then((resized: any) => {
             const reader = new FileReader();
             reader.onload = (e: any) => {
               const target: any = e.target;
               previewList.value.push(target.result);
-            }
+            };
             imageList.value.push(new File([resized], fileName));
             reader.readAsDataURL(resized);
-          })
+          });
           index++;
         }
       }
@@ -88,13 +88,13 @@ export default defineComponent({
       }
     }
 
-    function resizeImage(settings:any) {
+    function resizeImage(settings: any) {
       let file = settings.file;
       let maxSize = settings.maxSize;
       let reader = new FileReader();
       let image: any = new Image();
       let canvas: any = document.createElement('canvas');
-      let dataURItoBlob = function (dataURI:any) {
+      let dataURItoBlob = function (dataURI: any) {
         let bytes = dataURI.split(',')[0].indexOf('base64') >= 0 ? atob(dataURI.split(',')[1]) : unescape(dataURI.split(',')[1]);
         let mime = dataURI.split(',')[0].split(':')[1].split(';')[0];
         let max = bytes.length;

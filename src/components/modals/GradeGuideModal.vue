@@ -11,7 +11,10 @@
         <span class="bold">{{ options.memberLevel?.grade }}</span>
         입니다.
       </div>
-      <div class="myexcercise">지금까지 난이도 투표 {{options.memberLevel?.pollCount}}회, 글 {{options.memberLevel?.postingContentCount}}개, 받은 좋아요 {{options.memberLevel?.likeCount}}개를 기록했어요.</div>
+      <div class="myexcercise">
+        지금까지 난이도 투표 {{ options.memberLevel?.pollCount }}회, 글 {{ options.memberLevel?.postingContentCount }}개, 받은 좋아요
+        {{ options.memberLevel?.likeCount }}개를 기록했어요.
+      </div>
       <table>
         <tr v-for="grade in gradeInfo" :key="grade.grade">
           <td class="grade">{{ grade.grade }}</td>
@@ -107,14 +110,14 @@ export default defineComponent({
   /* identical to box height, or 100% */
 
   letter-spacing: -0.01em;
-  margin-bottom:10px;
+  margin-bottom: 10px;
   .bold {
     color: var(--secondary-green-color-1);
   }
   @include breakpoint-down-sm {
     font-size: 16px;
     line-height: 26px;
-    margin-bottom:6px;
+    margin-bottom: 6px;
   }
 }
 .myexcercise {

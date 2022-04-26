@@ -1,7 +1,8 @@
-const path = require('path')
-const cheerio = require("cheerio");
+const path = require('path');
+const cheerio = require('cheerio');
 const PrerenderSpaPlugin = require('prerender-spa-plugin-next');
-const PuppeteerRenderer = require("@prerenderer/renderer-puppeteer");
+const PuppeteerRenderer = require('@prerenderer/renderer-puppeteer');
+const pages = require('./pages');
 
 module.exports = {
   devServer: {
@@ -20,30 +21,30 @@ module.exports = {
       },
     },
   },
-  transpileDependencies: [
-    'vue-meta',
-  ],
+  transpileDependencies: ['vue-meta'],
   configureWebpack: (config) => {
     if (process.env.NODE_ENV === 'production') {
-      config.plugins.push(new PrerenderSpaPlugin({
-        staticDir: config.output.path,
-        routes: ["/plants"],
-        renderer: PuppeteerRenderer,
-        postProcess(context) {
-          if (context.route === "/404") {
-            context.outputPath = path.join(config.output.path, "/404.html");
-          }
-    
-          // Add 'data-server-rendered' attribute so app knows to hydrate with any changes
-          const $ = cheerio.load(context.html);
-          $("#app").attr("data-server-rendered", "true");
-          context.html = $.html();
-          if (context.route.endsWith('.html')) {
-            context.outputPath = path.join(__dirname, 'dist', context.route)
-          }
-          return context;
-        },
-      }),);
+      config.plugins.push(
+        new PrerenderSpaPlugin({
+          staticDir: config.output.path,
+          routes: pages,
+          renderer: PuppeteerRenderer,
+          postProcess(context) {
+            if (context.route === '/404') {
+              context.outputPath = path.join(config.output.path, '/404.html');
+            }
+
+            // Add 'data-server-rendered' attribute so app knows to hydrate with any changes
+            const $ = cheerio.load(context.html);
+            $('#app').attr('data-server-rendered', 'true');
+            context.html = $.html();
+            if (context.route.endsWith('.html')) {
+              context.outputPath = path.join(__dirname, 'dist', context.route);
+            }
+            return context;
+          },
+        }),
+      );
     }
   },
   pluginOptions: {
@@ -61,6 +62,9 @@ module.exports = {
 
     // Other puppeteer options.
     // (See here: https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#puppeteerlaunchoptions)
-    headless: false // Display the browser window when rendering. Useful for debugging.
+    headless: false, // Display the browser window when rendering. Useful for debugging.
+    sitemap: {
+      urls: pages.map((page) => `https://www.plantslang.com${page}`),
+    },
   },
 };

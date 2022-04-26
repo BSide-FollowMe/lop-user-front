@@ -2,7 +2,7 @@
   <section class="searcher-container">
     <div class="inner-infinety-container">
       <div class="searcher">
-        <input id="searchText" type="text" v-model="searchText" :class="{ 'is-empty': searchText === '' }"  @keyup.enter="onClickSubmit(searchText)" />
+        <input id="searchText" type="text" v-model="searchText" :class="{ 'is-empty': searchText === '' }" @keyup.enter="onClickSubmit(searchText)" />
         <label for="searchText">식물명 또는 카테고리를 입력하세요.</label>
         <button @click="onClickSubmit(searchText)"></button>
       </div>

@@ -36,23 +36,23 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @import '@/styles';
-.inner-container{
-  min-height:583px;
-  display:flex;
+.inner-container {
+  min-height: 583px;
+  display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap:44px;
-  @include breakpoint-down-sm{
-    min-height:340px;
-    gap:18px;
-    img{
-      width:43px;
-      height:36px;
+  gap: 44px;
+  @include breakpoint-down-sm {
+    min-height: 340px;
+    gap: 18px;
+    img {
+      width: 43px;
+      height: 36px;
     }
   }
 }
-.content{
+.content {
   font-weight: var(--font-weight-medium);
   font-size: 24px;
   line-height: 34px;
@@ -63,7 +63,7 @@ export default defineComponent({
   /* deepgreen/1-main */
 
   color: var(--primary-color-1);
-  @include breakpoint-down-sm{
+  @include breakpoint-down-sm {
     font-size: 16px;
     line-height: 26px;
   }

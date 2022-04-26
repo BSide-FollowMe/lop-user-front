@@ -1,6 +1,13 @@
 import axios from '@/utils/http/axios';
 import { payloadToQueryString } from '@/utils/text';
-import { PlantListParamModel, PlantListRespModel, PlantListData, PlantDetailParamModel, PlantDetailRespModel, ReportParamModel } from './model/plantModel';
+import {
+  PlantListParamModel,
+  PlantListRespModel,
+  PlantListData,
+  PlantDetailParamModel,
+  PlantDetailRespModel,
+  ReportParamModel,
+} from './model/plantModel';
 import { getClientIpAddress } from '@/utils/http/client';
 
 const API_PREFIX = '/v1';
@@ -13,7 +20,7 @@ enum Api {
   RECOMMEND_PLANT_LIST = '/recommend-plants',
 }
 
-export async function getPlantList(payload: PlantListParamModel): Promise<{data:PlantListRespModel}> {
+export async function getPlantList(payload: PlantListParamModel): Promise<{ data: PlantListRespModel }> {
   return axios.get(API_PREFIX + Api.PLANT_LIST + '?' + payloadToQueryString(payload));
 }
 

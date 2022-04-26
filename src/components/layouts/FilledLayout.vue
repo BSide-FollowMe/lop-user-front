@@ -11,6 +11,6 @@ export default {};
 <style lang="scss" scoped>
 .page-container {
   height: 100%;
-  overflow:hidden;
+  overflow: hidden;
 }
 </style>

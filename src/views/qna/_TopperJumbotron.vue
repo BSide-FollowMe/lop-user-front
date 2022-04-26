@@ -25,7 +25,7 @@ export default defineComponent({
     VueButton,
   },
   setup(props, { emit }) {
-    return {ROUTE_TO};
+    return { ROUTE_TO };
   },
   watch: {},
 });
@@ -60,7 +60,7 @@ export default defineComponent({
   height: 356px;
   padding: 80px;
   h1 {
-    color:var(--primary-color);
+    color: var(--primary-color);
     margin-top: 0px;
     margin-bottom: 0px;
   }
@@ -88,9 +88,9 @@ export default defineComponent({
   width: 168px;
   height: 48px;
   @include breakpoint-down-sm {
-    margin-top:30px;
-    width:140px;
-    height:40px;
+    margin-top: 30px;
+    width: 140px;
+    height: 40px;
   }
 }
 </style>

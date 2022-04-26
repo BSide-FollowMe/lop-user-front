@@ -18,7 +18,7 @@ export default defineComponent({
     const route = useRoute();
     const accessToken = computed(() => route.query['access_token'] || '');
 
-    tokenSvc.setToken({ token: accessToken.value});
+    tokenSvc.setToken({ token: accessToken.value });
     if (isEmptyToken(accessToken.value)) {
       alert('잘못된 접근입니다.');
       ROUTE_TO.HOME();
@@ -30,7 +30,7 @@ export default defineComponent({
       tokenSvc.removeToken();
       ROUTE_TO.LOGIN();
     }
-    const myUserInfo = computed(()=>store.getters.getUserInfo);
+    const myUserInfo = computed(() => store.getters.getUserInfo);
 
     async function getUserInfo() {
       try {
@@ -44,7 +44,6 @@ export default defineComponent({
         console.error(e);
       }
     }
-
 
     function isEmptyToken(token) {
       return !token || token === '';

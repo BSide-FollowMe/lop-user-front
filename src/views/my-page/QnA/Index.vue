@@ -4,18 +4,8 @@
     <div class="inner-container">
       <RouterTabs class="router-tabs" />
       <div class="main">
-        <QuestionList
-          v-if="listType === 'questions'"
-          :items="list"
-          :totalElement="totalElement"
-          @atBottom="loadMore"
-        ></QuestionList>
-        <AnswerList
-          v-if="listType === 'answers'"
-          :items="list"
-          :totalElement="totalElement"
-          @atBottom="loadMore"
-        ></AnswerList>
+        <QuestionList v-if="listType === 'questions'" :items="list" :totalElement="totalElement" @atBottom="loadMore"></QuestionList>
+        <AnswerList v-if="listType === 'answers'" :items="list" :totalElement="totalElement" @atBottom="loadMore"></AnswerList>
         <Empty v-if="list.length == 0" :type="listType"></Empty>
       </div>
     </div>
@@ -23,19 +13,19 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, watch, ref, onMounted } from "vue";
-import RouterTabs from "./_RouterTabs.vue";
-import QuestionList from "./QuestionList.vue";
-import AnswerList from "./AnswerList.vue";
-import Empty from "./_Empty.vue";
-import { useRoute } from "vue-router";
-import { getMyQuestions, getMyAnswers } from "@/api/member";
-import { ListResponse } from "@/api/model/common";
-import { Question, Answer } from "@/api/model/memberModel";
-import setMeta from "@/utils/setMeta";
+import { defineComponent, computed, watch, ref, onMounted } from 'vue';
+import RouterTabs from './_RouterTabs.vue';
+import QuestionList from './QuestionList.vue';
+import AnswerList from './AnswerList.vue';
+import Empty from './_Empty.vue';
+import { useRoute } from 'vue-router';
+import { getMyQuestions, getMyAnswers } from '@/api/member';
+import { ListResponse } from '@/api/model/common';
+import { Question, Answer } from '@/api/model/memberModel';
+import setMeta from '@/utils/setMeta';
 
 export default defineComponent({
-  name: "Search Result",
+  name: 'Search Result',
   components: {
     RouterTabs,
     QuestionList,
@@ -52,7 +42,7 @@ export default defineComponent({
     const list = ref([] as (Question | Answer)[]);
     const init = async () => {
       let res = {} as ListResponse<Question | Answer>;
-      if (listType.value === "questions") {
+      if (listType.value === 'questions') {
         res = await getMyQuestions({ size, page: page.value });
       } else {
         res = await getMyAnswers({ size, page: page.value });
@@ -83,7 +73,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-@import "@/styles/";
+@import '@/styles/';
 .container {
   margin-left: auto;
   margin-right: auto;

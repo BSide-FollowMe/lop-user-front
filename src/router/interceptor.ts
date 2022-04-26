@@ -32,7 +32,6 @@ const isPublic = (to: any) => {
   return to.matched.some((record: any) => record.meta.public);
 };
 
-
 const isAuthenticated = (store: any) => {
   return store.getters.isAuthenticated;
 };

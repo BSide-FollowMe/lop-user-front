@@ -50,7 +50,7 @@ export default defineComponent({
 
     @include breakpoint-down-sm {
       min-width: 360px;
-      height:220px;
+      height: 220px;
       padding: 0 var(--m-content-container-padding);
     }
   }
@@ -98,7 +98,7 @@ export default defineComponent({
       }
     }
     @include breakpoint-down-sm {
-        justify-content: start;
+      justify-content: start;
       width: 100%;
     }
   }

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <TopperHeader class="topper-header"/>
+    <TopperHeader class="topper-header" />
     <div class="page-container">
       <slot />
     </div>
@@ -14,14 +14,14 @@ import { defineComponent } from 'vue';
 import ToTopButton from '@/components/buttons/ToTop.vue';
 import TopperHeader from './TopperHeader';
 import BottomFooter from './BottomFooter';
-import Snack from '../Snack'
+import Snack from '../Snack';
 
 export default defineComponent({
   components: {
     TopperHeader,
     BottomFooter,
     Snack,
-        ToTopButton,
+    ToTopButton,
   },
   setup() {
     return {};
@@ -29,19 +29,18 @@ export default defineComponent({
 });
 </script>
 <style lang="scss" scoped>
-.topper-header{
-  z-index:1000;
+.topper-header {
+  z-index: 1000;
   position: sticky;
   top: 0;
-  background: #FFF;
+  background: #fff;
 }
-.snack{
-  position:fixed;
-  top:131px;
+.snack {
+  position: fixed;
+  top: 131px;
 }
 .page-container {
   height: 100%;
-  overflow:hidden;
-
+  overflow: hidden;
 }
 </style>

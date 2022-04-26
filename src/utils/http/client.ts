@@ -10,6 +10,6 @@ export const getClientIpAddress = async (): Promise<string | never> => {
     return response.data.ip;
   } catch (error) {
     console.dir(error);
-    throw new Error('failed to get client ip address')
+    throw new Error('failed to get client ip address');
   }
 };

@@ -13,14 +13,15 @@
     <section class="recommend-container">
       <div class="inner-infinety-container">
         <h1 class="text-light">
-          <span class="text-medium">이런 식물</span>은 어때요?
+          <span class="text-medium">이런 식물</span>
+          은 어때요?
         </h1>
         <ul class="plant-list">
           <li class="item" v-for="(item, index) in recommended" :key="`item-${index}`" @click="ROUTE_TO.PLANT_DETAILS(item.id)">
             <div class="img-container">
               <img :src="item.fileUrl" @error="$event.target.src = require('@/assets/images/search/img-error.svg')" />
             </div>
-            <span class="plant-name text-light">{{item.name}}</span>
+            <span class="plant-name text-light">{{ item.name }}</span>
           </li>
         </ul>
       </div>
@@ -38,13 +39,13 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, computed, ref,onMounted } from 'vue';
+import { defineComponent, computed, ref, onMounted } from 'vue';
 import VueButton from '@/components/buttons/VueButton.vue';
 import RequestModal from '@/components/modals/RequestModal.vue';
 import { registReport } from '@/api/plant';
 import { tokenSvc } from '@/api/token-service';
 import { ROUTE_TO } from '@/router/routing';
-import {getRecommendPlantList} from '@/api/plant';
+import { getRecommendPlantList } from '@/api/plant';
 export default defineComponent({
   components: {
     VueButton,
@@ -58,7 +59,7 @@ export default defineComponent({
     checkLoggedIn();
     const recommended = ref([]);
 
-    getRecommended()
+    getRecommended();
 
     onMounted(() => {
       horizontalMouseScroll();
@@ -117,14 +118,13 @@ export default defineComponent({
       }
       showModal.value = true;
     }
-    async function getRecommended(){
+    async function getRecommended() {
       try {
-        const {data}:any = await getRecommendPlantList();
+        const { data }: any = await getRecommendPlantList();
         recommended.value = data;
       } catch (e) {
-        console.error(e)
+        console.error(e);
       }
-
     }
 
     return {
@@ -261,8 +261,8 @@ export default defineComponent({
           margin-right: 20px;
         }
         &:last-child:after {
-          content: "";
-          top:0px;
+          content: '';
+          top: 0px;
           display: block;
           position: absolute;
           right: -40px;
@@ -279,8 +279,8 @@ export default defineComponent({
           margin-right: 20px;
         }
         &:last-child:after {
-          content: "";
-          top:0px;
+          content: '';
+          top: 0px;
           display: block;
           position: absolute;
           right: -40px;
@@ -289,7 +289,7 @@ export default defineComponent({
         }
       }
 
-      .img-container{
+      .img-container {
         height: 176px;
         width: 176px;
         overflow: hidden;
@@ -300,16 +300,15 @@ export default defineComponent({
           width: 144px;
         }
         img {
-          width:100%;
-          height:100%;
+          width: 100%;
+          height: 100%;
           transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
       }
-      &:hover{
-        img{
-           transform: scale(1.1);
+      &:hover {
+        img {
+          transform: scale(1.1);
         }
-
       }
       .plant-name {
         display: block;

@@ -32,9 +32,7 @@
 </template>
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
-export default defineComponent({
-  
-});
+export default defineComponent({});
 </script>
 <style lang="scss" scoped>
 @import '@/styles';
@@ -124,10 +122,11 @@ img.responsive {
   width: fill-available;
   width: -webkit-fill-available;
 }
-img.outter-soil,img.inner-soil{
-  margin-top:40px;
-  @include breakpoint-down-sm{
-    margin-top:10px;
+img.outter-soil,
+img.inner-soil {
+  margin-top: 40px;
+  @include breakpoint-down-sm {
+    margin-top: 10px;
   }
 }
 </style>

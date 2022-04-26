@@ -55,11 +55,11 @@ export default defineComponent({
       if (this.chosen == -1) return '';
       return this.items[this.chosen].activeColor;
     },
-    chosenTextColor(): string{
+    chosenTextColor(): string {
       if (this.chosen == -1) return '';
       return this.items[this.chosen].hoverColor;
     },
-    chosenBorderColor():string{
+    chosenBorderColor(): string {
       if (this.chosen == -1) return '';
       return this.items[this.chosen].hoverColor;
     },

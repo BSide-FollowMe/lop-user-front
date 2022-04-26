@@ -16,11 +16,11 @@ export default defineComponent({});
 .container {
   width: 100%;
   min-height: 511px;
-  height:100%;
+  height: 100%;
   background: #ffffff;
   border-radius: 4px;
   @include breakpoint-down-sm {
-    min-height:318px;
+    min-height: 318px;
     height: calc(100vh - var(--topper-header-height) - var(--bottom-footer-height) - 186px);
     padding: 97px 0 136px 0;
   }

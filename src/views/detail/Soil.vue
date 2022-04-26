@@ -1,21 +1,21 @@
 <template>
   <div v-if="content" class="inner-container">
     <div class="title">이런 흙을 좋아해요</div>
-    <p class="content" v-html="content"/>
+    <p class="content" v-html="content" />
   </div>
 </template>
 
 <script lang="ts">
-import {defineComponent} from 'vue';
+import { defineComponent } from 'vue';
 
 export default defineComponent({
-  props:{
-    content:{
-      type:String,
-      default:'',
-    }
-  }
-})
+  props: {
+    content: {
+      type: String,
+      default: '',
+    },
+  },
+});
 </script>
 
 <style lang="scss" scoped>
@@ -25,9 +25,9 @@ export default defineComponent({
   font-weight: var(--font-weight-bold);
   font-size: 24px;
   line-height: 29px;
-  margin-bottom:20px;
-  @include breakpoint-down-sm{
-    font-size:18px;
+  margin-bottom: 20px;
+  @include breakpoint-down-sm {
+    font-size: 18px;
     padding-bottom: 10px;
   }
   /* identical to box height */
@@ -41,11 +41,11 @@ export default defineComponent({
   border-bottom: 1px solid #e5e5e5;
 }
 
-.content{
+.content {
   font-weight: var(--font-weight-medium);
   font-size: 18px;
   line-height: 26px;
-  @include breakpoint-down-sm{
+  @include breakpoint-down-sm {
     font-size: 16px;
     line-height: 26px;
   }

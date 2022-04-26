@@ -1,12 +1,12 @@
 <template>
   <section class="plants-container">
     <ul class="plant-list">
-      <li class="item" v-for="(item, index) in items" :key="`plant-item-${index}`"  @click="ROUTE_TO.PLANT_DETAILS(item.id)">
+      <li class="item" v-for="(item, index) in items" :key="`plant-item-${index}`" @click="ROUTE_TO.PLANT_DETAILS(item.id)">
         <div v-if="item.hasImage && item.fileUrl != ''" class="preview">
           <img :src="item.fileUrl" @error="$event.target.src = require('@/assets/images/search/img-error.svg')" />
         </div>
         <div class="item__infomations">
-          <span class="category" v-if="item.category">{{item.categoryTitle}}</span>
+          <span class="category" v-if="item.category">{{ item.categoryTitle }}</span>
           <h2 class="title text-medium" v-html="stylizeBySearchTarget(searchTarget, item.name)"></h2>
           <p class="alias" v-html="stylizeBySearchTarget(searchTarget, item.nickname)"></p>
         </div>
@@ -43,7 +43,7 @@ export default defineComponent({
       try {
         return targetStr.replaceAll(searchStr, `<span style="color:var(--secondray-color-2)">${searchStr}</span>`);
       } catch (error) {
-        return targetStr
+        return targetStr;
       }
     }
     return {
@@ -65,7 +65,7 @@ export default defineComponent({
 <style lang="scss" scoped>
 @import '@/styles/mixin';
 
-.plants-container{
+.plants-container {
   min-height: calc(100vh - var(--topper-header-height) - var(--bottom-footer-height));
 }
 .plant-list {
@@ -86,13 +86,13 @@ export default defineComponent({
     }
     .preview {
       width: 100px;
-      min-width:100px;
+      min-width: 100px;
       height: 100px;
-      min-height:100px;
+      min-height: 100px;
       object-fit: cover;
       border-radius: 4px;
       background-color: #c4c4c4;
-      overflow:hidden;
+      overflow: hidden;
       img {
         width: 100%;
         height: 100%;
@@ -154,7 +154,7 @@ export default defineComponent({
       img {
         width: 24px;
         // height: 24px;
-        object-fit:contain;
+        object-fit: contain;
       }
       @include breakpoint-down-sm {
         width: 24px;
@@ -162,14 +162,14 @@ export default defineComponent({
         img {
           width: 18px;
           height: 18px;
-          object-fit:contain;
+          object-fit: contain;
         }
       }
     }
   }
 }
-.is-end{
-  width:100%;
-  height:120px;
+.is-end {
+  width: 100%;
+  height: 120px;
 }
 </style>

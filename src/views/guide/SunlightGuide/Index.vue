@@ -1,6 +1,6 @@
 <template>
   <GuideLayout :bannerImage="bannerImage" title="양지와 음지 구분하기">
-    <SunlightGuide/>
+    <SunlightGuide />
   </GuideLayout>
 </template>
 <script lang="ts">
@@ -9,14 +9,14 @@ import GuideLayout from '../Index.vue';
 import bannerImage from '@/assets/images/guide/bg-sunlightguide.png';
 import SunlightGuide from './SunlightGuide.vue';
 export default defineComponent({
-  components:{
+  components: {
     GuideLayout,
     SunlightGuide,
   },
-  setup(){
+  setup() {
     return {
       bannerImage,
-    }
-  }
-})
+    };
+  },
+});
 </script>

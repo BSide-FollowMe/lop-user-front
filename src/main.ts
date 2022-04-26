@@ -7,23 +7,22 @@ import store from './store';
 import { loadFonts } from './plugins/webfontloader';
 import { createVueKakaoSdk } from 'vue3-kakao-sdk';
 import './styles/index.scss';
-import * as Sentry from "@sentry/vue";
-import { BrowserTracing } from "@sentry/tracing";
+import * as Sentry from '@sentry/vue';
+import { BrowserTracing } from '@sentry/tracing';
 
 loadFonts();
 
-
 const isDev = process.env.NODE_ENV !== 'production';
-if(isDev) console.log('환경!:', process.env);
+if (isDev) console.log('환경!:', process.env);
 const app = createApp(App).use(createVueKakaoSdk(process.env.VUE_APP_KAKAO_API_KEY as string));
 
 Sentry.init({
   app,
-  dsn: "https://dfbb0b1435cc4de2a0c5aa85c1dbdca2@o1204965.ingest.sentry.io/6334309",
+  dsn: 'https://dfbb0b1435cc4de2a0c5aa85c1dbdca2@o1204965.ingest.sentry.io/6334309',
   integrations: [
     new BrowserTracing({
       routingInstrumentation: Sentry.vueRouterInstrumentation(router),
-      tracingOrigins: ["localhost", "https://www.plantslang.com", /^\//],
+      tracingOrigins: ['localhost', 'https://www.plantslang.com', /^\//],
     }),
   ],
   // Set tracesSampleRate to 1.0 to capture 100%

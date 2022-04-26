@@ -3,10 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "vue-cli-service serve",
     "build": "node --max_old_space_size=4096 node_modules/@vue/cli-service/bin/vue-cli-service.js build",
     "test:unit": "vue-cli-service test:unit",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "dev": "vue-cli-service serve",
+    "sitemap": "vue-cli-service sitemap"
   },
   "dependencies": {
     "@mdi/font": "5.9.55",
@@ -54,6 +55,7 @@
     "sass": "^1.38.0",
     "sass-loader": "^10.0.0",
     "typescript": "~4.1.5",
+    "vue-cli-plugin-sitemap": "~2.3.0",
     "vue-jest": "^5.0.0-0",
     "vuetify-loader": "^2.0.0-alpha.0"
   }

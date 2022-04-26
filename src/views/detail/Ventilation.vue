@@ -4,7 +4,11 @@
     <div class="main">
       <Card v-if="ventilation" :imgSrc="VentilationIcon" title="통풍" :content="'통풍이 잘되는 환경이 중요해요'">
         <template v-slot:action>
-          <GuideBox class="inner-guide" @click="emitOpenGuide({ componentName: 'Ventilation', modalTitle: '통풍이 왜 중요한가요?' })" content="통풍이 왜 중요한가요?" />
+          <GuideBox
+            class="inner-guide"
+            @click="emitOpenGuide({ componentName: 'Ventilation', modalTitle: '통풍이 왜 중요한가요?' })"
+            content="통풍이 왜 중요한가요?"
+          />
         </template>
       </Card>
       <Card
@@ -131,10 +135,10 @@ export default defineComponent({
     }
   }
 }
-.inner-guide:hover{
-  background: #E5E5E5;
+.inner-guide:hover {
+  background: #e5e5e5;
   color: #969696;
-  .arrow-icon{
+  .arrow-icon {
     color: #969696;
   }
 }

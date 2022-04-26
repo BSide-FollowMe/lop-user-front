@@ -36,7 +36,7 @@ export default defineComponent({
 <style lang="scss" scoped>
 @import '@/styles';
 .container {
-  position:relative;
+  position: relative;
   max-width: 444px;
   display: flex;
   margin-left: auto;
@@ -89,7 +89,7 @@ export default defineComponent({
 }
 .link__items {
   > li {
-    &:before{
+    &:before {
       font-family: 'Roboto';
       content: '•';
       font-size: 13px;

@@ -212,8 +212,8 @@ export default defineComponent({
       margin-top: 20px;
       background: var(--background-color-4);
       border-radius: 10px;
-      @include breakpoint-down-sm{
-        margin-top:10px;
+      @include breakpoint-down-sm {
+        margin-top: 10px;
       }
     }
   }

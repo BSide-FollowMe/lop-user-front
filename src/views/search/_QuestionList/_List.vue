@@ -7,7 +7,7 @@
       </div>
       <li class="item" v-for="(item, index) in items" :key="`plant-item-${index}`" @click="ROUTE_TO.QNABOARD_DETAIL(item.id)">
         <div class="item__infomations">
-          <p class="target-plant" v-html="stylizeBySearchTarget(searchTarget,  item.plantName)"></p>
+          <p class="target-plant" v-html="stylizeBySearchTarget(searchTarget, item.plantName)"></p>
           <p class="details text-medium" v-html="stylizeBySearchTarget(searchTarget, item.content)"></p>
           <p class="status">
             <span class="reg-date">{{ getTimeDistanceWithNaturalStr(item.createdDateTime) }}</span>
@@ -51,7 +51,7 @@ export default defineComponent({
       try {
         return targetStr.replaceAll(searchStr, `<span style="color:var(--secondray-color-2)">${searchStr}</span>`);
       } catch (error) {
-        return targetStr
+        return targetStr;
       }
     }
     return {
@@ -73,7 +73,7 @@ export default defineComponent({
 <style lang="scss" scoped>
 @import '@/styles/mixin';
 
-.questions-container{
+.questions-container {
   min-height: calc(100vh - var(--topper-header-height) - var(--bottom-footer-height));
 }
 
@@ -145,8 +145,8 @@ export default defineComponent({
       color: var(--text-color-3);
       font-size: 16px;
       line-height: 18px;
-      span{
-        color:var(--text-color-3);
+      span {
+        color: var(--text-color-3);
       }
 
       @include breakpoint-down-sm {
@@ -195,8 +195,8 @@ export default defineComponent({
     font-size: 13px;
   }
 }
-.is-end{
-  width:100%;
-  height:120px;
+.is-end {
+  width: 100%;
+  height: 120px;
 }
 </style>

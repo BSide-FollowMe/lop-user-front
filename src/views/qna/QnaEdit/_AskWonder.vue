@@ -2,7 +2,7 @@
   <form class="ask-help" @submit.prevent>
     <div class="input-title">식물의 이름을 알려주세요</div>
     <VueAutocomplete
-    ref="plantSelector"
+      ref="plantSelector"
       label="식물명 검색"
       :value="plantName"
       :is-loading="isLoading"
@@ -55,9 +55,9 @@ export default defineComponent({
     VueAutocomplete,
     PhotoUploader,
   },
-  props: ['boardId','plant'],
+  props: ['boardId', 'plant'],
   setup(props) {
-    const plantSelector:any = ref(null);
+    const plantSelector: any = ref(null);
     const photoUploader = ref(null);
     const id = computed(() => props?.boardId || null);
 
@@ -72,7 +72,7 @@ export default defineComponent({
     const isLoading = ref(false);
 
     if (id.value) getEditDetails(id.value);
-    if (plantName.value && plantName.value != ''){
+    if (plantName.value && plantName.value != '') {
       getPlantNameList(plantName.value);
     }
     const changeSubjective = debounce(getPlantNameList, 1000);
@@ -81,17 +81,16 @@ export default defineComponent({
       try {
         const { data }: any = await getQnaBoardDetail(id);
         await checkIsMine(data.writer);
-        if(data.plantId && data.plantId.length){
+        if (data.plantId && data.plantId.length) {
           plantNameOptions.value = [{ name: data.plantName, id: data.plantId }];
           plantSelector.value.onSelect(data.plantName);
-        }
-        else {
+        } else {
           plantSelector.value.onSelect('직접입력');
           plantNameSubjective.value = data.plantName;
         }
         content.value = data.content;
         setTimeout(() => {
-          const array:any = document.getElementsByTagName('textarea')
+          const array: any = document.getElementsByTagName('textarea');
           for (let i = 0; i < array.length; i++) {
             autoResize({ target: array[i] });
           }
@@ -105,19 +104,18 @@ export default defineComponent({
         console.log(e);
       }
     }
-    async function getImageBlob(id:string){
+    async function getImageBlob(id: string) {
       try {
-        const { data }:any = await getQuestionImages(id);
+        const { data }: any = await getQuestionImages(id);
         return data.imageList;
       } catch (e) {
         console.error(e);
         return [];
       }
-
     }
     function checkIsMine({ id }: { id: string }) {
-      if(myId.value != id) {
-        alert("다른 사람의 글은 수정 할 수 없습니다.")
+      if (myId.value != id) {
+        alert('다른 사람의 글은 수정 할 수 없습니다.');
         ROUTE_TO.QNABOARD();
       }
     }
@@ -162,16 +160,16 @@ export default defineComponent({
       };
       if (plantName.value != '직접입력' && selectedPlant) payload.plantId = selectedPlant.id;
       if (images.value.length) payload.images = images.value;
-      else payload.images =[]
+      else payload.images = [];
       if (!validatePayload(payload)) return;
       modifyQuestion(payload, id.value);
     }
-    async function modifyQuestion(payload:BoardParamModel, questionId:string){
+    async function modifyQuestion(payload: BoardParamModel, questionId: string) {
       try {
         const res: any = await modifyQnaBoard(payload, questionId);
         ROUTE_TO.QNABOARD_DETAIL(res.data.id);
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
     }
 
@@ -268,7 +266,7 @@ export default defineComponent({
     width: 100%;
     height: 40px;
     padding-left: 12px;
-    font-size:16px;
+    font-size: 16px;
     &:focus + label {
       display: none;
     }
@@ -280,7 +278,7 @@ export default defineComponent({
     }
     @include breakpoint-down-sm {
       height: 38px;
-      font-size:14px;
+      font-size: 14px;
     }
   }
   label {
@@ -291,7 +289,7 @@ export default defineComponent({
     position: absolute;
     top: 11px;
     left: 12px;
-    font-size:16px;
+    font-size: 16px;
 
     @include breakpoint-down-sm {
       font-size: 14px;
@@ -328,13 +326,13 @@ export default defineComponent({
     padding: 12px;
     border: 1px solid #e5e5e5;
     box-sizing: border-box;
-    font-size:16px;
+    font-size: 16px;
     border-radius: 2px;
     resize: none;
     width: 100%;
     height: 118px;
-    min-height:100px;
-    overflow:hidden;
+    min-height: 100px;
+    overflow: hidden;
     &:focus + label {
       display: none;
     }
@@ -345,9 +343,9 @@ export default defineComponent({
       border: 1px solid var(--secondary-green-color-1);
     }
     @include breakpoint-down-sm {
-      font-size:14px;
+      font-size: 14px;
       height: 118px;
-      min-height:100px;
+      min-height: 100px;
     }
   }
   label {

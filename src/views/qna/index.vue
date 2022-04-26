@@ -6,12 +6,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
-import TopperJumbotron from "./_TopperJumbotron.vue";
-import QuestionList from "./_QuestionList/index.vue";
-import setMeta from "@/utils/setMeta";
+import { defineComponent } from 'vue';
+import TopperJumbotron from './_TopperJumbotron.vue';
+import QuestionList from './_QuestionList/index.vue';
+import setMeta from '@/utils/setMeta';
 export default defineComponent({
-  name: "Question And Answers",
+  name: 'Question And Answers',
   components: {
     QuestionList,
     TopperJumbotron,
@@ -23,7 +23,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-@import "@/styles/mixin";
+@import '@/styles/mixin';
 .container {
   margin-left: auto;
   margin-right: auto;

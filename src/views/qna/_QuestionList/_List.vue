@@ -6,7 +6,7 @@
           {{ plantName }}&nbsp;
           <span class="list-summary__count">{{ totalLength }}</span>
         </span>
-        <CheckButton v-if="isLoggedIn" :value="mine == '1'" class="toggle-my-question" @toggle="toggleIsMyList"/>
+        <CheckButton v-if="isLoggedIn" :value="mine == '1'" class="toggle-my-question" @toggle="toggleIsMyList" />
       </div>
       <li class="item" v-for="(item, index) in items" :key="`plant-item-${index}`" @click="ROUTE_TO.QNABOARD_DETAIL(item.id)">
         <div class="item__infomations">
@@ -60,26 +60,26 @@ export default defineComponent({
     const totalLength = computed(() => props.totalLength);
     const listType: any = computed(() => route.query.list);
     const mine: any = computed(() => route.query.mine || '0');
-    const plantId = computed(()=>props.plantId);
+    const plantId = computed(() => props.plantId);
     const plantName = ref('');
     const isLoggedIn = ref(false);
     const isEnd = computed(() => {
       return props.items.length >= props.totalLength;
     });
-    checkLoggedIn()
+    checkLoggedIn();
     async function checkLoggedIn() {
       isLoggedIn.value = await tokenSvc.isValidToken();
     }
-    if(plantId.value != ''){
+    if (plantId.value != '') {
       getPlantName();
     }
 
-    const onScroll = debounce(($event:any) => {
-        handleInfiniteListScroll($event, items.value, totalLength.value, onAtTheBottom);
-      }, 500);
+    const onScroll = debounce(($event: any) => {
+      handleInfiniteListScroll($event, items.value, totalLength.value, onAtTheBottom);
+    }, 500);
     document.addEventListener('scroll', onScroll);
 
-    async function getPlantName(){
+    async function getPlantName() {
       try {
         const res = await getPlantDetail({ plantId: plantId.value });
         plantName.value = res.name;
@@ -97,9 +97,8 @@ export default defineComponent({
       query[key] = value;
       router.push({ query: query });
     };
-    function toggleIsMyList(checked:boolean){
-      routeToPathWithParam('mine', checked? '1' : '0');
-
+    function toggleIsMyList(checked: boolean) {
+      routeToPathWithParam('mine', checked ? '1' : '0');
     }
     return {
       ROUTE_TO,
@@ -123,7 +122,7 @@ export default defineComponent({
 <style lang="scss" scoped>
 @import '@/styles/mixin';
 
-.questions-container{
+.questions-container {
   min-height: calc(100vh - var(--topper-header-height) - var(--bottom-footer-height));
 }
 .question-list {
@@ -194,8 +193,8 @@ export default defineComponent({
       color: var(--text-color-3);
       font-size: 16px;
       line-height: 18px;
-      span{
-        color:var(--text-color-3);
+      span {
+        color: var(--text-color-3);
       }
       @include breakpoint-down-sm {
         margin-bottom: 0px;
@@ -266,7 +265,7 @@ export default defineComponent({
   .request-container {
     color: var(--primary-color);
     text-align: center;
-    min-height:530px;
+    min-height: 530px;
     height: calc(100vh - var(--topper-header-height) - var(--bottom-footer-height) - 400px);
     padding: 80px;
     img {
@@ -274,9 +273,9 @@ export default defineComponent({
       height: 116px;
     }
     @include breakpoint-down-sm {
-      min-height:378px;
+      min-height: 378px;
       height: calc(100vh - var(--topper-header-height) - var(--bottom-footer-height) - 146px);
-      padding:60px;
+      padding: 60px;
       img {
         width: 60px;
         height: 60px;
@@ -302,13 +301,13 @@ export default defineComponent({
     width: 180px;
     height: 48px;
     @include breakpoint-down-sm {
-      width:147px;
+      width: 147px;
       margin-top: 40px;
     }
   }
 }
-.is-end{
-  width:100%;
-  height:120px;
+.is-end {
+  width: 100%;
+  height: 120px;
 }
 </style>

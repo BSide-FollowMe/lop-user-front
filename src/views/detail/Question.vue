@@ -9,22 +9,13 @@
         </span>
       </div>
       <div v-if="questions.length" class="question">
-        <div
-          class="question-item"
-          v-for="(question, index) in questions"
-          :key="index"
-          @click="moveToQuestionDetail(question.id)"
-        >
+        <div class="question-item" v-for="(question, index) in questions" :key="index" @click="moveToQuestionDetail(question.id)">
           <div class="text">
             <div class="question-content">{{ preview(question.content) }}</div>
             <div>
               <div class="question-sub">
-                <span class="question-comments"
-                  >댓글 {{ formatNumber(question.commentCount) }}</span
-                >
-                <span class="question-likes"
-                  >도움돼요 {{ formatNumber(question.supportCount) }}</span
-                >
+                <span class="question-comments">댓글 {{ formatNumber(question.commentCount) }}</span>
+                <span class="question-likes">도움돼요 {{ formatNumber(question.supportCount) }}</span>
               </div>
             </div>
           </div>
@@ -46,18 +37,18 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from "vue";
-import { formatNumber } from "@/utils/text";
-import ArrowForward from "@/assets/icon/arrow_forward.svg";
-import QuestionBox from "@/assets/images/detail/질문하기.svg";
-import { useRouter } from "vue-router";
-import { Question as QuestionModel } from "@/api/model/boardModel";
+import { defineComponent, PropType } from 'vue';
+import { formatNumber } from '@/utils/text';
+import ArrowForward from '@/assets/icon/arrow_forward.svg';
+import QuestionBox from '@/assets/images/detail/질문하기.svg';
+import { useRouter } from 'vue-router';
+import { Question as QuestionModel } from '@/api/model/boardModel';
 
 export default defineComponent({
   props: {
     plantName: {
       type: String,
-      default: "",
+      default: '',
     },
     questions: {
       type: Array as PropType<QuestionModel[]>,
@@ -65,17 +56,17 @@ export default defineComponent({
     },
     plantId: {
       type: String,
-      default: "",
+      default: '',
     },
   },
   setup(props) {
     const router = useRouter();
     const preview = (content: string) => {
       if (window.innerWidth > 767 && content.length > 184) {
-        return content.slice(0, 184) + "...";
+        return content.slice(0, 184) + '...';
       }
       if (window.innerWidth <= 767 && content.length > 62) {
-        return content.slice(0, 62) + "...";
+        return content.slice(0, 62) + '...';
       }
       return content;
     };
@@ -102,7 +93,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-@import "@/styles/";
+@import '@/styles/';
 .inner-container {
   width: 100vw;
   margin-left: calc(-50vw + 50%);

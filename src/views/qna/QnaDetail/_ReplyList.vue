@@ -3,7 +3,7 @@
     <hr class="separate-content" />
     <div class="reply-count">
       <span class="title">댓글</span>
-      <span class="count">{{ " " + replyCount }}</span>
+      <span class="count">{{ ' ' + replyCount }}</span>
     </div>
     <div class="input-item" @click="myId ? false : toLogin()">
       <textarea
@@ -36,18 +36,18 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, ref, onMounted, nextTick } from "vue";
-import store from "@/store";
-import { debounce } from "@/utils/global";
-import ReplyItem from "./_ReplyItem.vue";
-import { registQnaBoardComment } from "@/api/qnaboard";
-import { useRoute } from "vue-router";
-import { ROUTE_TO } from "@/router/routing";
-import router from "@/router";
+import { defineComponent, computed, ref, onMounted, nextTick } from 'vue';
+import store from '@/store';
+import { debounce } from '@/utils/global';
+import ReplyItem from './_ReplyItem.vue';
+import { registQnaBoardComment } from '@/api/qnaboard';
+import { useRoute } from 'vue-router';
+import { ROUTE_TO } from '@/router/routing';
+import router from '@/router';
 export default defineComponent({
-  name: "Reply List",
+  name: 'Reply List',
   components: { ReplyItem },
-  props: ["comments", "boardId", "boardWriterId"],
+  props: ['comments', 'boardId', 'boardWriterId'],
   setup(props, { emit }) {
     const route = useRoute();
     const myUserInfo = computed(() => store.getters.getUserInfo);
@@ -56,11 +56,11 @@ export default defineComponent({
       return props.comments.size;
     });
     const boardId = computed(() => props.boardId);
-    const replyInput = ref("");
+    const replyInput = ref('');
     async function registComment(text: string, boardId: string) {
       try {
         if (!text.length) {
-          alert("내용을 입력해주세요!");
+          alert('내용을 입력해주세요!');
           return;
         }
         const payload = {
@@ -73,22 +73,20 @@ export default defineComponent({
       }
     }
     function refresh() {
-      replyInput.value = "";
-      emit("refresh");
+      replyInput.value = '';
+      emit('refresh');
     }
     function autoResize(e: any) {
       const obj = e.target;
-      obj.style.height = "auto";
-      obj.style.height = 20 + obj.scrollHeight + "px";
+      obj.style.height = 'auto';
+      obj.style.height = 20 + obj.scrollHeight + 'px';
     }
     function orderDependentReply(targetId: any, sourceList: any) {
-      return sourceList.filter(
-        (item: any) => item.refId && item.refId != 0 && item.refId == targetId
-      );
+      return sourceList.filter((item: any) => item.refId && item.refId != 0 && item.refId == targetId);
     }
 
     function toLogin() {
-      alert("로그인이 필요합니다.");
+      alert('로그인이 필요합니다.');
       ROUTE_TO.LOGIN();
     }
     const scrollFix = (hashbang: string) => {
@@ -121,7 +119,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-@import "@/styles/mixin";
+@import '@/styles/mixin';
 
 .reply-container {
   background-color: #fff;

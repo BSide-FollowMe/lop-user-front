@@ -8,14 +8,14 @@
         <br />
         다른 식집사 분들의 도움을 받아보세요.
       </div>
-      <VueButton color="primary" class="question-request-btn"  @click="ROUTE_TO.QNABOARD_REGIST">질문하기</VueButton>
+      <VueButton color="primary" class="question-request-btn" @click="ROUTE_TO.QNABOARD_REGIST">질문하기</VueButton>
     </section>
   </div>
 </template>
 <script lang="ts">
 import { defineComponent, computed } from 'vue';
 import VueButton from '@/components/buttons/VueButton.vue';
-import {ROUTE_TO} from '@/router/routing';
+import { ROUTE_TO } from '@/router/routing';
 export default defineComponent({
   components: {
     VueButton,
@@ -25,7 +25,7 @@ export default defineComponent({
     const searchTarget = computed(() => props.text);
     return {
       searchTarget,
-      ROUTE_TO
+      ROUTE_TO,
     };
   },
 });
@@ -36,7 +36,7 @@ export default defineComponent({
   .request-container {
     color: var(--primary-color);
     text-align: center;
-    min-height:530px;
+    min-height: 530px;
     height: calc(100vh - var(--topper-header-height) - var(--bottom-footer-height) - 270px);
     padding: 80px;
     img {
@@ -44,9 +44,9 @@ export default defineComponent({
       height: 116px;
     }
     @include breakpoint-down-sm {
-      min-height:378px;
+      min-height: 378px;
       height: calc(100vh - var(--topper-header-height) - var(--bottom-footer-height) - 146px);
-      padding:60px;
+      padding: 60px;
       img {
         width: 60px;
         height: 60px;
@@ -72,7 +72,7 @@ export default defineComponent({
     width: 180px;
     height: 48px;
     @include breakpoint-down-sm {
-      width:147px;
+      width: 147px;
       margin-top: 40px;
     }
   }

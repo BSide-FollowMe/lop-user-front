@@ -11,25 +11,26 @@
 import { defineComponent, ref, watch } from 'vue';
 
 export default defineComponent({
-  props:[
-    'value'
-  ],
-  setup(props,{emit}) {
+  props: ['value'],
+  setup(props, { emit }) {
     const localVal = ref(props.value || false);
 
-    watch(() => localVal.value, (newValue: boolean) => {
-      onToggleEvent(newValue);
-    });
-    function onToggleEvent(payload: string | boolean){
+    watch(
+      () => localVal.value,
+      (newValue: boolean) => {
+        onToggleEvent(newValue);
+      },
+    );
+    function onToggleEvent(payload: string | boolean) {
       emit('toggle', payload);
     }
-    return { localVal};
+    return { localVal };
   },
 });
 </script>
 <style lang="scss" scoped>
 .toggle-my-question {
-    display:inline-block;
+  display: inline-block;
   position: relative;
 }
 input[type='checkbox'] {
@@ -62,7 +63,7 @@ label {
   word-break: keep-all;
   img {
     vertical-align: middle;
-    width:16px;
+    width: 16px;
   }
   span {
     margin-left: 6px;

@@ -1,6 +1,6 @@
 <template>
   <GuideLayout :bannerImage="bannerImage" title="통풍이 중요한 이유">
-    <VentilationGuide/>
+    <VentilationGuide />
   </GuideLayout>
 </template>
 <script lang="ts">
@@ -9,14 +9,14 @@ import GuideLayout from '../Index.vue';
 import bannerImage from '@/assets/images/guide/bg-ventilationguide.png';
 import VentilationGuide from './VentilationGuide.vue';
 export default defineComponent({
-  components:{
+  components: {
     GuideLayout,
     VentilationGuide,
   },
-  setup(){
+  setup() {
     return {
       bannerImage,
-    }
-  }
-})
+    };
+  },
+});
 </script>

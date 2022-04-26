@@ -11,11 +11,11 @@ export enum PageEnum {
   QNABOARD_DETAIL = '/qna/detail/:id/',
   QNABOARD_EDIT = '/qna/edit/',
   LOGOUT = '/logout/',
-  WATER_GUIDE ='/guide/water/',
-  VENTILATION_GUIDE='/guide/ventilation/',
-  SUNLIGHT_GUIDE='/guide/sunlight/',
+  WATER_GUIDE = '/guide/water/',
+  VENTILATION_GUIDE = '/guide/ventilation/',
+  SUNLIGHT_GUIDE = '/guide/sunlight/',
   BLIGHT_GUIDE = '/guide/blight/',
-  ALL_PLANTS = '/plants/'
+  ALL_PLANTS = '/plants/',
 }
 export enum PageNameEnum {
   LOGIN = 'Sign In',
@@ -37,7 +37,7 @@ export enum PageNameEnum {
   VENTILATION_GUIDE = 'Guide - Ventilation',
   SUNLIGHT_GUIDE = 'Guide - Sunlight',
   BLIGHT_GUIDE = 'Guide - Blight',
-  PLANTS = 'All Plants'
+  PLANTS = 'All Plants',
 }
 export enum LayoutEnum {
   DEFAULT = 'Default',

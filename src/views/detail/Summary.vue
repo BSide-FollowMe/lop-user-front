@@ -1,7 +1,7 @@
 <template>
   <div class="inner-container">
     <div :class="{ 'plant-image': true, dummy: !fileUrl }">
-      <img :src="fileUrl || DummyImage" :class="{ fileImage: !!fileUrl }" @load="setImageSize"/>
+      <img :src="fileUrl || DummyImage" :class="{ fileImage: !!fileUrl }" @load="setImageSize" />
       <div v-if="fileSource" class="fileSource" @click="moveToSource()">{{ fileSource }}</div>
     </div>
     <div class="plant-content">
@@ -205,7 +205,7 @@ export default defineComponent({
         }
       }
     };
-    
+
     const pollItems = computed(() => {
       return [
         {
@@ -263,18 +263,18 @@ export default defineComponent({
       store.dispatch('snack/closeSnack');
     });
 
-    const imageSize = ref({width:0,height: 0});
-    const setImageSize = (e:any)=>{
-      const {width, height} = e.target;
-      imageSize.value = {width,height}
-    }
+    const imageSize = ref({ width: 0, height: 0 });
+    const setImageSize = (e: any) => {
+      const { width, height } = e.target;
+      imageSize.value = { width, height };
+    };
     //object type은 css v-bind 안먹는 현상으로 primitive type으로 선언
-    const resizedImageWidth = computed(()=>{
-      return imageSize.value.width > imageSize.value.height ? 'auto' : '100%'
-    })
-    const resizedImageHeight = computed(()=>{
-      return imageSize.value.width > imageSize.value.height ? '100%' : 'auto'
-    })
+    const resizedImageWidth = computed(() => {
+      return imageSize.value.width > imageSize.value.height ? 'auto' : '100%';
+    });
+    const resizedImageHeight = computed(() => {
+      return imageSize.value.width > imageSize.value.height ? '100%' : 'auto';
+    });
 
     return {
       currentLike,
@@ -293,7 +293,7 @@ export default defineComponent({
       isLoggedIn,
       setImageSize,
       resizedImageWidth,
-      resizedImageHeight
+      resizedImageHeight,
     };
   },
   components: {

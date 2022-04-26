@@ -28,9 +28,9 @@ export default {
     activeTab(newval) {
       this.onChangeEvt(newval);
     },
-    value(newval){
+    value(newval) {
       this.activeTab = newval;
-    }
+    },
   },
   methods: {
     onChangeEvt(newval) {
@@ -54,7 +54,7 @@ export default {
     color: var(--text-color-3);
 
     @include breakpoint-down-sm {
-      height:46px;
+      height: 46px;
     }
 
     &.tab-active {
@@ -64,8 +64,8 @@ export default {
     span {
       line-height: 60px;
       @include breakpoint-down-sm {
-        line-height:46px;
-        font-size:14px;
+        line-height: 46px;
+        font-size: 14px;
       }
     }
   }
