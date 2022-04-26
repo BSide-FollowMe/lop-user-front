@@ -8,7 +8,7 @@ export enum PageEnum {
   SEARCH_RESULT = '/search/',
   My_Page = '/me/',
   QNABOARD = '/qna/',
-  QNABOARD_DETAIL = '/qna/detail/',
+  QNABOARD_DETAIL = '/qna/detail/:id/',
   QNABOARD_EDIT = '/qna/edit/',
   LOGOUT = '/logout/',
   WATER_GUIDE ='/guide/water/',

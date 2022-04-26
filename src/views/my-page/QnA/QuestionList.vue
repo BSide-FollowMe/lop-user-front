@@ -4,7 +4,7 @@
       class="item"
       v-for="question in items"
       :key="question.id"
-      @click="moveToQuestion(question.id)"
+      @click="ROUTE_TO.QNABOARD_DETAIL(question.id)"
     >
       <div>
         <div class="plantName">{{ question.plantName }}</div>
@@ -28,6 +28,7 @@ import { debounce } from "lodash";
 import { handleInfiniteListScroll } from "@/utils/global";
 import { useRouter } from "vue-router";
 import setMeta from "@/utils/setMeta";
+import { ROUTE_TO } from "@/router/routing";
 
 export default defineComponent({
   props: {
@@ -74,13 +75,11 @@ export default defineComponent({
     onUnmounted(() => {
       document.removeEventListener("scroll", onScroll);
     });
-    const moveToQuestion = (id: number) => {
-      router.push(`/qna/detail?id=${id}`);
-    };
+
     return {
       preview,
       formatDate,
-      moveToQuestion,
+      ROUTE_TO,
       isEnd,
     };
   },

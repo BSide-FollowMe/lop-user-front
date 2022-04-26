@@ -166,14 +166,14 @@ export default defineComponent({
     const route = useRoute();
     const details = ref({} as any);
     const actionModal = ref(false);
-    const boardId: any = computed(() => route.query.id || "");
+    const boardId: any = computed(() => route.path.split("/")[3] || "");
     const actionBtnRef = ref(null);
     const shareCotextRef = ref(ContextMenu);
     const computedMeta = computed(() => ({
       title: `${details.value.plantName} : 질문·답변 - 식물의언어`,
       description: `${details.value.content}`,
       keywords: `질문, 답변, 질문답변, 질문 답변, ${details.value.plantName}`,
-      path: `/qna/detail?id=${boardId.value}`,
+      path: `/qna/detail/${boardId.value}`,
     }));
     setMeta(computedMeta);
     onBeforeMount(async () => {

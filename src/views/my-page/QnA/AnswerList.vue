@@ -75,10 +75,7 @@ export default defineComponent({
     });
     const moveToAnswer = (questionId: number, answerId: number) => {
       router.push({
-        path: `/qna/detail`,
-        query: {
-          id: questionId,
-        },
+        path: `/qna/detail/${questionId}`,
         hash: `#${answerId}`,
       });
     };
