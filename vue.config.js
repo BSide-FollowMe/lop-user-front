@@ -27,7 +27,7 @@ module.exports = {
       config.plugins.push(
         new PrerenderSpaPlugin({
           staticDir: config.output.path,
-          routes: ['/plants'],
+          routes: ['/plants', '/guide/water', '/guide/sunlight', '/guide/ventilation', '/guide/blight'],
           renderer: PuppeteerRenderer,
           postProcess(context) {
             if (context.route === '/404') {
@@ -48,23 +48,11 @@ module.exports = {
     }
   },
   pluginOptions: {
-    // Optional - defaults to 0, no limit.
-    // Routes are rendered asynchronously.
-    // Use this to limit the number of routes rendered in parallel.
-    maxConcurrentRoutes: 4,
-
     // Optional - Wait to render until a certain amount of time has passed.
     // NOT RECOMMENDED
-    renderAfterTime: 10000, // Wait 5 seconds.
+    renderAfterTime: 10000,
     // Optional - Cancel render if it takes more than a certain amount of time
     // useful in combination with renderAfterDocumentEvent as it will avoid waiting infinitely if the event doesn't fire
-    timeout: 60000, // Cancel render if it takes more than 20 seconds
-
-    // Other puppeteer options.
-    // (See here: https://github.com/GoogleChrome/puppeteer/blob/master/docs/api.md#puppeteerlaunchoptions)
-    headless: false, // Display the browser window when rendering. Useful for debugging.
-    sitemap: {
-      urls: pages.map((page) => `https://www.plantslang.com${page}`),
-    },
+    timeout: 100000,
   },
 };
