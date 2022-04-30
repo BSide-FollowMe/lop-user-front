@@ -1,11 +1,18 @@
 <template>
   <div>
-    <div class="item" v-for="question in items" :key="question.id" @click="ROUTE_TO.QNABOARD_DETAIL(question.id)">
+    <div
+      class="item"
+      v-for="question in items"
+      :key="question.id"
+      @click="ROUTE_TO.QNABOARD_DETAIL(question.id)"
+    >
       <div>
         <div class="plantName">{{ question.plantName }}</div>
         <div class="content">{{ preview(question.content) }}</div>
         <section class="bottom">
-          <div class="createdDateTime">{{ formatDate(question.createdDateTime) }}</div>
+          <div class="createdDateTime">
+            {{ getTimeDistanceWithNaturalStr(question.createdDateTime) }}
+          </div>
           <div class="commentCount">답변{{ question.commentCount }}</div>
           <div class="supportCount">도움돼요{{ question.supportCount }}</div>
         </section>
@@ -17,13 +24,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onUnmounted, PropType, computed } from 'vue';
-import { Question } from '@/api/model/memberModel';
-import { debounce } from 'lodash';
-import { handleInfiniteListScroll } from '@/utils/global';
-import { useRouter } from 'vue-router';
-import setMeta from '@/utils/setMeta';
-import { ROUTE_TO } from '@/router/routing';
+import { defineComponent, onUnmounted, PropType, computed } from "vue";
+import { Question } from "@/api/model/memberModel";
+import { debounce } from "lodash";
+import { getTimeDistanceWithNaturalStr } from "@/utils/text";
+import { handleInfiniteListScroll } from "@/utils/global";
+import { useRouter } from "vue-router";
+import setMeta from "@/utils/setMeta";
+import { ROUTE_TO } from "@/router/routing";
 
 export default defineComponent({
   props: {
@@ -38,38 +46,37 @@ export default defineComponent({
   },
   setup(props, { emit }) {
     setMeta({
-      title: '나의 질문 답변 - 식물의언어',
-      description: '내가 작성한 질문 답변 리스트입니다.',
-      path: '/me/qna?list=questions',
+      title: "나의 질문 답변 - 식물의언어",
+      description: "내가 작성한 질문 답변 리스트입니다.",
+      path: "/me/qna?list=questions",
     });
     const router = useRouter();
     const preview = (content: string) => {
       if (window.innerWidth > 767 && content.length > 184) {
-        return content.slice(0, 102) + '...';
+        return content.slice(0, 102) + "...";
       }
       if (window.innerWidth <= 767 && content.length > 62) {
-        return content.slice(0, 43) + '...';
+        return content.slice(0, 43) + "...";
       }
       return content;
     };
     const isEnd = computed(() => {
       return props.items.length >= props.totalElement;
     });
-    const formatDate = (date: string) => {
-      const d = new Date(date);
-      return `${d.getFullYear()}.${(d.getMonth() + 1).toString().padStart(2, '0')}.${d.getDate().toString().padStart(2, '0')}`;
-    };
+
     const onScroll = debounce(($event: Event) => {
-      handleInfiniteListScroll($event, props.items, props.totalElement, () => emit('atBottom'));
+      handleInfiniteListScroll($event, props.items, props.totalElement, () =>
+        emit("atBottom")
+      );
     }, 500);
-    document.addEventListener('scroll', onScroll);
+    document.addEventListener("scroll", onScroll);
     onUnmounted(() => {
-      document.removeEventListener('scroll', onScroll);
+      document.removeEventListener("scroll", onScroll);
     });
 
     return {
       preview,
-      formatDate,
+      getTimeDistanceWithNaturalStr,
       ROUTE_TO,
       isEnd,
     };
@@ -78,7 +85,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/';
+@import "@/styles/";
 .item {
   cursor: pointer;
   padding: 20px 0 20px 0;
