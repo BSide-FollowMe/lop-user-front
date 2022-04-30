@@ -27,7 +27,7 @@ module.exports = {
       config.plugins.push(
         new PrerenderSpaPlugin({
           staticDir: config.output.path,
-          routes: pages,
+          routes: ['/plants'],
           renderer: PuppeteerRenderer,
           postProcess(context) {
             if (context.route === '/404') {
@@ -43,7 +43,7 @@ module.exports = {
             }
             return context;
           },
-        }),
+        })
       );
     }
   },
