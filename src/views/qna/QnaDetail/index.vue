@@ -9,14 +9,28 @@
           <div class="group">
             <span class="placeholder">식물명</span>
             <span class="title">{{ details.plantName }}</span>
+            <span
+              v-if="details.plantId"
+              class="link-button"
+              @click="ROUTE_TO.PLANT_DETAILS(details.plantId)"
+            >
+              식물정보
+              <div class="arrow-icon"></div>
+            </span>
           </div>
           <div class="group">
             <span class="writer">{{ details.writer.nickname }}</span>
             <span class="separator">|</span>
-            <span class="datetime">{{ getTimeDistanceWithNaturalStr(details.createdDateTime) }}</span>
+            <span class="datetime">{{
+              getTimeDistanceWithNaturalStr(details.createdDateTime)
+            }}</span>
             <template v-if="myId && details.writer.id == myId">
               <span class="separator md-up-only-inline"></span>
-              <button class="action-modal-btn" @click="actionModal = true" ref="actionBtnRef">
+              <button
+                class="action-modal-btn"
+                @click="actionModal = true"
+                ref="actionBtnRef"
+              >
                 <img src="@/assets/icon/more.svg" />
                 <ul class="action-list shadow" v-if="actionModal">
                   <li @click="ROUTE_TO.QNABOARD_EDIT(details.id, details.type)">
@@ -37,7 +51,14 @@
         <template v-if="details.type == 'SICK'">
           <div class="input-title">물은 얼마나 자주 주셨나요?</div>
           <div class="textarea-item">
-            <textarea class="sub-contents" v-model="details.plantWaterCycle" readonly maxlength="500" @keyup="autoResize" rows="1" />
+            <textarea
+              class="sub-contents"
+              v-model="details.plantWaterCycle"
+              readonly
+              maxlength="500"
+              @keyup="autoResize"
+              rows="1"
+            />
           </div>
           <div class="input-title">
             식물은 어디에 두셨고 햇빛을 받는 시간은
@@ -45,16 +66,37 @@
             얼마나 되나요?
           </div>
           <div class="textarea-item">
-            <textarea class="sub-contents" v-model="details.plantLifeCycle" readonly maxlength="500" @keyup="autoResize" rows="1" />
+            <textarea
+              class="sub-contents"
+              v-model="details.plantLifeCycle"
+              readonly
+              maxlength="500"
+              @keyup="autoResize"
+              rows="1"
+            />
           </div>
           <div class="input-title">증상이 나타났을 때 어떻게 대처하셨나요?</div>
           <div class="textarea-item">
-            <textarea class="sub-contents" v-model="details.plantCountermeasure" readonly maxlength="500" @keyup="autoResize" rows="1" />
+            <textarea
+              class="sub-contents"
+              v-model="details.plantCountermeasure"
+              readonly
+              maxlength="500"
+              @keyup="autoResize"
+              rows="1"
+            />
           </div>
         </template>
         <div class="content-item">{{ details.content }}</div>
-        <div class="img-item" v-for="(item, index) in details.images" :key="`img-item-${index}`">
-          <img :src="item.imageUrl" @error="$event.target.src = require('@/assets/images/search/img-error.svg')" />
+        <div
+          class="img-item"
+          v-for="(item, index) in details.images"
+          :key="`img-item-${index}`"
+        >
+          <img
+            :src="item.imageUrl"
+            @error="$event.target.src = require('@/assets/images/search/img-error.svg')"
+          />
         </div>
         <div class="bottom-btn-group">
           <button class="no-click">
@@ -63,7 +105,11 @@
             답변 {{ details.comments.totalElement }}
           </button>
           <span class="separator">|</span>
-          <button class="helpful-btn-primary helpful-btn" v-if="details.isSupport" @click="toggleSupportBtn">
+          <button
+            class="helpful-btn-primary helpful-btn"
+            v-if="details.isSupport"
+            @click="toggleSupportBtn"
+          >
             <img src="@/assets/icon/helpful-primary.svg" />
             <br class="md-down-only" />
             도움돼요 {{ details.supportCount }}
@@ -75,37 +121,51 @@
           </button>
           <span class="separator">|</span>
           <button @click="openContextMenu" class="share-button">
-            <ContextMenu ref="shareCotextRef" class="context-menu" :items="contextMenuItems" />
+            <ContextMenu
+              ref="shareCotextRef"
+              class="context-menu"
+              :items="contextMenuItems"
+            />
             <img src="@/assets/icon/share-gray.svg" />
             <br class="md-down-only" />
             공유하기
           </button>
         </div>
       </section>
-      <Reply v-if="details" :comments="details.comments" :boardId="boardId" :boardWriterId="details.writer.id" @refresh="refresh" />
+      <Reply
+        v-if="details"
+        :comments="details.comments"
+        :boardId="boardId"
+        :boardWriterId="details.writer.id"
+        @refresh="refresh"
+      />
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed, onBeforeMount } from 'vue';
-import { getQnaBoardDetail, removeQnaBoard, toggleSupportQuestions } from '@/api/qnaboard';
-import Reply from './_ReplyList.vue';
-import { useRoute } from 'vue-router';
-import { getTimeDistanceWithNaturalStr } from '@/utils/text';
-import { debounce, copyUrl } from '@/utils/global';
-import store from '@/store';
-import { ROUTE_TO } from '@/router/routing';
-import ContextMenu from '@/components/ContextMenu.vue';
-import { useKakao } from 'vue3-kakao-sdk';
-import dummyImage from '@/assets/images/search/img-error.svg';
-import setMeta from '@/utils/setMeta';
+import { defineComponent, ref, computed, onBeforeMount } from "vue";
+import {
+  getQnaBoardDetail,
+  removeQnaBoard,
+  toggleSupportQuestions,
+} from "@/api/qnaboard";
+import Reply from "./_ReplyList.vue";
+import { useRoute } from "vue-router";
+import { getTimeDistanceWithNaturalStr } from "@/utils/text";
+import { debounce, copyUrl } from "@/utils/global";
+import store from "@/store";
+import { ROUTE_TO } from "@/router/routing";
+import ContextMenu from "@/components/ContextMenu.vue";
+import { useKakao } from "vue3-kakao-sdk";
+import dummyImage from "@/assets/images/search/img-error.svg";
+import setMeta from "@/utils/setMeta";
 
 export default defineComponent({
   head() {
-    return { script: [{ src: '//developers.kakao.com/sdk/js/kakao.min.js' }] };
+    return { script: [{ src: "//developers.kakao.com/sdk/js/kakao.min.js" }] };
   },
-  name: 'Question Detail',
+  name: "Question Detail",
   components: { Reply, ContextMenu },
   setup(props, { emit }) {
     const { kakao } = useKakao();
@@ -114,7 +174,7 @@ export default defineComponent({
     const route = useRoute();
     const details = ref({} as any);
     const actionModal = ref(false);
-    const boardId: any = computed(() => route.path.split('/')[3] || '');
+    const boardId: any = computed(() => route.path.split("/")[3] || "");
     const actionBtnRef = ref(null);
     const shareCotextRef = ref(ContextMenu);
     const computedMeta = computed(() => ({
@@ -127,11 +187,11 @@ export default defineComponent({
     onBeforeMount(async () => {
       getDetails();
     }),
-      document.addEventListener('click', documentClick);
+      document.addEventListener("click", documentClick);
     function autoResize(e: any) {
       const obj = e.target;
-      obj.style.height = 'auto';
-      obj.style.height = obj.scrollHeight + 'px';
+      obj.style.height = "auto";
+      obj.style.height = obj.scrollHeight + "px";
     }
     async function getDetails() {
       try {
@@ -139,7 +199,7 @@ export default defineComponent({
         const { data }: any = await getQnaBoardDetail(id);
         details.value = data;
         setTimeout(() => {
-          const array: any = document.getElementsByClassName('sub-contents');
+          const array: any = document.getElementsByClassName("sub-contents");
           for (let i = 0; i < array.length; i++) {
             autoResize({ target: array[i] });
           }
@@ -150,7 +210,7 @@ export default defineComponent({
     }
     async function removeBoard() {
       try {
-        if (!confirm('해당 글이 삭제됩니다. 계속할까요?')) return;
+        if (!confirm("해당 글이 삭제됩니다. 계속할까요?")) return;
         const id: string = boardId.value;
         const res = await removeQnaBoard(id);
         console.log(res);
@@ -187,10 +247,10 @@ export default defineComponent({
         imageUrl = item.images[0].imageUrl;
       }
       kakao.value.Link.sendDefault({
-        objectType: 'feed',
+        objectType: "feed",
         content: {
           title: `식물의언어 - ${item.plantName}`,
-          description: '식물을 키우며 궁금했던 점, 식물의언어에서 물어보세요.',
+          description: "식물을 키우며 궁금했던 점, 식물의언어에서 물어보세요.",
           imageUrl: imageUrl,
           link: {
             mobileWebUrl: window.document.location.href,
@@ -198,22 +258,22 @@ export default defineComponent({
           },
         },
       });
-      console.log('shareKakao');
+      console.log("shareKakao");
     };
     const copyLink = () => {
       copyUrl();
-      store.dispatch('snack/openSnack', {
-        text: '링크가 복사되었어요!',
-        color: '#48B57A',
+      store.dispatch("snack/openSnack", {
+        text: "링크가 복사되었어요!",
+        color: "#48B57A",
       });
     };
     const contextMenuItems = [
       {
-        text: '카카오톡 공유',
+        text: "카카오톡 공유",
         func: shareKakao,
-        icon: require('@/assets/icon/logo_카카오톡.svg'),
+        icon: require("@/assets/icon/logo_카카오톡.svg"),
       },
-      { text: '링크 복사', func: copyLink, icon: require('@/assets/icon/icon_link.svg') },
+      { text: "링크 복사", func: copyLink, icon: require("@/assets/icon/icon_link.svg") },
     ];
     return {
       documentClick,
@@ -234,13 +294,13 @@ export default defineComponent({
     };
   },
   unmounted() {
-    document.removeEventListener('click', this.documentClick);
+    document.removeEventListener("click", this.documentClick);
   },
 });
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/mixin';
+@import "@/styles/mixin";
 .container {
   background-color: var(--background-color-5);
 }
@@ -333,10 +393,10 @@ export default defineComponent({
         font-weight: var(--font-weight-bold);
       }
       &.ask-help > img {
-        content: url('@/assets/icon/ask-help-primary.svg');
+        content: url("@/assets/icon/ask-help-primary.svg");
       }
       &.ask-question > img {
-        content: url('@/assets/icon/ask-question-primary.svg');
+        content: url("@/assets/icon/ask-question-primary.svg");
       }
     }
     @include breakpoint-down-sm {
@@ -447,8 +507,12 @@ export default defineComponent({
 .detail-title {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   .group {
     display: block;
+    > * {
+      vertical-align: middle;
+    }
     .placeholder {
       font-size: 18px;
       line-height: 22px;
@@ -460,6 +524,35 @@ export default defineComponent({
       color: var(--primary-color-1);
       font-weight: var(--font-weight-bold);
       margin-left: 16px;
+    }
+    .link-button {
+      cursor: pointer;
+      height: 24px;
+      display: inline-block;
+      padding: 2px 12px 2px 9px;
+      margin-left: 10px;
+      background: #f4f8f1;
+      border-radius: 42px;
+      font-size: 14px;
+      line-height: 20px;
+
+      letter-spacing: -0.01em;
+
+      color: var(--secondary-green-color-1);
+      .arrow-icon {
+        margin-left: 7.33px;
+        display: inline-block;
+        -webkit-mask-image: url("@/assets/icon/simple-arrow-right-pc.svg");
+        mask-image: url("@/assets/icon/simple-arrow-right-pc.svg");
+        -webkit-mask-repeat: no-repeat;
+        mask-repeat: no-repeat;
+        -webkit-mask-position: center center;
+        mask-position: center center;
+        width: 7px;
+        height: 10px;
+        mask-size: contain;
+        background-color: var(--secondary-green-color-1);
+      }
     }
     &:nth-child(2) {
       font-size: 16px;
@@ -488,6 +581,19 @@ export default defineComponent({
       }
       &:nth-child(2) {
         font-size: 12px;
+      }
+      .link-button {
+        height: 20px;
+        font-size: 12px;
+        line-height: 16px;
+        padding: 2px 12px 2px 9px;
+        vertical-align: middle;
+        .arrow-icon {
+          margin-left: 6.33px;
+
+          width: 5.35px;
+          height: 8.56px;
+        }
       }
     }
   }
