@@ -48,9 +48,6 @@ module.exports = {
     }
   },
   pluginOptions: {
-    // Optional - Wait to render until a certain amount of time has passed.
-    // NOT RECOMMENDED
-    renderAfterTime: 10000,
     // Optional - Cancel render if it takes more than a certain amount of time
     // useful in combination with renderAfterDocumentEvent as it will avoid waiting infinitely if the event doesn't fire
     timeout: 100000,

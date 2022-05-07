@@ -19,7 +19,12 @@
           </p>
         </div>
         <div v-if="item.imageUrl && item.imageUrl.length" class="preview">
-          <img :src="item.imageUrl" @error="$event.target.src = require('@/assets/images/search/img-error.svg')" />
+          <img
+            :src="item.imageUrl"
+            :class="{ 'fit-height': imageSize[index]?.height < imageSize[index]?.width }"
+            @load="(e) => setImageSize(index, e)"
+            @error="$event.target.src = require('@/assets/images/search/img-error.svg')"
+          />
         </div>
       </li>
       <div v-if="isEnd" class="is-end" />
@@ -100,6 +105,11 @@ export default defineComponent({
     function toggleIsMyList(checked: boolean) {
       routeToPathWithParam('mine', checked ? '1' : '0');
     }
+    const imageSize = ref([] as { width: number; height: number }[]);
+    const setImageSize = (index: number, e: any) => {
+      const { width, height } = e.target;
+      imageSize.value[index] = { width, height };
+    };
     return {
       ROUTE_TO,
       getTimeDistanceWithNaturalStr,
@@ -111,6 +121,8 @@ export default defineComponent({
       plantName,
       mine,
       isEnd,
+      imageSize,
+      setImageSize,
     };
   },
   unmounted() {
@@ -141,21 +153,29 @@ export default defineComponent({
       cursor: pointer;
     }
     .preview {
+      align-self: center;
+      flex-shrink: 0;
+      position: relative;
       width: 140px;
       height: 140px;
       margin-left: 60px;
       border-radius: 4px;
       overflow: hidden;
-      img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-      }
       @include breakpoint-down-sm {
-        margin: auto;
         margin-left: 20px;
         width: 76px;
         height: 76px;
+      }
+      img {
+        position: absolute;
+        top: 100%;
+        transform: translateY(calc(-100%));
+        width: 100%;
+        height: auto;
+        &.fit-height {
+          height: 100%;
+          width: auto;
+        }
       }
     }
     &__infomations {
@@ -163,10 +183,10 @@ export default defineComponent({
       flex-direction: column;
       // margin-right: 60px;
       flex-grow: 1;
-      // @include breakpoint-down-sm {
-      //   margin-left: 20px;
-      //   margin-right: 20px;
-      // }
+      flex-basis: 720px;
+      @include breakpoint-down-sm {
+        flex-basis: calc(100% - 76px);
+      }
     }
     .target-plant {
       margin: 0px;
