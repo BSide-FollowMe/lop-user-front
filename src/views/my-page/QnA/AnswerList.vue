@@ -1,15 +1,10 @@
 <template>
   <div>
-    <div
-      class="item"
-      v-for="answer in items"
-      :key="answer.id"
-      @click="moveToAnswer(answer.questionId, answer.id)"
-    >
+    <div class="item" v-for="answer in items" :key="answer.id" @click="moveToAnswer(answer.questionId, answer.id)">
       <div>
         <span class="plantName">{{ answer.plantName }}</span>
         <span class="questionContent">{{ answer.questionContent }}</span>
-        <div class="content">{{ preview(answer.commentContent) }}</div>
+        <div class="content" v-html="preview(answer.commentContent)"></div>
         <section class="bottom">
           <div class="createdDateTime">
             {{ getTimeDistanceWithNaturalStr(answer.createdDateTime) }}
@@ -23,13 +18,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onUnmounted, PropType, computed } from "vue";
-import { Answer } from "@/api/model/memberModel";
-import { debounce } from "lodash";
-import { handleInfiniteListScroll } from "@/utils/global";
-import { useRouter } from "vue-router";
-import { getTimeDistanceWithNaturalStr } from "@/utils/text";
-import setMeta from "@/utils/setMeta";
+import { defineComponent, onUnmounted, PropType, computed } from 'vue';
+import { Answer } from '@/api/model/memberModel';
+import { debounce } from 'lodash';
+import { handleInfiniteListScroll } from '@/utils/global';
+import { useRouter } from 'vue-router';
+import { getTimeDistanceWithNaturalStr, preview } from '@/utils/text';
+import setMeta from '@/utils/setMeta';
 
 export default defineComponent({
   props: {
@@ -44,31 +39,20 @@ export default defineComponent({
   },
   setup(props, { emit }) {
     setMeta({
-      title: "나의 질문 답변 - 식물의언어",
-      description: "내가 작성한 질문 답변 리스트입니다.",
-      path: "/me/qna?list=answers",
+      title: '나의 질문 답변 - 식물의언어',
+      description: '내가 작성한 질문 답변 리스트입니다.',
+      path: '/me/qna?list=answers',
     });
     const router = useRouter();
-    const preview = (content: string) => {
-      if (window.innerWidth > 767 && content.length > 184) {
-        return content.slice(0, 132) + "...";
-      }
-      if (window.innerWidth <= 767 && content.length > 62) {
-        return content.slice(0, 65) + "...";
-      }
-      return content;
-    };
     const isEnd = computed(() => {
       return props.items.length >= props.totalElement;
     });
     const onScroll = debounce(($event: Event) => {
-      handleInfiniteListScroll($event, props.items, props.totalElement, () =>
-        emit("atBottom")
-      );
+      handleInfiniteListScroll($event, props.items, props.totalElement, () => emit('atBottom'));
     }, 500);
-    document.addEventListener("scroll", onScroll);
+    document.addEventListener('scroll', onScroll);
     onUnmounted(() => {
-      document.removeEventListener("scroll", onScroll);
+      document.removeEventListener('scroll', onScroll);
     });
     const moveToAnswer = (questionId: number, answerId: number) => {
       router.push({
@@ -87,7 +71,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-@import "@/styles/";
+@import '@/styles/';
 .item {
   padding: 20px 0 20px 0;
   cursor: pointer;
@@ -111,10 +95,10 @@ export default defineComponent({
     line-height: 18px;
   }
   &:before {
-    content: "[";
+    content: '[';
   }
   &:after {
-    content: "]";
+    content: ']';
   }
 }
 .questionContent {

@@ -11,7 +11,7 @@
       <li class="item" v-for="(item, index) in items" :key="`plant-item-${index}`" @click="ROUTE_TO.QNABOARD_DETAIL(item.id)">
         <div class="item__infomations">
           <p class="target-plant">{{ item.plantName }}</p>
-          <p class="details text-medium">{{ item.content }}</p>
+          <p class="details text-medium" v-html="preview(item.content)"></p>
           <p class="status">
             <span class="reg-date">{{ getTimeDistanceWithNaturalStr(item.createdDateTime) }}</span>
             <span class="reply-count">댓글 {{ item.commentCount }}</span>
@@ -45,7 +45,7 @@
 import { defineComponent, ref, computed, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import CheckButton from '@/components/buttons/CheckButton.vue';
-import { getTimeDistanceWithNaturalStr } from '@/utils/text';
+import { getTimeDistanceWithNaturalStr, preview } from '@/utils/text';
 import { handleInfiniteListScroll } from '@/utils/global';
 import { ROUTE_TO } from '@/router/routing';
 import { debounce } from '@/utils/global';
@@ -111,6 +111,7 @@ export default defineComponent({
       imageSize.value[index] = { width, height };
     };
     return {
+      preview,
       ROUTE_TO,
       getTimeDistanceWithNaturalStr,
       onAtTheBottom,

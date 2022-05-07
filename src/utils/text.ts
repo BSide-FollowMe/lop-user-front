@@ -66,7 +66,8 @@ export function getTimeDistanceWithNaturalStr(createdAt: any) {
   if (hours < 24) return `${Math.floor(hours)}시간 전`;
   const days = hours / 24;
   if (days < 7) return `${Math.floor(days)}일 전`;
-  if (currTime.getFullYear() == target.getFullYear()) return `${leadingZeroes(target.getMonth() + 1)}월 ${leadingZeroes(target.getDate())}일`;
+  if (currTime.getFullYear() == target.getFullYear())
+    return `${leadingZeroes(target.getMonth() + 1)}월 ${leadingZeroes(target.getDate())}일`;
   return formatDateOnly(target);
 }
 
@@ -82,4 +83,15 @@ export function uncomma(str: string | number) {
 
 export function translate<T, U>(dict: { value: T; label: U }[], value: T): U | undefined {
   return dict.find((item) => item.value === value)?.label;
+}
+
+export function preview(content: string): string {
+  if (window.innerWidth > 767 && content.length > 184) {
+    return content.slice(0, 102) + '...';
+  }
+  if (window.innerWidth <= 767 && content.length > 62) {
+    return content.slice(0, 43) + '...';
+  }
+
+  return content.replace(/(?:\r\n|\r|\n)/, '<br />').split(/(?:\r\n|\r|\n)/)[0] + '...';
 }

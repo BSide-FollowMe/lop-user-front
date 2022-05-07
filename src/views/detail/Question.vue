@@ -11,7 +11,7 @@
       <div v-if="questions.length" class="question">
         <div class="question-item" v-for="(question, index) in questions" :key="index" @click="moveToQuestionDetail(question.id)">
           <div class="text">
-            <div class="question-content">{{ preview(question.content) }}</div>
+            <div class="question-content" v-html="preview(question.content)"></div>
             <div>
               <div class="question-sub">
                 <span class="question-comments">댓글 {{ formatNumber(question.commentCount) }}</span>
@@ -38,7 +38,7 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
-import { formatNumber } from '@/utils/text';
+import { formatNumber, preview } from '@/utils/text';
 import ArrowForward from '@/assets/icon/arrow_forward.svg';
 import QuestionBox from '@/assets/images/detail/질문하기.svg';
 import { useRouter } from 'vue-router';
@@ -61,15 +61,6 @@ export default defineComponent({
   },
   setup(props) {
     const router = useRouter();
-    const preview = (content: string) => {
-      if (window.innerWidth > 767 && content.length > 184) {
-        return content.slice(0, 184) + '...';
-      }
-      if (window.innerWidth <= 767 && content.length > 62) {
-        return content.slice(0, 62) + '...';
-      }
-      return content;
-    };
     const moveToQuestionDetail = (id: number) => {
       router.push(`/qna/detail/${id}`);
     };
