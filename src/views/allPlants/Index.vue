@@ -10,37 +10,47 @@
       <div class="header__button" @click="ROUTE_TO.HOME">홈에서 검색하기</div>
     </section>
     <div class="main">
-      <List v-if="totalCount > 0" :totalCount="totalCount" :plants="plants" @onChangePage="getOtherPage"></List>
+      <List
+        v-if="totalCount > 0"
+        :currentPage="currentPage"
+        :totalCount="totalCount"
+        :plants="plants"
+        @onChangePage="getOtherPage"
+      ></List>
       <Empty v-else></Empty>
     </div>
   </section>
 </template>
 
 <script lang="ts">
-import setMeta from '@/utils/setMeta';
-import { defineComponent, onMounted, ref } from 'vue';
-import { getPlantList } from '@/api/plant';
-import { PlantListRespModel, PlantListData } from '@/api/model/plantModel';
-import List from './List.vue';
-import Empty from './Empty.vue';
-import { ROUTE_TO } from '@/router/routing';
+import setMeta from "@/utils/setMeta";
+import { defineComponent, ref, watchEffect } from "vue";
+import { getPlantList } from "@/api/plant";
+import { PlantListRespModel, PlantListData } from "@/api/model/plantModel";
+import List from "./List.vue";
+import Empty from "./Empty.vue";
+import { ROUTE_TO } from "@/router/routing";
+import { useRoute, useRouter } from "vue-router";
 
 export default defineComponent({
   setup() {
     setMeta({
-      title: '모든 식물 - 식물의언어',
-      description: '식물의언어 모든 식물 리스트입니다.',
-      keywords: '식물의언어, 식물의 언어, 모든식물, 모든 식물',
-      path: '/plants',
+      title: "모든 식물 - 식물의언어",
+      description: "식물의언어 모든 식물 리스트입니다.",
+      keywords: "식물의언어, 식물의 언어, 모든식물, 모든 식물",
+      path: "/plants",
     });
+    const router = useRouter();
+    const route = useRoute();
     const plants = ref([] as PlantListData[]);
+    const currentPage = ref(0);
     const totalCount = ref(0);
     const pageNumber = ref(0);
     const pageLength = ref(0);
     async function getPlantsList(page: number) {
       try {
         const payload = {
-          size: '20',
+          size: "20",
           page: page.toString(),
         };
 
@@ -52,14 +62,16 @@ export default defineComponent({
         console.error(e);
       }
     }
-    onMounted(() => {
-      getPlantsList(0);
+    watchEffect(() => {
+      getPlantsList(Number(route.query.page) - 1);
+      currentPage.value = Number(route.query.page) - 1;
     });
     const getOtherPage = (payload: { page: number }) => {
-      getPlantsList(payload.page);
+      router.push(`${route.path}?page=${Number(payload.page) + 1}`);
     };
 
     return {
+      currentPage,
       totalCount,
       plants,
       pageNumber,
@@ -76,7 +88,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/';
+@import "@/styles/";
 .header {
   width: 100%;
   height: 356px;

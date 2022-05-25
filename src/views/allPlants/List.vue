@@ -42,6 +42,10 @@ import { useRouter } from "vue-router";
 
 export default defineComponent({
   props: {
+    currentPage: {
+      type: Number,
+      default: 0,
+    },
     totalCount: {
       type: Number,
       default: 0,
@@ -52,7 +56,6 @@ export default defineComponent({
     },
   },
   setup(props, { emit }) {
-    const currentPage = ref(0);
     const pageLength = computed(() => {
       return Math.ceil(props.totalCount / 20);
     });
@@ -62,7 +65,6 @@ export default defineComponent({
         size: "20",
         page: (page - 1).toString(),
       };
-      currentPage.value = page - 1;
       emit("onChangePage", payload);
     };
     const moveToPlantDetail = (id: string) => {
@@ -77,7 +79,6 @@ export default defineComponent({
     //object type은 css v-bind 안먹는 현상으로 primitive type으로 선언
 
     return {
-      currentPage,
       pageLength,
       DummyImage,
       onChangePageEvt,
