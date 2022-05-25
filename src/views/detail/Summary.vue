@@ -141,6 +141,7 @@ export default defineComponent({
           { value: 'SUCCULENTS', label: '다육식물' },
           { value: 'CARNIVOROUS', label: '식충식물' },
           { value: 'HOUSEPLANT', label: '관엽식물' },
+          { value: 'ORCHIDACEAE', label: '난초' },
         ],
         props.category,
       ),
