@@ -48,7 +48,7 @@
   <section class="tip">
     <div class="tip__title">
       <img src="@/assets/icon/lightbulb_black_24dp.svg" />
-      Tip
+      <span>Tip</span>
     </div>
     <ul class="tip__list">
       <li>저면관수로만 물을 주는 것은 좋지 않아요. 물이 위에서 아래로 흐르지 않아 흙 속의 노폐물을 내보낼 수 없거든요.</li>
@@ -232,19 +232,8 @@ export default defineComponent({
     padding: 10px 11px 10px 11px;
   }
   &__title {
-    margin-right: 38px;
-    img {
-      margin-right: 7px;
-      vertical-align: text-top;
-      &.responsive {
-        width: fill-available;
-        width: -webkit-fill-available;
-      }
-      @include breakpoint-down-sm {
-        width: 12px;
-        height: 16px;
-      }
-    }
+    min-width:56px;
+    margin-right: 26px;
     font-weight: var(--font-weight-bold);
     font-size: 18px;
     line-height: 18px;
@@ -256,6 +245,21 @@ export default defineComponent({
       font-size: 14px;
       line-height: 16px;
       margin-bottom: 10px;
+    }
+    img {
+      width: 18px;
+      height: 24px;
+      margin-right: 9px;
+      vertical-align: text-top;
+      &.responsive {
+        width: fill-available;
+        width: -webkit-fill-available;
+      }
+      @include breakpoint-down-sm {
+        margin-right:8px;
+        width: 13.5px;
+        height: 19.5px;
+      }
     }
   }
   &__list {
