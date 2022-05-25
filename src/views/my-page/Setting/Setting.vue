@@ -317,6 +317,11 @@ export default defineComponent({
   /* text/2 */
 
   color: var(--text-color-2);
+  @include breakpoint-down-sm {
+    font-size: 13px;
+    line-height: 18px;
+    letter-spacing: -0.0025em;
+  }
   img {
     width: 16px;
     height: 16px;
@@ -329,11 +334,7 @@ export default defineComponent({
       margin-left: 3px;
     }
   }
-  @include breakpoint-down-sm {
-    font-size: 13px;
-    line-height: 18px;
-    letter-spacing: -0.0025em;
-  }
+  
 }
 
 .setting-icon {

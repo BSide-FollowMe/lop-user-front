@@ -134,10 +134,6 @@ export default defineComponent({
       gap: 50px 10px;
       margin-bottom: 40px;
     }
-
-    img {
-      border-radius: 4px;
-    }
   }
 }
 
@@ -156,6 +152,7 @@ export default defineComponent({
     overflow: hidden;
     width: 176px;
     height: 176px;
+    border-radius: 4px;
     @include breakpoint-down-sm {
       width: 100%;
       height: calc((100vw - 75px) / 3);
