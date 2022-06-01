@@ -26,7 +26,7 @@
         <div class="content">
           궁금한점이나 제안하고 싶은 사항이 있나요?
           <br />
-          문의하기 버튼을 눌러 식물의언어 팀에 연락주세요<img :src="smile"/>
+          문의하기 버튼을 눌러 식물의언어 팀에 연락주세요<img :src="smile" />
         </div>
         <button
           class="button ask"
@@ -55,7 +55,7 @@ import { registReport } from '@/api/plant';
 import DeleteAccountModal from '@/components/modals/DeleteAccountModal.vue';
 import axios from 'axios';
 import { useStore } from 'vuex';
-import smile from '@/assets/icon/smile.svg'
+import smile from '@/assets/icon/smile.svg';
 
 export default defineComponent({
   components: {
@@ -315,9 +315,6 @@ export default defineComponent({
   /* or 150% */
 
   letter-spacing: -0.01em;
-
-  /* text/2 */
-
   color: var(--text-color-2);
   img {
     width: 16px;
@@ -332,6 +329,7 @@ export default defineComponent({
     }
   }
   @include breakpoint-down-sm {
+    width: 100%;
     font-size: 13px;
     line-height: 18px;
     letter-spacing: -0.0025em;
