@@ -7,7 +7,6 @@
       <section class="detail-form" v-if="details">
         <div class="detail-title">
           <div class="group">
-            <span class="placeholder">식물명</span>
             <span class="title">{{ details.plantName }}</span>
             <span v-if="details.plantId" class="link-button" @click="ROUTE_TO.PLANT_DETAILS(details.plantId)">
               식물정보
@@ -467,7 +466,6 @@ export default defineComponent({
       line-height: 20px;
       color: var(--primary-color-1);
       font-weight: var(--font-weight-bold);
-      margin-left: 16px;
     }
     .link-button {
       cursor: pointer;
