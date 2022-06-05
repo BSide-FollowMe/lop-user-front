@@ -30,7 +30,7 @@
         <h1 class="text-light">
           NASA 선정🚀
           <br class="md-down-only" />
-          <span class="text-bold">봄 식물</span>
+          <span class="text-bold">공기정화식물</span>
         </h1>
         <ul class="plant-list">
           <li class="item" v-for="(item, index) in recommended" :key="`item-${index}`" @click="ROUTE_TO.PLANT_DETAILS(item.id)">
