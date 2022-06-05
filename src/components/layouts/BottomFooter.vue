@@ -5,13 +5,20 @@
         <img id="logo" src="@/assets/footer-logo.svg" @click="ROUTE_TO.HOME" />
         <img id="logo-title" src="@/assets/footer-title.svg" @click="ROUTE_TO.HOME" />
       </div>
-      <div class="tab">
+      <div class="tab" style="z-index: 1">
         <span @click="OPEN_LINK.INTRODUCTION">서비스 소개</span>
         <span @click="OPEN_LINK.TOS">이용 약관</span>
         <span @click="OPEN_LINK.PP">개인정보 처리방침</span>
+        <div class="tab__icon__wrapper">
+          <img src="@/assets/icon/blog.svg" />
+          <img src="@/assets/icon/instagram.svg" />
+        </div>
       </div>
       <div class="tab tab-filled">
-        <span class="cursor-pointer" @click="OPEN_LINK.MAIL">Contact. plantslang@gmail.com</span>
+        <span class="cursor-pointer" @click="OPEN_LINK.MAIL">
+          Contact.
+          <span style="text-decoration: underline">plantslang@gmail.com</span>
+        </span>
         <br />
         <span @click.prevent>Copyright. 식물의언어 All rights reserved.</span>
       </div>
@@ -66,20 +73,19 @@ export default defineComponent({
   .tab {
     display: flex;
     align-items: center;
-    width: 50%;
     font-weight: var(--font-weight-base);
     font-size: var(--font-size-caption);
     line-height: 18px;
     justify-content: flex-end;
     text-align: right;
     color: #fff;
-    opacity: 0.5;
 
     letter-spacing: -0.0025em;
     > span {
+      opacity: 0.5;
       cursor: pointer;
     }
-    span:not(:last-child):after {
+    > span:not(:last-of-type):after {
       cursor: default;
       content: '|';
       margin: 0 20px;
@@ -100,6 +106,26 @@ export default defineComponent({
     @include breakpoint-down-sm {
       justify-content: start;
       width: 100%;
+    }
+    &__icon__wrapper {
+      display: flex;
+      margin-left: 33px;
+      gap: 13px;
+      justify-content: center;
+      align-items: center;
+      > img {
+        opacity: 0.5;
+        cursor: pointer;
+        &:hover {
+          opacity: 1;
+        }
+      }
+      @include breakpoint-down-sm {
+        position: relative;
+        top: 90px;
+        flex-grow: 1;
+        justify-content: end;
+      }
     }
   }
 }

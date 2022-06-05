@@ -35,6 +35,12 @@ export const OPEN_LINK = {
   MAIL: () => {
     openLink('mailto:plantslang@gmail.com');
   },
+  NAVER_BLOG: () => {
+    openLink('https://blog.naver.com/plantslanguage');
+  },
+  INSTAGRAM: () => {
+    openLink('https://www.instagram.com/plantslanguage');
+  },
 };
 
 async function openLink(link: string) {
