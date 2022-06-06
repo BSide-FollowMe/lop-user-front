@@ -16,8 +16,8 @@ export const ROUTE_TO = {
   GUIDE_VENTILATION: () => router.push(PageEnum.VENTILATION_GUIDE),
   GUIDE_SUNLIGHT: () => router.push(PageEnum.SUNLIGHT_GUIDE),
   GUIDE_BLIGHT: () => router.push(PageEnum.BLIGHT_GUIDE),
-  MYPAGE: () => router.push(PageEnum.My_Page),
-  ALLPLANTS: (page?:number) => router.push(PageEnum.ALL_PLANTS + `?page=${page || '1'}`),
+  MYPAGE: () => router.push(PageEnum.My_PAGE),
+  ALLPLANTS: (page?: number) => router.push(PageEnum.ALL_PLANTS + `?page=${page || '1'}`),
 };
 export const REPLACE_TO = {
   HOME: () => router.replace(PageEnum.HOME),

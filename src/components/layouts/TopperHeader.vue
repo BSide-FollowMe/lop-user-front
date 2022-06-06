@@ -5,67 +5,36 @@
         <img id="logo" src="@/assets/logo.svg" @click="ROUTE_TO.HOME" />
       </div>
       <div class="tab">
-        <span
-          @click="() => ROUTE_TO.ALLPLANTS(1)"
-          :class="{ active: activeButton == 'ALLPLANTS' }"
-          >모든 식물</span
-        >
-        <span @click="ROUTE_TO.QNABOARD" :class="{ active: activeButton == 'QNABOARD' }"
-          >질문 · 답변</span
-        >
-        <span
-          v-if="isLoggedIn"
-          @click="ROUTE_TO.MYPAGE"
-          :class="{ active: activeButton == 'MYPAGE' }"
-          >마이페이지</span
-        >
-        <span v-else @click="ROUTE_TO.LOGIN" :class="{ active: activeButton == 'LOGIN' }"
-          >로그인</span
-        >
+        <span @click="() => ROUTE_TO.ALLPLANTS(1)" :class="{ active: activeButton == 'ALLPLANTS' }">모든 식물</span>
+        <span @click="ROUTE_TO.QNABOARD" :class="{ active: activeButton == 'QNABOARD' }">질문 · 답변</span>
+        <span v-if="isLoggedIn" @click="ROUTE_TO.MYPAGE" :class="{ active: activeButton == 'MYPAGE' }">마이페이지</span>
+        <span v-else @click="ROUTE_TO.LOGIN" :class="{ active: activeButton == 'LOGIN' }">로그인</span>
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed, watch } from "vue";
-import { ROUTE_TO } from "@/router/routing";
-import { PageEnum } from "@/enums/PageEnum";
-import { tokenSvc } from "@/api/token-service";
-import { useRoute } from "vue-router";
+import { defineComponent, computed } from 'vue';
+import { ROUTE_TO } from '@/router/routing';
+import { PageEnum } from '@/enums/PageEnum';
+import { useRoute } from 'vue-router';
+import { useStore } from 'vuex';
 
 export default defineComponent({
   setup() {
     const route = useRoute();
-    const currentPath = computed(() => route.path);
+    const store = useStore();
     const activeButton = computed(() => {
-      const path: any = route.path;
-      if (!path || !path.length) return "";
-      if (path.startsWith(PageEnum.ALL_PLANTS)) {
-        return "ALLPLANTS";
-      } else if (path.startsWith(PageEnum.QNABOARD)) {
-        return "QNABOARD";
-      } else if (path.startsWith(PageEnum.My_Page)) {
-        return "MYPAGE";
-      } else if (path.startsWith(PageEnum.LOGIN)) {
-        return "LOGIN";
-      } else {
-        return "";
-      }
+      const path: string = route.path;
+      return ['ALL_PLANTS', 'QNABOARD', 'My_PAGE', 'LOGIN']
+        .find((item) => path.startsWith(PageEnum[item as 'ALL_PLANTS' | 'QNABOARD' | 'My_PAGE' | 'LOGIN']))
+        ?.replaceAll('_', '');
     });
-    watch(currentPath, () => {
-      checkLoggedIn();
-    });
-    const isLoggedIn = ref(false);
-    checkLoggedIn();
-    async function checkLoggedIn() {
-      isLoggedIn.value = await tokenSvc.isValidToken();
-    }
 
     return {
       ROUTE_TO,
-      isLoggedIn,
-      currentPath,
+      isLoggedIn: store.getters.isAuthenticated,
       activeButton,
     };
   },
@@ -73,7 +42,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-@import "@/styles/", "@/assets/fonts/pretendard/pretendard.css";
+@import '@/styles/', '@/assets/fonts/pretendard/pretendard.css';
 .container {
   border-bottom: var(--background-color-1) 1px solid;
   .inner-container {
@@ -102,7 +71,7 @@ export default defineComponent({
     align-items: center;
     @include breakpoint-down-sm {
       img#logo {
-        content: url("@/assets/mobile-logo.svg");
+        content: url('@/assets/mobile-logo.svg');
       }
     }
   }
@@ -132,7 +101,7 @@ export default defineComponent({
       &:after {
         cursor: default;
         font-size: 12px;
-        content: "|";
+        content: '|';
         color: var(--background-color-1);
         position: absolute;
         margin: 0 20px;
@@ -151,7 +120,7 @@ export default defineComponent({
         &:after {
           font-size: 12px;
           cursor: default;
-          content: "|";
+          content: '|';
           position: absolute;
           margin: 0 10px;
         }
