@@ -16,7 +16,7 @@
           <span class="text-medium">이런 식물</span>
           은 어때요?
         </h1>
-        <ul class="plant-list">
+        <ul ref="slider" class="plant-list">
           <li class="item" v-for="(item, index) in recommended" :key="`item-${index}`" @click="ROUTE_TO.PLANT_DETAILS(item.id)">
             <div class="img-container">
               <img :src="item.fileUrl" @error="$event.target.src = require('@/assets/images/search/img-error.svg')" />
@@ -45,7 +45,9 @@ import RequestModal from '@/components/modals/RequestModal.vue';
 import { registReport } from '@/api/plant';
 import { tokenSvc } from '@/api/token-service';
 import { ROUTE_TO } from '@/router/routing';
-import { getRecommendPlantList } from '@/api/plant';
+import { getRecommendPlants } from '@/api/plant';
+import type { Plant } from '@/types/api/plant';
+import useHorizontalMouseScroll from '@/hooks/useHorizontalScroll';
 export default defineComponent({
   components: {
     VueButton,
@@ -57,41 +59,9 @@ export default defineComponent({
     const showModal = ref(false);
     const isLoggedIn = ref(false);
     checkLoggedIn();
-    const recommended = ref([]);
+    const recommended = ref([] as Plant[]);
 
-    getRecommended();
-
-    onMounted(() => {
-      horizontalMouseScroll();
-    });
-
-    function horizontalMouseScroll() {
-      const slider: any = document.querySelector('.plant-list');
-      if (!slider) return;
-      let isDown = false;
-      let startX: any, scrollLeft: any;
-      slider.addEventListener('mousedown', (e: any) => {
-        isDown = true;
-        slider.classList.add('active');
-        startX = e.pageX - slider.offsetLeft;
-        scrollLeft = slider.scrollLeft;
-      });
-      slider.addEventListener('mouseleave', () => {
-        isDown = false;
-        slider.classList.remove('active');
-      });
-      slider.addEventListener('mouseup', () => {
-        isDown = false;
-        slider.classList.remove('active');
-      });
-      slider.addEventListener('mousemove', (e: any) => {
-        if (!isDown) return;
-        e.preventDefault();
-        const x = e.pageX - slider.offsetLeft;
-        const walk = (x - startX) * 1.5;
-        slider.scrollLeft = scrollLeft - walk;
-      });
-    }
+    const slider = useHorizontalMouseScroll();
 
     async function registPlant({ email, contents }: { email: string; contents: string }) {
       try {
@@ -120,12 +90,16 @@ export default defineComponent({
     }
     async function getRecommended() {
       try {
-        const { data }: any = await getRecommendPlantList();
-        recommended.value = data;
+        const recommendedPlants = await getRecommendPlants();
+        recommended.value = recommendedPlants;
       } catch (e) {
         console.error(e);
       }
     }
+
+    onMounted(() => {
+      getRecommended();
+    });
 
     return {
       searchTarget,
@@ -134,6 +108,7 @@ export default defineComponent({
       checkIsLoggedIn,
       recommended,
       ROUTE_TO,
+      slider,
     };
   },
 });

@@ -19,6 +19,7 @@ import { PageEnum } from '@/enums/PageEnum';
 import { getPlantList } from '@/api/plant';
 import { getQnaBoardList } from '@/api/qnaboard';
 import setMeta from '@/utils/setMeta';
+import type { Plant, PlantListParam } from '@/types/api/plant';
 
 export default defineComponent({
   name: 'Search Result',
@@ -66,14 +67,14 @@ export default defineComponent({
 
     async function getPlantsList() {
       try {
-        const payload: any = {
+        const payload: PlantListParam = {
           size: 1,
           page: 0,
         };
         if (searchStr.value != '') payload.keyword = searchStr.value;
 
-        const { data }: any = await getPlantList(payload);
-        const resList: any = data.data;
+        const { data: plants } = await getPlantList(payload);
+        const resList: Plant[] = plants;
         if (!resList.length) {
           if (await getQuestionsList()) {
             const query = { ...route.query };

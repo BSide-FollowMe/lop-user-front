@@ -11,8 +11,8 @@ export type GetAccountInfoModel = {
 
 export type PlantListParam = {
   keyword?: string;
-  page?: string;
-  size?: string;
+  page?: number;
+  size: number;
 };
 
 export type Plant = {

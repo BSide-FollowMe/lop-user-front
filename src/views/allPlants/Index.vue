@@ -14,7 +14,7 @@
           :fontSize="{ pc: '20px', mobile: '15px' }"
           @submit="
             () => {
-              onSubmit(searchText);
+              onSearch();
             }
           "
         />
@@ -30,12 +30,12 @@
 import setMeta from '@/utils/setMeta';
 import { defineComponent, ref, watchEffect } from 'vue';
 import { getPlantList } from '@/api/plant';
-import { Plant } from '@/types/api/plant';
+import { Plant, PlantListParam } from '@/types/api/plant';
 import List from './List.vue';
 import { ROUTE_TO } from '@/router/routing';
 import { useRoute, useRouter } from 'vue-router';
 import SearchBar from '@/components/search/SearchBar.vue';
-import { validateSearchStr } from '@/utils/validation';
+import useSearch from '@/hooks/useSearch';
 
 export default defineComponent({
   setup() {
@@ -52,12 +52,12 @@ export default defineComponent({
     const totalCount = ref(0);
     const pageNumber = ref(0);
     const pageLength = ref(0);
-    const searchText = ref('');
+    const [searchText, onSearch] = useSearch();
     async function getPlantsList(page: number) {
       try {
-        const payload = {
-          size: '20',
-          page: page.toString(),
+        const payload: PlantListParam = {
+          size: 20,
+          page: page,
         };
 
         const { totalElement, totalPage, data: plantsResponse } = await getPlantList(payload);
@@ -75,14 +75,6 @@ export default defineComponent({
     const getOtherPage = (payload: { page: number }) => {
       router.push(`${route.path}?page=${Number(payload.page) + 1}`);
     };
-    function onSubmit(newVal: string) {
-      const validateMsg = validateSearchStr(newVal);
-      if (validateMsg) {
-        alert(validateMsg);
-        return;
-      }
-      ROUTE_TO.SEARCH_RESULT(newVal);
-    }
 
     return {
       currentPage,
@@ -93,7 +85,7 @@ export default defineComponent({
       getOtherPage,
       ROUTE_TO,
       searchText,
-      onSubmit,
+      onSearch,
     };
   },
   components: {

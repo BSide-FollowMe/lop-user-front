@@ -19,8 +19,9 @@ export async function getPlantList(payload: PlantListParam): Promise<ListRespons
   return res.data;
 }
 
-export async function getRecommendPlantList(): Promise<Plant[]> {
-  return axios.get(API_PREFIX + Api.RECOMMEND_PLANT_LIST);
+export async function getRecommendPlants(): Promise<Plant[]> {
+  const res = await axios.get<Plant[]>(API_PREFIX + Api.RECOMMEND_PLANT_LIST);
+  return res.data;
 }
 
 export async function getPlantDetail(payload: PlantDetailParam): Promise<PlantDetailResponse> {

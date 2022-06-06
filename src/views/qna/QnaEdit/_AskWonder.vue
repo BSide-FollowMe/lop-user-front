@@ -47,6 +47,7 @@ import { registQnaBoard, getQnaBoardDetail, modifyQnaBoard, getQuestionImages } 
 import type { BoardParam } from '@/types/api/board';
 import { ROUTE_TO } from '@/router/routing';
 import store from '@/store';
+import type { Plant, PlantListParam } from '@/types/api/plant';
 
 export default defineComponent({
   name: 'Ask Help Form',
@@ -65,7 +66,7 @@ export default defineComponent({
     const myId = computed(() => myUserInfo.value?.id || null);
 
     const plantName = ref(props.plant);
-    const plantNameOptions: any = ref([]);
+    const plantNameOptions = ref([] as { name: string; id: string }[]);
     const plantNameSubjective = ref('');
     const content = ref('');
     const images = ref([] as any);
@@ -123,12 +124,12 @@ export default defineComponent({
     async function getPlantNameList(searchStr: string) {
       try {
         isLoading.value = true;
-        const payload = {
-          size: '5',
+        const payload: PlantListParam = {
+          size: 5,
           keyword: searchStr,
         };
-        const { data }: any = await getPlantList(payload);
-        plantNameOptions.value = await data.data.map((item: any) => {
+        const { data: plants } = await getPlantList(payload);
+        plantNameOptions.value = await plants.map((item: Plant) => {
           return { name: item.name, id: item.id };
         });
       } catch (e) {

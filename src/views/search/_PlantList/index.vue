@@ -4,10 +4,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed } from 'vue';
+import { defineComponent, ref, computed, onMounted } from 'vue';
 import EmptyPage from './_EmptyPage.vue';
 import List from './_List.vue';
 import { getPlantList } from '@/api/plant';
+import type { PlantListParam, Plant } from '@/types/api/plant';
+
 export default defineComponent({
   name: 'Plant List',
   components: {
@@ -19,33 +21,33 @@ export default defineComponent({
     const searchTarget = computed(() => props.text);
     const isEmpty = ref(false);
     const page = ref(0);
-    const list = ref([] as any);
+    const list = ref([] as Plant[]);
     const totalLength = ref(0);
-    init();
-    function init() {
-      getPlantsList();
-    }
 
     async function getPlantsList() {
       try {
-        const payload: any = {
+        const payload: PlantListParam = {
           size: 10,
           page: page.value,
         };
         if (searchTarget.value != '') payload.keyword = searchTarget.value;
 
-        const { data }: any = await getPlantList(payload);
-        const resList: any = data.data;
+        const { data: plants, totalElement } = await getPlantList(payload);
+        const resList: Plant[] = plants;
         if (!resList.length) {
           isEmpty.value = true;
           return;
         }
         list.value.push(...resList);
-        if (page.value == 0) totalLength.value = data.totalElement;
+        if (page.value == 0) totalLength.value = totalElement;
       } catch (e) {
         console.error(e);
       }
     }
+    onMounted(() => {
+      getPlantsList();
+    });
+
     function loadMore() {
       page.value++;
       getPlantsList();

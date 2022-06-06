@@ -19,7 +19,7 @@
             :fontSize="{ pc: '25px', mobile: '16px' }"
             @submit="
               () => {
-                onSubmit(searchText);
+                onSearch();
               }
             "
           />
@@ -36,7 +36,7 @@
         <ul ref="slider" class="plant-list">
           <li class="item" v-for="(item, index) in recommended" :key="`item-${index}`" @click="ROUTE_TO.PLANT_DETAILS(item.id)">
             <div class="img-container">
-              <img :src="item.fileUrl" @error="$event.target.src = require('@/assets/images/search/img-error.svg')" />
+              <img :src="item.fileUrl" @error="($event.target as HTMLImageElement).src = require('@/assets/images/search/img-error.svg')" />
             </div>
             <span class="category" v-if="item.categoryTitle && item.categoryTitle != ''">
               {{ item.categoryTitle }}
@@ -82,56 +82,46 @@
 
 <script lang="ts">
 import setMeta from '@/utils/setMeta';
-import { defineComponent, ref, computed } from 'vue';
-// import ToTopButton from '@/components/buttons/ToTop.vue';
-import { validateSearchStr } from '@/utils/validation';
+import { defineComponent, ref, computed, onMounted } from 'vue';
 import SearchBar from '@/components/search/SearchBar.vue';
 import store from '@/store';
 import { ROUTE_TO } from '@/router/routing';
 import useHorizontalMouseScroll from '@/hooks/useHorizontalScroll';
+import useSearch from '@/hooks/useSearch';
+import { getRecommendPlants } from '@/api/plant';
+import type { Plant } from '@/types/api/plant';
 
-import { getRecommendPlantList } from '@/api/plant';
 export default defineComponent({
   name: 'Home',
   components: { SearchBar },
   setup() {
     const userInfo = computed(() => store.getters.getUserInfo);
     const nickname = computed(() => userInfo.value?.nickname || '식집사');
-    const searchText = ref('');
-    const recommended = ref([]);
+    const recommended = ref([] as Plant[]);
     const slider = useHorizontalMouseScroll();
+    const [searchText, onSearch] = useSearch();
     setMeta({
       title: '식물의언어 : 식집사를 위한 식물 정보 플랫폼',
       description:
         '식물의언어는 식물을 더 건강하게 키우기 위한 정보를 제공하는 커뮤니티형 식물 정보 플랫폼입니다. 식물의언어를 통해 내 식물을 더 잘 이해하고, 수많은 식물집사들을 만나 서로의 노하우를 주고받아보세요.',
       path: '/home',
     });
-    
-    getRecommended();
-
-    function clickToTop() {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-    function onSubmit(newVal: string) {
-      const validateMsg = validateSearchStr(newVal);
-      if (validateMsg) {
-        alert(validateMsg);
-        return;
-      }
-      ROUTE_TO.SEARCH_RESULT(newVal);
-    }
     async function getRecommended() {
       try {
-        const { data }: any = await getRecommendPlantList();
-        recommended.value = data;
+        const recommendedPlants = await getRecommendPlants();
+        recommended.value = recommendedPlants;
       } catch (e) {
         console.error(e);
       }
     }
+
+    onMounted(() => {
+      getRecommended();
+    });
+
     return {
       searchText,
-      clickToTop,
-      onSubmit,
+      onSearch,
       nickname,
       ROUTE_TO,
       recommended,
