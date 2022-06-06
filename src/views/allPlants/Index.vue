@@ -30,7 +30,7 @@
 import setMeta from '@/utils/setMeta';
 import { defineComponent, ref, watchEffect } from 'vue';
 import { getPlantList } from '@/api/plant';
-import { PlantListRespModel, PlantListData } from '@/api/model/plantModel';
+import { Plant } from '@/types/api/plant';
 import List from './List.vue';
 import Empty from './Empty.vue';
 import { ROUTE_TO } from '@/router/routing';
@@ -48,7 +48,7 @@ export default defineComponent({
     });
     const router = useRouter();
     const route = useRoute();
-    const plants = ref([] as PlantListData[]);
+    const plants = ref([] as Plant[]);
     const currentPage = ref(0);
     const totalCount = ref(0);
     const pageNumber = ref(0);
@@ -61,10 +61,10 @@ export default defineComponent({
           page: page.toString(),
         };
 
-        const { data }: { data: PlantListRespModel } = await getPlantList(payload);
-        plants.value = data.data;
-        totalCount.value = Number(data.totalElement);
-        pageLength.value = Number(data.totalPage);
+        const { totalElement, totalPage, data: plantsResponse } = await getPlantList(payload);
+        plants.value = plantsResponse;
+        totalCount.value = Number(totalElement);
+        pageLength.value = Number(totalPage);
       } catch (e) {
         console.error(e);
       }

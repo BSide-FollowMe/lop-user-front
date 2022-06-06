@@ -44,7 +44,7 @@ import VueButton from '@/components/buttons/VueButton.vue';
 import VueAutocomplete from '@/components/inputs/VueAutocomplete.vue';
 import PhotoUploader from '@/components/inputs/PhotoUploader.vue';
 import { registQnaBoard, getQnaBoardDetail, modifyQnaBoard, getQuestionImages } from '@/api/qnaboard';
-import { BoardParamModel } from '@/api/model/boardModel';
+import type { BoardParam } from '@/types/api/board';
 import { ROUTE_TO } from '@/router/routing';
 import store from '@/store';
 
@@ -139,7 +139,7 @@ export default defineComponent({
     }
     function submit() {
       const selectedPlant = plantNameOptions.value.find((item: any) => plantName.value == item.name);
-      const payload: BoardParamModel = {
+      const payload: BoardParam = {
         plantName: plantName.value == '직접입력' ? plantNameSubjective.value : plantName.value,
         content: content.value,
         type: 'WONDER',
@@ -152,7 +152,7 @@ export default defineComponent({
     }
     function submitModify() {
       const selectedPlant = plantNameOptions.value.find((item: any) => plantName.value == item.name);
-      const payload: BoardParamModel = {
+      const payload: BoardParam = {
         questionId: id.value,
         plantName: plantName.value == '직접입력' ? plantNameSubjective.value : plantName.value,
         content: content.value,
@@ -164,7 +164,7 @@ export default defineComponent({
       if (!validatePayload(payload)) return;
       modifyQuestion(payload, id.value);
     }
-    async function modifyQuestion(payload: BoardParamModel, questionId: string) {
+    async function modifyQuestion(payload: BoardParam, questionId: string) {
       try {
         const res: any = await modifyQnaBoard(payload, questionId);
         ROUTE_TO.QNABOARD_DETAIL(res.data.id);
@@ -173,7 +173,7 @@ export default defineComponent({
       }
     }
 
-    async function registQuestion(payload: BoardParamModel) {
+    async function registQuestion(payload: BoardParam) {
       try {
         const res: any = await registQnaBoard(payload);
         ROUTE_TO.QNABOARD_DETAIL(res.data.id);

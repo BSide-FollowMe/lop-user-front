@@ -42,7 +42,7 @@ import { formatNumber, preview } from '@/utils/text';
 import ArrowForward from '@/assets/icon/arrow_forward.svg';
 import QuestionBox from '@/assets/images/detail/질문하기.svg';
 import { useRouter } from 'vue-router';
-import { Question as QuestionModel } from '@/api/model/boardModel';
+import { Question as QuestionModel } from '@/types/api/board';
 
 export default defineComponent({
   props: {

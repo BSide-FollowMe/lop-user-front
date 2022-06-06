@@ -54,7 +54,7 @@
 <script lang="ts">
 import setMeta from '@/utils/setMeta';
 import { defineComponent, onMounted, ref } from 'vue';
-import { Member } from '@/api/model/memberModel';
+import { Member } from '@/types/api/member';
 import { getMyAccountInfo, updateMyAccount } from '@/api/member';
 import level from '@/assets/images/level/씨앗집사.svg';
 import helpIcon from '@/assets/icon/help.svg';

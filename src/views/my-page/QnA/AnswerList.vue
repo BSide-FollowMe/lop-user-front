@@ -19,7 +19,7 @@
 
 <script lang="ts">
 import { defineComponent, onUnmounted, PropType, computed } from 'vue';
-import { Answer } from '@/api/model/memberModel';
+import { Answer } from '@/types/api/board';
 import { debounce } from 'lodash';
 import { handleInfiniteListScroll } from '@/utils/global';
 import { useRouter } from 'vue-router';

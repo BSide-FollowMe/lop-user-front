@@ -20,7 +20,7 @@
 
 <script lang="ts">
 import { defineComponent, onUnmounted, PropType, computed } from 'vue';
-import { Question } from '@/api/model/memberModel';
+import { Question } from '@/types/api/board';
 import { debounce } from 'lodash';
 import { getTimeDistanceWithNaturalStr, preview } from '@/utils/text';
 import { handleInfiniteListScroll } from '@/utils/global';

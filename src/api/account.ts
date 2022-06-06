@@ -1,5 +1,5 @@
 import axios from '@/utils/http/axios';
-import { LoginParamModel, LoginRespModel } from './model/accountModel';
+import { Member } from '../types/api/member';
 
 const API_PREFIX = '/v1';
 enum Api {
@@ -10,7 +10,7 @@ enum Api {
   ACCOUNT_INFO = '/members/me',
 }
 
-export function doKakaoLogin(e: any): any {
+export function doKakaoLogin(e: MouseEvent): void {
   const API_HOST = process.env?.VUE_APP_API_URL;
   if (!e.screenX) {
     return;
@@ -19,7 +19,7 @@ export function doKakaoLogin(e: any): any {
   window.open(urlSum, '_self');
 }
 
-export function doNaverLogin(e: any): any {
+export function doNaverLogin(e: MouseEvent): void {
   const API_HOST = process.env?.VUE_APP_API_URL;
   if (!e.screenX) {
     return;
@@ -27,6 +27,7 @@ export function doNaverLogin(e: any): any {
   const urlSum = API_HOST + Api.NAVER_LOGIN;
   window.open(urlSum, '_self');
 }
-export function getAccountInfo(): Promise<unknown> {
-  return axios.get(API_PREFIX + Api.ACCOUNT_INFO);
+export async function getAccountInfo(): Promise<Member> {
+  const res = await axios.get(API_PREFIX + Api.ACCOUNT_INFO);
+  return res.data;
 }

@@ -1,7 +1,8 @@
 import axios from '@/utils/http/axios';
-import { Member, Answer, Question } from './model/memberModel';
-import { PlantListData } from './model/plantModel';
-import { ListResponse } from './model/common';
+import { Member } from '@/types/api/member';
+import { Answer, Question } from '@/types/api/board';
+import { Plant } from '@/types/api/plant';
+import { ListResponse } from '@/types/api/common';
 import { payloadToQueryString, objectToFormdata } from '@/utils/text';
 import { tokenSvc } from '@/api/token-service';
 import $store from '@/store';
@@ -36,8 +37,8 @@ export async function withdrawal(): Promise<void> {
   return await axios.post(`${API_PREFIX}${Api.POST_WITHDRAWAL}`);
 }
 
-export async function getMyFavorite({ size = 10, page }: { size: number; page: number }): Promise<ListResponse<PlantListData>> {
-  const res = await axios.get<ListResponse<PlantListData>>(`${API_PREFIX}${Api.GET_FAVORITE}?${payloadToQueryString({ size, page })}`);
+export async function getMyFavorite({ size = 10, page }: { size: number; page: number }): Promise<ListResponse<Plant>> {
+  const res = await axios.get<ListResponse<Plant>>(`${API_PREFIX}${Api.GET_FAVORITE}?${payloadToQueryString({ size, page })}`);
   return res.data;
 }
 

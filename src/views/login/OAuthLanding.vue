@@ -34,9 +34,8 @@ export default defineComponent({
 
     async function getUserInfo() {
       try {
-        const { data } = await getAccountInfo();
-        console.log(data);
-        tokenSvc.setToken({ token: accessToken.value, ...data });
+        const accountInfo = await getAccountInfo();
+        tokenSvc.setToken({ token: accessToken.value, ...accountInfo });
         ROUTE_TO.HOME();
       } catch (e) {
         alert('잘못된 접근입니다.');

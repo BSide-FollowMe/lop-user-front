@@ -1,6 +1,6 @@
 import axios from '@/utils/http/axios';
 import { payloadToQueryString, objectToFormdata } from '@/utils/text';
-import { BoardParamModel, BoardRespModel, BoardListParamModel, CommentParamModel, CommentRespModel } from './model/boardModel';
+import type { BoardParam, BoardResponse, BoardListParam, CommentParam, CommentResponse } from '@/types/api/board';
 
 const API_PREFIX = '/v1';
 enum Api {
@@ -15,25 +15,25 @@ enum Api {
   MY_QUESTIONS = '/questions/me',
 }
 
-export function registQnaBoard(payload: BoardParamModel): Promise<unknown> {
+export function registQnaBoard(payload: BoardParam): Promise<unknown> {
   const formdata = objectToFormdata(payload);
-  return axios.post<BoardRespModel>(API_PREFIX + Api.REGIST_BOARD, formdata, {
+  return axios.post<BoardResponse>(API_PREFIX + Api.REGIST_BOARD, formdata, {
     headers: { 'Content-Type': `multipart/form-data` },
   });
 }
 
-export function modifyQnaBoard(payload: BoardParamModel, questionId: string): Promise<unknown> {
+export function modifyQnaBoard(payload: BoardParam, questionId: string): Promise<unknown> {
   const formdata = objectToFormdata(payload);
-  return axios.put<BoardRespModel>(API_PREFIX + Api.UPDATE_BOARD + '/' + questionId, formdata, {
+  return axios.put<BoardResponse>(API_PREFIX + Api.UPDATE_BOARD + '/' + questionId, formdata, {
     headers: { 'Content-Type': `multipart/form-data` },
   });
 }
 
-export function registQnaBoardComment(payload: CommentParamModel, questionId: string): Promise<unknown> {
-  return axios.post<CommentRespModel>(API_PREFIX + Api.REGIST_BOARD + '/' + questionId + Api.REGIST_COMMENT, payload);
+export function registQnaBoardComment(payload: CommentParam, questionId: string): Promise<unknown> {
+  return axios.post<CommentResponse>(API_PREFIX + Api.REGIST_BOARD + '/' + questionId + Api.REGIST_COMMENT, payload);
 }
-export function modifyQnaBoardComment(payload: CommentParamModel, questionId: string, commentId: string): Promise<unknown> {
-  return axios.put<CommentRespModel>(
+export function modifyQnaBoardComment(payload: CommentParam, questionId: string, commentId: string): Promise<unknown> {
+  return axios.put<CommentResponse>(
     API_PREFIX +
       Api.REGIST_BOARD +
       '/' +
@@ -41,23 +41,23 @@ export function modifyQnaBoardComment(payload: CommentParamModel, questionId: st
       Api.REGIST_COMMENT +
       '?' +
       payloadToQueryString({ questionId: questionId, commentId: commentId }),
-    payload,
+    payload
   );
 }
 
 export function deleteQnaBoardComment(questionId: string, commentId: string): Promise<unknown> {
-  return axios.delete<CommentRespModel>(
+  return axios.delete<CommentResponse>(
     API_PREFIX +
       Api.REGIST_BOARD +
       '/' +
       questionId +
       Api.REGIST_COMMENT +
       '?' +
-      payloadToQueryString({ questionId: questionId, commentId: commentId }),
+      payloadToQueryString({ questionId: questionId, commentId: commentId })
   );
 }
 
-export function getQnaBoardList(payload: BoardListParamModel): Promise<unknown> {
+export function getQnaBoardList(payload: BoardListParam): Promise<unknown> {
   return axios.get(API_PREFIX + Api.BOARD_LIST + '?' + payloadToQueryString(payload));
 }
 

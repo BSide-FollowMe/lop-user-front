@@ -1,23 +1,15 @@
-import { GetAccountInfoModel, LoginParamModel, LoginRespModel } from '@/api/model/accountModel';
 import router from '@/router';
 import { PageEnum } from '@/enums/PageEnum';
 import { MessageEnum } from '@/enums/MessageEnum';
 import { tokenSvc } from '@/api/token-service';
+import { MemberLevel, Member } from '@/types/api/member';
 
-interface UserState {
-  id: string;
-  memberLevel: MemberLevel | null;
-  nickname: string;
+type UserState = Member & {
   token: string;
   authenticated: boolean;
   sessionTimeout?: boolean;
-}
-interface MemberLevel {
-  grade: string;
-  likeCount: number;
-  pollCount: number;
-  postingCotentCount: number;
-}
+};
+
 const initState = () => {
   return {
     id: '',

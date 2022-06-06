@@ -1,11 +1,11 @@
-export interface BoardListParamModel {
+export type BoardListParam = {
   keyword?: string;
   page: number;
   size?: number;
   plantId?: number;
-}
+};
 
-export interface BoardParamModel {
+export type BoardParam = {
   questionId?: string;
   content: string;
   type: string;
@@ -15,9 +15,24 @@ export interface BoardParamModel {
   plantId?: string;
   plantCountermeasure?: string;
   images?: string[];
-}
+};
 
-export interface BoardRespModel {
+type CommentData = {
+  commentOrder: string;
+  content: string;
+  createdDateTime: string;
+  deletedDateTime: string;
+  id: string;
+  isSupport: boolean;
+  modifiedDateTime: string;
+  refId: string;
+  supportCount: number;
+  writer: {
+    id: string;
+    nickname: string;
+  };
+};
+export type BoardResponse = {
   comments: {
     data: CommentData[];
     page: string;
@@ -44,29 +59,14 @@ export interface BoardRespModel {
     id: string;
     nickname: string;
   };
-}
-interface CommentData {
-  commentOrder: string;
-  content: string;
-  createdDateTime: string;
-  deletedDateTime: string;
-  id: string;
-  isSupport: boolean;
-  modifiedDateTime: string;
-  refId: string;
-  supportCount: number;
-  writer: {
-    id: string;
-    nickname: string;
-  };
-}
+};
 
-export interface CommentParamModel {
+export type CommentParam = {
   content: string;
   refId?: number | string;
-}
+};
 
-export interface CommentRespModel {
+export type CommentResponse = {
   commentOrder: number | string;
   content: string;
   createdDateTime: string;
@@ -80,14 +80,24 @@ export interface CommentRespModel {
     id: number | string;
     nickname: string;
   };
-}
+};
 
-export interface Question {
-  commentCount: number;
-  content: string;
-  createdDateTime: string;
+type Post = {
   id: number;
-  imageUrl: string;
+  createdDateTime: string;
   plantName: string;
   supportCount: number;
-}
+};
+
+export type Answer = {
+  commentContent: string;
+  questionContent: string;
+  questionId: number;
+  commentOrder: number;
+} & Post;
+
+export type Question = {
+  commentCount: number;
+  content: string;
+  imageUrl: string;
+} & Post;

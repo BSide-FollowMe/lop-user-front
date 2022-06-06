@@ -20,8 +20,8 @@ import AnswerList from './AnswerList.vue';
 import Empty from './_Empty.vue';
 import { useRoute } from 'vue-router';
 import { getMyQuestions, getMyAnswers } from '@/api/member';
-import { ListResponse } from '@/api/model/common';
-import { Question, Answer } from '@/api/model/memberModel';
+import { ListResponse } from '@/types/api/common';
+import { Question, Answer } from '@/types/api/board';
 import setMeta from '@/utils/setMeta';
 
 export default defineComponent({

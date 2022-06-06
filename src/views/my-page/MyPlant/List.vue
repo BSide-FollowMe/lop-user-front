@@ -33,7 +33,7 @@ import FullHeartIcon from '@/assets/icon/heart-fill.svg';
 import { debounce } from 'lodash';
 import { handleInfiniteListScroll } from '@/utils/global';
 import { useStore } from 'vuex';
-import { PlantListData } from '@/api/model/plantModel';
+import { Plant } from '@/types/api/plant';
 import { registerLike } from '@/api/plant';
 import { useRouter } from 'vue-router';
 import DummyImage from '@/assets/images/detail/dummy-image.svg';
@@ -41,7 +41,7 @@ import setMeta from '@/utils/setMeta';
 export default defineComponent({
   props: {
     items: {
-      type: Array as PropType<(PlantListData & { isAdded: boolean })[]>,
+      type: Array as PropType<(Plant & { isAdded: boolean })[]>,
       default: () => [],
     },
     totalElement: {
@@ -101,7 +101,7 @@ export default defineComponent({
         }
       }
     }, 300);
-    const moveToPlantDetail = (plant: PlantListData & { isAdded: boolean }) => {
+    const moveToPlantDetail = (plant: Plant & { isAdded: boolean }) => {
       router.push(`/plant/${plant.id}`);
     };
     return {

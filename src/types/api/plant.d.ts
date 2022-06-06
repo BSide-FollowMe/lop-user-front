@@ -1,66 +1,53 @@
 import { blight, category, sunlightType, winterTemperatureUpDown } from 'plant';
-import { Question } from './boardModel';
+import { Question } from './board';
 
-export interface GetAccountInfoModel {
+export type GetAccountInfoModel = {
   email: string;
   name: string;
   introduction: string;
   phone: string;
   address: string;
-}
+};
 
-export interface PlantListParamModel {
+export type PlantListParam = {
   keyword?: string;
   page?: string;
   size?: string;
-}
+};
 
-export interface PlantListRespModel {
-  data: PlantListData[];
-  page: string;
-  size: string;
-  totalElement: string;
-  totalPage: string;
-}
-
-export interface PlantListData {
-  category?: string;
-  categoryTitle?: string;
-  createdDateTime?: string;
-  fileName?: string;
-  fileUrl?: string;
-  hasImage?: string;
+export type Plant = {
+  category: category;
+  categoryTitle: string;
+  createdDateTime: string;
+  fileName: string;
+  fileUrl: string;
+  hasImage: string;
   id: string;
-  isVisible?: string;
-  modifiedDateTime?: string;
-  name?: string;
-  nickname?: string;
-}
+  isVisible: string;
+  modifiedDateTime: string;
+  name: string;
+  nickname: string;
+};
 
-export interface PlantDetailParamModel {
+export type PlantDetailParam = {
   plantId: string;
-}
+};
 
-export interface PlantDetailRespModel {
+export type PlantDetailResponse = Nullable<
+  Omit<Plant, 'hasImage'>,
+  'category' | 'categoryTitle' | 'createdDateTime' | 'fileName' | 'fileUrl' | 'isVisible' | 'modifiedDateTime' | 'nickname'
+> & {
   blights?: blight[];
-  category?: category;
-  categoryTitle?: string;
-  createdDateTime?: string;
-  fileName?: string;
   fileSource?: string;
   fileSourceLink?: string;
-  fileUrl?: string;
   growthEasy: string;
   growthHard: string;
   id: string;
   isToxicity?: boolean;
   isVentilation?: boolean;
-  isVisible?: boolean;
   maxHumidity?: string;
   minHumidity?: string;
-  modifiedDateTime?: string;
   name: string;
-  nickname?: string;
   pollGrowth: {
     growthEasy: number;
     growthHard: number;
@@ -79,11 +66,11 @@ export interface PlantDetailRespModel {
   waterPeriod?: string;
   winterTemperature?: string;
   winterTemperatureUpDown?: winterTemperatureUpDown;
-}
+};
 
-export interface ReportParamModel {
+export type ReportParam = {
   content: string;
   email: string;
   plantId?: number | string;
   reportType: string;
-}
+};

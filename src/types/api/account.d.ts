@@ -1,16 +1,16 @@
-export interface GetAccountInfoModel {
+export type GetAccountInfo = {
   email: string;
   name: string;
   introduction: string;
   phone: string;
   address: string;
-}
+};
 
-export interface LoginParamModel {
+export type LoginParam = {
   id: string;
   password: string;
-}
+};
 
-export interface LoginRespModel {
+export type LoginResponse = {
   jwt: string;
-}
+};

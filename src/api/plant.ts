@@ -1,14 +1,8 @@
 import axios from '@/utils/http/axios';
 import { payloadToQueryString } from '@/utils/text';
-import {
-  PlantListParamModel,
-  PlantListRespModel,
-  PlantListData,
-  PlantDetailParamModel,
-  PlantDetailRespModel,
-  ReportParamModel,
-} from './model/plantModel';
+import { PlantListParam, Plant, PlantDetailParam, PlantDetailResponse, ReportParam } from '@/types/api/plant';
 import { getClientIpAddress } from '@/utils/http/client';
+import { ListResponse } from '@/types/api/common';
 
 const API_PREFIX = '/v1';
 enum Api {
@@ -20,20 +14,29 @@ enum Api {
   RECOMMEND_PLANT_LIST = '/recommend-plants',
 }
 
-export async function getPlantList(payload: PlantListParamModel): Promise<{ data: PlantListRespModel }> {
-  return axios.get(API_PREFIX + Api.PLANT_LIST + '?' + payloadToQueryString(payload));
-}
-
-export async function getRecommendPlantList(): Promise<PlantListData[]> {
-  return axios.get(API_PREFIX + Api.RECOMMEND_PLANT_LIST);
-}
-
-export async function getPlantDetail(payload: PlantDetailParamModel): Promise<PlantDetailRespModel> {
-  const res = await axios.get<PlantDetailRespModel>(API_PREFIX + Api.PLANT_DETAIL + '/' + payload.plantId);
+export async function getPlantList(payload: PlantListParam): Promise<ListResponse<Plant>> {
+  const res = await axios.get<ListResponse<Plant>>(API_PREFIX + Api.PLANT_LIST + '?' + payloadToQueryString(payload));
   return res.data;
 }
 
-export async function registerLike({ plantId, memberId, isAdded }: { plantId: number; memberId: number; isAdded: boolean }): Promise<unknown> {
+export async function getRecommendPlantList(): Promise<Plant[]> {
+  return axios.get(API_PREFIX + Api.RECOMMEND_PLANT_LIST);
+}
+
+export async function getPlantDetail(payload: PlantDetailParam): Promise<PlantDetailResponse> {
+  const res = await axios.get<PlantDetailResponse>(API_PREFIX + Api.PLANT_DETAIL + '/' + payload.plantId);
+  return res.data;
+}
+
+export async function registerLike({
+  plantId,
+  memberId,
+  isAdded,
+}: {
+  plantId: number;
+  memberId: number;
+  isAdded: boolean;
+}): Promise<unknown> {
   return await axios.put(`${API_PREFIX}${Api.REGISTER_LIKE}/${plantId}/favorite`, {
     plantId,
     memberId,
@@ -51,6 +54,6 @@ export async function pollDifficulty({ plantId, memberId, type }: { plantId: num
   });
 }
 
-export async function registReport(payload: ReportParamModel): Promise<void> {
+export async function registReport(payload: ReportParam): Promise<void> {
   return axios.post(API_PREFIX + Api.REPORT_REGIST, payload);
 }

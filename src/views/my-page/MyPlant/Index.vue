@@ -11,14 +11,14 @@ import { defineComponent, onMounted, ref } from 'vue';
 import { getMyFavorite } from '@/api/member';
 import Empty from './Empty.vue';
 import List from './List.vue';
-import { PlantListData } from '@/api/model/plantModel';
-import { ListResponse } from '@/api/model/common';
+import { Plant } from '@/types/api/plant';
+import { ListResponse } from '@/types/api/common';
 
 export default defineComponent({
   setup() {
     const size = 8;
     const page = ref(0);
-    const res = ref({} as ListResponse<PlantListData & { isAdded: boolean }>);
+    const res = ref({} as ListResponse<Plant & { isAdded: boolean }>);
     const init = async () => {
       const favorites = await getMyFavorite({ size, page: page.value });
       res.value = { ...favorites, data: [...(res.value.data || []), ...favorites.data.map((item) => ({ ...item, isAdded: true }))] };

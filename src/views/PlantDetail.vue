@@ -56,17 +56,17 @@ import RequestModal from '@/components/modals/RequestModal.vue';
 
 import { getPlantDetail, registReport } from '@/api/plant';
 import { getQnaBoardList } from '@/api/qnaboard';
-import { PlantDetailRespModel } from '@/api/model/plantModel';
+import { PlantDetailResponse } from '@/types/api/plant';
 import { computed, onMounted, ref, onBeforeMount, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import { Question as QuestionModel } from '@/api/model/boardModel';
+import { Question as QuestionModel } from '@/types/api/board';
 import setMeta from '@/utils/setMeta';
 
 export default defineComponent({
   setup() {
     const route = useRoute();
     const router = useRouter();
-    const plantDetail = ref({} as PlantDetailRespModel);
+    const plantDetail = ref({} as PlantDetailResponse);
     const guideOpened = ref(false);
     const reportOpened = ref(false);
     const guideOptions = ref({} as { componentName: string; modalTitle: string });
@@ -120,7 +120,7 @@ export default defineComponent({
         plantDetail.value.growthEasy +
           plantDetail.value.pollGrowth.growthEasy +
           plantDetail.value.growthHard +
-          plantDetail.value.pollGrowth.growthHard,
+          plantDetail.value.pollGrowth.growthHard
       );
       if (total == 0) {
         return 0;
@@ -133,7 +133,7 @@ export default defineComponent({
         plantDetail.value.growthEasy +
           plantDetail.value.pollGrowth.growthEasy +
           plantDetail.value.growthHard +
-          plantDetail.value.pollGrowth.growthHard,
+          plantDetail.value.pollGrowth.growthHard
       );
       if (total == 0) {
         return 0;
