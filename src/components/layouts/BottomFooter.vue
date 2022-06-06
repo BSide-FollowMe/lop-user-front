@@ -20,7 +20,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent } from 'vue';
 import { ROUTE_TO, OPEN_LINK } from '@/router/routing';
 
 export default defineComponent({

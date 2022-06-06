@@ -1,6 +1,6 @@
 <template>
   <input id="searchText" type="text" v-model="searchText" :class="{ 'is-empty': searchText === '' }" @keyup.enter="emitSubmit" />
-  <label for="searchText">{{ placeholder.content }}</label>
+  <label for="searchText">{{ placeholder }}</label>
   <button @click="emitSubmit"></button>
 </template>
 
@@ -13,8 +13,12 @@ export default defineComponent({
       type: [String, Number],
     },
     placeholder: {
-      type: Object as PropType<{ content: string; size: { pc: string; mobile: string } }>,
-      default: () => ({ content: '식물의 이름 또는 궁금하신 점을 입력해주세요.', size: { pc: '25px', mobile: '16px' } }),
+      type: String,
+      default: '',
+    },
+    fontSize: {
+      type: Object as PropType<{ pc: string; mobile: string }>,
+      default: () => ({ pc: '25px', mobile: '16px' }),
     },
   },
   setup(props, { emit }) {
@@ -26,8 +30,8 @@ export default defineComponent({
     function emitSubmit() {
       emit('submit');
     }
-    const searchTextPcSize = computed(() => props.placeholder.size.pc);
-    const searchTextMobileSize = computed(() => props.placeholder.size.mobile);
+    const searchTextPcSize = computed(() => props.fontSize.pc);
+    const searchTextMobileSize = computed(() => props.fontSize.mobile);
     return {
       emitSubmit,
       searchText,

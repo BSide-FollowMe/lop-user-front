@@ -15,7 +15,8 @@
         <div class="searcher">
           <SearchBar
             v-model:modelValue="searchText"
-            :placeholder="{ content: '식물의 이름 또는 궁금하신 점을 입력해주세요.', size: { pc: '25px', mobile: '16px' } }"
+            placeholder="식물의 이름 또는 궁금하신 점을 입력해주세요."
+            :fontSize="{ pc: '25px', mobile: '16px' }"
             @submit="
               () => {
                 onSubmit(searchText);

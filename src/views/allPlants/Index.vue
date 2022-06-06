@@ -10,7 +10,8 @@
       <div class="searcher">
         <SearchBar
           v-model:modelValue="searchText"
-          :placeholder="{ content: '식물의 이름 또는 궁금하신 점을 입력해주세요.', size: { pc: '20px', mobile: '15px' } }"
+          placeholder="식물의 이름 또는 궁금하신 점을 입력해주세요"
+          :fontSize="{ pc: '20px', mobile: '15px' }"
           @submit="
             () => {
               onSubmit(searchText);
@@ -20,8 +21,7 @@
       </div>
     </div>
     <div class="main">
-      <List v-if="totalCount > 0" :currentPage="currentPage" :totalCount="totalCount" :plants="plants" @onChangePage="getOtherPage"></List>
-      <Empty v-else></Empty>
+      <List :currentPage="currentPage" :totalCount="totalCount" :plants="plants" @onChangePage="getOtherPage"></List>
     </div>
   </section>
 </template>
@@ -32,7 +32,6 @@ import { defineComponent, ref, watchEffect } from 'vue';
 import { getPlantList } from '@/api/plant';
 import { Plant } from '@/types/api/plant';
 import List from './List.vue';
-import Empty from './Empty.vue';
 import { ROUTE_TO } from '@/router/routing';
 import { useRoute, useRouter } from 'vue-router';
 import SearchBar from '@/components/search/SearchBar.vue';
@@ -99,7 +98,6 @@ export default defineComponent({
   },
   components: {
     List,
-    Empty,
     SearchBar,
   },
 });
