@@ -32,9 +32,11 @@ export default defineComponent({
         ?.replaceAll('_', '');
     });
 
+    const isLoggedIn = computed(() => store.getters.isAuthenticated);
+
     return {
       ROUTE_TO,
-      isLoggedIn: store.getters.isAuthenticated,
+      isLoggedIn,
       activeButton,
     };
   },

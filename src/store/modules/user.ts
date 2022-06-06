@@ -49,6 +49,10 @@ const user = {
       state.nickname = payload.nickname;
       return state;
     },
+    setAuthenticated(state: UserState): UserState {
+      state.authenticated = true;
+      return state;
+    },
   },
   actions: {
     async signOut({ commit }: any): Promise<void> {
@@ -64,6 +68,13 @@ const user = {
       } catch (e) {
         commit('resetState');
         console.error(e);
+      }
+    },
+    setIsAuthenticated({ commit }: any, payload: boolean): void {
+      if (!payload) {
+        commit('resetState');
+      } else {
+        commit('setAuthenticated');
       }
     },
     async updateToken({ commit }: any, token: string): Promise<void> {

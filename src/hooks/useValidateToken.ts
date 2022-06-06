@@ -1,18 +1,14 @@
 import { tokenSvc } from '@/api/token-service';
-import { computed, ref, watch } from 'vue';
+import { computed, watch } from 'vue';
 import { useRoute } from 'vue-router';
 
 const useValidateToken = (): void => {
   const route = useRoute();
   const currentPath = computed(() => route.path);
-  async function checkLoggedIn() {
-    isLoggedIn.value = await tokenSvc.isValidToken();
-  }
   watch(currentPath, () => {
-    checkLoggedIn();
+    tokenSvc.isValidToken();
   });
-  const isLoggedIn = ref(false);
-  checkLoggedIn();
+  tokenSvc.isValidToken();
 };
 
 export default useValidateToken;
