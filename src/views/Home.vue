@@ -4,7 +4,7 @@
       <div class="inner-infinety-container">
         <img src="@/assets/images/home/quotes.svg" />
         <h1>
-          <span class="accent text-bold">{{ myNickname }}님,</span>
+          <span class="accent text-bold">{{ nickname }}님,</span>
           <br />
           어떤
           <span class="accent text-bold">식물의 언어</span>
@@ -33,7 +33,7 @@
           <br class="md-down-only" />
           <span class="text-bold">공기정화식물</span>
         </h1>
-        <ul class="plant-list">
+        <ul ref="slider" class="plant-list">
           <li class="item" v-for="(item, index) in recommended" :key="`item-${index}`" @click="ROUTE_TO.PLANT_DETAILS(item.id)">
             <div class="img-container">
               <img :src="item.fileUrl" @error="$event.target.src = require('@/assets/images/search/img-error.svg')" />
@@ -82,63 +82,33 @@
 
 <script lang="ts">
 import setMeta from '@/utils/setMeta';
-import { defineComponent, ref, onMounted, computed } from 'vue';
+import { defineComponent, ref, computed } from 'vue';
 // import ToTopButton from '@/components/buttons/ToTop.vue';
 import { validateSearchStr } from '@/utils/validation';
 import SearchBar from '@/components/search/SearchBar.vue';
 import store from '@/store';
 import { ROUTE_TO } from '@/router/routing';
+import useHorizontalMouseScroll from '@/hooks/useHorizontalScroll';
 
 import { getRecommendPlantList } from '@/api/plant';
 export default defineComponent({
   name: 'Home',
   components: { SearchBar },
   setup() {
-    const myUserInfo = computed(() => store.getters.getUserInfo);
-    const myNickname = computed(() => myUserInfo.value?.nickname || '식집사');
+    const userInfo = computed(() => store.getters.getUserInfo);
+    const nickname = computed(() => userInfo.value?.nickname || '식집사');
     const searchText = ref('');
     const recommended = ref([]);
-
-    getRecommended();
-
-    onMounted(() => {
-      horizontalMouseScroll();
-    });
-
+    const slider = useHorizontalMouseScroll();
     setMeta({
       title: '식물의언어 : 식집사를 위한 식물 정보 플랫폼',
       description:
         '식물의언어는 식물을 더 건강하게 키우기 위한 정보를 제공하는 커뮤니티형 식물 정보 플랫폼입니다. 식물의언어를 통해 내 식물을 더 잘 이해하고, 수많은 식물집사들을 만나 서로의 노하우를 주고받아보세요.',
       path: '/home',
     });
+    
+    getRecommended();
 
-    function horizontalMouseScroll() {
-      const slider: any = document.querySelector('.plant-list');
-      if (!slider) return;
-      let isDown = false;
-      let startX: any, scrollLeft: any;
-      slider.addEventListener('mousedown', (e: any) => {
-        isDown = true;
-        slider.classList.add('active');
-        startX = e.pageX - slider.offsetLeft;
-        scrollLeft = slider.scrollLeft;
-      });
-      slider.addEventListener('mouseleave', () => {
-        isDown = false;
-        slider.classList.remove('active');
-      });
-      slider.addEventListener('mouseup', () => {
-        isDown = false;
-        slider.classList.remove('active');
-      });
-      slider.addEventListener('mousemove', (e: any) => {
-        if (!isDown) return;
-        e.preventDefault();
-        const x = e.pageX - slider.offsetLeft;
-        const walk = (x - startX) * 1.5;
-        slider.scrollLeft = scrollLeft - walk;
-      });
-    }
     function clickToTop() {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
@@ -162,9 +132,10 @@ export default defineComponent({
       searchText,
       clickToTop,
       onSubmit,
-      myNickname,
+      nickname,
       ROUTE_TO,
       recommended,
+      slider,
     };
   },
 });
