@@ -29,8 +29,8 @@ export default defineComponent({
     function resizeWindow() {
       windowWidth.value = window.innerWidth;
     }
-    function onScroll(e: any) {
-      const { scrollTop, clientHeight, scrollHeight } = e.target.documentElement;
+    function onScroll(e: Event) {
+      const { scrollTop, clientHeight, scrollHeight } = (e.target as Document).documentElement;
       if (scrollTop > 100) {
         isVisible.value = true;
       } else {
@@ -38,13 +38,10 @@ export default defineComponent({
       }
       const isAtTheBottom = scrollHeight <= scrollTop + clientHeight + 180;
       if (isAtTheBottom) {
-        const target: any = document.getElementById('toTop');
+        const target: HTMLElement | null = document.getElementById('toTop');
+        if (target === null) return;
         const val = (scrollHeight - (scrollTop + clientHeight) - 210) * -1;
-        if (!isMobile.value) {
-          target.style.bottom = val + 'px';
-        } else {
-          target.style.bottom = '20px';
-        }
+        target.style.bottom = isMobile.value ? val + 'px' : '20px';
       } else {
         isBottom.value = false;
       }
