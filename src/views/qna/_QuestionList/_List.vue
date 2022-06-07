@@ -8,7 +8,7 @@
         </span>
         <CheckButton v-if="isLoggedIn" :value="mine == '1'" class="toggle-my-question" @toggle="toggleIsMyList" />
       </div>
-      <li class="item" v-for="(item, index) in items" :key="`plant-item-${index}`" @click="ROUTE_TO.QNABOARD_DETAIL(item.id)">
+      <li class="item" v-for="(item, index) in items" :key="`plant-item-${index}`" @click="ROUTE_TO.QNABOARD_DETAIL(String(item.id))">
         <div class="item__infomations">
           <p class="target-plant">{{ item.plantName }}</p>
           <p class="details text-medium" v-html="preview(item.content)"></p>
@@ -23,7 +23,7 @@
             :src="item.imageUrl"
             :class="{ 'fit-height': imageSize[index]?.height < imageSize[index]?.width }"
             @load="(e) => setImageSize(index, e)"
-            @error="$event.target.src = require('@/assets/images/search/img-error.svg')"
+            @error="($event.target as HTMLImageElement).src = require('@/assets/images/search/img-error.svg')"
           />
         </div>
       </li>
@@ -42,53 +42,64 @@
   </section>
 </template>
 <script lang="ts">
-import { defineComponent, ref, computed, watch } from 'vue';
-import { useRoute } from 'vue-router';
+import { defineComponent, ref, computed, PropType } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import { useStore } from 'vuex';
 import CheckButton from '@/components/buttons/CheckButton.vue';
 import { getTimeDistanceWithNaturalStr, preview } from '@/utils/text';
 import { handleInfiniteListScroll } from '@/utils/global';
 import { ROUTE_TO } from '@/router/routing';
 import { debounce } from '@/utils/global';
-import { tokenSvc } from '@/api/token-service';
-import router from '@/router';
-
 import { getPlantDetail } from '@/api/plant';
+import useValidateToken from '@/hooks/useValidateToken';
+import { Question } from '@/types/api/board';
 
 export default defineComponent({
   components: {
     CheckButton,
   },
-  props: ['text', 'plantId', 'items', 'totalLength', 'isReady'],
+  props: {
+    plantId: {
+      type: String,
+      default: '',
+    },
+    items: {
+      type: Array as PropType<Question[]>,
+      default: () => [],
+    },
+    totalLength: {
+      type: Number,
+      default: 0,
+    },
+    isReady: {
+      type: Boolean,
+      default: false,
+    },
+  },
   setup(props, { emit }) {
     const route = useRoute();
-    const items = computed(() => props.items);
-    const totalLength = computed(() => props.totalLength);
-    const listType: any = computed(() => route.query.list);
-    const mine: any = computed(() => route.query.mine || '0');
-    const plantId = computed(() => props.plantId);
+    const router = useRouter();
+    const store = useStore();
+    const mine = computed(() => route.query.mine || '0');
     const plantName = ref('');
-    const isLoggedIn = ref(false);
+    const isLoggedIn = computed(() => store.getters.isAuthenticated);
     const isEnd = computed(() => {
       return props.items.length >= props.totalLength;
     });
-    checkLoggedIn();
-    async function checkLoggedIn() {
-      isLoggedIn.value = await tokenSvc.isValidToken();
-    }
-    if (plantId.value != '') {
+    useValidateToken();
+    if (props.plantId != '') {
       getPlantName();
     }
 
-    const onScroll = debounce(($event: any) => {
-      handleInfiniteListScroll($event, items.value, totalLength.value, onAtTheBottom);
+    const onScroll = debounce(($event: MouseEvent) => {
+      handleInfiniteListScroll($event, props.items, props.totalLength, onAtTheBottom);
     }, 500);
     document.addEventListener('scroll', onScroll);
 
     async function getPlantName() {
       try {
-        const res = await getPlantDetail({ plantId: plantId.value });
+        const res = await getPlantDetail({ plantId: props.plantId });
         plantName.value = res.name;
-        console.log(res);
       } catch (e) {
         router.push('/not-found');
       }
@@ -106,8 +117,8 @@ export default defineComponent({
       routeToPathWithParam('mine', checked ? '1' : '0');
     }
     const imageSize = ref([] as { width: number; height: number }[]);
-    const setImageSize = (index: number, e: any) => {
-      const { width, height } = e.target;
+    const setImageSize = (index: number, e: Event) => {
+      const { width, height } = e.target as HTMLImageElement;
       imageSize.value[index] = { width, height };
     };
     return {

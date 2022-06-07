@@ -2,7 +2,7 @@ export type BoardListParam = {
   keyword?: string;
   page: number;
   size?: number;
-  plantId?: number;
+  plantId?: string | number;
 };
 
 export type BoardParam = {
@@ -83,7 +83,7 @@ export type CommentResponse = {
 };
 
 type Post = {
-  id: number;
+  id: string | number;
   createdDateTime: string;
   plantName: string;
   supportCount: number;

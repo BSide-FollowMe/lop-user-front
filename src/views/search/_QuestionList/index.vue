@@ -34,14 +34,13 @@ export default defineComponent({
         };
         if (searchTarget.value != '') payload.keyword = searchTarget.value;
 
-        const { data }: any = await getQnaBoardList(payload);
-        const resList: any = data.data;
-        if (!resList.length) {
+        const { totalElement, data: questions } = await getQnaBoardList(payload);
+        if (!questions.length) {
           isEmpty.value = true;
           return;
         }
-        list.value.push(...resList);
-        if (page.value == 0) totalLength.value = data.totalElement;
+        list.value.push(...questions);
+        if (page.value == 0) totalLength.value = totalElement;
       } catch (e) {
         console.error(e);
       }

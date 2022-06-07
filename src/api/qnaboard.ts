@@ -1,6 +1,7 @@
 import axios from '@/utils/http/axios';
 import { payloadToQueryString, objectToFormdata } from '@/utils/text';
-import type { BoardParam, BoardResponse, BoardListParam, CommentParam, CommentResponse } from '@/types/api/board';
+import type { BoardParam, BoardResponse, BoardListParam, CommentParam, CommentResponse, Question } from '@/types/api/board';
+import { ListResponse } from '@/types/api/common';
 
 const API_PREFIX = '/v1';
 enum Api {
@@ -57,12 +58,14 @@ export function deleteQnaBoardComment(questionId: string, commentId: string): Pr
   );
 }
 
-export function getQnaBoardList(payload: BoardListParam): Promise<unknown> {
-  return axios.get(API_PREFIX + Api.BOARD_LIST + '?' + payloadToQueryString(payload));
+export async function getQnaBoardList(payload: BoardListParam): Promise<ListResponse<Question>> {
+  const res = await axios.get<ListResponse<Question>>(API_PREFIX + Api.BOARD_LIST + '?' + payloadToQueryString(payload));
+  return res.data;
 }
 
-export function getMyQnaBoardList(payload: { plantId?: string }): Promise<unknown> {
-  return axios.get(API_PREFIX + Api.MY_QUESTIONS + '?' + payloadToQueryString(payload));
+export async function getMyQnaBoardList(payload: BoardListParam): Promise<ListResponse<Question>> {
+  const res = await axios.get<ListResponse<Question>>(API_PREFIX + Api.MY_QUESTIONS + '?' + payloadToQueryString(payload));
+  return res.data;
 }
 
 export function getQnaBoardDetail(boardId: string): Promise<unknown> {
