@@ -101,3 +101,8 @@ export type Question = {
   content: string;
   imageUrl: string;
 } & Post;
+
+export type Image = {
+  imageBinary: string;
+  name: string;
+};

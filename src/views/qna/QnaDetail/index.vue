@@ -40,7 +40,7 @@
         <template v-if="details.type == 'SICK'">
           <div class="input-title">물은 얼마나 자주 주셨나요?</div>
           <div class="textarea-item">
-            <textarea class="sub-contents" v-model="details.plantWaterCycle" readonly maxlength="500" @keyup="autoResize" rows="1" />
+            <AutoResizeTextArea class="sub-contents" v-model="details.plantWaterCycle" maxlength="500" readonly />
           </div>
           <div class="input-title">
             식물은 어디에 두셨고 햇빛을 받는 시간은
@@ -48,16 +48,16 @@
             얼마나 되나요?
           </div>
           <div class="textarea-item">
-            <textarea class="sub-contents" v-model="details.plantLifeCycle" readonly maxlength="500" @keyup="autoResize" rows="1" />
+            <AutoResizeTextArea class="sub-contents" v-model="details.plantLifeCycle" maxlength="500" />
           </div>
           <div class="input-title">증상이 나타났을 때 어떻게 대처하셨나요?</div>
           <div class="textarea-item">
-            <textarea class="sub-contents" v-model="details.plantCountermeasure" readonly maxlength="500" @keyup="autoResize" rows="1" />
+            <textarea class="sub-contents" :value="details.plantCountermeasure" readonly maxlength="500" rows="1" />
           </div>
         </template>
         <div class="content-item" v-html="details.content.replace(/(?:\r\n|\r|\n)/g, '<br />')"></div>
         <div class="img-item" v-for="(item, index) in details.images" :key="`img-item-${index}`">
-          <img :src="item.imageUrl" @error="$event.target.src = require('@/assets/images/search/img-error.svg')" />
+          <img :src="item.imageUrl" @error="($event.target as HTMLImageElement).src = require('@/assets/images/search/img-error.svg')" />
         </div>
         <div class="bottom-btn-group">
           <button class="no-click">
@@ -103,19 +103,21 @@ import ContextMenu from '@/components/ContextMenu.vue';
 import { useKakao } from 'vue3-kakao-sdk';
 import dummyImage from '@/assets/images/search/img-error.svg';
 import setMeta from '@/utils/setMeta';
+import type { BoardResponse } from '@/types/api/board';
+import AutoResizeTextArea from '@/components/inputs/AutoResizeTextArea.vue';
 
 export default defineComponent({
   head() {
     return { script: [{ src: '//developers.kakao.com/sdk/js/kakao.min.js' }] };
   },
   name: 'Question Detail',
-  components: { Reply, ContextMenu },
+  components: { Reply, ContextMenu, AutoResizeTextArea },
   setup(props, { emit }) {
     const { kakao } = useKakao();
     const myUserInfo = computed(() => store.getters.getUserInfo);
     const myId = computed(() => myUserInfo.value?.id || null);
     const route = useRoute();
-    const details = ref({} as any);
+    const details = ref({ plantWaterCycle: '', plantLifeCycle: '', plantCountermeasure: '' } as BoardResponse);
     const actionModal = ref(false);
     const boardId: any = computed(() => route.path.split('/')[3] || '');
     const actionBtnRef = ref(null);
@@ -131,22 +133,10 @@ export default defineComponent({
       getDetails();
     }),
       document.addEventListener('click', documentClick);
-    function autoResize(e: any) {
-      const obj = e.target;
-      obj.style.height = 'auto';
-      obj.style.height = obj.scrollHeight + 'px';
-    }
     async function getDetails() {
       try {
         const id: string = boardId.value;
-        const { data }: any = await getQnaBoardDetail(id);
-        details.value = data;
-        setTimeout(() => {
-          const array: any = document.getElementsByClassName('sub-contents');
-          for (let i = 0; i < array.length; i++) {
-            autoResize({ target: array[i] });
-          }
-        }, 10);
+        details.value = await getQnaBoardDetail(id);
       } catch (e) {
         console.log(e);
       }
@@ -173,9 +163,9 @@ export default defineComponent({
     async function toggleSupportBtn() {
       try {
         await toggleSupportQuestions(boardId.value);
-        getDetails();
       } catch (e) {
         console.error(e);
+      } finally {
         getDetails();
       }
     }
@@ -399,7 +389,7 @@ export default defineComponent({
     border-radius: 2px;
     resize: none;
     width: 100%;
-    height: auto;
+    height: fit-content;
     font-size: 18px;
     line-height: 26px;
     color: var(--text-color2);

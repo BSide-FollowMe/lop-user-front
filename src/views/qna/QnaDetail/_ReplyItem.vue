@@ -1,9 +1,5 @@
 <template>
-  <li
-    :id="`${id}`"
-    class="item"
-    :class="{ 'is-dependent': item.refId && item.refId != 0 }"
-  >
+  <li :id="`${id}`" class="item" :class="{ 'is-dependent': item.refId && item.refId != 0 }">
     <div class="item__topper">
       <div class="group">
         <span class="nickname">{{ item.writer.nickname }}</span>
@@ -30,24 +26,12 @@
     </div>
     <template v-if="editMode">
       <div class="textarea-item">
-        <textarea
-          id="comment-edit"
-          v-model="editInput"
-          :class="{ 'is-empty': editInput === '' }"
-          maxlength="500"
-          @keydown="autoResize"
-          @keydown.enter.exact.prevent
-        />
+        <AutoResizeTextArea id="comment-edit" v-model="editInput" :class="{ 'is-empty': editInput === '' }" maxlength="500" />
         <label for="comment-edit">내용을 입력하세요</label>
         <div class="edit-btn-group">
           <button class="cancle" @click="endEditMode">취소</button>
           <span class="separator">|</span>
-          <button
-            class="regist-btn"
-            @click="modifyReply(boardId, item.id, item.refId, editInput)"
-          >
-            수정
-          </button>
+          <button class="regist-btn" @click="modifyReply(boardId, item.id, item.refId, editInput)">수정</button>
         </div>
       </div>
     </template>
@@ -56,22 +40,14 @@
         <img src="@/assets/icon/error-outline.svg" />
         작성자가 삭제한 댓글입니다
       </div>
-      <div
-        class="item__content"
-        v-else
-        v-html="item.content.replace(/(?:\r\n|\r|\n)/g, '<br />')"
-      ></div>
+      <div class="item__content" v-else v-html="item.content.replace(/(?:\r\n|\r|\n)/g, '<br />')"></div>
     </template>
     <div class="bottom-btn-group">
       <button class="no-click">
         {{ getTimeDistanceWithNaturalStr(item.createdDateTime) }}
       </button>
       <span class="separator">|</span>
-      <button
-        class="helpful-btn helpful-btn-primary"
-        v-if="item.isSupport"
-        @click="toggleSupportBtn"
-      >
+      <button class="helpful-btn helpful-btn-primary" v-if="item.isSupport" @click="toggleSupportBtn">
         <img src="@/assets/icon/helpful-primary.svg" />
         도움돼요 {{ item.supportCount }}
       </button>
@@ -87,55 +63,38 @@
   </li>
   <div class="dependent-input is-dependent" v-if="dependentMode">
     <div class="textarea-item">
-      <textarea
-        id="comment-edit"
-        v-model="dependentInput"
-        :class="{ 'is-empty': dependentInput === '' }"
-        maxlength="500"
-        @keydown="autoResize"
-        @keydown.enter.exact.prevent
-      />
+      <AutoResizeTextArea id="comment-edit" v-model="dependentInput" :class="{ 'is-empty': dependentInput === '' }" maxlength="500" />
       <label for="comment-edit">대댓글을 남겨주세요</label>
       <div class="edit-btn-group">
-        <button
-          class="regist-btn"
-          @click="registDependentReply(boardId, item.id, dependentInput)"
-        >
-          등록
-        </button>
+        <button class="regist-btn" @click="registDependentReply(boardId, item.id, dependentInput)">등록</button>
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, ref } from "vue";
-import { getTimeDistanceWithNaturalStr } from "@/utils/text";
-import {
-  deleteQnaBoardComment,
-  modifyQnaBoardComment,
-  registQnaBoardComment,
-  toggleSupportComments,
-} from "@/api/qnaboard";
-import { debounce } from "@/utils/global";
+import { defineComponent, computed, ref } from 'vue';
+import { getTimeDistanceWithNaturalStr } from '@/utils/text';
+import { deleteQnaBoardComment, modifyQnaBoardComment, registQnaBoardComment, toggleSupportComments } from '@/api/qnaboard';
+import { debounce } from '@/utils/global';
+import AutoResizeTextArea from '@/components/inputs/AutoResizeTextArea.vue';
 export default defineComponent({
-  name: "Reply Item",
-  props: ["id", "item", "boardId", "myId", "boardWriterId"],
+  name: 'Reply Item',
+  props: ['id', 'item', 'boardId', 'myId', 'boardWriterId'],
+  components: {
+    AutoResizeTextArea,
+  },
   setup(props, { emit }) {
-    const boardId = computed(() => props.boardId || null);
-    const myId = computed(() => props.myId || null);
     const content = computed(() => props.item.content || null);
-    const isDeleted = computed(
-      () => props.item.content == "작성자가 삭제한 댓글입니다" || false
-    );
+    const isDeleted = computed(() => props.item.content == '작성자가 삭제한 댓글입니다' || false);
     const commentId = computed(() => props.item.id || null);
     const actionBtnRef = ref(null);
     const actionModal = ref(false);
     const editMode = ref(false);
     const editInput = ref(content.value);
     const dependentMode = ref(false);
-    const dependentInput = ref("");
-    document.addEventListener("click", documentClick);
+    const dependentInput = ref('');
+    document.addEventListener('click', documentClick);
 
     function documentClick(e: any) {
       let el: any = actionBtnRef.value;
@@ -144,15 +103,10 @@ export default defineComponent({
         actionModal.value = false;
       }
     }
-    function autoResize(e: any) {
-      const obj = e.target;
-      obj.style.height = "auto";
-      obj.style.height = 20 + obj.scrollHeight + "px";
-    }
     async function registDependentReply(bId: string, cId: string, cont: string) {
       try {
         if (!cont.length) {
-          alert("내용을 입력해주세요!");
+          alert('내용을 입력해주세요!');
           return;
         }
         const payload = {
@@ -161,8 +115,8 @@ export default defineComponent({
         };
         const res = await registQnaBoardComment(payload, bId);
         dependentMode.value = false;
-        dependentInput.value = "";
-        emit("refresh");
+        dependentInput.value = '';
+        emit('refresh');
       } catch (e) {
         console.error(e);
       }
@@ -170,7 +124,7 @@ export default defineComponent({
     async function modifyReply(bId: string, cId: string, refId: string, cont: string) {
       try {
         if (!cont.length) {
-          alert("내용을 입력해주세요!");
+          alert('내용을 입력해주세요!');
           return;
         }
         const payload = {
@@ -180,17 +134,17 @@ export default defineComponent({
         const res = await modifyQnaBoardComment(payload, bId, cId);
         editMode.value = false;
         dependentMode.value = false;
-        editInput.value = "";
-        emit("refresh");
+        editInput.value = '';
+        emit('refresh');
       } catch (e) {
         console.error(e);
       }
     }
     async function removeReply(bId: string, rId: string) {
       try {
-        const res = await deleteQnaBoardComment(bId, rId);
+        await deleteQnaBoardComment(bId, rId);
         editMode.value = false;
-        emit("refresh");
+        emit('refresh');
       } catch (e) {
         console.error(e);
       }
@@ -199,11 +153,6 @@ export default defineComponent({
       editMode.value = true;
       editInput.value = content.value;
       actionModal.value = false;
-      setTimeout(() => {
-        const obj: any = document.getElementById("comment-edit");
-        obj.focus();
-        autoResize({ target: obj });
-      }, 10);
     }
     function endEditMode() {
       editMode.value = false;
@@ -212,10 +161,10 @@ export default defineComponent({
       try {
         if (isDeleted.value) return;
         await toggleSupportComments(commentId.value);
-        emit("refresh");
+        emit('refresh');
       } catch (e) {
         console.error(e);
-        emit("refresh");
+        emit('refresh');
       }
     }
     return {
@@ -224,7 +173,6 @@ export default defineComponent({
       getTimeDistanceWithNaturalStr,
       documentClick,
       editMode,
-      autoResize,
       startEditMode,
       editInput,
       removeReply,
@@ -238,12 +186,12 @@ export default defineComponent({
     };
   },
   unmounted() {
-    document.removeEventListener("click", this.documentClick);
+    document.removeEventListener('click', this.documentClick);
   },
 });
 </script>
 <style lang="scss" scoped>
-@import "@/styles/mixin";
+@import '@/styles/mixin';
 .item {
   padding: 20px 14px 20px;
   border-bottom: 1px solid var(--background-color-2);

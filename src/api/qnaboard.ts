@@ -1,7 +1,8 @@
 import axios from '@/utils/http/axios';
 import { payloadToQueryString, objectToFormdata } from '@/utils/text';
-import type { BoardParam, BoardResponse, BoardListParam, CommentParam, CommentResponse, Question } from '@/types/api/board';
+import type { BoardParam, BoardResponse, BoardListParam, CommentParam, CommentResponse, Question, Image } from '@/types/api/board';
 import { ListResponse } from '@/types/api/common';
+import type { AxiosResponse } from 'axios';
 
 const API_PREFIX = '/v1';
 enum Api {
@@ -16,25 +17,28 @@ enum Api {
   MY_QUESTIONS = '/questions/me',
 }
 
-export function registQnaBoard(payload: BoardParam): Promise<unknown> {
+export async function registQnaBoard(payload: BoardParam): Promise<BoardResponse> {
   const formdata = objectToFormdata(payload);
-  return axios.post<BoardResponse>(API_PREFIX + Api.REGIST_BOARD, formdata, {
+  const res = await axios.post<BoardResponse>(API_PREFIX + Api.REGIST_BOARD, formdata, {
     headers: { 'Content-Type': `multipart/form-data` },
   });
+  return res.data;
 }
 
-export function modifyQnaBoard(payload: BoardParam, questionId: string): Promise<unknown> {
+export async function modifyQnaBoard(payload: BoardParam, questionId: string): Promise<BoardResponse> {
   const formdata = objectToFormdata(payload);
-  return axios.put<BoardResponse>(API_PREFIX + Api.UPDATE_BOARD + '/' + questionId, formdata, {
+  const res = await axios.put<BoardResponse>(API_PREFIX + Api.UPDATE_BOARD + '/' + questionId, formdata, {
     headers: { 'Content-Type': `multipart/form-data` },
   });
+  return res.data;
 }
 
-export function registQnaBoardComment(payload: CommentParam, questionId: string): Promise<unknown> {
-  return axios.post<CommentResponse>(API_PREFIX + Api.REGIST_BOARD + '/' + questionId + Api.REGIST_COMMENT, payload);
+export async function registQnaBoardComment(payload: CommentParam, questionId: string): Promise<CommentResponse> {
+  const res = await axios.post<CommentResponse>(API_PREFIX + Api.REGIST_BOARD + '/' + questionId + Api.REGIST_COMMENT, payload);
+  return res.data;
 }
-export function modifyQnaBoardComment(payload: CommentParam, questionId: string, commentId: string): Promise<unknown> {
-  return axios.put<CommentResponse>(
+export async function modifyQnaBoardComment(payload: CommentParam, questionId: string, commentId: string): Promise<CommentResponse> {
+  const res = await axios.put<CommentResponse>(
     API_PREFIX +
       Api.REGIST_BOARD +
       '/' +
@@ -44,10 +48,11 @@ export function modifyQnaBoardComment(payload: CommentParam, questionId: string,
       payloadToQueryString({ questionId: questionId, commentId: commentId }),
     payload
   );
+  return res.data;
 }
 
-export function deleteQnaBoardComment(questionId: string, commentId: string): Promise<unknown> {
-  return axios.delete<CommentResponse>(
+export async function deleteQnaBoardComment(questionId: string, commentId: string): Promise<CommentResponse> {
+  const res = await axios.delete<CommentResponse>(
     API_PREFIX +
       Api.REGIST_BOARD +
       '/' +
@@ -56,6 +61,7 @@ export function deleteQnaBoardComment(questionId: string, commentId: string): Pr
       '?' +
       payloadToQueryString({ questionId: questionId, commentId: commentId })
   );
+  return res.data;
 }
 
 export async function getQnaBoardList(payload: BoardListParam): Promise<ListResponse<Question>> {
@@ -68,26 +74,28 @@ export async function getMyQnaBoardList(payload: BoardListParam): Promise<ListRe
   return res.data;
 }
 
-export function getQnaBoardDetail(boardId: string): Promise<unknown> {
-  return axios.get(API_PREFIX + Api.DELETE_BOARD + '/' + boardId);
+export async function getQnaBoardDetail(boardId: string): Promise<BoardResponse> {
+  const res = await axios.get<BoardResponse>(API_PREFIX + Api.DELETE_BOARD + '/' + boardId);
+  return res.data;
 }
 
-export function removeQnaBoard(boardId: string): Promise<unknown> {
+export function removeQnaBoard(boardId: string): Promise<void> {
   return axios.delete(API_PREFIX + Api.DELETE_BOARD + '/' + boardId);
 }
 
-export function toggleSupportComments(commentId: string): Promise<unknown> {
+export function toggleSupportComments(commentId: string): Promise<void> {
   return axios.post(API_PREFIX + Api.REGIST_COMMENT + '/' + commentId + Api.TOGGLE_SUPPORT_COMMENTS);
 }
 
-export function toggleSupportQuestions(questionId: string): Promise<unknown> {
+export function toggleSupportQuestions(questionId: string): Promise<void> {
   return axios.post(API_PREFIX + Api.REGIST_BOARD + '/' + questionId + Api.TOGGLE_SUPPORT_BOARD);
 }
 
-export function getImageBlobFromUrl(url: string): Promise<unknown> {
-  return axios.get(url, { responseType: 'blob' });
-}
+// export function getImageBlobFromUrl(url: string): Promise<unknown> {
+//   return axios.get(url, { responseType: 'blob' });
+// }
 
-export function getQuestionImages(boardId: string): Promise<unknown> {
-  return axios.get(API_PREFIX + Api.REGIST_BOARD + '/' + boardId + Api.BLOB_IMAGES);
+export async function getQuestionImages(boardId: string): Promise<Image[]> {
+  const res = await axios.get<Image[]>(API_PREFIX + Api.REGIST_BOARD + '/' + boardId + Api.BLOB_IMAGES);
+  return res.data;
 }
