@@ -6,14 +6,7 @@
       <span class="count">{{ ' ' + replyCount }}</span>
     </div>
     <div class="input-item" @click="myId ? false : toLogin()">
-      <textarea
-        id="reply"
-        v-model="replyInput"
-        :class="{ 'is-empty': replyInput === '' }"
-        maxlength="500"
-        @keydown="autoResize"
-        @keydown.enter.exact.prevent
-      />
+      <AutoResizeTextArea id="reply" v-model="replyInput" :class="{ 'is-empty': replyInput === '' }" maxlength="500" />
       <label for="reply">답변을 남겨주세요</label>
       <div class="edit-btn-group">
         <button class="regist-btn" @click="registComment">등록</button>
@@ -44,9 +37,11 @@ import { registQnaBoardComment } from '@/api/qnaboard';
 import { useRoute } from 'vue-router';
 import { ROUTE_TO } from '@/router/routing';
 import router from '@/router';
+import AutoResizeTextArea from '@/components/inputs/AutoResizeTextArea.vue';
+
 export default defineComponent({
   name: 'Reply List',
-  components: { ReplyItem },
+  components: { ReplyItem, AutoResizeTextArea },
   props: ['comments', 'boardId', 'boardWriterId'],
   setup(props, { emit }) {
     const route = useRoute();
@@ -76,14 +71,6 @@ export default defineComponent({
       replyInput.value = '';
       emit('refresh');
     }
-    function autoResize(e: any) {
-      const obj = e.target;
-      obj.style.height = 'auto';
-      obj.style.height = 20 + obj.scrollHeight + 'px';
-    }
-    function orderDependentReply(targetId: any, sourceList: any) {
-      return sourceList.filter((item: any) => item.refId && item.refId != 0 && item.refId == targetId);
-    }
 
     function toLogin() {
       alert('로그인이 필요합니다.');
@@ -106,7 +93,6 @@ export default defineComponent({
       replyCount,
       replyInput,
       myId,
-      autoResize,
       registComment: debounce(($event: any) => {
         registComment(replyInput.value, boardId.value);
       }, 500),

@@ -23,12 +23,11 @@
     </div>
     <div class="input-title">물은 얼마나 자주 주셨나요?</div>
     <div class="textarea-item">
-      <textarea
+      <AutoResizeTextArea
         id="plant-water-cycle"
         v-model="plantWaterCycle"
         :class="{ 'is-empty': plantWaterCycle === '' }"
         maxlength="500"
-        @keyup="autoResize"
       />
       <label for="plant-water-cycle">내용을 입력하세요</label>
     </div>
@@ -38,29 +37,22 @@
       햇빛을 받는 시간은 얼마나 되나요?
     </div>
     <div class="textarea-item">
-      <textarea
-        id="plant-life-cycle"
-        v-model="plantLifeCycle"
-        :class="{ 'is-empty': plantLifeCycle === '' }"
-        maxlength="500"
-        @keyup="autoResize"
-      />
+      <AutoResizeTextArea id="plant-life-cycle" v-model="plantLifeCycle" :class="{ 'is-empty': plantLifeCycle === '' }" maxlength="500" />
       <label for="plant-life-cycle">내용을 입력하세요</label>
     </div>
     <div class="input-title">증상이 나타났을 때 어떻게 대처하셨나요?</div>
     <div class="textarea-item">
-      <textarea
+      <AutoResizeTextArea
         id="plant-countermeasure"
         v-model="plantCountermeasure"
         :class="{ 'is-empty': plantCountermeasure === '' }"
         maxlength="500"
-        @keyup="autoResize"
       />
       <label for="plant-countermeasure">내용을 입력하세요</label>
     </div>
     <div class="input-title">증상을 자세하게 알려주세요</div>
     <div class="textarea-item">
-      <textarea id="content" v-model="content" :class="{ 'is-empty': content === '' }" maxlength="500" @keyup="autoResize" />
+      <AutoResizeTextArea id="content" v-model="content" :class="{ 'is-empty': content === '' }" maxlength="500" />
       <label for="content">내용을 입력하세요</label>
     </div>
     <div class="input-title">
@@ -88,6 +80,7 @@ import type { BoardParam } from '@/types/api/board';
 import { ROUTE_TO } from '@/router/routing';
 import store from '@/store';
 import type { PlantListParam, Plant } from '@/types/api/plant';
+import AutoResizeTextArea from '@/components/inputs/AutoResizeTextArea.vue';
 
 export default defineComponent({
   name: 'Ask Help Form',
@@ -95,6 +88,7 @@ export default defineComponent({
     VueButton,
     VueAutocomplete,
     PhotoUploader,
+    AutoResizeTextArea,
   },
   props: ['boardId', 'plant'],
   setup(props) {
@@ -136,12 +130,6 @@ export default defineComponent({
         plantLifeCycle.value = data.plantLifeCycle;
         plantCountermeasure.value = data.plantCountermeasure;
         content.value = data.content;
-        setTimeout(() => {
-          const array: any = document.getElementsByTagName('textarea');
-          for (let i = 0; i < array.length; i++) {
-            autoResize({ target: array[i] });
-          }
-        }, 10);
         const blobImages = await getImageBlob(id);
         const pu: any = photoUploader.value;
         if (pu) {
@@ -264,11 +252,6 @@ export default defineComponent({
       return true;
     }
 
-    function autoResize(e: any) {
-      const obj = e.target;
-      obj.style.height = 'auto';
-      obj.style.height = 20 + obj.scrollHeight + 'px';
-    }
     return {
       plantSelector,
       photoUploader,
@@ -285,7 +268,6 @@ export default defineComponent({
       plantNameSubjective,
       images,
       submit,
-      autoResize,
       id,
       submitModify,
     };
