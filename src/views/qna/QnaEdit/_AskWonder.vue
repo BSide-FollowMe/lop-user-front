@@ -20,7 +20,7 @@
       <span class="input-tips-danger">(필수)</span>
     </div>
     <div class="textarea-item">
-      <textarea id="content" v-model="content" :class="{ 'is-empty': content === '' }" maxlength="500" @keyup="autoResize" />
+      <AutoResizeTextArea id="content" v-model="content" :class="{ 'is-empty': content === '' }" maxlength="500" />
       <label for="content">내용을 입력하세요</label>
     </div>
     <div class="input-title">
@@ -48,6 +48,7 @@ import type { BoardParam } from '@/types/api/board';
 import { ROUTE_TO } from '@/router/routing';
 import store from '@/store';
 import type { Plant, PlantListParam } from '@/types/api/plant';
+import AutoResizeTextArea from '@/components/inputs/AutoResizeTextArea.vue';
 
 export default defineComponent({
   name: 'Ask Help Form',
@@ -55,6 +56,7 @@ export default defineComponent({
     VueButton,
     VueAutocomplete,
     PhotoUploader,
+    AutoResizeTextArea,
   },
   props: ['boardId', 'plant'],
   setup(props) {
@@ -90,12 +92,6 @@ export default defineComponent({
           plantNameSubjective.value = data.plantName;
         }
         content.value = data.content;
-        setTimeout(() => {
-          const array: any = document.getElementsByTagName('textarea');
-          for (let i = 0; i < array.length; i++) {
-            autoResize({ target: array[i] });
-          }
-        }, 10);
         const blobImages = await getImageBlob(id);
         const pu: any = photoUploader.value;
         if (pu) {
@@ -200,11 +196,6 @@ export default defineComponent({
       return true;
     }
 
-    function autoResize(e: any) {
-      const obj = e.target;
-      obj.style.height = 'auto';
-      obj.style.height = 20 + obj.scrollHeight + 'px';
-    }
     return {
       plantSelector,
       photoUploader,
@@ -218,7 +209,6 @@ export default defineComponent({
       plantNameSubjective,
       images,
       submit,
-      autoResize,
       submitModify,
       id,
     };
