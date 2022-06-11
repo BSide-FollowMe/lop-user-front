@@ -9,13 +9,15 @@ export function setupNavigationGuarder(router: Router) {
     //   next('/not-found');
     //   return;
     // }
-    const isPb = await isPublic(to);
-    const loggedIn = await tokenSvc.isValidToken();
-    if (!isPb && !loggedIn) {
-      next('/signin');
-      return;
-    }
+    // const isPb = await isPublic(to);
+    // const loggedIn = await tokenSvc.isValidToken();
+    // if (!isPb && !loggedIn) {
+    //   next('/signin');
+    //   return;
+    // }
+    // to.fullPath.endsWith('/') ? next() : next(to.fullPath + '/');
     next();
+    return;
   });
 }
 
@@ -29,7 +31,6 @@ const isNotFound = (to: any, routes: Array<any>) => {
 const isPublic = (to: any) => {
   return to.matched.some((record: any) => record.meta.public);
 };
-
 
 const isAuthenticated = (store: any) => {
   return store.getters.isAuthenticated;

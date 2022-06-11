@@ -4,8 +4,9 @@
 
 .no-click {
     pointer-events: none;
+    cursor:default;
 }
 
 .cursor-pointer {
-    cursor: pointer;
+    cursor: pointer !important;
 }

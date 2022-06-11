@@ -24,7 +24,7 @@
 
     --screen-xs: 360px;
     --screen-md: 768px;
-    --screen-lg: 960px;
+    --screen-lg: 1040px;
 
     --text-color: #444444;
     --text-color-1: #444444;
@@ -43,6 +43,7 @@
     --font-weight-bold: bold;
     --font-weight-medium: 500;
     --font-weight-light: 300;
+    --font-weight-normal: normal;
 
     // PC font size
     // Headline
@@ -79,6 +80,23 @@
     --m-font-size-caption-space: -0.01em;
 
 
-    --content-container-max-width: 960px;
-    --content-container-padding:20px;
+    --content-container-max-width: 1040px;
+    --content-container-padding:40px;
+    --content-container-inner: 960px;
+
+    --m-content-container-max-width: 360px;
+    --m-content-container-padding:20px;
+    --m-content-container-inner: 360px;
+
+    --topper-header-height:100px;
+    --bottom-footer-height:180px;
+    @include breakpoint-down-sm {
+        --topper-header-height:60px;
+        --bottom-footer-height:220px;
+    }
+
+    // snackbar
+    --snackbar-padding: 15px 40px  14px 40px;
+    --snackbor-box-shadow: 0px 2px 8px 2px rgba(0, 0, 0, 0.07);
+
 }

@@ -1,8 +1,8 @@
 import $store from '@/store';
 import { localStorage } from './local-storage';
 
-const STORAGE_KEY = 'lop.tokenInfo';
-const STORAGE_USR = 'lop.userInfo';
+const STORAGE_KEY = 'lopuser.tokenInfo';
+const STORAGE_USR = 'lopuser.userInfo';
 const parseJwt = (token: string) => {
   try {
     return JSON.parse(atob(token.split('.')[1]));
@@ -25,12 +25,13 @@ const svc = {
   },
   async isValidToken() {
     const token = await this.getToken();
-    if (!token.token) return false;
-
-    const payload = parseJwt(token.token);
-    if (!payload) return false;
-
-    return payload.exp * 1000 > Date.now();
+    const parsedJWTToken = parseJwt(token?.token);
+    const isAuthenticated = parsedJWTToken && parsedJWTToken.exp * 1000 > Date.now();
+    $store.dispatch('setIsAuthenticated', isAuthenticated);
+    if (!isAuthenticated) {
+      this.removeToken();
+    }
+    return isAuthenticated;
   },
   async isExpired() {
     const token = await this.getToken();
@@ -49,9 +50,9 @@ const svc = {
     localStorage.setLocalItem(STORAGE_KEY, token);
   },
   async removeToken(): Promise<void> {
-    $store.dispatch('signout');
     await localStorage.removeLocalItem(STORAGE_KEY);
     await localStorage.removeLocalItem(STORAGE_USR);
+    await $store.dispatch('signOut');
   },
 };
 

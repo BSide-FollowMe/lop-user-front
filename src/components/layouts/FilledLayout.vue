@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="fill-height">
+    <div class="page-container">
       <slot />
     </div>
   </div>
@@ -9,7 +9,8 @@
 export default {};
 </script>
 <style lang="scss" scoped>
-.fill-height {
+.page-container {
   height: 100%;
+  overflow: hidden;
 }
 </style>

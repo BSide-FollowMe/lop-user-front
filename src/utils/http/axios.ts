@@ -1,5 +1,8 @@
 import axios from 'axios';
 import { tokenSvc } from '@/api/token-service';
+import $store from '@/store';
+import { ignorableKeyModifiers } from '@vue/test-utils/dist/constants/dom-events';
+import router from '@/router';
 
 const options: any = {};
 const { NODE_ENV } = process.env;
@@ -13,6 +16,7 @@ const _axios = axios.create(options);
 
 _axios.interceptors.request.use(
   async function (config: any) {
+    $store.dispatch('showLoader');
     // if (await tokenSvc.isExpired()) {
     // }
     const token = await tokenSvc.getToken();
@@ -27,6 +31,7 @@ _axios.interceptors.request.use(
 );
 _axios.interceptors.response.use(
   function (response) {
+    $store.dispatch('hideLoader');
     const token = response.headers.authorization;
     if (token) {
       tokenSvc.updateToken(token);
@@ -34,6 +39,10 @@ _axios.interceptors.response.use(
     return response;
   },
   function (error) {
+    if (axios.isAxiosError(error) && error.response?.status === 401) {
+      alert('먼저 로그인 해주세요!');
+      router.push('/signin');
+    }
     return Promise.reject(error);
   },
 );

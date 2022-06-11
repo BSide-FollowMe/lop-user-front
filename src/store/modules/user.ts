@@ -1,23 +1,21 @@
-import { GetAccountInfoModel, LoginParamModel, LoginRespModel } from '@/api/model/accountModel';
-import { doLogin, doLogout } from '@/api/account';
 import router from '@/router';
 import { PageEnum } from '@/enums/PageEnum';
 import { MessageEnum } from '@/enums/MessageEnum';
 import { tokenSvc } from '@/api/token-service';
+import { MemberLevel, Member } from '@/types/api/member';
 
-interface UserState {
-  userId: string;
-  userName: string;
+type UserState = Member & {
   token: string;
   authenticated: boolean;
   sessionTimeout?: boolean;
-}
+};
 
 const initState = () => {
   return {
-    userId: '',
-    userName: '',
+    id: '',
+    memberLevel: null,
     token: '',
+    nickname: '',
     authenticated: false,
     sessionTimeout: false,
   };
@@ -38,32 +36,28 @@ const user = {
     },
     setToken(state: UserState, payload: UserState): void {
       Object.assign(state, initState());
-      state.userId = payload.userId;
+      state.id = payload.id;
       state.token = payload.token;
+      state.memberLevel = payload.memberLevel;
+      state.nickname = payload.nickname;
     },
     updateToken(state: UserState, payload: string): void {
       state.token = payload;
     },
+    updateUserInfo(state: UserState, payload: { memberLevel: MemberLevel; nickname: string }): UserState {
+      state.memberLevel = payload.memberLevel;
+      state.nickname = payload.nickname;
+      return state;
+    },
+    setAuthenticated(state: UserState): UserState {
+      state.authenticated = true;
+      return state;
+    },
   },
   actions: {
-    async signIn({ commit }: any, payload: LoginParamModel) {
-      try {
-        const { data } = await doLogin(payload);
-        const { id } = payload;
-        const { jwt } = data;
-        router.push(PageEnum.HOME);
-        tokenSvc.setToken({ token:jwt, userId:id });
-        return Promise.resolve()
-      } catch (e) {
-        console.error(e);
-        alert(MessageEnum.LOGIN_FAILED);
-        return Promise.reject(e);
-      }
-    },
     async signOut({ commit }: any): Promise<void> {
       try {
-        await doLogout();
-        return commit('resetState');
+        return await commit('resetState');
       } catch (e) {
         console.error(e);
       }
@@ -72,11 +66,22 @@ const user = {
       try {
         return commit('setToken', payload);
       } catch (e) {
+        commit('resetState');
         console.error(e);
+      }
+    },
+    setIsAuthenticated({ commit }: any, payload: boolean): void {
+      if (!payload) {
+        commit('resetState');
+      } else {
+        commit('setAuthenticated');
       }
     },
     async updateToken({ commit }: any, token: string): Promise<void> {
       return commit('updateToken', token);
+    },
+    updateUserInfo({ commit }: any, payload: { memberLevel: MemberLevel; nickname: string }): UserState {
+      return commit('updateUserInfo', payload);
     },
   },
 };

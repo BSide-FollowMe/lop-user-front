@@ -1,0 +1,53 @@
+import axios from '@/utils/http/axios';
+import { Member } from '@/types/api/member';
+import { Answer, Question } from '@/types/api/board';
+import { Plant } from '@/types/api/plant';
+import { ListResponse } from '@/types/api/common';
+import { payloadToQueryString, objectToFormdata } from '@/utils/text';
+import { tokenSvc } from '@/api/token-service';
+import $store from '@/store';
+
+const API_PREFIX = '/v1';
+enum Api {
+  ME = '/members/me',
+  UPDATE_ME = `/members`,
+  POST_WITHDRAWAL = '/withdrawal',
+  GET_FAVORITE = '/favorite/me',
+  GET_QUESTION = '/questions/me',
+  GET_ANSWER = '/comments/me',
+}
+
+export async function getMyAccountInfo(): Promise<Member> {
+  const res = await axios.get<Member>(`${API_PREFIX}${Api.ME}`);
+  return res.data;
+}
+
+export async function updateMyAccount({ nickname }: { nickname: string }): Promise<{ nickname: string }> {
+  const res = await axios.put<{ nickname: string }>(`${API_PREFIX}${Api.UPDATE_ME}`, {
+    nickname,
+  });
+  const newInfo = await getMyAccountInfo();
+  $store.dispatch('updateUserInfo', newInfo);
+  const originalToken = await tokenSvc.getToken();
+  tokenSvc.setToken({ ...originalToken, ...newInfo });
+  return res.data;
+}
+
+export async function withdrawal(): Promise<void> {
+  return await axios.post(`${API_PREFIX}${Api.POST_WITHDRAWAL}`);
+}
+
+export async function getMyFavorite({ size = 10, page }: { size: number; page: number }): Promise<ListResponse<Plant>> {
+  const res = await axios.get<ListResponse<Plant>>(`${API_PREFIX}${Api.GET_FAVORITE}?${payloadToQueryString({ size, page })}`);
+  return res.data;
+}
+
+export async function getMyQuestions({ size = 10, page }: { size: number; page: number }): Promise<ListResponse<Question>> {
+  const res = await axios.get<ListResponse<Question>>(`${API_PREFIX}${Api.GET_QUESTION}?${payloadToQueryString({ size, page })}`);
+  return res.data;
+}
+
+export async function getMyAnswers({ size = 10, page }: { size: number; page: number }): Promise<ListResponse<Answer>> {
+  const res = await axios.get<ListResponse<Answer>>(`${API_PREFIX}${Api.GET_ANSWER}?${payloadToQueryString({ size, page })}`);
+  return res.data;
+}
