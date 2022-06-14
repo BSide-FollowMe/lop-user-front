@@ -2,7 +2,6 @@ import axios from '@/utils/http/axios';
 import { payloadToQueryString, objectToFormdata } from '@/utils/text';
 import type { BoardParam, BoardResponse, BoardListParam, CommentParam, CommentResponse, Question, Image } from '@/types/api/board';
 import { ListResponse } from '@/types/api/common';
-import type { AxiosResponse } from 'axios';
 
 const API_PREFIX = '/v1';
 enum Api {

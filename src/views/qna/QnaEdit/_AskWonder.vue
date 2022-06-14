@@ -20,7 +20,7 @@
       <span class="input-tips-danger">(필수)</span>
     </div>
     <div class="textarea-item">
-      <AutoResizeTextArea id="content" v-model="content" :class="{ 'is-empty': content === '' }" maxlength="500" />
+      <ResizableTextArea id="content" v-model="content" :class="{ 'is-empty': content === '' }" maxlength="500" />
       <label for="content">내용을 입력하세요</label>
     </div>
     <div class="input-title">
@@ -48,7 +48,7 @@ import type { BoardParam } from '@/types/api/board';
 import { ROUTE_TO } from '@/router/routing';
 import store from '@/store';
 import type { Plant, PlantListParam } from '@/types/api/plant';
-import AutoResizeTextArea from '@/components/inputs/AutoResizeTextArea.vue';
+import ResizableTextArea from '@/components/atoms/textarea/ResizableTextArea.vue';
 
 export default defineComponent({
   name: 'Ask Help Form',
@@ -56,7 +56,7 @@ export default defineComponent({
     VueButton,
     VueAutocomplete,
     PhotoUploader,
-    AutoResizeTextArea,
+    ResizableTextArea,
   },
   props: ['boardId', 'plant'],
   setup(props) {
