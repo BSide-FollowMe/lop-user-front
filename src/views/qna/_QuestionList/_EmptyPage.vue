@@ -14,7 +14,7 @@
 </template>
 <script lang="ts">
 import { defineComponent, computed } from 'vue';
-import VueButton from '@/components/buttons/VueButton.vue';
+import VueButton from '@/components/atoms/buttons/VueButton.vue';
 import { ROUTE_TO } from '@/router/routing';
 export default defineComponent({
   components: {
