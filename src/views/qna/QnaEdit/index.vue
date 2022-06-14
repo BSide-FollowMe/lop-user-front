@@ -6,11 +6,11 @@
       </section>
       <section class="edit-form">
         <div class="page-btn-group">
-          <button class="ask-help" :class="{ active: page == 'SICK' }" @click="page = 'SICK'">
+          <button class="ask-help" :class="{ active: page == 'SICK' }" @click="changePage('SICK')">
             <span>식물이 아파요</span>
             <img src="@/assets/icon/ask-help-secondary.svg" alt="" />
           </button>
-          <button class="ask-question" :class="{ active: page == 'WONDER' }" @click="page = 'WONDER'">
+          <button class="ask-question" :class="{ active: page == 'WONDER' }" @click="changePage('WONDER')">
             <span>식물이 궁금해요</span>
             <img src="@/assets/icon/ask-question-secondary.svg" alt="" />
           </button>
@@ -26,7 +26,7 @@
 import { defineComponent, ref } from 'vue';
 import AskHelp from './_AskSick.vue';
 import AskQuestion from './_AskWonder.vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { tokenSvc } from '@/api/token-service';
 import { ROUTE_TO } from '@/router/routing';
 import setMeta from '@/utils/setMeta';
@@ -43,11 +43,10 @@ export default defineComponent({
       keywords: '질문하기',
       path: '/qna/edit',
     });
+    const router = useRouter();
     const route = useRoute();
-    console.log(route.query);
     const page = ref(route.query['type'] == 'WONDER' ? 'WONDER' : 'SICK');
     const boardId = ref(route.query['id'] || null);
-    console.log(route.query);
     const plantName = route.query.name;
 
     checkIsLoggedIn();
@@ -59,7 +58,11 @@ export default defineComponent({
         return;
       }
     }
-    return { page, boardId, plantName };
+    const changePage = (pageType: string) => {
+      router.replace(`?id=${boardId.value}&type=${pageType}`);
+      page.value = pageType;
+    };
+    return { page, boardId, plantName, changePage };
   },
 });
 </script>
