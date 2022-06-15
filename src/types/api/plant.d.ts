@@ -74,3 +74,5 @@ export type ReportParam = {
   plantId?: number | string;
   reportType: string;
 };
+
+export type AccusationParam = { commentId: number; postId: number; targetType: string } & Omit<ReportParam, 'email'>;

@@ -6,7 +6,11 @@
         <span class="is-writer" v-if="item.writer.id == boardWriterId">작성자</span>
       </div>
       <div class="group">
-        <template v-if="myId && item.writer.id == myId && !isDeleted">
+        <button v-if="!isDeleted" class="action-modal-btn" @click="openContextMenu" ref="actionBtnRef">
+          <img src="@/assets/icon/more.svg" />
+          <ContextMenu ref="contextMenuRef" class="context-menu" :items="contextMenuItems()" />
+        </button>
+        <!-- <template v-if="myId && item.writer.id == myId && !isDeleted">
           <button class="action-modal-btn" @click="actionModal = true" ref="actionBtnRef">
             <img src="@/assets/icon/more.svg" />
             <ul class="action-list shadow" v-if="actionModal">
@@ -21,7 +25,7 @@
               </li>
             </ul>
           </button>
-        </template>
+        </template> -->
       </div>
     </div>
     <section>
@@ -80,6 +84,8 @@ import helpfulPrimaryIcon from '@/assets/icon/helpful-primary.svg';
 import helpfulIcon from '@/assets/icon/helpful.svg';
 import { getTimeDistanceWithNaturalStr } from '@/utils/text';
 import { ROUTE_TO } from '@/router/routing';
+import ContextMenu from '@/components/ContextMenu.vue';
+import { accusateComment } from '@/api/plant';
 
 export default defineComponent({
   name: 'Reply Item',
@@ -111,6 +117,7 @@ export default defineComponent({
     VHtmlTextField,
     ReplyRegisterInput,
     VSwitch,
+    ContextMenu,
   },
   setup(props, { emit }) {
     const isDeleted = computed(() => props.item.deletedDateTime || false);
@@ -118,6 +125,8 @@ export default defineComponent({
     const actionModal = ref(false);
     const mode = ref(isDeleted.value ? 'deleted' : '');
     const dependentMode = ref(false);
+    const contextMenuRef = ref(ContextMenu);
+
     document.addEventListener('click', documentClick);
 
     const openNestedReplyItem = () => {
@@ -196,6 +205,46 @@ export default defineComponent({
       alert('로그인이 필요합니다.');
       ROUTE_TO.LOGIN();
     };
+    const contextMenuItems = () =>
+      props.item.writer.id == props.myId
+        ? [
+            {
+              text: '수정하기',
+              func: () => startEditMode(),
+              icon: require('@/assets/icon/modify-pencil-gray.svg'),
+            },
+            {
+              text: '삭제하기',
+              func: () => removeReply(props.boardId, props.item.id),
+              icon: require('@/assets/icon/delete.svg'),
+            },
+          ]
+        : [
+            {
+              text: '신고하기',
+              func: () => accusateComment({ commentId: Number(props.item.id), content: props.item.content, postId: Number(props.boardId) }),
+              icon: require('@/assets/icon/report.svg'),
+            },
+          ];
+
+    async function accusateComment({ commentId, content, postId }: { commentId: number; content: string; postId: number }) {
+      try {
+        const payload = {
+          content,
+          commentId,
+          postId,
+          reportType: 'ACCUSATION',
+          targetType: 'COMMENT',
+        };
+        await accusateComment(payload);
+        alert('댓글이 신고되었습니다. 검토 후 처리하도록 하겠습니다.');
+      } catch (e) {
+        console.error(e);
+      }
+    }
+    const openContextMenu = () => {
+      contextMenuRef.value.toggleContextMenu();
+    };
     return {
       actionModal,
       actionBtnRef,
@@ -214,6 +263,9 @@ export default defineComponent({
       getTimeDistanceWithNaturalStr,
       mode,
       toLogin,
+      contextMenuRef,
+      contextMenuItems,
+      openContextMenu,
     };
   },
   unmounted() {
@@ -372,6 +424,15 @@ button {
     &.helpful-btn-primary {
       color: var(--secondary-green-color-1);
     }
+  }
+}
+.context-menu {
+  text-align: start;
+  width: 172px;
+  right: 0px;
+  // height: 96px;
+  @include breakpoint-down-sm {
+    right: 0px;
   }
 }
 </style>

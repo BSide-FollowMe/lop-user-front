@@ -11,8 +11,8 @@
           }
         "
       >
-        <img class="icon" :src="item?.icon" />
-        {{ item.text }}
+        <img v-if="!!item?.icon" class="icon" :src="item?.icon" />
+        <span>{{ item.text }}</span>
       </li>
     </ul>
   </div>
@@ -63,6 +63,9 @@ export default defineComponent({
       > img {
         vertical-align: middle;
         margin-right: 20px;
+      }
+      > span {
+        vertical-align: middle;
       }
       cursor: pointer;
       height: 32px;
