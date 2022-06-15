@@ -1,82 +1,83 @@
 <template>
-  <section class="detail-form" v-if="details">
-    <div class="detail-title">
-      <div class="group">
-        <span class="title">{{ details.plantName }}</span>
-        <LinkButton v-if="details.plantId" @click="ROUTE_TO.PLANT_DETAILS(details.plantId)">식물정보</LinkButton>
-      </div>
-      <div class="group">
-        <span class="writer">{{ details.writer.nickname }}</span>
-        <span class="separator">|</span>
-        <span class="datetime">{{ getTimeDistanceWithNaturalStr(details.createdDateTime) }}</span>
-        <template v-if="myId && details.writer.id == myId">
-          <span class="separator md-up-only-inline"></span>
-          <button class="action-modal-btn" @click="actionModal = true" ref="actionBtnRef">
-            <img src="@/assets/icon/more.svg" />
-            <ul class="action-list shadow" v-if="actionModal">
-              <li @click="ROUTE_TO.QNABOARD_EDIT(details.id, details.type)">
-                <img src="@/assets/icon/modify-pencil-gray.svg" />
-                <span>수정하기</span>
-              </li>
-              <hr />
-              <li @click="onRemove">
-                <img src="@/assets/icon/delete.svg" />
-                <span>삭제하기</span>
-              </li>
-            </ul>
-          </button>
-        </template>
-      </div>
+  <div class="detail-title">
+    <div class="group">
+      <span class="title">{{ details.plantName }}</span>
+      <LinkButton v-if="details.plantId" @click="ROUTE_TO.PLANT_DETAILS(details.plantId)">식물정보</LinkButton>
     </div>
-    <hr class="separate-content" />
-    <template v-if="details.type == 'SICK'">
-      <div class="input-title">물은 얼마나 자주 주셨나요?</div>
-      <div class="textarea-item">
-        <ResizableTextArea class="sub-contents" :modelValue="details.plantWaterCycle" maxlength="500" readonly />
-      </div>
-      <div class="input-title">
-        식물은 어디에 두셨고 햇빛을 받는 시간은
-        <br class="md-down-only" />
-        얼마나 되나요?
-      </div>
-      <div class="textarea-item">
-        <ResizableTextArea class="sub-contents" :modelValue="details.plantLifeCycle" maxlength="500" readonly />
-      </div>
-      <div class="input-title">증상이 나타났을 때 어떻게 대처하셨나요?</div>
-      <div class="textarea-item">
-        <ResizableTextArea class="sub-contents" :modelValue="details.plantCountermeasure" maxlength="500" readonly />
-      </div>
-    </template>
-    <VHtmlTextField class="content-item" :content="details.content" />
-    <div class="img-item" v-for="(item, index) in details.images" :key="`img-item-${index}`">
-      <img :src="item.imageUrl" @error="($event.target as HTMLImageElement).src = require('@/assets/images/search/img-error.svg')" />
-    </div>
-    <div class="bottom-btn-group">
-      <button class="no-click">
-        <img src="@/assets/icon/reply.svg" />
-        <br class="md-down-only" />
-        답변 {{ details.comments.totalElement }}
-      </button>
+    <div class="group">
+      <span class="writer">{{ details.writer.nickname }}</span>
       <span class="separator">|</span>
-      <button class="helpful-btn-primary helpful-btn" v-if="details.isSupport" @click="toggleSupportBtn">
-        <img src="@/assets/icon/helpful-primary.svg" />
-        <br class="md-down-only" />
-        도움돼요 {{ details.supportCount }}
-      </button>
-      <button class="helpful-btn" v-else @click="toggleSupportBtn">
-        <img src="@/assets/icon/helpful.svg" />
-        <br class="md-down-only" />
-        도움돼요 {{ details.supportCount }}
-      </button>
-      <span class="separator">|</span>
-      <button @click="openContextMenu" class="share-button">
-        <ContextMenu ref="shareCotextRef" class="context-menu" :items="contextMenuItems" />
-        <img src="@/assets/icon/share-gray.svg" />
-        <br class="md-down-only" />
-        공유하기
-      </button>
+      <span class="datetime">{{ getTimeDistanceWithNaturalStr(details.createdDateTime) }}</span>
+      <template v-if="myId && details.writer.id == myId">
+        <span class="separator md-up-only-inline"></span>
+        <button class="action-modal-btn" @click="actionModal = true" ref="actionBtnRef">
+          <img src="@/assets/icon/more.svg" />
+          <ul class="action-list shadow" v-if="actionModal">
+            <li @click="ROUTE_TO.QNABOARD_EDIT(details.id, details.type)">
+              <img src="@/assets/icon/modify-pencil-gray.svg" />
+              <span>수정하기</span>
+            </li>
+            <hr />
+            <li @click="onRemove">
+              <img src="@/assets/icon/delete.svg" />
+              <span>삭제하기</span>
+            </li>
+          </ul>
+        </button>
+      </template>
     </div>
-  </section>
+  </div>
+  <hr class="separate-content" />
+  <template v-if="details.type == 'SICK'">
+    <div class="input-title">물은 얼마나 자주 주셨나요?</div>
+    <div class="textarea-item">
+      <ResizableTextArea class="sub-contents" :modelValue="details.plantWaterCycle" maxlength="500" readonly />
+    </div>
+    <div class="input-title">
+      식물은 어디에 두셨고 햇빛을 받는 시간은
+      <br class="md-down-only" />
+      얼마나 되나요?
+    </div>
+    <div class="textarea-item">
+      <ResizableTextArea class="sub-contents" :modelValue="details.plantLifeCycle" maxlength="500" readonly />
+    </div>
+    <div class="input-title">증상이 나타났을 때 어떻게 대처하셨나요?</div>
+    <div class="textarea-item">
+      <ResizableTextArea class="sub-contents" :modelValue="details.plantCountermeasure" maxlength="500" readonly />
+    </div>
+  </template>
+  <VHtmlTextField class="content-item" :content="details.content" />
+  <div class="img-item" v-for="(item, index) in details.images" :key="`img-item-${index}`">
+    <img :src="item.imageUrl" @error="($event.target as HTMLImageElement).src = require('@/assets/images/search/img-error.svg')" />
+  </div>
+  <div class="bottom-btn-group">
+    <button class="no-click">
+      <img src="@/assets/icon/reply.svg" />
+      <br class="md-down-only" />
+      답변 {{ details.comments.totalElement }}
+    </button>
+    <span class="separator">|</span>
+    <button class="helpful-btn-primary helpful-btn" v-if="details.isSupport" @click="toggleSupportBtn">
+      <img src="@/assets/icon/helpful-primary.svg" />
+      <br class="md-down-only" />
+      도움돼요 {{ details.supportCount }}
+    </button>
+    <button class="helpful-btn" v-else @click="toggleSupportBtn">
+      <img src="@/assets/icon/helpful.svg" />
+      <br class="md-down-only" />
+      도움돼요 {{ details.supportCount }}
+    </button>
+    <span class="separator">|</span>
+    <button @click="openContextMenu" class="share-button">
+      <ContextMenu ref="shareCotextRef" class="context-menu" :items="contextMenuItems" />
+      <img src="@/assets/icon/share-gray.svg" />
+      <br class="md-down-only" />
+      공유하기
+    </button>
+  </div>
+  <div class="report" v-if="myId !== details.writer">
+    <ReportButton @click="() => accusateQuestion({ postId: Number(details.id) })" />
+  </div>
 </template>
 
 <script lang="ts">
@@ -93,6 +94,8 @@ import dummyImage from '@/assets/images/search/img-error.svg';
 import type { BoardResponse } from '@/types/api/board';
 import ResizableTextArea from '@/components/atoms/textarea/ResizableTextArea.vue';
 import LinkButton from '../../atoms/buttons/LinkButton.vue';
+import { accusate } from '@/api/plant';
+import ReportButton from '@/components/atoms/buttons/ReportButton.vue';
 
 export default defineComponent({
   head() {
@@ -105,7 +108,7 @@ export default defineComponent({
       default: () => ({ plantWaterCycle: '', plantLifeCycle: '', plantCountermeasure: '' }),
     },
   },
-  components: { ContextMenu, ResizableTextArea, VHtmlTextField, LinkButton },
+  components: { ContextMenu, ResizableTextArea, VHtmlTextField, LinkButton, ReportButton },
   setup(props, { emit }) {
     const { kakao } = useKakao();
     const myUserInfo = computed(() => store.getters.getUserInfo);
@@ -170,6 +173,19 @@ export default defineComponent({
       },
       { text: '링크 복사', func: copyLink, icon: require('@/assets/icon/icon_link.svg') },
     ];
+    async function accusateQuestion({ postId }: { postId: number }) {
+      try {
+        const payload = {
+          postId,
+          reportType: 'ACCUSATION',
+          targetType: 'QUESTION',
+        };
+        await accusate(payload);
+        alert('질문이 신고되었습니다. 검토 후 처리하도록 하겠습니다.');
+      } catch (e) {
+        console.error(e);
+      }
+    }
     return {
       documentClick,
       actionModal,
@@ -184,6 +200,7 @@ export default defineComponent({
       shareCotextRef,
       openContextMenu,
       contextMenuItems,
+      accusateQuestion,
     };
   },
   unmounted() {
@@ -230,29 +247,18 @@ export default defineComponent({
     padding-bottom: 60px;
   }
 }
-.detail-form {
-  background-color: #fff;
-  border-radius: 4px;
-  padding: 60px;
-  padding-bottom: 10px;
-  color: var(--text-color-2);
 
+.content-item {
+  margin-top: 40px;
+  font-size: 18px;
+  line-height: 26px;
+  word-break: break-all;
   @include breakpoint-down-sm {
-    margin-left: 20px;
-    margin-right: 20px;
-    padding: 40px var(--m-content-container-padding);
-  }
-  .content-item {
-    margin-top: 40px;
-    font-size: 18px;
-    line-height: 26px;
-    word-break: break-all;
-    @include breakpoint-down-sm {
-      margin-top: 30px;
-      font-size: 13px;
-    }
+    margin-top: 30px;
+    font-size: 13px;
   }
 }
+
 .page-btn-group {
   text-align: center;
 
@@ -549,5 +555,10 @@ button {
   @include breakpoint-down-sm {
     right: 0px;
   }
+}
+.report {
+  text-align: right;
+  right: 0;
+  // float: right;
 }
 </style>

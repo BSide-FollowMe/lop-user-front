@@ -4,7 +4,9 @@
       <section class="qna-detail__title">
         <h1>질문 · 답변</h1>
       </section>
-      <QuestionDetail :details="details" @onToggleSupport="toggleSupportBtn" @onRemove="removeBoard" />
+      <section class="detail-form" v-if="details">
+        <QuestionDetail :details="details" @onToggleSupport="toggleSupportBtn" @onRemove="removeBoard" />
+      </section>
       <section class="reply-container">
         <hr class="separate-content" />
         <div class="reply-count">
@@ -175,29 +177,18 @@ export default defineComponent({
     padding-bottom: 60px;
   }
 }
-.detail-form {
-  background-color: #fff;
-  border-radius: 4px;
-  padding: 60px;
-  padding-bottom: 10px;
-  color: var(--text-color-2);
 
+.content-item {
+  margin-top: 40px;
+  font-size: 18px;
+  line-height: 26px;
+  word-break: break-all;
   @include breakpoint-down-sm {
-    margin-left: 20px;
-    margin-right: 20px;
-    padding: 40px var(--m-content-container-padding);
-  }
-  .content-item {
-    margin-top: 40px;
-    font-size: 18px;
-    line-height: 26px;
-    word-break: break-all;
-    @include breakpoint-down-sm {
-      margin-top: 30px;
-      font-size: 13px;
-    }
+    margin-top: 30px;
+    font-size: 13px;
   }
 }
+
 .page-btn-group {
   text-align: center;
 
@@ -504,7 +495,7 @@ button {
   @include breakpoint-down-sm {
     margin-left: 20px;
     margin-right: 20px;
-    padding: 40px var(--m-content-container-padding);
+    padding: 0 var(--m-content-container-padding);
   }
   .content-item {
     margin-top: 40px;
@@ -534,6 +525,19 @@ button {
   @include breakpoint-down-sm {
     margin-top: 20px;
     font-size: 16px;
+  }
+}
+
+.detail-form {
+  background-color: #fff;
+  border-radius: 4px;
+  padding: 60px 60px 20.5px 60px;
+  color: var(--text-color-2);
+
+  @include breakpoint-down-sm {
+    margin-left: 20px;
+    margin-right: 20px;
+    padding: 21px var(--m-content-container-padding);
   }
 }
 

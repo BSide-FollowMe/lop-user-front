@@ -11,8 +11,8 @@
           }
         "
       >
-        <img class="icon" :src="item?.icon" />
-        {{ item.text }}
+        <div class="icon__wrapper"><img v-if="!!item?.icon" class="icon" :src="item?.icon" /></div>
+        <span>{{ item.text }}</span>
       </li>
     </ul>
   </div>
@@ -64,6 +64,9 @@ export default defineComponent({
         vertical-align: middle;
         margin-right: 20px;
       }
+      > span {
+        vertical-align: middle;
+      }
       cursor: pointer;
       height: 32px;
       font-weight: var(--font-weight-medium);
@@ -87,5 +90,16 @@ export default defineComponent({
   background-color: #ffffff;
   box-shadow: 0px 2px 10px 2px rgba(0, 0, 0, 0.06);
   border-radius: 2px;
+}
+.icon {
+  width: 100%;
+  height: 100%;
+  vertical-align: middle;
+  &__wrapper {
+    width: 24px;
+    height: 24px;
+    display: inline-block;
+    margin-right: 20px;
+  }
 }
 </style>
