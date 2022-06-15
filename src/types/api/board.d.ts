@@ -50,6 +50,7 @@ export type BoardResponse = {
   isSupport: boolean;
   modifiedDateTime: string;
   plantCountermeasure: string;
+  plantId: string;
   plantLifeCycle: string;
   plantName: string;
   plantWaterCycle: string;

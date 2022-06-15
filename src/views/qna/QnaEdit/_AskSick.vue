@@ -23,13 +23,13 @@
     </div>
     <div class="input-title">물은 얼마나 자주 주셨나요?</div>
     <div class="textarea-item">
-      <AutoResizeTextArea
+      <ResizableTextArea
+        placeholder="내용을 입력하세요"
         id="plant-water-cycle"
         v-model="plantWaterCycle"
         :class="{ 'is-empty': plantWaterCycle === '' }"
         maxlength="500"
       />
-      <label for="plant-water-cycle">내용을 입력하세요</label>
     </div>
     <div class="input-title">
       식물은 어디에 두셨고,
@@ -37,23 +37,33 @@
       햇빛을 받는 시간은 얼마나 되나요?
     </div>
     <div class="textarea-item">
-      <AutoResizeTextArea id="plant-life-cycle" v-model="plantLifeCycle" :class="{ 'is-empty': plantLifeCycle === '' }" maxlength="500" />
-      <label for="plant-life-cycle">내용을 입력하세요</label>
+      <ResizableTextArea
+        placeholder="내용을 입력하세요"
+        id="plant-life-cycle"
+        v-model="plantLifeCycle"
+        :class="{ 'is-empty': plantLifeCycle === '' }"
+        maxlength="500"
+      />
     </div>
     <div class="input-title">증상이 나타났을 때 어떻게 대처하셨나요?</div>
     <div class="textarea-item">
-      <AutoResizeTextArea
+      <ResizableTextArea
         id="plant-countermeasure"
+        placeholder="내용을 입력하세요"
         v-model="plantCountermeasure"
         :class="{ 'is-empty': plantCountermeasure === '' }"
         maxlength="500"
       />
-      <label for="plant-countermeasure">내용을 입력하세요</label>
     </div>
     <div class="input-title">증상을 자세하게 알려주세요</div>
     <div class="textarea-item">
-      <AutoResizeTextArea id="content" v-model="content" :class="{ 'is-empty': content === '' }" maxlength="500" />
-      <label for="content">내용을 입력하세요</label>
+      <ResizableTextArea
+        placeholder="내용을 입력하세요"
+        id="content"
+        v-model="content"
+        :class="{ 'is-empty': content === '' }"
+        maxlength="500"
+      />
     </div>
     <div class="input-title">
       사진 등록
@@ -72,7 +82,7 @@
 import { defineComponent, ref, computed } from 'vue';
 import { debounce } from '@/utils/global';
 import { getPlantList } from '@/api/plant';
-import VueButton from '@/components/buttons/VueButton.vue';
+import VueButton from '@/components/atoms/buttons/VueButton.vue';
 import VueAutocomplete from '@/components/inputs/VueAutocomplete.vue';
 import PhotoUploader from '@/components/inputs/PhotoUploader.vue';
 import { registQnaBoard, getQnaBoardDetail, modifyQnaBoard, getQuestionImages } from '@/api/qnaboard';
@@ -80,7 +90,7 @@ import type { BoardParam } from '@/types/api/board';
 import { ROUTE_TO } from '@/router/routing';
 import store from '@/store';
 import type { PlantListParam, Plant } from '@/types/api/plant';
-import AutoResizeTextArea from '@/components/inputs/AutoResizeTextArea.vue';
+import ResizableTextArea from '@/components/atoms/textarea/ResizableTextArea.vue';
 
 export default defineComponent({
   name: 'Ask Help Form',
@@ -88,7 +98,7 @@ export default defineComponent({
     VueButton,
     VueAutocomplete,
     PhotoUploader,
-    AutoResizeTextArea,
+    ResizableTextArea,
   },
   props: ['boardId', 'plant'],
   setup(props) {
@@ -117,7 +127,7 @@ export default defineComponent({
 
     async function getEditDetails(id: string) {
       try {
-        const { data }: any = await getQnaBoardDetail(id);
+        const data = await getQnaBoardDetail(id);
         await checkIsMine(data.writer);
         if (data.plantId && data.plantId.length) {
           plantNameOptions.value = [{ name: data.plantName, id: data.plantId }];
@@ -141,8 +151,8 @@ export default defineComponent({
     }
     async function getImageBlob(id: string) {
       try {
-        const { data }: any = await getQuestionImages(id);
-        return data.imageList;
+        const imageList = await getQuestionImages(id);
+        return imageList;
       } catch (e) {
         console.error(e);
         return [];
@@ -206,16 +216,16 @@ export default defineComponent({
     }
     async function modifyQuestion(payload: BoardParam, questionId: string) {
       try {
-        const res: any = await modifyQnaBoard(payload, questionId);
-        ROUTE_TO.QNABOARD_DETAIL(res.data.id);
+        const res = await modifyQnaBoard(payload, questionId);
+        ROUTE_TO.QNABOARD_DETAIL(res.id);
       } catch (error) {
         console.log(error);
       }
     }
     async function registQuestion(payload: BoardParam) {
       try {
-        const res: any = await registQnaBoard(payload);
-        ROUTE_TO.QNABOARD_DETAIL(res.data.id);
+        const res = await registQnaBoard(payload);
+        ROUTE_TO.QNABOARD_DETAIL(res.id);
       } catch (e) {
         console.error(e);
       }

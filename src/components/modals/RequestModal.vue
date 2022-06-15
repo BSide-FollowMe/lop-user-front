@@ -31,7 +31,7 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 import DefaultModal from './DefaultModal.vue';
-import VueButton from '@/components/buttons/VueButton.vue';
+import VueButton from '@/components/atoms/buttons/VueButton.vue';
 export default defineComponent({
   name: 'Report Modal',
   components: {

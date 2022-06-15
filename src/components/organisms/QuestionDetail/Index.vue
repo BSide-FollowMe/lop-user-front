@@ -1,140 +1,210 @@
 <template>
-  <div class="container">
-    <div class="inner-container qna-detail">
-      <section class="qna-detail__title">
-        <h1>질문 · 답변</h1>
-      </section>
-      <section class="detail-form" v-if="details">
-        <QuestionDetail :details="details" @onToggleSupport="toggleSupportBtn" @onRemove="removeBoard" />
-      </section>
-      <section class="reply-container">
-        <hr class="separate-content" />
-        <div class="reply-count">
-          <span class="title">댓글</span>
-          <span class="count">{{ ' ' + replyCount }}</span>
-        </div>
-        <ReplyRegisterInput
-          :myId="myId"
-          placeholder="답변을 남겨주세요"
-          v-model:modelValue="replyInput"
-          @submit="({ input }) => registerComment(input)"
-        />
-        <ul class="reply-list">
-          <ReplyItemList
-            v-if="details"
-            :myId="myId"
-            :comments="details.comments.data"
-            :boardId="boardId"
-            :boardWriterId="details.writer.id"
-            @refresh="refresh"
-          />
-        </ul>
-      </section>
+  <div class="detail-title">
+    <div class="group">
+      <span class="title">{{ details.plantName }}</span>
+      <LinkButton v-if="details.plantId" @click="ROUTE_TO.PLANT_DETAILS(details.plantId)">식물정보</LinkButton>
     </div>
+    <div class="group">
+      <span class="writer">{{ details.writer.nickname }}</span>
+      <span class="separator">|</span>
+      <span class="datetime">{{ getTimeDistanceWithNaturalStr(details.createdDateTime) }}</span>
+      <template v-if="myId && details.writer.id == myId">
+        <span class="separator md-up-only-inline"></span>
+        <button class="action-modal-btn" @click="actionModal = true" ref="actionBtnRef">
+          <img src="@/assets/icon/more.svg" />
+          <ul class="action-list shadow" v-if="actionModal">
+            <li @click="ROUTE_TO.QNABOARD_EDIT(details.id, details.type)">
+              <img src="@/assets/icon/modify-pencil-gray.svg" />
+              <span>수정하기</span>
+            </li>
+            <hr />
+            <li @click="onRemove">
+              <img src="@/assets/icon/delete.svg" />
+              <span>삭제하기</span>
+            </li>
+          </ul>
+        </button>
+      </template>
+    </div>
+  </div>
+  <hr class="separate-content" />
+  <template v-if="details.type == 'SICK'">
+    <div class="input-title">물은 얼마나 자주 주셨나요?</div>
+    <div class="textarea-item">
+      <ResizableTextArea class="sub-contents" :modelValue="details.plantWaterCycle" maxlength="500" readonly />
+    </div>
+    <div class="input-title">
+      식물은 어디에 두셨고 햇빛을 받는 시간은
+      <br class="md-down-only" />
+      얼마나 되나요?
+    </div>
+    <div class="textarea-item">
+      <ResizableTextArea class="sub-contents" :modelValue="details.plantLifeCycle" maxlength="500" readonly />
+    </div>
+    <div class="input-title">증상이 나타났을 때 어떻게 대처하셨나요?</div>
+    <div class="textarea-item">
+      <ResizableTextArea class="sub-contents" :modelValue="details.plantCountermeasure" maxlength="500" readonly />
+    </div>
+  </template>
+  <VHtmlTextField class="content-item" :content="details.content" />
+  <div class="img-item" v-for="(item, index) in details.images" :key="`img-item-${index}`">
+    <img :src="item.imageUrl" @error="($event.target as HTMLImageElement).src = require('@/assets/images/search/img-error.svg')" />
+  </div>
+  <div class="bottom-btn-group">
+    <button class="no-click">
+      <img src="@/assets/icon/reply.svg" />
+      <br class="md-down-only" />
+      답변 {{ details.comments.totalElement }}
+    </button>
+    <span class="separator">|</span>
+    <button class="helpful-btn-primary helpful-btn" v-if="details.isSupport" @click="toggleSupportBtn">
+      <img src="@/assets/icon/helpful-primary.svg" />
+      <br class="md-down-only" />
+      도움돼요 {{ details.supportCount }}
+    </button>
+    <button class="helpful-btn" v-else @click="toggleSupportBtn">
+      <img src="@/assets/icon/helpful.svg" />
+      <br class="md-down-only" />
+      도움돼요 {{ details.supportCount }}
+    </button>
+    <span class="separator">|</span>
+    <button @click="openContextMenu" class="share-button">
+      <ContextMenu ref="shareCotextRef" class="context-menu" :items="contextMenuItems" />
+      <img src="@/assets/icon/share-gray.svg" />
+      <br class="md-down-only" />
+      공유하기
+    </button>
+  </div>
+  <div class="report" v-if="myId !== details.writer">
+    <ReportButton @click="() => accusateQuestion({ postId: Number(details.id) })" />
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed, onMounted } from 'vue';
-import { getQnaBoardDetail, removeQnaBoard, toggleSupportQuestions } from '@/api/qnaboard';
-import ReplyItemList from '@/components/organisms/ReplyItemList/Index.vue';
-import ReplyRegisterInput from '@/components/molecules/ReplyInput/ReplyRegisterInput.vue';
-import QuestionDetail from '@/components/organisms/QuestionDetail/Index.vue';
-import { registQnaBoardComment } from '@/api/qnaboard';
-import { debounce } from '@/utils/global';
-import { ROUTE_TO } from '@/router/routing';
-import setMeta from '@/utils/setMeta';
-import type { BoardResponse } from '@/types/api/board';
+import { defineComponent, ref, computed, onBeforeMount, PropType } from 'vue';
+import VHtmlTextField from '@/components/atoms/textField/VHtmlTextField.vue';
 import { useRoute } from 'vue-router';
-import { useStore } from 'vuex';
+import { getTimeDistanceWithNaturalStr } from '@/utils/text';
+import { debounce, copyUrl } from '@/utils/global';
+import store from '@/store';
+import { ROUTE_TO } from '@/router/routing';
+import ContextMenu from '@/components/ContextMenu.vue';
+import { useKakao } from 'vue3-kakao-sdk';
+import dummyImage from '@/assets/images/search/img-error.svg';
+import type { BoardResponse } from '@/types/api/board';
+import ResizableTextArea from '@/components/atoms/textarea/ResizableTextArea.vue';
+import LinkButton from '../../atoms/buttons/LinkButton.vue';
+import { accusate } from '@/api/plant';
+import ReportButton from '@/components/atoms/buttons/ReportButton.vue';
 
 export default defineComponent({
   head() {
     return { script: [{ src: '//developers.kakao.com/sdk/js/kakao.min.js' }] };
   },
   name: 'Question Detail',
-  components: { ReplyItemList, QuestionDetail, ReplyRegisterInput },
-  setup() {
-    const store = useStore();
-    const replyInput = ref('');
-    const myId = computed(() => store.getters.getUserInfo?.id || null);
+  props: {
+    details: {
+      type: Object as PropType<BoardResponse>,
+      default: () => ({ plantWaterCycle: '', plantLifeCycle: '', plantCountermeasure: '' }),
+    },
+  },
+  components: { ContextMenu, ResizableTextArea, VHtmlTextField, LinkButton, ReportButton },
+  setup(props, { emit }) {
+    const { kakao } = useKakao();
+    const myUserInfo = computed(() => store.getters.getUserInfo);
+    const myId = computed(() => myUserInfo.value?.id || null);
     const route = useRoute();
-    const details = ref({ plantWaterCycle: '', plantLifeCycle: '', plantCountermeasure: '' } as BoardResponse);
-    const replyCount = computed(() => {
-      return details.value.comments.size;
-    });
-    const boardId = computed(() => route.path.split('/')[3] || '');
-    const computedMeta = computed(() => ({
-      title: `${details.value.plantName} : 질문·답변 - 식물의언어`,
-      description: `${details.value.content}`,
-      keywords: `질문, 답변, 질문답변, 질문 답변, ${details.value.plantName}`,
-      path: `/qna/detail/${boardId.value}`,
-    }));
-    setMeta(computedMeta);
-    onMounted(async () => {
-      getDetails();
-    });
-    async function getDetails() {
-      try {
-        const id: string = boardId.value;
-        details.value = await getQnaBoardDetail(id);
-      } catch (e) {
-        console.log(e);
-      }
+    const actionModal = ref(false);
+    const boardId: any = computed(() => route.path.split('/')[3] || '');
+    const actionBtnRef = ref(null);
+    const shareCotextRef = ref(ContextMenu);
+
+    async function onRemove() {
+      if (!confirm('해당 글이 삭제됩니다. 계속할까요?')) return;
+      emit('onRemove');
     }
-    async function removeBoard() {
-      try {
-        const id: string = boardId.value;
-        const res = await removeQnaBoard(id);
-        console.log(res);
-        ROUTE_TO.QNABOARD();
-      } catch (e) {
-        console.log(e);
+    function documentClick(e: any) {
+      let el: any = actionBtnRef.value;
+      let target = e.target;
+      if (el && el !== target && !el.contains(target)) {
+        actionModal.value = false;
       }
     }
 
     async function toggleSupportBtn() {
-      try {
-        await toggleSupportQuestions(boardId.value);
-      } catch (e) {
-        console.error(e);
-      } finally {
-        getDetails();
-      }
+      emit('onToggleSupport');
     }
-    async function registerComment(text: string, boardId: string) {
-      try {
-        if (!text.length) {
-          alert('내용을 입력해주세요!');
-          return;
-        }
-        const payload = {
-          content: text,
-        };
-        await registQnaBoardComment(payload, boardId);
-        refresh();
-      } catch (e) {
-        console.error(e);
-      }
-    }
-    const refresh = () => {
-      replyInput.value = '';
-      getDetails();
+
+    const openContextMenu = () => {
+      shareCotextRef.value.toggleContextMenu();
     };
+    const shareKakao = async () => {
+      const item = props.details;
+      let imageUrl = dummyImage;
+      if (item?.images && item.images.length) {
+        imageUrl = item.images[0].imageUrl;
+      }
+      kakao.value.Link.sendDefault({
+        objectType: 'feed',
+        content: {
+          title: `식물의언어 - ${item.plantName}`,
+          description: '식물을 키우며 궁금했던 점, 식물의언어에서 물어보세요.',
+          imageUrl: imageUrl,
+          link: {
+            mobileWebUrl: window.document.location.href,
+            webUrl: window.document.location.href,
+          },
+        },
+      });
+      console.log('shareKakao');
+    };
+    const copyLink = () => {
+      copyUrl();
+      store.dispatch('snack/openSnack', {
+        text: '링크가 복사되었어요!',
+        color: '#48B57A',
+      });
+    };
+    const contextMenuItems = [
+      {
+        text: '카카오톡 공유',
+        func: shareKakao,
+        icon: require('@/assets/icon/logo_카카오톡.svg'),
+      },
+      { text: '링크 복사', func: copyLink, icon: require('@/assets/icon/icon_link.svg') },
+    ];
+    async function accusateQuestion({ postId }: { postId: number }) {
+      try {
+        const payload = {
+          postId,
+          reportType: 'ACCUSATION',
+          targetType: 'QUESTION',
+        };
+        await accusate(payload);
+        alert('질문이 신고되었습니다. 검토 후 처리하도록 하겠습니다.');
+      } catch (e) {
+        console.error(e);
+      }
+    }
     return {
-      replyInput,
-      replyCount,
+      documentClick,
+      actionModal,
+      actionBtnRef,
+      getTimeDistanceWithNaturalStr,
       myId,
-      details,
-      removeBoard,
+      onRemove,
       ROUTE_TO,
       boardId,
-      refresh,
+      copyUrl,
       toggleSupportBtn: debounce(toggleSupportBtn, 500),
-      registerComment: debounce((input: string) => {
-        registerComment(input, boardId.value);
-      }, 500),
+      shareCotextRef,
+      openContextMenu,
+      contextMenuItems,
+      accusateQuestion,
     };
+  },
+  unmounted() {
+    document.removeEventListener('click', this.documentClick);
   },
 });
 </script>
@@ -486,62 +556,9 @@ button {
     right: 0px;
   }
 }
-.reply-container {
-  background-color: #fff;
-  border-radius: 4px;
-  padding: 0px 60px 60px;
-  color: var(--text-color-2);
-
-  @include breakpoint-down-sm {
-    margin-left: 20px;
-    margin-right: 20px;
-    padding: 0 var(--m-content-container-padding);
-  }
-  .content-item {
-    margin-top: 40px;
-    font-size: 18px;
-    line-height: 26px;
-    @include breakpoint-down-sm {
-      font-size: 16px;
-    }
-  }
-}
-.separate-content {
-  border: none;
-  border-bottom: 1px solid #e5e5e5;
-  margin: 0px;
-}
-.reply-count {
-  margin-top: 40px;
-  font-size: 20px;
-  line-height: 20px;
-  font-weight: var(--font-weight-bold);
-  .title {
-    color: var(--text-color-1);
-  }
-  .count {
-    color: var(--secondary-green-color-1);
-  }
-  @include breakpoint-down-sm {
-    margin-top: 20px;
-    font-size: 16px;
-  }
-}
-
-.detail-form {
-  background-color: #fff;
-  border-radius: 4px;
-  padding: 60px 60px 20.5px 60px;
-  color: var(--text-color-2);
-
-  @include breakpoint-down-sm {
-    margin-left: 20px;
-    margin-right: 20px;
-    padding: 21px var(--m-content-container-padding);
-  }
-}
-
-.reply-list {
-  margin-top: 10px;
+.report {
+  text-align: right;
+  right: 0;
+  // float: right;
 }
 </style>

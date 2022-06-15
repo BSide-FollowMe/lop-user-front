@@ -1,100 +1,121 @@
 <template>
-  <li :id="`${id}`" class="item" :class="{ 'is-dependent': item.refId && item.refId != 0 }">
+  <li :id="`${id}`" class="item" :class="{ 'is-dependent': !!item.refId }">
     <div class="item__topper">
       <div class="group">
         <span class="nickname">{{ item.writer.nickname }}</span>
         <span class="is-writer" v-if="item.writer.id == boardWriterId">작성자</span>
       </div>
       <div class="group">
-        <template v-if="myId && item.writer.id == myId && !isDeleted">
-          <button class="action-modal-btn" @click="actionModal = true" ref="actionBtnRef">
-            <img src="@/assets/icon/more.svg" />
-            <ul class="action-list shadow" v-if="actionModal">
-              <li @click="startEditMode">
-                <img src="@/assets/icon/modify-pencil-gray.svg" />
-                <span>수정하기</span>
-              </li>
-              <hr />
-              <li @click="removeReply(boardId, item.id)">
-                <img src="@/assets/icon/delete.svg" />
-                <span>삭제하기</span>
-              </li>
-            </ul>
-          </button>
-        </template>
+        <button v-if="!isDeleted" class="action-modal-btn" @click="openContextMenu" ref="actionBtnRef">
+          <img src="@/assets/icon/more.svg" />
+          <ContextMenu ref="contextMenuRef" class="context-menu" :items="contextMenuItems()" />
+        </button>
       </div>
     </div>
-    <template v-if="editMode">
-      <div class="textarea-item">
-        <AutoResizeTextArea id="comment-edit" v-model="editInput" :class="{ 'is-empty': editInput === '' }" maxlength="500" />
-        <label for="comment-edit">내용을 입력하세요</label>
-        <div class="edit-btn-group">
-          <button class="cancle" @click="endEditMode">취소</button>
-          <span class="separator">|</span>
-          <button class="regist-btn" @click="modifyReply(boardId, item.id, item.refId, editInput)">수정</button>
-        </div>
-      </div>
-    </template>
-    <template v-if="!editMode">
-      <div class="item__content deleted" v-if="isDeleted">
-        <img src="@/assets/icon/error-outline.svg" />
-        작성자가 삭제한 댓글입니다
-      </div>
-      <div class="item__content" v-else v-html="item.content.replace(/(?:\r\n|\r|\n)/g, '<br />')"></div>
-    </template>
+    <section>
+      <v-switch :case="mode">
+        <template #edit>
+          <ReplyUpdateInput
+            :modelValue="item.content"
+            @cancel="endEditMode"
+            @submit="({ input }) => modifyReply(boardId, item.id, item.refId, input)"
+          />
+        </template>
+        <template #deleted>
+          <DeletedReplyItem />
+        </template>
+        <template #default>
+          <VHtmlTextField :content="item.content" />
+        </template>
+      </v-switch>
+    </section>
     <div class="bottom-btn-group">
       <button class="no-click">
         {{ getTimeDistanceWithNaturalStr(item.createdDateTime) }}
       </button>
       <span class="separator">|</span>
-      <button class="helpful-btn helpful-btn-primary" v-if="item.isSupport" @click="toggleSupportBtn">
-        <img src="@/assets/icon/helpful-primary.svg" />
+      <button :class="{ 'helpful-btn': true, 'helpful-btn-primary': item.isSupport }" @click="toggleSupportBtn">
+        <img :src="item.isSupport ? helpfulPrimaryIcon : helpfulIcon" />
         도움돼요 {{ item.supportCount }}
       </button>
-      <button class="helpful-btn" v-else @click="toggleSupportBtn">
-        <img src="@/assets/icon/helpful.svg" />
-        도움돼요 {{ item.supportCount }}
-      </button>
-      <template v-if="(!item.refId || item.refId == 0) && !isDeleted">
+      <template v-if="(!item.refId || item.refId == String(0)) && !isDeleted">
         <span class="separator">|</span>
-        <button @click="dependentMode = !dependentMode">답글</button>
+        <button @click="() => openNestedReplyItem()">답글</button>
       </template>
     </div>
   </li>
-  <div class="dependent-input is-dependent" v-if="dependentMode">
-    <div class="textarea-item">
-      <AutoResizeTextArea id="comment-edit" v-model="dependentInput" :class="{ 'is-empty': dependentInput === '' }" maxlength="500" />
-      <label for="comment-edit">대댓글을 남겨주세요</label>
-      <div class="edit-btn-group">
-        <button class="regist-btn" @click="registDependentReply(boardId, item.id, dependentInput)">등록</button>
-      </div>
-    </div>
-  </div>
+  <ReplyRegisterInput
+    v-if="dependentMode"
+    placeholder="대댓글을 남겨주세요"
+    :isDependent="true"
+    @submit="({ input }) => registDependentReply(boardId, id, input)"
+    @clickTextarea="() => (myId ? false : toLogin())"
+  ></ReplyRegisterInput>
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, ref } from 'vue';
-import { getTimeDistanceWithNaturalStr } from '@/utils/text';
+import { defineComponent, computed, ref, PropType } from 'vue';
+
 import { deleteQnaBoardComment, modifyQnaBoardComment, registQnaBoardComment, toggleSupportComments } from '@/api/qnaboard';
 import { debounce } from '@/utils/global';
-import AutoResizeTextArea from '@/components/inputs/AutoResizeTextArea.vue';
+import VHtmlTextField from '@/components/atoms/textField/VHtmlTextField.vue';
+import { CommentData } from '@/types/api/board';
+import ReplyUpdateInput from '@/components/molecules/ReplyInput/ReplyUpdateInput.vue';
+import DeletedReplyItem from '@/components/molecules/ReplyItem/DeletedReplyItem.vue';
+import ReplyRegisterInput from '@/components/molecules/ReplyInput/ReplyRegisterInput.vue';
+import VSwitch from '@lmiller1990/v-switch';
+import helpfulPrimaryIcon from '@/assets/icon/helpful-primary.svg';
+import helpfulIcon from '@/assets/icon/helpful.svg';
+import { getTimeDistanceWithNaturalStr } from '@/utils/text';
+import { ROUTE_TO } from '@/router/routing';
+import ContextMenu from '@/components/ContextMenu.vue';
+import { accusate } from '@/api/plant';
+
 export default defineComponent({
   name: 'Reply Item',
-  props: ['id', 'item', 'boardId', 'myId', 'boardWriterId'],
+  props: {
+    id: {
+      type: String,
+      required: true,
+    },
+    item: {
+      type: Object as PropType<CommentData>,
+      default: () => ({}),
+    },
+    boardId: {
+      type: String,
+      default: '',
+    },
+    myId: {
+      type: String,
+      default: '',
+    },
+    boardWriterId: {
+      type: String,
+      default: '',
+    },
+  },
   components: {
-    AutoResizeTextArea,
+    ReplyUpdateInput,
+    DeletedReplyItem,
+    VHtmlTextField,
+    ReplyRegisterInput,
+    VSwitch,
+    ContextMenu,
   },
   setup(props, { emit }) {
-    const content = computed(() => props.item.content || null);
-    const isDeleted = computed(() => props.item.content == '작성자가 삭제한 댓글입니다' || false);
-    const commentId = computed(() => props.item.id || null);
+    const isDeleted = computed(() => props.item.deletedDateTime || false);
     const actionBtnRef = ref(null);
     const actionModal = ref(false);
-    const editMode = ref(false);
-    const editInput = ref(content.value);
+    const mode = ref(isDeleted.value ? 'deleted' : '');
     const dependentMode = ref(false);
-    const dependentInput = ref('');
+    const contextMenuRef = ref(ContextMenu);
+
     document.addEventListener('click', documentClick);
+
+    const openNestedReplyItem = () => {
+      dependentMode.value = !dependentMode.value;
+    };
 
     function documentClick(e: any) {
       let el: any = actionBtnRef.value;
@@ -113,9 +134,8 @@ export default defineComponent({
           refId: cId,
           content: cont,
         };
-        const res = await registQnaBoardComment(payload, bId);
+        await registQnaBoardComment(payload, bId);
         dependentMode.value = false;
-        dependentInput.value = '';
         emit('refresh');
       } catch (e) {
         console.error(e);
@@ -132,9 +152,8 @@ export default defineComponent({
           content: cont,
         };
         const res = await modifyQnaBoardComment(payload, bId, cId);
-        editMode.value = false;
+        mode.value = '';
         dependentMode.value = false;
-        editInput.value = '';
         emit('refresh');
       } catch (e) {
         console.error(e);
@@ -143,46 +162,94 @@ export default defineComponent({
     async function removeReply(bId: string, rId: string) {
       try {
         await deleteQnaBoardComment(bId, rId);
-        editMode.value = false;
+        mode.value = '';
         emit('refresh');
       } catch (e) {
         console.error(e);
       }
     }
     function startEditMode() {
-      editMode.value = true;
-      editInput.value = content.value;
+      mode.value = 'edit';
       actionModal.value = false;
     }
     function endEditMode() {
-      editMode.value = false;
+      mode.value = '';
     }
     async function toggleSupportBtn() {
       try {
         if (isDeleted.value) return;
-        await toggleSupportComments(commentId.value);
+        await toggleSupportComments(props.item.id);
         emit('refresh');
       } catch (e) {
         console.error(e);
         emit('refresh');
       }
     }
+    const toLogin = () => {
+      alert('로그인이 필요합니다.');
+      ROUTE_TO.LOGIN();
+    };
+    const contextMenuItems = () =>
+      props.item.writer.id == props.myId
+        ? [
+            {
+              text: '수정하기',
+              func: () => startEditMode(),
+              icon: require('@/assets/icon/modify-pencil-gray.svg'),
+            },
+            {
+              text: '삭제하기',
+              func: () => removeReply(props.boardId, props.item.id),
+              icon: require('@/assets/icon/delete.svg'),
+            },
+          ]
+        : [
+            {
+              text: '신고하기',
+              func: () => accusateComment({ commentId: Number(props.item.id), content: props.item.content, postId: Number(props.boardId) }),
+              icon: require('@/assets/icon/report.svg'),
+            },
+          ];
+
+    async function accusateComment({ commentId, content, postId }: { commentId: number; content: string; postId: number }) {
+      try {
+        const payload = {
+          content,
+          commentId,
+          postId,
+          reportType: 'ACCUSATION',
+          targetType: 'COMMENT',
+        };
+        await accusate(payload);
+        alert('댓글이 신고되었습니다. 검토 후 처리하도록 하겠습니다.');
+      } catch (e) {
+        console.error(e);
+      }
+    }
+    const openContextMenu = () => {
+      contextMenuRef.value.toggleContextMenu();
+    };
     return {
       actionModal,
       actionBtnRef,
-      getTimeDistanceWithNaturalStr,
       documentClick,
-      editMode,
       startEditMode,
-      editInput,
       removeReply,
       endEditMode,
       modifyReply,
       dependentMode,
       registDependentReply,
-      dependentInput,
       toggleSupportBtn: debounce(toggleSupportBtn, 500),
       isDeleted,
+      openNestedReplyItem,
+      helpfulIcon,
+      helpfulPrimaryIcon,
+      getTimeDistanceWithNaturalStr,
+      mode,
+      toLogin,
+      contextMenuRef,
+      contextMenuItems,
+      openContextMenu,
     };
   },
   unmounted() {
@@ -247,42 +314,7 @@ export default defineComponent({
     padding-left: 20px;
   }
 }
-.dependent-input {
-  padding-top: 20px;
-  padding-bottom: 40px;
-  &.is-dependent {
-    padding-right: 20px;
-  }
-}
-.edit-btn-group {
-  right: 8px;
-  bottom: 8px;
-  position: absolute;
-  .cancle {
-    font-size: 16px;
-    line-height: 19px;
-    color: var(--text-color-4);
-    font-weight: var(--font-weight-bold);
-    @include breakpoint-down-sm {
-      font-size: 14px;
-      line-height: 17px;
-    }
-  }
-  .separator {
-    color: var(--background-color-1);
-  }
-  .regist-btn {
-    font-size: 16px;
-    line-height: 19px;
-    font-weight: var(--font-weight-bold);
-    color: var(--secondary-green-color-1);
 
-    @include breakpoint-down-sm {
-      font-size: 14px;
-      line-height: 17px;
-    }
-  }
-}
 .action-modal-btn {
   position: relative;
   .action-list {
@@ -337,50 +369,23 @@ export default defineComponent({
     }
   }
 }
-.textarea-item {
-  margin-top: 10px;
-  position: relative;
-  textarea {
-    margin-top: 10px;
-    display: block;
-    padding: 16px;
-    border: 1px solid #e5e5e5;
-    box-sizing: border-box;
-    font-size: 16px;
-    border-radius: 2px;
-    resize: none;
-    font-size: 16px;
-    overflow: hidden;
-    width: 100%;
-    height: auto;
-    &:focus + label {
-      display: none;
-    }
-    &:not(.is-empty) + label {
-      display: none;
-    }
-    &:focus {
-      border: 1px solid var(--secondary-green-color-1);
-    }
-    @include breakpoint-down-sm {
-      height: 120px;
-      font-size: 14px;
-    }
-  }
-  label {
-    pointer-events: none;
-    font-size: var(--font-size-p-2);
-    line-height: 19px;
-    color: var(--text-color-3);
-    position: absolute;
-    top: 11px;
-    left: 12px;
-    word-break: keep-all;
 
-    @include breakpoint-down-sm {
-      font-size: 14px;
-    }
-  }
+.helpful-btn:hover {
+  text-decoration: underline;
+}
+
+button {
+  padding: 0px;
+  border: none;
+  background-color: transparent;
+  outline: none;
+  cursor: pointer;
+}
+.separator {
+  margin-left: 10px;
+  margin-right: 10px;
+  color: var(--background-color-1);
+  font-weight: var(--font-weight-light);
 }
 .bottom-btn-group {
   margin-top: 20px;
@@ -405,20 +410,13 @@ export default defineComponent({
     }
   }
 }
-.helpful-btn:hover {
-  text-decoration: underline;
-}
-button {
-  padding: 0px;
-  border: none;
-  background-color: transparent;
-  outline: none;
-  cursor: pointer;
-}
-.separator {
-  margin-left: 10px;
-  margin-right: 10px;
-  color: var(--background-color-1);
-  font-weight: var(--font-weight-light);
+.context-menu {
+  text-align: start;
+  width: 172px;
+  right: 0px;
+  // height: 96px;
+  @include breakpoint-down-sm {
+    right: 0px;
+  }
 }
 </style>

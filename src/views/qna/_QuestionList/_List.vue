@@ -6,7 +6,7 @@
           {{ plantName }}&nbsp;
           <span class="list-summary__count">{{ totalLength }}</span>
         </span>
-        <CheckButton v-if="isLoggedIn" :value="mine == '1'" class="toggle-my-question" @toggle="toggleIsMyList" />
+        <CheckButton v-if="isLoggedIn" :value="mine == '1'" class="toggle-my-question" @toggle="toggleIsMyList">내 질문 보기</CheckButton>
       </div>
       <li class="item" v-for="(item, index) in items" :key="`plant-item-${index}`" @click="ROUTE_TO.QNABOARD_DETAIL(String(item.id))">
         <div class="item__infomations">
@@ -45,7 +45,7 @@
 import { defineComponent, ref, computed, PropType } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
-import CheckButton from '@/components/buttons/CheckButton.vue';
+import CheckButton from '@/components/atoms/buttons/CheckButton.vue';
 import { getTimeDistanceWithNaturalStr, preview } from '@/utils/text';
 import { handleInfiniteListScroll } from '@/utils/global';
 import { ROUTE_TO } from '@/router/routing';

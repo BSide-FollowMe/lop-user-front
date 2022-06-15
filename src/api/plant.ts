@@ -1,6 +1,6 @@
 import axios from '@/utils/http/axios';
 import { payloadToQueryString } from '@/utils/text';
-import { PlantListParam, Plant, PlantDetailParam, PlantDetailResponse, ReportParam } from '@/types/api/plant';
+import { PlantListParam, Plant, PlantDetailParam, PlantDetailResponse, ReportParam, AccusationParam } from '@/types/api/plant';
 import { getClientIpAddress } from '@/utils/http/client';
 import { ListResponse } from '@/types/api/common';
 
@@ -12,6 +12,7 @@ enum Api {
   POLL_DIFFICULTY = '/plants',
   REPORT_REGIST = '/reports',
   RECOMMEND_PLANT_LIST = '/recommend-plants',
+  ACCUSATION = '/accusations',
 }
 
 export async function getPlantList(payload: PlantListParam): Promise<ListResponse<Plant>> {
@@ -57,4 +58,8 @@ export async function pollDifficulty({ plantId, memberId, type }: { plantId: num
 
 export async function registReport(payload: ReportParam): Promise<void> {
   return axios.post(API_PREFIX + Api.REPORT_REGIST, payload);
+}
+
+export async function accusate(payload: AccusationParam): Promise<void> {
+  return axios.post(API_PREFIX + Api.ACCUSATION, payload);
 }
