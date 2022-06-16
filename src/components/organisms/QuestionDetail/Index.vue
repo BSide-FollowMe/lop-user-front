@@ -400,7 +400,7 @@ export default defineComponent({
     }
   }
   @include breakpoint-down-sm {
-    margin-bottom: 0px;
+    margin-bottom: 40px;
   }
 }
 .detail-title {
