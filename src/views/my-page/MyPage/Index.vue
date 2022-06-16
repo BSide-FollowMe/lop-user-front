@@ -61,7 +61,7 @@ import helpIcon from '@/assets/icon/help.svg';
 import settingIcon from '@/assets/icon/setting.svg';
 import { useRouter } from 'vue-router';
 import { tokenSvc } from '@/api/token-service';
-import GradeGuideModal from '@/components/modals/GradeGuideModal.vue';
+import GradeGuideModal from '@/components/organisms/Modals/GradeGuideModal.vue';
 import { OPEN_LINK } from '@/router/routing';
 
 export default defineComponent({

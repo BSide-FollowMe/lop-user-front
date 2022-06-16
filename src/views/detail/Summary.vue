@@ -54,7 +54,7 @@ import { category } from 'plant';
 import { translate } from '@/utils/text';
 import { registerLike, pollDifficulty } from '@/api/plant';
 import { debounce } from 'lodash';
-import ContextMenu from '@/components/ContextMenu.vue';
+import ContextMenu from '@/components/organisms/ContextMenu/Index.vue';
 import ShareIcon from '@/assets/icon/share.svg';
 import EmptyHeartIcon from '@/assets/icon/heart-empty.svg';
 import FullHeartIcon from '@/assets/icon/heart-fill.svg';
@@ -143,8 +143,8 @@ export default defineComponent({
           { value: 'HOUSEPLANT', label: '관엽식물' },
           { value: 'ORCHIDACEAE', label: '난초' },
         ],
-        props.category,
-      ),
+        props.category
+      )
     );
     const shareKakao = async () => {
       kakao.value.Link.sendDefault({

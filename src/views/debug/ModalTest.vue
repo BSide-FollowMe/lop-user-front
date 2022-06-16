@@ -32,10 +32,10 @@
 </template>
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
-import RequestModal from '@/components/modals/RequestModal.vue';
-import GradeGuideModal from '@/components/modals/GradeGuideModal.vue';
-import DeleteAccountModal from '@/components/modals/DeleteAccountModal.vue';
-import GuideModal from '@/components/modals/GuideModal.vue';
+import RequestModal from '@/components/organisms/Modals/RequestModal.vue';
+import GradeGuideModal from '@/components/organisms/Modals/GradeGuideModal.vue';
+import DeleteAccountModal from '@/components/organisms/Modals/DeleteAccountModal.vue';
+import GuideModal from '@/components/organisms/Modals/GuideModal.vue';
 interface ModalOption {
   modalTitle?: string;
   objective?: string;
@@ -117,7 +117,7 @@ export default defineComponent({
     GuideModal,
   },
   setup() {
-    const targetModal = ref('DefaultModal');
+    const targetModal = ref('ModalTemplate');
     const isShow = ref(false);
     const options = ref({} as ModalOption);
     function openModal(
@@ -132,7 +132,7 @@ export default defineComponent({
         | 'WaterKnowHowGuideModal'
         | 'VentilationGuideModal'
         | 'SunlightGuideModal'
-        | 'BlightGuideModal',
+        | 'BlightGuideModal'
     ) {
       isShow.value = true;
       options.value = optionsSampleList[targetComponentName];

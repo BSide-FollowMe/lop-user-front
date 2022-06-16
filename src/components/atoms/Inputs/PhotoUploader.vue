@@ -8,7 +8,7 @@
           /3
         </span>
       </label>
-      <input type="file" accept="image/*" multiple="multiple" @change="previewMultiImage" class="form-control-file" id="photo-uploader" />
+      <input type="file" accept="image/*" multiple="true" @change="previewMultiImage" class="form-control-file" id="photo-uploader" />
     </div>
     <div class="photo-preview">
       <div class="item" v-for="(item, index) in previewList" :key="`preview-item-${index}`">
@@ -34,7 +34,7 @@ export default defineComponent({
       (newVal, oldVal) => {
         emit('input', { newVal: newVal });
       },
-      { deep: true },
+      { deep: true }
     );
     function previewMultiImage(event: any) {
       if (imageList.value.length > 2) {
@@ -92,9 +92,9 @@ export default defineComponent({
       let file = settings.file;
       let maxSize = settings.maxSize;
       let reader = new FileReader();
-      let image: any = new Image();
-      let canvas: any = document.createElement('canvas');
-      let dataURItoBlob = function (dataURI: any) {
+      let image = new Image();
+      let canvas = document.createElement('canvas');
+      let dataURItoBlob = function (dataURI: string) {
         let bytes = dataURI.split(',')[0].indexOf('base64') >= 0 ? atob(dataURI.split(',')[1]) : unescape(dataURI.split(',')[1]);
         let mime = dataURI.split(',')[0].split(':')[1].split(';')[0];
         let max = bytes.length;
@@ -118,7 +118,7 @@ export default defineComponent({
         }
         canvas.width = width;
         canvas.height = height;
-        canvas.getContext('2d').drawImage(image, 0, 0, width, height);
+        canvas.getContext('2d')!.drawImage(image, 0, 0, width, height);
         var dataUrl = canvas.toDataURL('image/jpeg');
         return dataURItoBlob(dataUrl);
       };

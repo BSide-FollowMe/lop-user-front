@@ -2,7 +2,12 @@
   <div class="pagination text-center">
     <img class="arrow-icon left" src="@/assets/images/pagination/arrow-left-icon.svg" @click="onClickPrevIcon" />
     <section class="number__wrapper">
-      <div :class="{ number: true, current: currentPage === item }" v-for="(item, index) in pagination" :key="index" @click="onChangePage(item)">
+      <div
+        :class="{ number: true, current: currentPage === item }"
+        v-for="(item, index) in pagination"
+        :key="index"
+        @click="onChangePage(item)"
+      >
         {{ item }}
       </div>
     </section>

@@ -83,7 +83,7 @@
 <script lang="ts">
 import setMeta from '@/utils/setMeta';
 import { defineComponent, ref, computed, onMounted } from 'vue';
-import SearchBar from '@/components/search/SearchBar.vue';
+import SearchBar from '@/components/molecules/SearchBars/PlantSearch.vue';
 import store from '@/store';
 import { ROUTE_TO } from '@/router/routing';
 import useHorizontalMouseScroll from '@/hooks/useHorizontalScroll';

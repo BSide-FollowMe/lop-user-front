@@ -28,7 +28,7 @@
 import { defineComponent, PropType, ref, computed } from 'vue';
 import DummyImage from '@/assets/images/detail/dummy-image.svg';
 import { Plant } from '@/types/api/plant';
-import Pagination from '@/components/Pagination.vue';
+import Pagination from '@/components/molecules/Pagination/Index.vue';
 import { useRouter } from 'vue-router';
 
 export default defineComponent({

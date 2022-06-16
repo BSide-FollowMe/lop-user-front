@@ -34,7 +34,7 @@ import { Plant, PlantListParam } from '@/types/api/plant';
 import List from './List.vue';
 import { ROUTE_TO } from '@/router/routing';
 import { useRoute, useRouter } from 'vue-router';
-import SearchBar from '@/components/search/SearchBar.vue';
+import SearchBar from '@/components/molecules/SearchBars/PlantSearch.vue';
 import useSearch from '@/hooks/useSearch';
 
 export default defineComponent({

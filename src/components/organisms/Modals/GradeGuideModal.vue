@@ -1,5 +1,5 @@
 <template>
-  <DefaultModal @close="closeModal">
+  <ModalTemplate @close="closeModal">
     <div class="conatiner">
       <div class="title">
         <span class="text-bold">등급안내</span>
@@ -34,18 +34,18 @@
         질문 답변 댓글에 달린 좋아요를 합산해 받은 좋아요 수를 계산해요.
       </div>
     </div>
-  </DefaultModal>
+  </ModalTemplate>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
-import DefaultModal from './DefaultModal.vue';
+import ModalTemplate from '@/components/layouts/ModalTemplate.vue';
 import checkIcon from '@/assets/icon/task_alt_black_24dp.svg';
 
 export default defineComponent({
   name: 'Report Modal',
   components: {
-    DefaultModal,
+    ModalTemplate,
   },
   props: ['options'],
   setup(props, { emit }) {

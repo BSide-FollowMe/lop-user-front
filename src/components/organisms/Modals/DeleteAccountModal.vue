@@ -1,5 +1,5 @@
 <template>
-  <DefaultModal @close="closeModal">
+  <ModalTemplate @close="closeModal">
     <div class="conatiner">
       <div class="title">{{ option.title }}</div>
       <div class="content" v-html="option.content" />
@@ -7,12 +7,12 @@
         <span>{{ button.content }}</span>
       </div>
     </div>
-  </DefaultModal>
+  </ModalTemplate>
 </template>
 
 <script lang="ts">
 import { computed, defineComponent, PropType, ref } from 'vue';
-import DefaultModal from './DefaultModal.vue';
+import ModalTemplate from '@/components/layouts/ModalTemplate.vue';
 import { withdrawal } from '@/api/member';
 import { useRouter } from 'vue-router';
 import { tokenSvc } from '@/api/token-service';
@@ -20,7 +20,7 @@ import { tokenSvc } from '@/api/token-service';
 export default defineComponent({
   name: 'Report Modal',
   components: {
-    DefaultModal,
+    ModalTemplate,
   },
   setup(props, { emit }) {
     const router = useRouter();

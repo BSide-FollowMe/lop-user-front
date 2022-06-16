@@ -41,7 +41,7 @@
 <script lang="ts">
 import { defineComponent, computed, ref, onMounted } from 'vue';
 import VueButton from '@/components/atoms/buttons/VueButton.vue';
-import RequestModal from '@/components/modals/RequestModal.vue';
+import RequestModal from '@/components/organisms/Modals/RequestModal.vue';
 import { registReport } from '@/api/plant';
 import { tokenSvc } from '@/api/token-service';
 import { ROUTE_TO } from '@/router/routing';

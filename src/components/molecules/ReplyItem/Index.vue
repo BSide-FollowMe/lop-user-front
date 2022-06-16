@@ -68,7 +68,7 @@ import helpfulPrimaryIcon from '@/assets/icon/helpful-primary.svg';
 import helpfulIcon from '@/assets/icon/helpful.svg';
 import { getTimeDistanceWithNaturalStr } from '@/utils/text';
 import { ROUTE_TO } from '@/router/routing';
-import ContextMenu from '@/components/ContextMenu.vue';
+import ContextMenu from '@/components/organisms/ContextMenu/Index.vue';
 import { accusate } from '@/api/plant';
 
 export default defineComponent({

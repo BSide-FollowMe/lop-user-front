@@ -14,7 +14,7 @@ import { defineComponent, computed, onUnmounted, ref } from 'vue';
 import ToTopButton from '@/components/atoms/buttons/ToTop.vue';
 import TopperHeader from './TopperHeader.vue';
 import BottomFooter from './BottomFooter.vue';
-import Snack from '../Snack.vue';
+import Snack from '@/components/organisms/Snack/Index.vue';
 
 export default defineComponent({
   components: {

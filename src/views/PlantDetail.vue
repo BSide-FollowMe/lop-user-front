@@ -36,7 +36,7 @@
     />
     <Soil :content="plantDetail.soil" />
     <Report class="report" @openReport="openReport" />
-    <Question :plantName="plantDetail.name" :plantId="Number(plantDetail.id)" :questions="plantDetail.questions?.data" />
+    <Question :plantName="plantDetail.name" :plantId="plantDetail.id" :questions="plantDetail.questions?.data" />
   </div>
   <GuideModal v-if="guideOpened" :options="guideOptions" @close="closeGuide()" />
   <RequestModal v-if="reportOpened" :options="reportOptions" @confirm="report" @close="closeReport()" />
@@ -51,8 +51,8 @@ import Ventilation from '@/views/detail/Ventilation.vue';
 import Soil from '@/views/detail/Soil.vue';
 import Report from '@/views/detail/Report.vue';
 import Question from '@/views/detail/Question.vue';
-import GuideModal from '@/components/modals/GuideModal.vue';
-import RequestModal from '@/components/modals/RequestModal.vue';
+import GuideModal from '@/components/organisms/Modals/GuideModal.vue';
+import RequestModal from '@/components/organisms/Modals/RequestModal.vue';
 
 import { getPlantDetail, registReport } from '@/api/plant';
 import { getQnaBoardList } from '@/api/qnaboard';

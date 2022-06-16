@@ -88,7 +88,7 @@ import { getTimeDistanceWithNaturalStr } from '@/utils/text';
 import { debounce, copyUrl } from '@/utils/global';
 import store from '@/store';
 import { ROUTE_TO } from '@/router/routing';
-import ContextMenu from '@/components/ContextMenu.vue';
+import ContextMenu from '@/components/organisms/ContextMenu/Index.vue';
 import { useKakao } from 'vue3-kakao-sdk';
 import dummyImage from '@/assets/images/search/img-error.svg';
 import type { BoardResponse } from '@/types/api/board';

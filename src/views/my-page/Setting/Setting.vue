@@ -50,9 +50,9 @@
 import { defineComponent, ref, computed, watchEffect } from 'vue';
 import { getBytes } from '@/utils/text';
 import { updateMyAccount } from '@/api/member';
-import RequestModal from '@/components/modals/RequestModal.vue';
+import RequestModal from '@/components/organisms/Modals/RequestModal.vue';
 import { registReport } from '@/api/plant';
-import DeleteAccountModal from '@/components/modals/DeleteAccountModal.vue';
+import DeleteAccountModal from '@/components/organisms/Modals/DeleteAccountModal.vue';
 import axios from 'axios';
 import { useStore } from 'vuex';
 import smile from '@/assets/icon/smile.svg';

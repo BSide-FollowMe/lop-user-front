@@ -9,7 +9,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 export default defineComponent({
-  name: 'DefaultModal',
+  name: 'ModalTemplate',
   props: [],
   setup(props, { emit }) {
     window.document.body.style.overflow = 'hidden';

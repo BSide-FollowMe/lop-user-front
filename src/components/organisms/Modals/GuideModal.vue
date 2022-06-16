@@ -1,42 +1,32 @@
 <template>
-  <DefaultModal @close="closeModal">
+  <ModalTemplate class="modal" @close="closeModal">
     <div class="conatiner">
       <div class="title">
-        <img src="@/assets/icon/feedback.svg" />
         <span class="text-bold">{{ options?.modalTitle }}</span>
       </div>
       <hr class="divider" />
-      <span class="objective" v-if="options?.objective">제보할 식물</span>
-      <span class="target-name" v-if="options?.objective">{{ options?.objective }}</span>
-      <div class="contents-input">
-        <textarea id="contents" v-model="contents" :class="{ 'is-empty': contents === '' }" />
-        <label for="contents">{{ options?.contentsLabel }}</label>
-      </div>
-      <span class="objective">연락받을 이메일</span>
-      <div class="email-input">
-        <input id="email" v-model="email" type="text" :class="{ 'is-empty': email === '' }" />
-        <label for="email">ex) plantslang@naver.com</label>
-      </div>
-      <span class="description">
-        <img src="@/assets/icon/task_alt_black_24dp.svg" />
-        보내주신 내용은 식물의언어 팀에서 확인 후 이메일로 빠르게 답변 드리겠습니다.
-      </span>
-      <div class="bottom">
-        <VueButton color="primary" class="confirm-btn" @click="confirm">등록하기</VueButton>
-      </div>
+      <component :is="options.componentName" isModal="true" />
     </div>
-  </DefaultModal>
+  </ModalTemplate>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
-import DefaultModal from './DefaultModal.vue';
-import VueButton from '@/components/atoms/buttons/VueButton.vue';
+import ModalTemplate from '@/components/layouts/ModalTemplate.vue';
+import WaterInspect from '@/views/guide/WaterGuide/Inspect.vue';
+import WaterKnowHow from '@/views/guide/WaterGuide/KnowHow.vue';
+import Ventilation from '@/views/guide/VentilationGuide/VentilationGuide.vue';
+import Sunlight from '@/views/guide/SunlightGuide/SunlightGuide.vue';
+import Blight from '@/views/guide/BlightGuide/BlightGuide.vue';
 export default defineComponent({
   name: 'Report Modal',
   components: {
-    DefaultModal,
-    VueButton,
+    ModalTemplate,
+    WaterInspect,
+    WaterKnowHow,
+    Ventilation,
+    Sunlight,
+    Blight,
   },
   props: ['options'],
   setup(props, { emit }) {
@@ -45,31 +35,38 @@ export default defineComponent({
     function closeModal() {
       emit('close');
     }
-    function confirm() {
-      emit('confirm', {
-        email: email.value,
-        contents: contents.value,
-      });
-      window.document.body.style.overflow = 'auto';
-    }
-    return { closeModal, email, contents, props, confirm };
+    return { closeModal, email, contents, props };
   },
 });
 </script>
 
 <style lang="scss" scoped>
-@import '@/styles/mixin';
+@import '@/styles/';
+
 .conatiner {
   text-align: left;
-  overflow: hidden;
+  overflow: auto;
   position: relative;
   width: 750px;
+  height: calc(100vh - 320px);
   background-color: #fff;
   border-radius: 4px;
   padding: 40px;
   @include breakpoint-down-sm {
     width: 100%;
     padding: 26px 20px;
+  }
+  &::-webkit-scrollbar {
+    width: 7px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: lightgrey;
+    border-radius: 10px;
+  }
+  &::-webkit-scrollbar-track {
+    background-color: transparent;
+    border-radius: 10px;
+    box-shadow: inset 0px 0px 5px white;
   }
   .title {
     img {
@@ -80,10 +77,10 @@ export default defineComponent({
     span {
       font-size: 20px;
       line-height: 20px;
-      margin-left: 12px;
       @include breakpoint-down-sm {
         font-size: 18px;
       }
+      color: var(--secondary-green-color-1);
     }
   }
   .divider {
