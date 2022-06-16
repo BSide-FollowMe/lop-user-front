@@ -14,7 +14,12 @@
         title="겨울철 온도"
         :content="`${winterTemperature}℃ ${translatedWinterTemperatureUpDown}`"
       ></Card>
-      <Card v-if="minHumidity != null && maxHumidity != null" :imgSrc="Humidity" title="습도" :content="`${minHumidity}% ~ ${maxHumidity}%`"></Card>
+      <Card
+        v-if="minHumidity != null && maxHumidity != null"
+        :imgSrc="Humidity"
+        title="습도"
+        :content="`${minHumidity}% ~ ${maxHumidity}%`"
+      ></Card>
     </div>
     <p class="content" v-html="content" />
   </div>
@@ -24,7 +29,7 @@ import { defineComponent, computed } from 'vue';
 import Temperature from '@/assets/icon/적정온도.svg';
 import WinterTemperature from '@/assets/icon/겨울철온도.svg';
 import Humidity from '@/assets/icon/습도.svg';
-import Card from '@/components/cards/Card.vue';
+import Card from '@/components/molecules/Cards/GuideCard.vue';
 
 export default defineComponent({
   props: {

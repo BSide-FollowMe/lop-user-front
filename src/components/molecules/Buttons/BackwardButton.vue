@@ -1,5 +1,5 @@
 <template>
-  <button class="backward-button">
+  <button class="backward-button" @click="goBackward">
     <img src="@/assets/icon/arrow-left.svg" />
     <span class="backward-button__text">이전으로</span>
   </button>
@@ -7,7 +7,18 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-export default defineComponent({});
+import { useRouter } from 'vue-router';
+export default defineComponent({
+  setup() {
+    const router = useRouter();
+    const goBackward = () => {
+      router.back();
+    };
+    return {
+      goBackward,
+    };
+  },
+});
 </script>
 
 <style lang="scss" scoped>

@@ -35,7 +35,7 @@ import { defineComponent, PropType, computed } from 'vue';
 import VentilationIcon from '@/assets/icon/통풍.svg';
 import ToxicityIcon from '@/assets/icon/독성.svg';
 import BlightIcon from '@/assets/icon/병충해.svg';
-import Card from '@/components/cards/Card.vue';
+import Card from '@/components/molecules/Cards/GuideCard.vue';
 import GuideBox from '@/components/detail/GuideBox.vue';
 import { blight } from 'plant';
 import { translate } from '@/utils/text';
@@ -78,10 +78,10 @@ export default defineComponent({
               { value: 'ROOT_ROT', label: '뿌리썩음병' },
               { value: 'POWDERY_MILDEW', label: '흰가루병' },
             ],
-            blight,
+            blight
           );
         })
-        .join(','),
+        .join(',')
     );
     return {
       VentilationIcon,
