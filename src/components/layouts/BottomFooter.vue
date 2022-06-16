@@ -89,6 +89,9 @@ export default defineComponent({
       cursor: default;
       content: '|';
       margin: 0 20px;
+      @include breakpoint-down-sm {
+        margin: 0 12px;
+      }
     }
     &-filled {
       display: block;
@@ -104,6 +107,7 @@ export default defineComponent({
       }
     }
     @include breakpoint-down-sm {
+      font-size: 12px;
       justify-content: start;
       width: 100%;
     }
@@ -125,6 +129,7 @@ export default defineComponent({
         top: 90px;
         flex-grow: 1;
         justify-content: end;
+        margin: 0px;
       }
     }
   }
