@@ -1,6 +1,6 @@
 <template>
   <span class="link-button">
-    <v-slot></v-slot>
+    <slot></slot>
     <div class="arrow-icon"></div>
   </span>
 </template>

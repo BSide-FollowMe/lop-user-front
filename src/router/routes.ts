@@ -48,6 +48,12 @@ const routes: Array<RouteRecordRaw> = [
         name: PageNameEnum.MY_QNA,
         component: () => import('@/views/my-page/QnA/Index.vue'),
       },
+      {
+        path: 'seed',
+        meta: { public: false },
+        name: PageNameEnum.SEED_STORE,
+        component: () => import('@/views/my-page/SeedStore/Index.vue'),
+      },
     ],
   },
   {
