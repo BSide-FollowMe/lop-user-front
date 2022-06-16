@@ -16,6 +16,7 @@ export enum PageEnum {
   SUNLIGHT_GUIDE = '/guide/sunlight',
   BLIGHT_GUIDE = '/guide/blight',
   ALL_PLANTS = '/plants',
+  SEED_STORE = '/seed',
 }
 export enum PageNameEnum {
   LOGIN = 'Sign In',
@@ -38,6 +39,7 @@ export enum PageNameEnum {
   SUNLIGHT_GUIDE = 'Guide - Sunlight',
   BLIGHT_GUIDE = 'Guide - Blight',
   PLANTS = 'All Plants',
+  SEED_STORE = 'Seed Store',
 }
 export enum LayoutEnum {
   DEFAULT = 'Default',
