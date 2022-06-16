@@ -1,5 +1,5 @@
 <template>
-  <div class="modal">
+  <div class="modal" v-if="showModal">
     <div class="modal__wrapper">
       <slot />
       <button type="button" class="modal__close" @click="closeModal"><img src="@/assets/icon/close.svg" /></button>
@@ -7,18 +7,27 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, ref } from 'vue';
 export default defineComponent({
   name: 'ModalTemplate',
   props: [],
   setup(props, { emit }) {
-    window.document.body.style.overflow = 'hidden';
+    const showModal = ref(false);
+    // window.document.body.style.overflow = 'hidden'; // todo
     function closeModal() {
-      emit('close');
+      showModal.value = false;
       window.document.body.style.overflow = 'auto';
+      // emit('close');
+    }
+    function openModal() {
+      showModal.value = true;
+      window.document.body.style.overflow = 'hidden';
+      emit('open');
     }
     return {
       closeModal,
+      openModal,
+      showModal,
     };
   },
 });
