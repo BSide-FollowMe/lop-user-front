@@ -69,10 +69,11 @@ export type PlantDetailResponse = Nullable<
 };
 
 export type ReportParam = {
-  content: string;
-  email: string;
+  commentID?: number;
+  postId?: number;
+  content?: string;
+  email?: string;
   plantId?: number | string;
   reportType: string;
+  targetType?: string;
 };
-
-export type AccusationParam = { commentId?: number; postId?: number; targetType: string } & Nullable<Omit<ReportParam, 'email'>, 'content'>;

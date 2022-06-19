@@ -69,7 +69,7 @@ import helpfulIcon from '@/assets/icon/helpful.svg';
 import { getTimeDistanceWithNaturalStr } from '@/utils/text';
 import { ROUTE_TO } from '@/router/routing';
 import ContextMenu from '@/components/organisms/ContextMenu/Index.vue';
-import { accusate } from '@/api/plant';
+import { registReport } from '@/api/plant';
 
 export default defineComponent({
   name: 'Reply Item',
@@ -220,7 +220,7 @@ export default defineComponent({
           reportType: 'ACCUSATION',
           targetType: 'COMMENT',
         };
-        await accusate(payload);
+        await registReport(payload);
         alert('댓글이 신고되었습니다. 검토 후 처리하도록 하겠습니다.');
       } catch (e) {
         console.error(e);
