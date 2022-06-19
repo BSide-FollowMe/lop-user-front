@@ -76,7 +76,7 @@
     </button>
   </div>
   <div class="report" v-if="myId !== details.writer">
-    <ReportButton @click="() => accusateQuestion({ postId: Number(details.id) })" />
+    <ReportButton @click="() => reportQuestion({ postId: Number(details.id) })" />
   </div>
 </template>
 
@@ -94,7 +94,7 @@ import dummyImage from '@/assets/images/search/img-error.svg';
 import type { BoardResponse } from '@/types/api/board';
 import ResizableTextArea from '@/components/atoms/textarea/ResizableTextArea.vue';
 import LinkButton from '../../atoms/buttons/LinkButton.vue';
-import { accusate } from '@/api/plant';
+import { registReport } from '@/api/plant';
 import ReportButton from '@/components/atoms/buttons/ReportButton.vue';
 
 export default defineComponent({
@@ -173,14 +173,14 @@ export default defineComponent({
       },
       { text: '링크 복사', func: copyLink, icon: require('@/assets/icon/icon_link.svg') },
     ];
-    async function accusateQuestion({ postId }: { postId: number }) {
+    async function reportQuestion({ postId }: { postId: number }) {
       try {
         const payload = {
           postId,
           reportType: 'ACCUSATION',
           targetType: 'QUESTION',
         };
-        await accusate(payload);
+        await registReport(payload);
         alert('질문이 신고되었습니다. 검토 후 처리하도록 하겠습니다.');
       } catch (e) {
         console.error(e);
@@ -200,7 +200,7 @@ export default defineComponent({
       shareCotextRef,
       openContextMenu,
       contextMenuItems,
-      accusateQuestion,
+      reportQuestion,
     };
   },
   unmounted() {
