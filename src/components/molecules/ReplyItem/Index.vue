@@ -206,18 +206,18 @@ export default defineComponent({
         : [
             {
               text: '신고하기',
-              func: () => accusateComment({ commentId: Number(props.item.id), content: props.item.content, postId: Number(props.boardId) }),
+              func: () => reportComment({ commentId: Number(props.item.id), content: props.item.content, postId: Number(props.boardId) }),
               icon: require('@/assets/icon/report.svg'),
             },
           ];
 
-    async function accusateComment({ commentId, content, postId }: { commentId: number; content: string; postId: number }) {
+    async function reportComment({ commentId, content, postId }: { commentId: number; content: string; postId: number }) {
       try {
         const payload = {
           content,
           commentId,
           postId,
-          reportType: 'ACCUSATION',
+          reportType: 'ACCUSATION' as const,
           targetType: 'COMMENT',
         };
         await registReport(payload);

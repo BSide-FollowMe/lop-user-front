@@ -69,11 +69,11 @@ export type PlantDetailResponse = Nullable<
 };
 
 export type ReportParam = {
-  commentID?: number;
+  commentId?: number;
   postId?: number;
   content?: string;
   email?: string;
-  plantId?: number | string;
-  reportType: string;
+  plantId?: number;
+  reportType: 'ACCUSATION' | 'REPORT' | 'INQUIRE' | 'REQUEST_PLANT';
   targetType?: string;
 };
