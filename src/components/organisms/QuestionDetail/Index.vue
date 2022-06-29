@@ -177,7 +177,7 @@ export default defineComponent({
       try {
         const payload = {
           postId,
-          reportType: 'ACCUSATION',
+          reportType: 'ACCUSATION' as const,
           targetType: 'QUESTION',
         };
         await registReport(payload);

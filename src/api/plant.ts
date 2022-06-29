@@ -55,6 +55,6 @@ export async function pollDifficulty({ plantId, memberId, type }: { plantId: num
   });
 }
 
-export async function registReport(payload: ReportParam): Promise<void> {
+export async function registReport(payload: Partial<ReportParam>): Promise<void> {
   return axios.post(API_PREFIX + Api.REPORT_REGIST, payload);
 }

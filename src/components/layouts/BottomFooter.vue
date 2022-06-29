@@ -10,8 +10,8 @@
         <span @click="OPEN_LINK.TOS">이용 약관</span>
         <span @click="OPEN_LINK.PP">개인정보 처리방침</span>
         <div class="tab__icon__wrapper">
-          <img src="@/assets/icon/blog.svg" />
-          <img src="@/assets/icon/instagram.svg" />
+          <img src="@/assets/icon/blog.svg" @click="OPEN_LINK.NAVER_BLOG" />
+          <img src="@/assets/icon/instagram.svg" @click="OPEN_LINK.INSTAGRAM" />
         </div>
       </div>
       <div class="tab tab-filled">
