@@ -3,7 +3,7 @@
     <input id="my-question" type="checkbox" v-model="localVal" :class="{ 'is-active': value }" class="cursor-pointer" />
     <label for="my-question">
       <img src="@/assets/icon/check-secondary.svg" />
-      <span><v-slot></v-slot></span>
+      <span><slot></slot></span>
     </label>
   </div>
 </template>
