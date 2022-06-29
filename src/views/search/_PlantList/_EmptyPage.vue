@@ -68,7 +68,7 @@ export default defineComponent({
         const payload = {
           content: contents,
           email: email,
-          reportType: 'REQUEST_PLANT',
+          reportType: 'REQUEST_PLANT' as const,
         };
         await registReport(payload);
         await alert('식물 등록 요청이 접수되었습니다. 관리자가 식물을 등록해드릴 예정입니다.');

@@ -145,7 +145,7 @@ export default defineComponent({
         const payload = {
           content: contents,
           email: email,
-          reportType: 'REPORT',
+          reportType: 'REPORT' as const,
           plantId: plantDetail.value.id,
         };
         await registReport(payload);

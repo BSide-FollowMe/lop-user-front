@@ -108,7 +108,7 @@ export default defineComponent({
         const payload = {
           content: contents,
           email: email,
-          reportType: 'INQUIRE',
+          reportType: 'INQUIRE' as const,
         };
         await registReport(payload);
         alert('질문이 등록되었습니다. 입력한 메일 주소로 답변드리겠습니다.');
