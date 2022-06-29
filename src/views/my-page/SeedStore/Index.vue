@@ -35,7 +35,7 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 import PageTitle from '@/components/atoms/Typography/PageTitle.vue';
-import BackwardButton from '@/components/molecules/Buttons/BackwardButton.vue';
+import BackwardButton from '@/components/molecules/buttons/BackwardButton.vue';
 import SeedStoreTable from '@/components/organisms/Tables/SeedStoreTable.vue';
 import CenterAlignCard from '@/components/molecules/Cards/CenterAlignCard.vue';
 import SeedAcquisitionNoticeModal from '@/components/organisms/Modals/SeedAcquisitionNoticeModal.vue';
