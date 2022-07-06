@@ -1,5 +1,5 @@
 <template>
-  <ModalTemplate @close="closeModal">
+  <ModalTemplate ref="modalTemplate">
     <div class="conatiner">
       <div class="title">
         <img src="@/assets/icon/feedback.svg" />
@@ -38,21 +38,30 @@ export default defineComponent({
     ModalTemplate,
     VueButton,
   },
-  props: ['options'],
   setup(props, { emit }) {
     const email = ref('');
     const contents = ref('');
-    function closeModal() {
-      emit('close');
-    }
+    const modalTemplate = ref();
+    const options = ref({
+      modalTitle: '',
+      contentsLabel: '',
+    } as { modalTitle: string; contentsLabel: string; objective?: string });
+    const closeModal = () => {
+      modalTemplate.value.closeModal();
+    };
+    const openModal = ({ modalTitle, objective, contentsLabel }: { modalTitle: string; objective?: string; contentsLabel: string }) => {
+      options.value = { modalTitle, contentsLabel, objective };
+      modalTemplate.value.openModal();
+    };
     function confirm() {
       emit('confirm', {
         email: email.value,
         contents: contents.value,
       });
       window.document.body.style.overflow = 'auto';
+      closeModal();
     }
-    return { closeModal, email, contents, props, confirm };
+    return { closeModal, email, contents, props, options, confirm, modalTemplate, openModal };
   },
 });
 </script>

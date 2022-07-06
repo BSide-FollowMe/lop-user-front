@@ -1,5 +1,5 @@
 <template>
-  <ModalTemplate @close="closeModal">
+  <ModalTemplate ref="modalTemplate">
     <div class="conatiner">
       <div class="title">{{ option.title }}</div>
       <div class="content" v-html="option.content" />
@@ -24,10 +24,14 @@ export default defineComponent({
   },
   setup(props, { emit }) {
     const router = useRouter();
-    function closeModal() {
-      emit('close');
-    }
     const type = ref('confirm' as 'confirm' | 'complete');
+    const modalTemplate = ref();
+    const closeModal = () => {
+      modalTemplate.value.closeModal();
+    };
+    const openModal = () => {
+      modalTemplate.value.openModal();
+    };
     const options = {
       confirm: {
         title: '정말 탈퇴하시겠습니까?',
@@ -66,7 +70,7 @@ export default defineComponent({
       },
     };
     const option = computed(() => options[type.value]);
-    return { closeModal, option };
+    return { closeModal, option, modalTemplate, openModal };
   },
 });
 </script>

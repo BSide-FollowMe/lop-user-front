@@ -5,7 +5,7 @@
         <div class="setting-icon" />
         <div class="title">설정</div>
       </div>
-      <div class="resign" @click="oepnWithdrawl">탈퇴하기</div>
+      <div class="resign" @click="() => withdrawalModal.openModal()">탈퇴하기</div>
     </section>
     <section class="main">
       <form @submit.prevent="submitNickName">
@@ -31,10 +31,11 @@
         <button
           class="button ask"
           @click="
-            openReport({
-              modalTitle: '문의하기',
-              contentsLabel: '잘못된 정보나 건의하고 싶으신 내용을 작성해주세요.',
-            })
+            () =>
+              reportModal.openModal({
+                modalTitle: '문의하기',
+                contentsLabel: '잘못된 정보나 건의하고 싶으신 내용을 작성해주세요.',
+              })
           "
         >
           <span>문의하기</span>
@@ -42,8 +43,8 @@
       </div>
     </section>
   </div>
-  <RequestModal v-if="reportOpened" :options="reportOptions" @confirm="report" @close="reportOpened = false" />
-  <DeleteAccountModal v-if="withdrawalOpened" @close="withdrawalOpened = false"></DeleteAccountModal>
+  <RequestModal ref="reportModal" :options="reportOptions" @confirm="report" />
+  <DeleteAccountModal ref="withdrawalModal"></DeleteAccountModal>
 </template>
 
 <script lang="ts">
@@ -67,8 +68,8 @@ export default defineComponent({
     const nickName = ref('');
     const error = ref('');
     const success = ref(false);
-    const reportOpened = ref(false);
-    const withdrawalOpened = ref(false);
+    const reportModal = ref({} as typeof RequestModal);
+    const withdrawalModal = ref({} as typeof DeleteAccountModal);
     const reportOptions = ref({} as { modalTitle: string; contentsLabel: string });
     watchEffect(() => {
       nickName.value = store.getters.getUserInfo.nickname;
@@ -94,14 +95,6 @@ export default defineComponent({
       error.value = '';
       error.value = getBytes(nickName.value) > 20 ? '최대 10자 (20byte)까지 입력할 수 있어요.' : '';
     };
-    const openReport = ({ modalTitle, contentsLabel }: { modalTitle: string; contentsLabel: string }) => {
-      reportOpened.value = true;
-      reportOptions.value = { modalTitle, contentsLabel };
-    };
-
-    const oepnWithdrawl = () => {
-      withdrawalOpened.value = true;
-    };
 
     async function report({ email, contents }: { email: string; contents: string }) {
       try {
@@ -112,7 +105,6 @@ export default defineComponent({
         };
         await registReport(payload);
         alert('질문이 등록되었습니다. 입력한 메일 주소로 답변드리겠습니다.');
-        reportOpened.value = false;
       } catch (e) {
         console.error(e);
       }
@@ -125,10 +117,8 @@ export default defineComponent({
       checkValidation,
       error,
       success,
-      openReport,
-      reportOpened,
-      oepnWithdrawl,
-      withdrawalOpened,
+      reportModal,
+      withdrawalModal,
       reportOptions,
       report,
     };

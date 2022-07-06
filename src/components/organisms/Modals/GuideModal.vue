@@ -1,5 +1,5 @@
 <template>
-  <ModalTemplate class="modal" @close="closeModal">
+  <ModalTemplate class="modal" ref="modalTemplate">
     <div class="conatiner">
       <div class="title">
         <span class="text-bold">{{ options?.modalTitle }}</span>
@@ -30,12 +30,17 @@ export default defineComponent({
   },
   props: ['options'],
   setup(props, { emit }) {
+    const modalTemplate = ref();
+    const closeModal = () => {
+      modalTemplate.value.closeModal();
+    };
+    const openModal = () => {
+      console.log(modalTemplate.value);
+      modalTemplate.value.openModal();
+    };
     const email = ref('');
     const contents = ref('');
-    function closeModal() {
-      emit('close');
-    }
-    return { closeModal, email, contents, props };
+    return { closeModal, email, contents, props, openModal, modalTemplate };
   },
 });
 </script>

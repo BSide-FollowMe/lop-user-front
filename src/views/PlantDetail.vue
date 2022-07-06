@@ -35,11 +35,21 @@
       :blights="plantDetail.blights || []"
     />
     <Soil :content="plantDetail.soil" />
-    <Report class="report" @openReport="openReport" />
+    <Report
+      class="report"
+      @openReport="
+        () =>
+          reportModal.openModal({
+            modalTitle: '제보하기',
+            objective: plantDetail.name,
+            contentsLabel: '잘못된 정보나 건의하고 싶으신 내용을 작성해주세요.',
+          })
+      "
+    />
     <Question :plantName="plantDetail.name" :plantId="plantDetail.id" :questions="plantDetail.questions?.data" />
   </div>
-  <GuideModal v-if="guideOpened" :options="guideOptions" @close="closeGuide()" />
-  <RequestModal v-if="reportOpened" :options="reportOptions" @confirm="report" @close="closeReport()" />
+  <GuideModal ref="guideModal" :options="guideOptions" />
+  <RequestModal ref="reportModal" :options="reportOptions" @confirm="report" />
 </template>
 <script lang="ts">
 import { defineComponent } from '@vue/runtime-core';
@@ -67,31 +77,22 @@ export default defineComponent({
     const route = useRoute();
     const router = useRouter();
     const plantDetail = ref({} as PlantDetailResponse);
-    const guideOpened = ref(false);
-    const reportOpened = ref(false);
+    const guideModal = ref({} as typeof GuideModal);
+    const reportModal = ref({} as typeof RequestModal);
     const guideOptions = ref({} as { componentName: string; modalTitle: string });
     const reportOptions = ref({} as { modalTitle: string; objective: string; contentsLabel: string });
     const openGuide = ({ componentName, modalTitle }: { componentName: string; modalTitle: string }) => {
-      guideOpened.value = true;
+      console.log(guideModal.value);
+      guideModal.value.openModal();
       guideOptions.value = {
         componentName,
         modalTitle,
       };
     };
-    const openReport = ({ modalTitle, contentsLabel }: { modalTitle: string; contentsLabel: string }) => {
-      reportOpened.value = true;
-      reportOptions.value = {
-        modalTitle,
-        objective: plantDetail.value.name,
-        contentsLabel,
-      };
-    };
-    const closeGuide = () => {
-      guideOpened.value = false;
-    };
-    const closeReport = () => {
-      reportOpened.value = false;
-    };
+
+    // const closeGuide = () => {
+    //   guideOpened.value = false;
+    // };
     const init = async () => {
       try {
         plantDetail.value = await getPlantDetail({ plantId: route.path.split('/')[2] });
@@ -150,7 +151,6 @@ export default defineComponent({
         };
         await registReport(payload);
         alert('요청이 제보 되었습니다. 확인 후 반영하도록 하겠습니다.');
-        reportOpened.value = false;
       } catch (e) {
         console.error(e);
       }
@@ -159,16 +159,13 @@ export default defineComponent({
       calculatedGrowthEasy,
       calculatedGrowthHard,
       plantDetail,
-      guideOpened,
       openGuide,
-      closeGuide,
       guideOptions,
-      reportOpened,
-      openReport,
-      closeReport,
       reportOptions,
       refresh,
       report,
+      reportModal,
+      guideModal,
     };
   },
   components: {
