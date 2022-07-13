@@ -74,6 +74,9 @@ textarea {
   width: 100%;
   min-height: 90px;
   overflow: hidden;
+  font-size: 18px;
+  line-height: 26px;
+  color: #666;
   &:focus + label {
     display: none;
   }
@@ -86,6 +89,8 @@ textarea {
   @include breakpoint-down-sm {
     height: 118px;
     min-height: 100px;
+    font-size: 13px;
+    line-height: 20px;
   }
 }
 label {
