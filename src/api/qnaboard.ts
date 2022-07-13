@@ -94,7 +94,7 @@ export function toggleSupportQuestions(questionId: string): Promise<void> {
 //   return axios.get(url, { responseType: 'blob' });
 // }
 
-export async function getQuestionImages(boardId: string): Promise<Image[]> {
-  const res = await axios.get<Image[]>(API_PREFIX + Api.REGIST_BOARD + '/' + boardId + Api.BLOB_IMAGES);
+export async function getQuestionImages(boardId: string): Promise<{ imageList: Image[] }> {
+  const res = await axios.get<{ imageList: Image[] }>(API_PREFIX + Api.REGIST_BOARD + '/' + boardId + Api.BLOB_IMAGES);
   return res.data;
 }

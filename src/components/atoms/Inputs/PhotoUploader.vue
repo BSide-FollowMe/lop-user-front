@@ -68,6 +68,7 @@ export default defineComponent({
     function setImageFromUrls(images: any) {
       console.log(images);
       let count = images.length;
+      console.log(count);
       let index = 0;
       if (images) {
         while (count--) {

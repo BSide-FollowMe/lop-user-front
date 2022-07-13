@@ -35,7 +35,7 @@
     </div>
     <PhotoUploader ref="photoUploader" class="photo-uploader" v-model:value="images" />
     <div class="text-center submit-btn">
-      <VueButton color="primary" v-if="id && id != ''" @click="submitModify">수정하기</VueButton>
+      <VueButton color="primary" v-if="boardId" @click="submitModify">수정하기</VueButton>
       <VueButton color="primary" v-else @click="submit">등록하기</VueButton>
     </div>
   </form>
@@ -63,11 +63,19 @@ export default defineComponent({
     PhotoUploader,
     ResizableTextArea,
   },
-  props: ['boardId', 'plant'],
+  props: {
+    boardId: {
+      type: String,
+      required: true,
+    },
+    plant: {
+      type: String,
+      required: true,
+    },
+  },
   setup(props) {
     const plantSelector: any = ref(null);
-    const photoUploader = ref(null);
-    const id = computed(() => props?.boardId || null);
+    const photoUploader = ref<typeof PhotoUploader>();
 
     const myUserInfo = computed(() => store.getters.getUserInfo);
     const myId = computed(() => myUserInfo.value?.id || null);
@@ -79,7 +87,7 @@ export default defineComponent({
     const images = ref([] as any);
     const isLoading = ref(false);
 
-    if (id.value) getEditDetails(id.value);
+    if (props.boardId) getEditDetails(props.boardId);
     if (plantName.value && plantName.value != '') {
       getPlantNameList(plantName.value);
     }
@@ -98,9 +106,8 @@ export default defineComponent({
         }
         content.value = data.content;
         const blobImages = await getImageBlob(id);
-        const pu: any = photoUploader.value;
-        if (pu) {
-          pu.setImageFromUrls(blobImages);
+        if (photoUploader.value) {
+          photoUploader.value.setImageFromUrls(blobImages);
         }
       } catch (e) {
         console.log(e);
@@ -108,7 +115,7 @@ export default defineComponent({
     }
     async function getImageBlob(id: string) {
       try {
-        const imageList = await getQuestionImages(id);
+        const { imageList } = await getQuestionImages(id);
         return imageList;
       } catch (e) {
         console.error(e);
@@ -155,7 +162,7 @@ export default defineComponent({
     function submitModify() {
       const selectedPlant = plantNameOptions.value.find((item: any) => plantName.value == item.name);
       const payload: BoardParam = {
-        questionId: id.value,
+        questionId: props.boardId,
         plantName: plantName.value == '직접입력' ? plantNameSubjective.value : plantName.value,
         content: content.value,
         type: 'WONDER',
@@ -164,7 +171,7 @@ export default defineComponent({
       if (images.value.length) payload.images = images.value;
       else payload.images = [];
       if (!validatePayload(payload)) return;
-      modifyQuestion(payload, id.value);
+      modifyQuestion(payload, props.boardId);
     }
     async function modifyQuestion(payload: BoardParam, questionId: string) {
       try {
@@ -215,7 +222,6 @@ export default defineComponent({
       images,
       submit,
       submitModify,
-      id,
     };
   },
 });
