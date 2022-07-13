@@ -1,5 +1,5 @@
 <template>
-  <h1 class="page-title"><span>씨앗 저장소</span></h1>
+  <h1 class="page-title"><span>씨앗 보관함</span></h1>
 </template>
 
 <script lang="ts">
