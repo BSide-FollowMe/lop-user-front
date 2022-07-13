@@ -183,8 +183,11 @@ export default defineComponent({
     padding: 30px 0;
   }
   &-title {
+    vertical-align: middle;
     + img {
       cursor: pointer;
+      margin-left: 4px;
+      vertical-align: middle;
     }
     &__wrapper {
       position: relative;
