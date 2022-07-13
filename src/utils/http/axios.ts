@@ -39,6 +39,7 @@ _axios.interceptors.response.use(
     return response;
   },
   function (error) {
+    $store.dispatch('hideLoader');
     if (axios.isAxiosError(error) && error.response?.status === 401) {
       alert('먼저 로그인 해주세요!');
       router.push('/signin');
