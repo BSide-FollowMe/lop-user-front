@@ -9,11 +9,15 @@ import { createVueKakaoSdk } from 'vue3-kakao-sdk';
 import './styles/index.scss';
 import * as Sentry from '@sentry/vue';
 import { BrowserTracing } from '@sentry/tracing';
+import {worker} from './mocks/browser';
 
 loadFonts();
 
 const isDev = process.env.NODE_ENV !== 'production';
-if (isDev) console.log('환경!:', process.env);
+if (isDev) {
+  worker.start();
+  console.log('환경!:', process.env);
+}
 const app = createApp(App).use(createVueKakaoSdk(process.env.VUE_APP_KAKAO_API_KEY as string));
 
 Sentry.init({
