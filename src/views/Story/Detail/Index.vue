@@ -1,35 +1,88 @@
 <template>
   <div class="container">
-    <StoryCard :story="story"></StoryCard>
+    <StoryCard class="story-card">
+      <Header
+        class="header"
+        :profile="story?.writer"
+        :createdDate="story.createdDateTime"
+      />
+      <Content
+        :images="story.images"
+        :content="story.content"
+        :isSupport="story.isSupport"
+        :supportCount="story.supportCount"
+        :commentCount="story.comments.data.length"
+        :plantList="story.plantList"
+      />
+      <p>
+        댓글<span>{{ story.comments.data.length }}</span>
+      </p>
+      <ReplyInput
+        :myId="userInfo.id"
+        placeholder="답변을 남겨주세요"
+        v-model:modelValue="replyInput"
+        @submit="({ input }) => registerComment(input)"
+      />
+      <ul class="reply-list">
+        <ReplyItem
+          v-for="(comment, index) in story.comments.data"
+          :key="index"
+          :id="comment.id"
+          :item="comment"
+          :boardWriterId="String(story.writer.id)"
+          :myId="userInfo.id"
+          :boardId="String(story.id)"
+        />
+      </ul>
+    </StoryCard>
     <BackwardButton class="backward-button" @click="ROUTE_TO.STORY_FEED"
       >목록으로</BackwardButton
     >
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, onMounted, ref } from "vue";
+import { defineComponent, onMounted, ref, computed } from "vue";
 import StoryCard from "@/views/Story/Detail/StoryCard/Index.vue";
+import Header from "@/views/Story/Detail/StoryCard/Header/Index.vue";
+import Content from "@/views/Story/Detail/StoryCard/Content/Index.vue";
+import ReplyInput from "@/views/Story/Detail/StoryCard/ReplyInput/Index.vue";
+import ReplyItem from "@/views/Story/Detail/StoryCard/ReplyItem/Index.vue";
 import BackwardButton from "@/components/atoms/buttons/BackwardButton.vue";
 import { ROUTE_TO } from "@/router/routing";
 import { getStory } from "@/api/story";
 import { useRoute } from "vue-router";
+import { useStore } from "vuex";
 
 export default defineComponent({
   components: {
     BackwardButton,
     StoryCard,
+    Header,
+    Content,
+    ReplyItem,
+    ReplyInput,
   },
-  setup() {
+  setup(_, { emit }) {
     const route = useRoute();
     const story = ref();
+    const store = useStore();
+    const replyInput = ref("");
+    const userInfo = computed(() => store.getters.getUserInfo);
+
     onMounted(async () => {
       const id = Number(route.path.split("/")[3]);
       if (isNaN(id)) throw new Error("id is not valid");
       story.value = await getStory({ storyId: id });
     });
+    const registerComment = (input: string) => {
+      emit("registerComment", input);
+    };
     return {
       ROUTE_TO,
       story,
+      userInfo,
+      replyInput,
+      registerComment,
     };
   },
 });
@@ -45,5 +98,11 @@ export default defineComponent({
     min-width: 360px;
     padding: var(--m-content-container-padding) var(--m-content-container-padding);
   }
+}
+.story-card {
+  margin-bottom: 26px;
+}
+.header {
+  margin-bottom: 21px;
 }
 </style>

@@ -135,6 +135,18 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('@/views/Story/Detail/Index.vue'),
   },
   {
+    path: PageEnum.STORY_REGISTER,
+    name: PageNameEnum.STORY_REGISTER,
+    meta: { public: true, layout: LayoutEnum.DEFAULT },
+    component: () => import('@/views/Story/Register/Index.vue'),
+  },
+  {
+    path: PageEnum.STORY_FEED,
+    name: PageNameEnum.STORY_FEED,
+    meta: { public: true, layout: LayoutEnum.DEFAULT },
+    component: () => import('@/views/Story/Feed/Index.vue'),
+  },
+  {
     path: PageEnum.ERROR_PAGE,
     name: PageNameEnum.ERROR_PAGE,
     meta: { public: true, layout: LayoutEnum.FILLED },

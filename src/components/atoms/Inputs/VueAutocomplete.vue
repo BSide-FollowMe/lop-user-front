@@ -9,10 +9,13 @@
       @keydown.enter.prevent
       :class="{ 'is-empty': localVal === '' }"
       autocomplete="off"
-      :disabled="isSelected"
     />
     <label for="autocomplete-input">{{ label || '' }}</label>
-    <button v-if="isSelected" class="clear-btn" @click="resetSelectedItem"><img src="@/assets/icon/close.svg" /></button>
+    <slot name="appendIcon">
+      <button v-if="isSelected" class="clear-btn" @click="resetSelectedItem">
+        <img :src="closeIcon" />
+      </button>
+    </slot>
     <transition name="slide-fade">
       <ul class="item-list shadow pull-right" v-if="showSelect">
         <li class="text-ellipsis" v-if="isLoading && localVal !== ''">
@@ -29,7 +32,7 @@
           <span v-html="stylizeBySearchTarget(localVal, item + '')"></span>
         </li>
         <hr />
-        <li class="text-ellipsis text-center" @click="onSelect('직접입력')" v-if="!isLoading && localVal !== ''">
+        <li class="text-ellipsis text-center" @click="onSelect('직접입력')" v-if="enableCutomInput && !isLoading && localVal !== ''">
           <img src="@/assets/icon/modify-pencil.svg" />
           <span>직접입력</span>
         </li>
@@ -42,15 +45,42 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { computed, defineComponent, PropType, ref } from 'vue';
+import closeIcon from '@/assets/icon/close.svg';
 export default defineComponent({
   name: 'Selector',
-  props: ['items', 'value', 'label', 'isLoading'],
+  props: {
+    enableCutomInput: {
+      type: Boolean,
+      default: true,
+    },
+    items: {
+      type: Array as PropType<string[]>,
+      default: () => [],
+    },
+    value: {
+      type: String,
+      default: '',
+    },
+    label: {
+      type: String,
+      default: '',
+    },
+    isLoading: {
+      type: Boolean,
+      default: false,
+    },
+  },
   setup(props, { emit }) {
     const val = ref(props.value);
     const showSelect = ref(false);
     const selector = ref(null);
-    const localVal = ref(props.value || '');
+    const localVal = computed({
+      get: () => props.value || '',
+      set: (value) => {
+        emit('update:value', value);
+      },
+    });
     const isSelected = ref(false);
     document.addEventListener('click', documentClick);
 
@@ -87,6 +117,7 @@ export default defineComponent({
       isSelected.value = false;
     }
     return {
+      closeIcon,
       documentClick,
       onSelect,
       val,

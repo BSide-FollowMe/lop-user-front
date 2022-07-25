@@ -72,7 +72,7 @@ textarea {
   border-radius: 2px;
   resize: none;
   width: 100%;
-  min-height: 90px;
+  min-height: 100%;
   overflow: hidden;
   font-size: 18px;
   line-height: 26px;

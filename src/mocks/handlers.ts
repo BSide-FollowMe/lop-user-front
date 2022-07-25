@@ -133,9 +133,9 @@ export default [
         ],
         supportCount: 0,
         writer: {
-          id: 0,
-          memberImageUrl: 'string',
-          nickname: 'string',
+          id: 1,
+          memberImageUrl: 'https://picsum.photos/205',
+          nickname: '닉네임표시되냐',
         },
       }),
     );

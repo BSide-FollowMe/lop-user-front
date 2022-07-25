@@ -12,10 +12,7 @@
           @error="($event.target as HTMLImageElement).src = require('@/assets/images/search/img-error.svg')"
         />
       </div>
-      <span class="category" v-if="item.categoryTitle && item.categoryTitle != ''">
-        {{ item.categoryTitle }}
-      </span>
-      <hr />
+
       <span class="plant-name text-light">{{ item.name }}</span>
     </li>
   </ul>

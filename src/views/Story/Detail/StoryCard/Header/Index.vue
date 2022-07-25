@@ -1,8 +1,11 @@
 <template>
   <div class="header">
     <div class="profile">
-      <span class="profile__level-icon">{{ profile?.memberImageUrl }}</span>
-      <span class="profile__username">{{ profile?.nickname }}</span>
+      <span class="profile__level-icon">
+        <img v-if="false && profile.memberImageUrl" :src="profile.memberImageUrl" />
+        <img v-else src="@/assets/images/level/꽃집사.svg" />
+      </span>
+      <span class="profile__username">{{ profile.nickname }}</span>
       <span class="datetime">{{ getTimeDistanceWithNaturalStr(createdDate) }}</span>
     </div>
     <button class="action-modal-btn" @click="openContextMenu" ref="actionBtnRef">
@@ -18,40 +21,36 @@
 
 <script lang="ts">
 import { defineComponent, PropType, ref, computed } from "vue";
-import { MemberLevel, Member } from "@/types/api/member";
 import { getTimeDistanceWithNaturalStr } from "@/utils/text";
 
 import ContextMenu from "@/components/organisms/ContextMenu/Index.vue";
 import { StoryWriter } from "@/types/api/story";
 import { ROUTE_TO } from "@/router/routing";
 import { useStore } from "vuex";
+import { getImgUrl } from "@/utils/member";
 
 export default defineComponent({
   components: {
     ContextMenu,
   },
   props: {
-    profile: Object as PropType<StoryWriter>,
-    createdDate: Date,
+    profile: {
+      type: Object as PropType<StoryWriter>,
+      default: () => ({}),
+    },
+    createdDate: {
+      type: String,
+      default: "",
+    },
   },
   setup(props) {
     const store = useStore();
     const contextMenuRef = ref(ContextMenu);
+    const userInfo = computed(() => store.getters.getUserInfo);
     const openContextMenu = () => {
       contextMenuRef.value.toggleContextMenu();
     };
-    //     {
-    //   "email": "string",
-    //   "id": 0,
-    //   "memberLevel": {
-    //     "grade": "string",
-    //     "likeCount": 0,
-    //     "pollCount": 0,
-    //     "postingContentCount": 0
-    //   },
-    //   "nickname": "string"
-    // }
-    const userInfo = computed(() => store.getters.getUserInfo);
+
     const contextMenuItems = () =>
       props.profile?.id == userInfo.value.id
         ? [
@@ -79,6 +78,7 @@ export default defineComponent({
           ];
 
     return {
+      getImgUrl,
       contextMenuRef,
       openContextMenu,
       contextMenuItems,
@@ -89,12 +89,54 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import "@/styles/mixin";
+
 .header {
   display: flex;
   justify-content: space-between;
 }
-.level-icon {
-  width: 26px;
-  height: 26px;
+.profile {
+  display: flex;
+  align-items: center;
+  font-weight: var(--font-weight-medium);
+  font-size: 16px;
+  line-height: 19px;
+  letter-spacing: -0.01em;
+
+  /* deepgreen/1-main */
+
+  color: var(--primary-color-1);
+  &__level-icon {
+    & > img {
+      width: 26px;
+      height: 26px;
+    }
+  }
+  &__username {
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+  .datetime {
+    font-weight: var(--font-weight-medium);
+    font-size: 16px;
+    line-height: 24px;
+    /* identical to box height, or 150% */
+
+    letter-spacing: -0.01em;
+
+    /* text/3 */
+
+    color: var(--text-color-3);
+    &::before {
+      content: "|";
+      margin-right: 10px;
+    }
+  }
+}
+
+.action-modal-btn {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
 }
 </style>
