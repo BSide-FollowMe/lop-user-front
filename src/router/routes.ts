@@ -129,6 +129,7 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: PageEnum.STORY,
+    name: PageNameEnum.STORY_FEED,
     meta: { public: true, layout: LayoutEnum.DEFAULT },
     component: () => import('@/views/story/Feed/Index.vue'),
   },
