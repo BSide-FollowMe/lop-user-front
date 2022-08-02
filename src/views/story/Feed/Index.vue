@@ -15,13 +15,14 @@
       <StoryCard v-for="story in stories" :key="story.id">
         <Header class="header" :createdDate="story.createdDateTime"></Header>
         <Content
-          :images="story.imageUrl ? [{ imageUrl: story.imageUrl, name: 'asdf' }] : []"
+          :images="story.imageUrl.map((item) => ({ name: 'asdf', imageUrl: item }))"
           :content="story.content"
           :isSupport="false"
           :supportCount="story.supportCount"
           :commentCount="story.commentCount"
         />
       </StoryCard>
+      <div ref="lastRef"></div>
     </div>
   </div>
 </template>
@@ -39,6 +40,7 @@ import Content from '@/views/story/StoryCard/Content/Index.vue';
 import { useStore } from 'vuex';
 import { useRoute, useRouter } from 'vue-router';
 import { min } from 'lodash';
+import { readSync } from 'fs';
 export default defineComponent({
   components: {
     StoryCard,
@@ -57,8 +59,9 @@ export default defineComponent({
     const isReady = ref(false);
     const mine = ref(false);
     const isLoggedIn = computed(() => store.getters.isAuthenticated);
-    // const lastRef = useInfiniteScroll(() => fetchStories({ page: currentPage.value }));
+    const lastRef = useInfiniteScroll(() => (mine.value ? geyMyStoryList() : getStoryList()));
     const getStoryList = async () => {
+      if (!isReady.value || (totalLength.value != 0 && totalLength.value === stories.value.length)) return;
       const payload: { size: number; plantId?: number; page: number } = {
         size: 10,
         page: page.value,
@@ -67,8 +70,10 @@ export default defineComponent({
       const { totalElement, data: _stories } = await getStories(payload);
       stories.value.push(..._stories);
       if (page.value == 0) totalLength.value = totalElement;
+      page.value += 1;
     };
     const geyMyStoryList = async () => {
+      if (!isReady.value || (totalLength.value != 0 && totalLength.value === stories.value.length)) return;
       const payload: { size: number; plantId?: number; page: number } = {
         size: 10,
         page: page.value,
@@ -78,8 +83,11 @@ export default defineComponent({
       const { totalElement, data: myStories } = await getMyStories(payload);
       stories.value.push(...myStories);
       if (page.value == 0) totalLength.value = totalElement;
+      page.value += 1;
     };
     const init = async () => {
+      page.value = 0;
+      totalLength.value = 0;
       isReady.value = false;
       mine.value ? await geyMyStoryList() : await getStoryList();
       isReady.value = true;
@@ -102,7 +110,7 @@ export default defineComponent({
       isLoggedIn,
       mine,
       toggleIsMyList,
-      // lastRef,
+      lastRef,
     };
   },
 });

@@ -28,8 +28,8 @@
           <VueAutocomplete
             ref="plantSelector"
             label="식물명 검색"
-            :appendIcon="{ iconSrc: magnifierIcon }"
             v-model:value="plantName"
+            :multiple="true"
             :is-loading="isLoading"
             :items="plantNameOptions.map((item) => item.name)"
             @change="({ newVal }) => addPlantTag(newVal)"
@@ -37,7 +37,7 @@
             @start-loading="isLoading = true"
           >
             <template v-slot:appendIcon>
-              <button class="append-btn">
+              <button class="append-btn" @click.prevent>
                 <img :src="magnifierIcon" />
               </button>
             </template>
@@ -150,7 +150,7 @@ export default defineComponent({
         alert(`식물 태그는 10개까지만 등록하실 수 있습니다.`);
         return;
       }
-
+      if (selectedPlants.value.find((item) => item.name === name)) return;
       selectedPlants.value = [...selectedPlants.value, plantNameOptions.value.find((item) => name == item.name)!];
     };
     const removePlantTag = (index: number) => {

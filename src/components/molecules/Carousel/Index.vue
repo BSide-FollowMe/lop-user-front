@@ -94,7 +94,6 @@ body {
   display: block;
   padding-bottom: v-bind(imageSize[activeIndex]);
   background-color: #bababa !important;
-  background: url('@/assets/images/detail/dummy-image.svg') no-repeat center;
 }
 .carousel > ul {
   margin: 0;

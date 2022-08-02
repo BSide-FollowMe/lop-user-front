@@ -6,7 +6,7 @@ export type Story = {
   content: string;
   createdDateTime: string;
   id: number;
-  imageUrl: string;
+  imageUrl: string[];
   supportCount: number;
 };
 

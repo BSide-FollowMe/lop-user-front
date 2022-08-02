@@ -20,7 +20,7 @@ export enum PageEnum {
   STORY = '/story',
   STORY_DETAIL = '/story/detail/:id',
   STORY_REGISTER = '/story/register',
-  STORY_FEED = '/story/feed',
+  STORY_FEED = '/story',
 }
 export enum PageNameEnum {
   LOGIN = 'Sign In',

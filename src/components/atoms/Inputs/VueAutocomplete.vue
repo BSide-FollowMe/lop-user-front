@@ -9,10 +9,11 @@
       @keydown.enter.prevent
       :class="{ 'is-empty': localVal === '' }"
       autocomplete="off"
-      :disabled="isSelected"
     />
     <label for="autocomplete-input">{{ label || '' }}</label>
-    <button v-if="isSelected" class="clear-btn" @click="resetSelectedItem"><img src="@/assets/icon/close.svg" /></button>
+    <slot name="appendIcon">
+      <button v-if="isSelected" class="clear-btn" @click="resetSelectedItem"><img src="@/assets/icon/close.svg" /></button>
+    </slot>
     <transition name="slide-fade">
       <ul class="item-list shadow pull-right" v-if="showSelect">
         <li class="text-ellipsis" v-if="isLoading && localVal !== ''">
@@ -42,10 +43,31 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent, PropType, ref } from 'vue';
 export default defineComponent({
   name: 'Selector',
-  props: ['items', 'value', 'label', 'isLoading'],
+  props: {
+    items: {
+      type: Array as PropType<string[]>,
+      default: () => [],
+    },
+    value: {
+      type: String,
+      default: '',
+    },
+    label: {
+      type: String,
+      default: '',
+    },
+    isLoading: {
+      type: Boolean,
+      default: false,
+    },
+    multiple: {
+      type: Boolean,
+      default: false,
+    },
+  },
   setup(props, { emit }) {
     const val = ref(props.value);
     const showSelect = ref(false);
@@ -62,9 +84,10 @@ export default defineComponent({
     }
     function onSelect(item: any) {
       showSelect.value = false;
+      emit('update:value', item);
       emit('change', { oldVal: val.value, newVal: item });
       val.value = item;
-      localVal.value = item;
+      localVal.value = props.multiple ? '' : item;
       isSelected.value = true;
     }
     function onChangeSubjective() {
