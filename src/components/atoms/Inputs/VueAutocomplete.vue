@@ -9,13 +9,10 @@
       @keydown.enter.prevent
       :class="{ 'is-empty': localVal === '' }"
       autocomplete="off"
+      :disabled="isSelected"
     />
     <label for="autocomplete-input">{{ label || '' }}</label>
-    <slot name="appendIcon">
-      <button v-if="isSelected" class="clear-btn" @click="resetSelectedItem">
-        <img :src="closeIcon" />
-      </button>
-    </slot>
+    <button v-if="isSelected" class="clear-btn" @click="resetSelectedItem"><img src="@/assets/icon/close.svg" /></button>
     <transition name="slide-fade">
       <ul class="item-list shadow pull-right" v-if="showSelect">
         <li class="text-ellipsis" v-if="isLoading && localVal !== ''">
@@ -32,7 +29,7 @@
           <span v-html="stylizeBySearchTarget(localVal, item + '')"></span>
         </li>
         <hr />
-        <li class="text-ellipsis text-center" @click="onSelect('직접입력')" v-if="enableCutomInput && !isLoading && localVal !== ''">
+        <li class="text-ellipsis text-center" @click="onSelect('직접입력')" v-if="!isLoading && localVal !== ''">
           <img src="@/assets/icon/modify-pencil.svg" />
           <span>직접입력</span>
         </li>
@@ -45,45 +42,17 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, ref } from 'vue';
-import closeIcon from '@/assets/icon/close.svg';
+import { defineComponent, ref } from 'vue';
 export default defineComponent({
   name: 'Selector',
-  props: {
-    enableCutomInput: {
-      type: Boolean,
-      default: true,
-    },
-    items: {
-      type: Array as PropType<string[]>,
-      default: () => [],
-    },
-    value: {
-      type: String,
-      default: '',
-    },
-    label: {
-      type: String,
-      default: '',
-    },
-    isLoading: {
-      type: Boolean,
-      default: false,
-    },
-  },
+  props: ['items', 'value', 'label', 'isLoading'],
   setup(props, { emit }) {
     const val = ref(props.value);
     const showSelect = ref(false);
     const selector = ref(null);
-    const localVal = computed({
-      get: () => props.value || '',
-      set: (value) => {
-        emit('update:value', value);
-      },
-    });
+    const localVal = ref(props.value || '');
     const isSelected = ref(false);
     document.addEventListener('click', documentClick);
-
     function documentClick(e: any) {
       let el: any = selector.value;
       let target = e.target;
@@ -91,7 +60,6 @@ export default defineComponent({
         showSelect.value = false;
       }
     }
-
     function onSelect(item: any) {
       showSelect.value = false;
       emit('change', { oldVal: val.value, newVal: item });
@@ -99,17 +67,14 @@ export default defineComponent({
       localVal.value = item;
       isSelected.value = true;
     }
-
     function onChangeSubjective() {
       if (!localVal.value || localVal.value == '') return;
       emit('changeSubjective', localVal.value);
       emit('start-loading');
     }
-
     function stylizeBySearchTarget(searchStr: string, targetStr: string) {
       return targetStr.replaceAll(searchStr, `<span style="color:var(--secondary-green-color)">${searchStr}</span>`);
     }
-
     function resetSelectedItem() {
       emit('change', { oldVal: val.value, newVal: '' });
       val.value = '';
@@ -117,7 +82,6 @@ export default defineComponent({
       isSelected.value = false;
     }
     return {
-      closeIcon,
       documentClick,
       onSelect,
       val,
@@ -138,7 +102,6 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @import '@/styles/mixin';
-
 .autocomplete {
   position: relative;
   background: #fff;

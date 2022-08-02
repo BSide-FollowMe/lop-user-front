@@ -60,7 +60,7 @@ import EmptyHeartIcon from '@/assets/icon/heart-empty.svg';
 import FullHeartIcon from '@/assets/icon/heart-fill.svg';
 import KakaoIcon from '@/assets/icon/logo_카카오톡.svg';
 import LinkIcon from '@/assets/icon/icon_link.svg';
-import Poll from '@/components/detail/Poll.vue';
+import Poll from '@/components/organisms/Poll/Index.vue';
 import { useKakao } from 'vue3-kakao-sdk';
 import DummyImage from '@/assets/images/detail/dummy-image.svg';
 import axios from 'axios';

@@ -101,7 +101,7 @@ export default defineComponent({
     const slider = useHorizontalMouseScroll();
     const [searchText, onSearch] = useSearch();
     setMeta({
-      title: '식물의언어 : 식집사를 위한 식물 정보 플랫폼',
+      title: '식집사를 위한 식물 정보 플랫폼 : 식물의언어',
       description:
         '식물의언어는 식물을 더 건강하게 키우기 위한 정보를 제공하는 커뮤니티형 식물 정보 플랫폼입니다. 식물의언어를 통해 내 식물을 더 잘 이해하고, 수많은 식물집사들을 만나 서로의 노하우를 주고받아보세요.',
       path: '/home',

@@ -17,6 +17,7 @@ export enum PageEnum {
   BLIGHT_GUIDE = '/guide/blight',
   ALL_PLANTS = '/plants',
   SEED_STORE = '/seed',
+  STORY = '/story',
   STORY_DETAIL = '/story/detail/:id',
   STORY_REGISTER = '/story/register',
   STORY_FEED = '/story/feed',

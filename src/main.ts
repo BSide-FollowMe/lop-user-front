@@ -9,13 +9,13 @@ import { createVueKakaoSdk } from 'vue3-kakao-sdk';
 import './styles/index.scss';
 import * as Sentry from '@sentry/vue';
 import { BrowserTracing } from '@sentry/tracing';
-import {worker} from './mocks/browser';
+import { worker } from './mocks/browser';
 
 loadFonts();
 
 const isDev = process.env.NODE_ENV !== 'production';
 if (isDev) {
-  worker.start();
+  // worker.start();
   console.log('환경!:', process.env);
 }
 const app = createApp(App).use(createVueKakaoSdk(process.env.VUE_APP_KAKAO_API_KEY as string));
@@ -61,7 +61,7 @@ app
         params: { send_page_view: false },
       },
     },
-    router,
+    router
   )
   .use(createMetaManager())
   .mount('#app');

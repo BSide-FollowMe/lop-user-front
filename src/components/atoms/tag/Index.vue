@@ -15,7 +15,6 @@ export default defineComponent({});
   flex-direction: column;
   align-items: flex-start;
   padding: 5px 12px;
-  width: auto;
   height: 28px;
 
   /* bg,line/1 */

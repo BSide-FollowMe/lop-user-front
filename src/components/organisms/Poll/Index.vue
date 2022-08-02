@@ -5,8 +5,8 @@
       <div
         ref="guideBar"
         :class="['guide-bar', index === active ? 'hover' : '', index === chosen ? 'chosen' : '']"
-        @mouseover="mouseOver(index)"
-        @mouseleave="mouseLeave(index)"
+        @mouseover="() => mouseOver(index)"
+        @mouseleave="() => mouseLeave()"
         @click="poll(index)"
       >
         <div class="inner-guide-bar">
@@ -26,7 +26,9 @@ import { defineComponent, PropType } from 'vue';
 export default defineComponent({
   props: {
     items: {
-      type: Array as PropType<{ label: string; labelValue: string; activeColor: string; value: string; hoverColor: string; onClick: () => void }[]>,
+      type: Array as PropType<
+        { label: string; labelValue: string; activeColor: string; value: string; hoverColor: string; onClick: () => void }[]
+      >,
       default: () => [],
     },
     title: {

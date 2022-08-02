@@ -1,14 +1,3 @@
-// export type  = {
-//   page:number;
-//   plantId:number;
-//   size:number;
-// }
-
-// export type PostStory={
-//   content:string;
-//   images:string[];
-//   plantIdList:number[];
-// }
 import type { Plant } from './plant';
 import type { ListResponse } from './common';
 
@@ -22,7 +11,7 @@ export type Story = {
 };
 
 export type StoryImage = {
-  imageBinary: string;
+  imageUrl: string;
   name: string;
 };
 

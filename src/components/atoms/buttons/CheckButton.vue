@@ -1,5 +1,5 @@
 <template>
-  <div class="toggle-my-question">
+  <div class="toggle-my-question" @click="() => onToggleEvent()">
     <input id="my-question" type="checkbox" v-model="localVal" :class="{ 'is-active': value }" class="cursor-pointer" />
     <label for="my-question">
       <img src="@/assets/icon/check-secondary.svg" />
@@ -15,16 +15,11 @@ export default defineComponent({
   setup(props, { emit }) {
     const localVal = ref(props.value || false);
 
-    watch(
-      () => localVal.value,
-      (newValue: boolean) => {
-        onToggleEvent(newValue);
-      }
-    );
-    function onToggleEvent(payload: string | boolean) {
-      emit('toggle', payload);
+    function onToggleEvent() {
+      localVal.value = !localVal.value;
+      emit('toggle', localVal.value);
     }
-    return { localVal };
+    return { localVal, onToggleEvent };
   },
 });
 </script>
