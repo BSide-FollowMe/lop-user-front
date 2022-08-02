@@ -2,7 +2,7 @@
   <div class="container">
     <div class="inner-container">
       <h1 class="title">스토리 작성</h1>
-      <form @submit="submit">
+      <form @submit.prevent="submit">
         <div class="photo-upload-container">
           <div class="input-title">
             사진 등록
@@ -10,6 +10,7 @@
             <span class="input-tips">사진은 최대 5장까지 등록하실 수 있어요</span>
           </div>
           <PhotoUploader ref="photoUploader" :max="5" class="photo-uploader" v-model:value="images" />
+          <small v-if="validationError.images" class="error">{{ validationError.images }}</small>
         </div>
         <div class="text-upload-container">
           <ResizableTextArea
@@ -20,11 +21,11 @@
             maxlength="1000"
             minHeight="160"
           />
+          <small v-if="validationError.content" class="error">{{ validationError.content }}</small>
         </div>
         <div class="plant-upload-container">
           <div class="input-title">식물의 이름을 알려주세요<span class="input-restriction">최대 10개</span></div>
           <VueAutocomplete
-            :enableCutomInput="false"
             ref="plantSelector"
             label="식물명 검색"
             :appendIcon="{ iconSrc: magnifierIcon }"
@@ -48,6 +49,7 @@
                 <img :src="close" @click="removePlantTag(index)" />
               </div>
             </Tag>
+            <small v-if="validationError.plantIdList" class="error">{{ validationError.plantIdList }}</small>
           </div>
         </div>
         <button type="submit">등록하기</button>
@@ -85,6 +87,11 @@ export default defineComponent({
     const plantName = ref('');
     const plantNameOptions = ref([] as { name: string; id: string }[]);
     const selectedPlants = ref([] as { name: string; id: string }[]);
+    const validationError = ref({
+      images: '',
+      content: '',
+      plantIdList: '',
+    });
     async function getPlantNameList(searchStr: string) {
       try {
         isLoading.value = true;
@@ -103,8 +110,30 @@ export default defineComponent({
       }
     }
     const changeSubjective = debounce(getPlantNameList, 1000);
+    const validate = () => {
+      validationError.value = {
+        images: '',
+        content: '',
+        plantIdList: '',
+      };
+      let error = false;
+      if (!images.value.length) {
+        validationError.value.images = '이미지를 등록해주세요';
+        error = true;
+      }
+      if (!content.value) {
+        validationError.value.content = '내용을 입력해주세요';
+        error = true;
+      }
+      if (!selectedPlants.value.length) {
+        validationError.value.plantIdList = '관련 식물 테그를 입력해주세요';
+        error = true;
+      }
+      return !error;
+    };
     const submit = async (e: Event) => {
-      e.preventDefault();
+      if (!validate()) return;
+
       try {
         await postStory({ content: content.value, images: images.value, plantIdList: selectedPlants.value.map((item) => Number(item.id)) });
         ROUTE_TO.STORY_FEED();
@@ -141,6 +170,7 @@ export default defineComponent({
       magnifierIcon,
       selectedPlants,
       close,
+      validationError,
     };
   },
 });
@@ -271,5 +301,9 @@ button[type='submit'] {
     width: 8px;
     height: 8px;
   }
+}
+
+.error {
+  color: red;
 }
 </style>

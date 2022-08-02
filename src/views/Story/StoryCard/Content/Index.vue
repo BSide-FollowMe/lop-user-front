@@ -1,6 +1,6 @@
 <template>
   <div class="content">
-    <Carousel :images="images" />
+    <Carousel :images="images" :background="DummyImage" />
     <div class="content__icon__group">
       <span class="heart">
         <button class="heart-button" @click="onClickHeartButton">
@@ -14,24 +14,22 @@
       </span>
     </div>
     <p class="content__text">{{ content }}</p>
-    <HorizontalScroll :plantList="plantList" />
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, computed } from "vue";
-import Carousel from "@/components/molecules/Carousel/Index.vue";
-import { StoryImage } from "@/types/api/story";
-import { Plant } from "@/types/api/plant";
-import HorizontalScroll from "./HorizontalScroll.vue";
-import EmptyHeartIcon from "@/assets/icon/heart-empty.svg";
-import FullHeartIcon from "@/assets/icon/heart-fill.svg";
-import SpeechBubble from "@/assets/icon/speech-bubble.svg";
+import { defineComponent, PropType, computed } from 'vue';
+import Carousel from '@/components/molecules/Carousel/Index.vue';
+import { StoryImage } from '@/types/api/story';
+import { Plant } from '@/types/api/plant';
+import EmptyHeartIcon from '@/assets/icon/heart-empty.svg';
+import FullHeartIcon from '@/assets/icon/heart-fill.svg';
+import SpeechBubble from '@/assets/icon/speech-bubble.svg';
+import DummyImage from '@/assets/images/detail/dummy-image.svg';
 
 export default defineComponent({
   components: {
     Carousel,
-    HorizontalScroll,
   },
   props: {
     images: {
@@ -44,7 +42,7 @@ export default defineComponent({
     },
     content: {
       type: String,
-      default: "",
+      default: '',
     },
     isSupport: {
       type: Boolean,
@@ -60,13 +58,14 @@ export default defineComponent({
     },
   },
   setup(props, { emit }) {
-    const imageUrls = computed(() => props.images.map((image) => image.imageBinary));
+    const imageUrls = computed(() => props.images);
+
     const imageNames = computed(() => props.images.map((image) => image.name));
     const heartIcon = computed(() => {
       return props.isSupport ? FullHeartIcon : EmptyHeartIcon;
     });
     const onClickHeartButton = () => {
-      emit("toggleSupport");
+      emit('toggleSupport');
     };
 
     return {
@@ -75,13 +74,14 @@ export default defineComponent({
       heartIcon,
       onClickHeartButton,
       SpeechBubble,
+      DummyImage,
     };
   },
 });
 </script>
 
 <style lang="scss" scoped>
-@import "@/styles/mixin";
+@import '@/styles/mixin';
 .content {
   &__text {
     font-weight: var(--font-weight-medium);

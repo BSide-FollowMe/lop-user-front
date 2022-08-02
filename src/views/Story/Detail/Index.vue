@@ -1,11 +1,7 @@
 <template>
   <div class="container">
     <StoryCard class="story-card">
-      <Header
-        class="header"
-        :profile="story?.writer"
-        :createdDate="story.createdDateTime"
-      />
+      <Header class="header" :profile="story?.writer" :createdDate="story.createdDateTime" />
       <Content
         :images="story.images"
         :content="story.content"
@@ -14,6 +10,7 @@
         :commentCount="story.comments.data.length"
         :plantList="story.plantList"
       />
+      <RelatedPlantsVue :plantList="story.plantList" />
       <p>
         댓글<span>{{ story.comments.data.length }}</span>
       </p>
@@ -35,23 +32,22 @@
         />
       </ul>
     </StoryCard>
-    <BackwardButton class="backward-button" @click="ROUTE_TO.STORY_FEED"
-      >목록으로</BackwardButton
-    >
+    <BackwardButton class="backward-button" @click="ROUTE_TO.STORY_FEED">목록으로</BackwardButton>
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, onMounted, ref, computed } from "vue";
-import StoryCard from "@/views/Story/Detail/StoryCard/Index.vue";
-import Header from "@/views/Story/Detail/StoryCard/Header/Index.vue";
-import Content from "@/views/Story/Detail/StoryCard/Content/Index.vue";
-import ReplyInput from "@/views/Story/Detail/StoryCard/ReplyInput/Index.vue";
-import ReplyItem from "@/views/Story/Detail/StoryCard/ReplyItem/Index.vue";
-import BackwardButton from "@/components/atoms/buttons/BackwardButton.vue";
-import { ROUTE_TO } from "@/router/routing";
-import { getStory } from "@/api/story";
-import { useRoute } from "vue-router";
-import { useStore } from "vuex";
+import { defineComponent, onMounted, ref, computed } from 'vue';
+import StoryCard from '@/views/story/StoryCard/Index.vue';
+import Header from '@/views/story/StoryCard/Header/Index.vue';
+import Content from '@/views/story/StoryCard/Content/Index.vue';
+import ReplyInput from '@/views/story/StoryCard/ReplyInput/Index.vue';
+import ReplyItem from '@/views/story/StoryCard/ReplyItem/Index.vue';
+import BackwardButton from '@/components/atoms/buttons/BackwardButton.vue';
+import { ROUTE_TO } from '@/router/routing';
+import { getStory } from '@/api/story';
+import { useRoute } from 'vue-router';
+import { useStore } from 'vuex';
+import { StoryDetail } from '@/types/api/story';
 
 export default defineComponent({
   components: {
@@ -64,18 +60,18 @@ export default defineComponent({
   },
   setup(_, { emit }) {
     const route = useRoute();
-    const story = ref();
+    const story = ref<StoryDetail>({} as StoryDetail);
     const store = useStore();
-    const replyInput = ref("");
+    const replyInput = ref('');
     const userInfo = computed(() => store.getters.getUserInfo);
 
     onMounted(async () => {
-      const id = Number(route.path.split("/")[3]);
-      if (isNaN(id)) throw new Error("id is not valid");
+      const id = Number(route.path.split('/')[3]);
+      if (isNaN(id)) throw new Error('id is not valid');
       story.value = await getStory({ storyId: id });
     });
     const registerComment = (input: string) => {
-      emit("registerComment", input);
+      emit('registerComment', input);
     };
     return {
       ROUTE_TO,
@@ -88,7 +84,7 @@ export default defineComponent({
 });
 </script>
 <style scoped lang="scss">
-@import "@/styles/";
+@import '@/styles/';
 .container {
   max-width: var(--content-container-max-width);
   margin-left: auto;
