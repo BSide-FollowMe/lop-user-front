@@ -15,9 +15,11 @@
     "@sentry/tracing": "^6.19.6",
     "@sentry/vue": "^6.19.6",
     "axios": "^0.24.0",
+    "caniuse-lite": "^1.0.30001373",
     "cheerio": "^1.0.0-rc.10",
     "core-js": "^3.6.5",
     "lodash-es": "^4.17.21",
+    "msw": "^0.44.1",
     "roboto-fontface": "*",
     "vue": "^3.0.0",
     "vue-gtag": "^2.0.1",
@@ -59,5 +61,8 @@
     "vue-cli-plugin-sitemap": "~2.3.0",
     "vue-jest": "^5.0.0-0",
     "vuetify-loader": "^2.0.0-alpha.0"
+  },
+  "msw": {
+    "workerDirectory": "public"
   }
 }

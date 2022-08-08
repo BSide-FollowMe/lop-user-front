@@ -1,7 +1,7 @@
 <template>
   <div class="inner-container">
     <PageTitle class="page-title"><template>씨앗 보관함</template></PageTitle>
-    <BackwardButton class="backward-button" />
+    <BackwardButton class="backward-button" @click="goBackward">이전으로</BackwardButton>
     <div class="main">
       <CenterAlignCard class="card" color="#E5F4EB">
         <template v-slot:title>
@@ -40,6 +40,8 @@ import SeedStoreTable from '@/components/organisms/Tables/SeedStoreTable.vue';
 import CenterAlignCard from '@/components/molecules/Cards/CenterAlignCard.vue';
 import SeedAcquisitionNoticeModal from '@/components/organisms/Modals/SeedAcquisitionNoticeModal.vue';
 import SeedDescriptionPopover from '@/components/organisms/Popovers/SeedDescriptionPopover.vue';
+import { useRouter } from 'vue-router';
+
 export default defineComponent({
   components: {
     PageTitle,
@@ -52,12 +54,17 @@ export default defineComponent({
   setup() {
     const SeedAcquisitionNoticeModalRef = ref({} as typeof SeedAcquisitionNoticeModal);
     const SeedDescriptionPopoverRef = ref({} as typeof SeedDescriptionPopover);
+    const router = useRouter();
+    const goBackward = () => {
+      router.back();
+    };
     return {
       SeedAcquisitionNoticeModalRef,
       SeedDescriptionPopoverRef,
       currentPage: 0,
       totalCount: 1,
       seedCount: 320,
+      goBackward,
       items: [
         {
           date: '2022.06.06',

@@ -5,7 +5,7 @@
         <img src="@/assets/icon/camera-alt.svg" />
         <span class="counter">
           <span class="active">{{ imageList.length || 0 }}</span>
-          /3
+          /{{ max }}
         </span>
       </label>
       <input type="file" accept="image/*" multiple="true" @change="previewMultiImage" class="form-control-file" id="photo-uploader" />
@@ -24,7 +24,16 @@ import { defineComponent, ref, watch } from 'vue';
 import { dataURLtoFile } from '@/utils/global';
 export default defineComponent({
   name: 'PhotoUpload',
-  props: ['value'],
+  props: {
+    value: {
+      type: Array,
+      default: () => [],
+    },
+    max: {
+      type: Number,
+      default: 3,
+    },
+  },
   setup(props, { emit }) {
     const imageList = ref(props.value);
     const previewList = ref([] as any);
@@ -37,8 +46,8 @@ export default defineComponent({
       { deep: true }
     );
     function previewMultiImage(event: any) {
-      if (imageList.value.length > 2) {
-        alert('이미지는 3개까지만 등록하실 수 있습니다.');
+      if (imageList.value.length >= props.max) {
+        alert(`이미지는 ${props.max}개까지만 등록하실 수 있습니다.`);
         return;
       }
       let input = event.target;

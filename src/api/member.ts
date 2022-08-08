@@ -6,6 +6,7 @@ import { ListResponse } from '@/types/api/common';
 import { payloadToQueryString, objectToFormdata } from '@/utils/text';
 import { tokenSvc } from '@/api/token-service';
 import $store from '@/store';
+import { Story } from '@/types/api/story';
 
 const API_PREFIX = '/v1';
 enum Api {
@@ -15,6 +16,7 @@ enum Api {
   GET_FAVORITE = '/favorite/me',
   GET_QUESTION = '/questions/me',
   GET_ANSWER = '/comments/me',
+  GET_STORY = '/story/me',
 }
 
 export async function getMyAccountInfo(): Promise<Member> {
@@ -49,5 +51,10 @@ export async function getMyQuestions({ size = 10, page }: { size: number; page: 
 
 export async function getMyAnswers({ size = 10, page }: { size: number; page: number }): Promise<ListResponse<Answer>> {
   const res = await axios.get<ListResponse<Answer>>(`${API_PREFIX}${Api.GET_ANSWER}?${payloadToQueryString({ size, page })}`);
+  return res.data;
+}
+
+export async function getMyStories({ size = 10, page }: { size: number; page: number }): Promise<ListResponse<Story>> {
+  const res = await axios.get<ListResponse<Story>>(`${API_PREFIX}${Api.GET_STORY}?${payloadToQueryString({ size, page })}`);
   return res.data;
 }

@@ -9,10 +9,11 @@
       @keydown.enter.prevent
       :class="{ 'is-empty': localVal === '' }"
       autocomplete="off"
-      :disabled="isSelected"
     />
     <label for="autocomplete-input">{{ label || '' }}</label>
-    <button v-if="isSelected" class="clear-btn" @click="resetSelectedItem"><img src="@/assets/icon/close.svg" /></button>
+    <slot name="appendIcon">
+      <button v-if="isSelected" class="clear-btn" @click="resetSelectedItem"><img src="@/assets/icon/close.svg" /></button>
+    </slot>
     <transition name="slide-fade">
       <ul class="item-list shadow pull-right" v-if="showSelect">
         <li class="text-ellipsis" v-if="isLoading && localVal !== ''">
@@ -42,10 +43,31 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent, PropType, ref } from 'vue';
 export default defineComponent({
   name: 'Selector',
-  props: ['items', 'value', 'label', 'isLoading'],
+  props: {
+    items: {
+      type: Array as PropType<string[]>,
+      default: () => [],
+    },
+    value: {
+      type: String,
+      default: '',
+    },
+    label: {
+      type: String,
+      default: '',
+    },
+    isLoading: {
+      type: Boolean,
+      default: false,
+    },
+    multiple: {
+      type: Boolean,
+      default: false,
+    },
+  },
   setup(props, { emit }) {
     const val = ref(props.value);
     const showSelect = ref(false);
@@ -53,7 +75,6 @@ export default defineComponent({
     const localVal = ref(props.value || '');
     const isSelected = ref(false);
     document.addEventListener('click', documentClick);
-
     function documentClick(e: any) {
       let el: any = selector.value;
       let target = e.target;
@@ -61,25 +82,22 @@ export default defineComponent({
         showSelect.value = false;
       }
     }
-
     function onSelect(item: any) {
       showSelect.value = false;
+      emit('update:value', item);
       emit('change', { oldVal: val.value, newVal: item });
       val.value = item;
-      localVal.value = item;
+      localVal.value = props.multiple ? '' : item;
       isSelected.value = true;
     }
-
     function onChangeSubjective() {
       if (!localVal.value || localVal.value == '') return;
       emit('changeSubjective', localVal.value);
       emit('start-loading');
     }
-
     function stylizeBySearchTarget(searchStr: string, targetStr: string) {
       return targetStr.replaceAll(searchStr, `<span style="color:var(--secondary-green-color)">${searchStr}</span>`);
     }
-
     function resetSelectedItem() {
       emit('change', { oldVal: val.value, newVal: '' });
       val.value = '';
@@ -107,7 +125,6 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @import '@/styles/mixin';
-
 .autocomplete {
   position: relative;
   background: #fff;

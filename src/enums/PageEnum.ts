@@ -17,6 +17,10 @@ export enum PageEnum {
   BLIGHT_GUIDE = '/guide/blight',
   ALL_PLANTS = '/plants',
   SEED_STORE = '/seed',
+  STORY = '/story',
+  STORY_DETAIL = '/story/detail/:id',
+  STORY_REGISTER = '/story/register',
+  STORY_FEED = '/story',
 }
 export enum PageNameEnum {
   LOGIN = 'Sign In',
@@ -40,6 +44,9 @@ export enum PageNameEnum {
   BLIGHT_GUIDE = 'Guide - Blight',
   PLANTS = 'All Plants',
   SEED_STORE = 'Seed Store',
+  STORY_DETAIL = 'Story Detail',
+  STORY_REGISTER = 'Story Register',
+  STORY_FEED = 'Story Feed',
 }
 export enum LayoutEnum {
   DEFAULT = 'Default',

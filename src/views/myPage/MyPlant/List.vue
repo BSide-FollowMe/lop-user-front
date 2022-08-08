@@ -180,10 +180,10 @@ export default defineComponent({
     mask-repeat: no-repeat;
     -webkit-mask-position: center center;
     mask-position: center center;
-    min-width: 16px;
-    min-height: 15px;
     -webkit-mask-size: 16px 15px;
     mask-size: 16px 15px;
+    min-width: 16px;
+    min-height: 15px;
     background-color: var(--secondray-color-3);
     @include breakpoint-down-sm {
       min-width: 15px;
