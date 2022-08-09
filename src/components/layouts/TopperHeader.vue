@@ -10,8 +10,10 @@
         <button class="tab__item" @click="ROUTE_TO.STORY_FEED" :class="{ active: activeButton == 'STORY' }">스토리</button>
       </div>
       <div class="login-tab">
-        <button v-if="isLoggedIn" @click="ROUTE_TO.MYPAGE" :class="{ active: activeButton == 'MYPAGE' }">마이페이지</button>
-        <button v-else @click="ROUTE_TO.LOGIN" :class="{ active: activeButton == 'LOGIN' }">로그인</button>
+        <button v-if="isLoggedIn" @click="ROUTE_TO.MYPAGE" :class="{ button: true, mypage: true, active: activeButton == 'MYPAGE' }">
+          마이페이지
+        </button>
+        <button v-else @click="ROUTE_TO.LOGIN" :class="{ login: true, button: true, active: activeButton == 'LOGIN' }">로그인</button>
       </div>
     </div>
   </div>
@@ -156,6 +158,20 @@ export default defineComponent({
     flex-shrink: 0;
     @include breakpoint-down-sm {
       padding-right: var(--m-content-container-padding);
+    }
+    .button {
+      font-size: 14px;
+      font-weight: var(--font-weight-medium);
+      padding: 4px 10px;
+      border-radius: 2px;
+      &.mypage {
+        color: #444444;
+        background: var(--background-color-4);
+      }
+      &.login {
+        color: #ffffff;
+        background: var(--secondary-green-color-1);
+      }
     }
   }
 }

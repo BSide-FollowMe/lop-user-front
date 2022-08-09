@@ -11,18 +11,21 @@
       </div>
     </div>
     <div class="card__wrapper">
-      <CheckButton v-if="isLoggedIn" class="toggle-my-question" @toggle="toggleIsMyList">내 질문 보기</CheckButton>
-      <StoryCard v-for="story in stories" :key="story.id">
-        <Header class="header" :createdDate="story.createdDateTime"></Header>
-        <Content
-          :images="story.imageUrl.map((item) => ({ name: 'asdf', imageUrl: item }))"
-          :content="story.content"
-          :isSupport="false"
-          :supportCount="story.supportCount"
-          :commentCount="story.commentCount"
-        />
-      </StoryCard>
-      <div ref="lastRef"></div>
+      <CheckButton v-if="isLoggedIn" :value="mine" class="toggle-my-story" @toggle="toggleIsMyList">내 스토리</CheckButton>
+      <div v-if="stories.length < 0">
+        <StoryCard v-for="story in stories" :key="story.id">
+          <Header class="header" :createdDate="story.createdDateTime"></Header>
+          <Content
+            :images="story.imageUrl.map((item) => ({ name: 'asdf', imageUrl: item }))"
+            :content="story.content"
+            :isSupport="false"
+            :supportCount="story.supportCount"
+            :commentCount="story.commentCount"
+          />
+        </StoryCard>
+        <div ref="lastRef"></div>
+      </div>
+      <Empty />
     </div>
   </div>
 </template>
@@ -37,16 +40,17 @@ import StoryCard from '@/views/story/StoryCard/Index.vue';
 import { getMyStories } from '@/api/member';
 import Header from '@/views/story/StoryCard/Header/Index.vue';
 import Content from '@/views/story/StoryCard/Content/Index.vue';
+import Empty from '@/views/story/Feed/Empty.vue';
 import { useStore } from 'vuex';
 import { useRoute, useRouter } from 'vue-router';
-import { min } from 'lodash';
-import { readSync } from 'fs';
+
 export default defineComponent({
   components: {
     StoryCard,
     Header,
     Content,
     CheckButton,
+    Empty,
   },
   setup() {
     const stories = ref<Story[]>([]);
@@ -237,5 +241,11 @@ export default defineComponent({
       margin-bottom: 20px;
     }
   }
+}
+.toggle-my-story {
+  width: 117px;
+  margin-left: auto;
+  margin-right: 0;
+  display: table !important;
 }
 </style>
