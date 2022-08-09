@@ -10,24 +10,21 @@
     </div>
     <button class="action-modal-btn" @click="openContextMenu" ref="actionBtnRef">
       <img src="@/assets/icon/more.svg" />
-      <ContextMenu
-        ref="contextMenuRef"
-        class="context-menu"
-        :items="contextMenuItems()"
-      />
+      <ContextMenu ref="contextMenuRef" class="context-menu" :items="contextMenuItems()" />
     </button>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, ref, computed } from "vue";
-import { getTimeDistanceWithNaturalStr } from "@/utils/text";
+import { defineComponent, PropType, ref, computed } from 'vue';
+import { getTimeDistanceWithNaturalStr } from '@/utils/text';
 
-import ContextMenu from "@/components/organisms/ContextMenu/Index.vue";
-import { StoryWriter } from "@/types/api/story";
-import { ROUTE_TO } from "@/router/routing";
-import { useStore } from "vuex";
-import { getImgUrl } from "@/utils/member";
+import ContextMenu from '@/components/organisms/ContextMenu/Index.vue';
+import { StoryWriter } from '@/types/api/story';
+import { ROUTE_TO } from '@/router/routing';
+import { useStore } from 'vuex';
+import { getImgUrl } from '@/utils/member';
+import { deleteStory } from '@/api/story';
 
 export default defineComponent({
   components: {
@@ -40,7 +37,11 @@ export default defineComponent({
     },
     createdDate: {
       type: String,
-      default: "",
+      default: '',
+    },
+    storyId: {
+      type: Number,
+      required: true,
     },
   },
   setup(props) {
@@ -55,25 +56,25 @@ export default defineComponent({
       props.profile?.id == userInfo.value.id
         ? [
             {
-              text: "수정하기",
-              func: () => ROUTE_TO.STORY_REGISTER(),
-              icon: require("@/assets/icon/modify-pencil-gray.svg"),
+              text: '수정하기',
+              func: () => ROUTE_TO.STORY_EDIT(String(props.storyId)),
+              icon: require('@/assets/icon/modify-pencil-gray.svg'),
             },
             {
-              text: "삭제하기",
+              text: '삭제하기',
               func: () => {
-                console.log("삭제하기");
+                deleteStory({ storyId: props.storyId });
               },
-              icon: require("@/assets/icon/delete.svg"),
+              icon: require('@/assets/icon/delete.svg'),
             },
           ]
         : [
             {
-              text: "신고하기",
+              text: '신고하기',
               func: () => {
-                console.log("신고하기");
+                console.log('신고하기');
               },
-              icon: require("@/assets/icon/report.svg"),
+              icon: require('@/assets/icon/report.svg'),
             },
           ];
 
@@ -89,7 +90,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-@import "@/styles/mixin";
+@import '@/styles/mixin';
 
 .header {
   display: flex;
@@ -128,7 +129,7 @@ export default defineComponent({
 
     color: var(--text-color-3);
     &::before {
-      content: "|";
+      content: '|';
       margin-right: 10px;
     }
   }

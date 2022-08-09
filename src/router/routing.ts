@@ -18,8 +18,9 @@ export const ROUTE_TO = {
   GUIDE_BLIGHT: () => router.push(PageEnum.BLIGHT_GUIDE),
   MYPAGE: () => router.push(PageEnum.My_PAGE),
   ALLPLANTS: (page?: number) => router.push(PageEnum.ALL_PLANTS + `?page=${page || '1'}`),
-  STORY_DETAIL: (id: string) => router.push(PageEnum.STORY_DETAIL + `/${id}`),
+  STORY_DETAIL: (id: string) => router.push(PageEnum.STORY_DETAIL.split('/').slice(0, 3).join('/') + `/${id}`),
   STORY_REGISTER: () => router.push(PageEnum.STORY_REGISTER),
+  STORY_EDIT: (id: string) => router.push(PageEnum.STORY_EDIT.split('/').slice(0, 3).join('/') + `/${id}`),
   STORY_FEED: () => router.push(PageEnum.STORY_FEED),
 };
 export const REPLACE_TO = {

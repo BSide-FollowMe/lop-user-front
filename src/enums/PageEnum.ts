@@ -20,6 +20,7 @@ export enum PageEnum {
   STORY = '/story',
   STORY_DETAIL = '/story/detail/:id',
   STORY_REGISTER = '/story/register',
+  STORY_EDIT = '/story/edit/:id',
   STORY_FEED = '/story',
 }
 export enum PageNameEnum {
@@ -46,6 +47,7 @@ export enum PageNameEnum {
   SEED_STORE = 'Seed Store',
   STORY_DETAIL = 'Story Detail',
   STORY_REGISTER = 'Story Register',
+  STORY_EDIT = 'Story Edit',
   STORY_FEED = 'Story Feed',
 }
 export enum LayoutEnum {
