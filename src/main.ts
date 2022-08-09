@@ -1,3 +1,4 @@
+import './styles/index.scss';
 import { createApp } from 'vue';
 import { createMetaManager } from 'vue-meta';
 import VueGtag from 'vue-gtag';
@@ -6,7 +7,7 @@ import router from './router';
 import store from './store';
 import { loadFonts } from './plugins/webfontloader';
 import { createVueKakaoSdk } from 'vue3-kakao-sdk';
-import './styles/index.scss';
+
 import * as Sentry from '@sentry/vue';
 import { BrowserTracing } from '@sentry/tracing';
 import { worker } from './mocks/browser';

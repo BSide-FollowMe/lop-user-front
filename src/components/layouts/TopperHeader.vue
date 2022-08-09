@@ -5,10 +5,13 @@
         <img id="logo" src="@/assets/logo.svg" @click="ROUTE_TO.HOME" />
       </div>
       <div class="tab">
-        <span @click="() => ROUTE_TO.ALLPLANTS(1)" :class="{ active: activeButton == 'ALLPLANTS' }">모든 식물</span>
-        <span @click="ROUTE_TO.QNABOARD" :class="{ active: activeButton == 'QNABOARD' }">질문 · 답변</span>
-        <span v-if="isLoggedIn" @click="ROUTE_TO.MYPAGE" :class="{ active: activeButton == 'MYPAGE' }">마이페이지</span>
-        <span v-else @click="ROUTE_TO.LOGIN" :class="{ active: activeButton == 'LOGIN' }">로그인</span>
+        <button class="tab__item" @click="() => ROUTE_TO.ALLPLANTS(1)" :class="{ active: activeButton == 'ALLPLANTS' }">모든 식물</button>
+        <button class="tab__item" @click="ROUTE_TO.QNABOARD" :class="{ active: activeButton == 'QNABOARD' }">질문 · 답변</button>
+        <button class="tab__item" @click="ROUTE_TO.STORY_FEED" :class="{ active: activeButton == 'STORY' }">스토리</button>
+      </div>
+      <div class="login-tab">
+        <button v-if="isLoggedIn" @click="ROUTE_TO.MYPAGE" :class="{ active: activeButton == 'MYPAGE' }">마이페이지</button>
+        <button v-else @click="ROUTE_TO.LOGIN" :class="{ active: activeButton == 'LOGIN' }">로그인</button>
       </div>
     </div>
   </div>
@@ -54,12 +57,14 @@ export default defineComponent({
     margin-left: auto;
     margin-right: auto;
     padding: var(--m-content-container-padding) var(--content-container-padding);
-    height: var(--topper-header-height);
+    height: auto;
     max-width: var(--content-container-max-width);
 
     @include breakpoint-down-sm {
+      flex-wrap: wrap;
       min-width: 360px;
-      padding: var(--m-content-container-padding) var(--m-content-container-padding);
+      padding: 0;
+      height: auto;
     }
   }
   .title {
@@ -72,33 +77,45 @@ export default defineComponent({
     display: flex;
     align-items: center;
     @include breakpoint-down-sm {
+      height: 60px;
+      padding-left: var(--m-content-container-padding);
       img#logo {
         content: url('@/assets/mobile-logo.svg');
       }
     }
   }
   .tab {
-    font-weight: var(--font-weight-medium);
-    font-size: 15px;
+    flex-basis: 100%;
+    margin-left: 50px;
     line-height: 18px;
     height: 18px;
-    text-align: right;
+    text-align: left;
 
     /* identical to box height */
 
     letter-spacing: -0.0025em;
-    > span {
+    &__item {
+      font-weight: var(--font-weight-medium);
+      font-size: 15px;
+      background: transparent;
+      border: none;
       vertical-align: middle;
-      cursor: pointer;
+      flex-basis: 33.3%;
       &.active {
         font-weight: var(--font-weight-bold);
         color: var(--secondary-green-color);
       }
+      @include breakpoint-down-sm {
+        position: relative;
+      }
     }
-    span:not(:first-child) {
+    &__item:not(:first-child) {
       margin-left: 20px;
+      @include breakpoint-down-sm {
+        margin-left: 10px;
+      }
     }
-    span:not(:last-child) {
+    &__item:not(:last-child) {
       margin-right: 20px;
       &:after {
         cursor: default;
@@ -108,25 +125,37 @@ export default defineComponent({
         position: absolute;
         margin: 0 20px;
       }
-    }
-
-    @include breakpoint-down-sm {
-      font-size: 13px;
-      line-height: 16px;
-      letter-spacing: -0.0025em;
-      span:not(:first-child) {
-        margin-left: 10px;
-      }
-      span:not(:last-child) {
+      @include breakpoint-down-sm {
         margin-right: 12px;
         &:after {
           font-size: 12px;
           cursor: default;
           content: '|';
           position: absolute;
-          margin: 0 10px;
+          margin-left: calc(50% - 12px);
         }
       }
+    }
+
+    @include breakpoint-down-sm {
+      order: 3;
+      box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.05);
+      border-top: 1px solid #dddddd;
+      margin: 0;
+      height: 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13px;
+      line-height: 16px;
+      letter-spacing: -0.0025em;
+    }
+  }
+
+  .login-tab {
+    flex-shrink: 0;
+    @include breakpoint-down-sm {
+      padding-right: var(--m-content-container-padding);
     }
   }
 }
