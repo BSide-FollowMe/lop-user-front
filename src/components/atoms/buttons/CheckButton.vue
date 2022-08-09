@@ -29,7 +29,7 @@ export default defineComponent({
   position: relative;
 }
 input[type='checkbox'] {
-  width: 130px;
+  width: 100%;
   height: 37px;
   background: transparent;
   border: 1px solid var(--background-color);
