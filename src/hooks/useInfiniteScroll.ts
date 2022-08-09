@@ -9,10 +9,10 @@ const useInfiniteScroll = (func: () => unknown) => {
   });
   onMounted(() => {
     observer.observe(last.value);
-  }),
-    onUnmounted(() => {
-      observer.unobserve(last.value);
-    });
+  });
+  onUnmounted(() => {
+    observer.unobserve(last.value);
+  });
   return last;
 };
 export default useInfiniteScroll;

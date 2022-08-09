@@ -12,20 +12,28 @@
     </div>
     <div class="card__wrapper">
       <CheckButton v-if="isLoggedIn" :value="mine" class="toggle-my-story" @toggle="toggleIsMyList">내 스토리</CheckButton>
-      <div v-if="stories.length < 0">
+      <div v-if="stories.length > 0">
         <StoryCard v-for="story in stories" :key="story.id">
-          <Header class="header" :createdDate="story.createdDateTime"></Header>
-          <Content
-            :images="story.imageUrl.map((item) => ({ name: 'asdf', imageUrl: item }))"
-            :content="story.content"
-            :isSupport="false"
-            :supportCount="story.supportCount"
-            :commentCount="story.commentCount"
-          />
+          <Header
+            class="header"
+            :profile="{ id: story?.writer.id, nickname: story?.writer.nickname, memberImageUrl: story.writer.memberImageIUrl }"
+            :createdDate="story.createdDateTime"
+            :storyId="story.id"
+          ></Header>
+          <div style="position: relative">
+            <div class="content__wrapper" @click="() => ROUTE_TO.STORY_DETAIL(String(story.id))"></div>
+            <Content
+              :images="story.imageUrl.map((item) => ({ name: item, imageUrl: item }))"
+              :content="story.content"
+              :isSupport="false"
+              :supportCount="story.supportCount"
+              :commentCount="story.commentCount"
+            />
+          </div>
         </StoryCard>
-        <div ref="lastRef"></div>
       </div>
-      <Empty />
+      <Empty v-else />
+      <div ref="lastRef"></div>
     </div>
   </div>
 </template>
@@ -43,6 +51,7 @@ import Content from '@/views/story/StoryCard/Content/Index.vue';
 import Empty from '@/views/story/Feed/Empty.vue';
 import { useStore } from 'vuex';
 import { useRoute, useRouter } from 'vue-router';
+import { ROUTE_TO } from '@/router/routing';
 
 export default defineComponent({
   components: {
@@ -56,16 +65,16 @@ export default defineComponent({
     const stories = ref<Story[]>([]);
     const store = useStore();
     const route = useRoute();
-    const router = useRouter();
     const page = ref(0);
     const totalLength = ref(0);
+    const mounted = ref(false);
     const plantId = computed(() => (route.query.plantId as string) || '');
-    const isReady = ref(false);
     const mine = ref(false);
     const isLoggedIn = computed(() => store.getters.isAuthenticated);
     const lastRef = useInfiniteScroll(() => (mine.value ? geyMyStoryList() : getStoryList()));
     const getStoryList = async () => {
-      if (!isReady.value || (totalLength.value != 0 && totalLength.value === stories.value.length)) return;
+      if ((mounted.value == true && totalLength.value == 0) || (totalLength.value != 0 && totalLength.value === stories.value.length))
+        return;
       const payload: { size: number; plantId?: number; page: number } = {
         size: 10,
         page: page.value,
@@ -77,7 +86,8 @@ export default defineComponent({
       page.value += 1;
     };
     const geyMyStoryList = async () => {
-      if (!isReady.value || (totalLength.value != 0 && totalLength.value === stories.value.length)) return;
+      if ((mounted.value == true && totalLength.value == 0) || (totalLength.value != 0 && totalLength.value === stories.value.length))
+        return;
       const payload: { size: number; plantId?: number; page: number } = {
         size: 10,
         page: page.value,
@@ -92,16 +102,15 @@ export default defineComponent({
     const init = async () => {
       page.value = 0;
       totalLength.value = 0;
-      isReady.value = false;
       mine.value ? await geyMyStoryList() : await getStoryList();
-      isReady.value = true;
+      mounted.value = true;
     };
     init();
     watch(mine, () => {
       stories.value = [];
       page.value = 0;
       totalLength.value = 0;
-      isReady.value = false;
+      mounted.value = false;
       init();
     });
 
@@ -110,6 +119,7 @@ export default defineComponent({
     }
 
     return {
+      ROUTE_TO,
       stories,
       isLoggedIn,
       mine,
@@ -235,6 +245,7 @@ export default defineComponent({
   @include breakpoint-down-sm {
     padding: 67px 20px 114px 20px;
   }
+  > div > *,
   > * {
     margin-bottom: 30px;
     @include breakpoint-down-sm {
@@ -247,5 +258,12 @@ export default defineComponent({
   margin-left: auto;
   margin-right: 0;
   display: table !important;
+}
+.content__wrapper {
+  transform: translateX(-60.5px);
+  width: calc(100% + 120px);
+  cursor: pointer;
+  height: calc(100% + 80px);
+  position: absolute;
 }
 </style>

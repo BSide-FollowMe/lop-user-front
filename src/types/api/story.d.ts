@@ -8,6 +8,12 @@ export type Story = {
   id: number;
   imageUrl: string[];
   supportCount: number;
+  writer: {
+    grade: string;
+    id: number;
+    memberImageIUrl: string;
+    nickname: string;
+  };
 };
 
 export type StoryImage = {

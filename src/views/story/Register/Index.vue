@@ -59,7 +59,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent, onMounted, ref } from 'vue';
 import PhotoUploader from '@/components/atoms/Inputs/PhotoUploader.vue';
 import ResizableTextArea from '@/components/atoms/textarea/ResizableTextArea.vue';
 import VueAutocomplete from '@/components/atoms/Inputs/VueAutocomplete.vue';
@@ -69,8 +69,9 @@ import { getPlantList } from '@/api/plant';
 import magnifierIcon from '@/assets/icon/magnifier.svg';
 import close from '@/assets/icon/close.svg';
 import Tag from '@/components/atoms/tag/Index.vue';
-import { postStory } from '@/api/story';
+import { getStory, postStory } from '@/api/story';
 import { ROUTE_TO } from '@/router/routing';
+import { useRoute } from 'vue-router';
 
 export default defineComponent({
   components: {
@@ -80,6 +81,8 @@ export default defineComponent({
     Tag,
   },
   setup() {
+    const route = useRoute();
+    const editStoryId = Number(route.path.split('/')[3]);
     const images = ref([] as string[]);
     const photoUploader = ref<typeof PhotoUploader>();
     const content = ref('');
@@ -92,6 +95,15 @@ export default defineComponent({
       content: '',
       plantIdList: '',
     });
+    onMounted(async () => {
+      if (editStoryId) {
+        const { plantList, content: _content, images: _images } = await getStory({ storyId: Number(editStoryId) });
+        selectedPlants.value = plantList;
+        images.value = _images.map((item) => item.imageUrl);
+        content.value = _content;
+      }
+    });
+
     async function getPlantNameList(searchStr: string) {
       try {
         isLoading.value = true;

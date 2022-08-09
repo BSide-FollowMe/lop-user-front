@@ -10,9 +10,9 @@ export default defineComponent({});
 </script>
 <style lang="scss" scoped>
 .empty {
-  max-width: 960px;
   height: 400px;
   background: #ffffff;
+  width: 100%;
 
   box-shadow: 2px 2px 15px 3px rgba(0, 0, 0, 0.05);
   border-radius: 4px;

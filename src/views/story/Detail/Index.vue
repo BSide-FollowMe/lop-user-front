@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <StoryCard class="story-card">
-      <Header class="header" :profile="story?.writer" :createdDate="story.createdDateTime" />
+      <Header class="header" :profile="story?.writer" :createdDate="story.createdDateTime" :storyId="story.id" />
       <Content
         :images="story.images"
         :content="story.content"

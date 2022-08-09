@@ -146,6 +146,12 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('@/views/story/Register/Index.vue'),
   },
   {
+    path: PageEnum.STORY_EDIT,
+    name: PageNameEnum.STORY_EDIT,
+    meta: { public: false, layout: LayoutEnum.DEFAULT },
+    component: () => import('@/views/story/Register/Index.vue'),
+  },
+  {
     path: PageEnum.ERROR_PAGE,
     name: PageNameEnum.ERROR_PAGE,
     meta: { public: true, layout: LayoutEnum.FILLED },
