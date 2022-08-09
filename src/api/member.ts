@@ -16,7 +16,7 @@ enum Api {
   GET_FAVORITE = '/favorite/me',
   GET_QUESTION = '/questions/me',
   GET_ANSWER = '/comments/me',
-  GET_STORY = '/story/me',
+  GET_STORY = '/stories/me',
 }
 
 export async function getMyAccountInfo(): Promise<Member> {
