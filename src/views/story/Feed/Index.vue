@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div class="container-header">
+    <div class="container-header" ref="titleWrapper">
       <div class="background flower"></div>
       <div class="background plant"></div>
       <div class="container-header__title">식물 스토리</div>
@@ -9,10 +9,14 @@
         <br />
         나만 알기 아까운 식물 이야기, 함께 나눠볼까요?
       </div>
+      <button class="container-header__button" @click="ROUTE_TO.STORY_REGISTER">스토리 작성하기</button>
     </div>
     <div class="card__wrapper">
       <CheckButton v-if="isLoggedIn" :value="mine" class="toggle-my-story" @toggle="toggleIsMyList">내 스토리</CheckButton>
       <div v-if="stories.length > 0">
+        <button ref="registerBtn" class="register-button" @click="ROUTE_TO.STORY_REGISTER">
+          <div />
+        </button>
         <StoryCard v-for="story in stories" :key="story.id">
           <Header
             class="header"
@@ -41,7 +45,7 @@
 <script lang="ts">
 import { getStories } from '@/api/story';
 import { Story } from '@/types/api/story';
-import { computed, defineComponent, ref, watch } from 'vue';
+import { computed, defineComponent, onMounted, onUnmounted, ref, watch } from 'vue';
 import CheckButton from '@/components/atoms/buttons/CheckButton.vue';
 import useInfiniteScroll from '@/hooks/useInfiniteScroll';
 import StoryCard from '@/views/story/StoryCard/Index.vue';
@@ -52,6 +56,7 @@ import Empty from '@/views/story/Feed/Empty.vue';
 import { useStore } from 'vuex';
 import { useRoute, useRouter } from 'vue-router';
 import { ROUTE_TO } from '@/router/routing';
+import useSticky from '@/hooks/useSticky';
 
 export default defineComponent({
   components: {
@@ -72,6 +77,29 @@ export default defineComponent({
     const mine = ref(false);
     const isLoggedIn = computed(() => store.getters.isAuthenticated);
     const lastRef = useInfiniteScroll(() => (mine.value ? geyMyStoryList() : getStoryList()));
+    const registerBtn = useSticky();
+    const titleWrapper = ref<HTMLElement>({} as HTMLElement);
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          console.log(entries[0]);
+          if (!entries[0]) return;
+          registerBtn.value.style.opacity = '0';
+          console.log(registerBtn.value);
+        } else {
+          registerBtn.value.style.opacity = '1';
+        }
+      },
+      {
+        threshold: 0.2,
+      }
+    );
+    onMounted(() => {
+      observer.observe(titleWrapper.value);
+    });
+    onUnmounted(() => {
+      observer.unobserve(titleWrapper.value);
+    });
     const getStoryList = async () => {
       if ((mounted.value == true && totalLength.value == 0) || (totalLength.value != 0 && totalLength.value === stories.value.length))
         return;
@@ -119,6 +147,8 @@ export default defineComponent({
     }
 
     return {
+      registerBtn,
+      titleWrapper,
       ROUTE_TO,
       stories,
       isLoggedIn,
@@ -160,7 +190,7 @@ export default defineComponent({
     }
   }
   &__content {
-    font-weight: 400;
+    font-weight: var(--font-weight-medium);
     font-size: 20px;
     line-height: 28px;
     /* or 140% */
@@ -171,10 +201,12 @@ export default defineComponent({
     /* text/2 */
 
     color: var(--text-color-2);
+    margin-bottom: 40px;
     @include breakpoint-down-sm {
       font-size: 13px;
       line-height: 18px;
       letter-spacing: -0.0025em;
+      margin-bottom: 30px;
     }
   }
   &__button {
@@ -265,5 +297,43 @@ export default defineComponent({
   cursor: pointer;
   height: calc(100% + 80px);
   position: absolute;
+}
+.register-button {
+  position: fixed;
+  top: 100px;
+  left: calc(50% + 520px);
+  transition: opacity 0.5s;
+  opacity: 0;
+  border-radius: 100%;
+  > div {
+    width: 100%;
+    height: 100%;
+    background: url('@/assets/icon/write-green.svg');
+    background-repeat: no-repeat;
+    background-position: center center;
+  }
+
+  width: 50px;
+  height: 50px;
+
+  background: #ffffff;
+  /* list-shadow */
+
+  box-shadow: 2px 2px 15px 3px rgba(0, 0, 0, 0.05);
+
+  &:hover {
+    background: var(--primary-color-2);
+    > div {
+      width: 100%;
+      height: 100%;
+      background: url('@/assets/icon/write.svg');
+      background-repeat: no-repeat;
+      background-position: center center;
+    }
+  }
+}
+
+.header {
+  margin-bottom: 21px;
 }
 </style>

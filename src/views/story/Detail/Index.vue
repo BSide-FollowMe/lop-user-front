@@ -9,6 +9,7 @@
         :supportCount="story.supportCount"
         :commentCount="story.comments.data.length"
         :plantList="story.plantList"
+        @toggleSupport="() => supportStory(story.id)"
       />
       <RelatedPlantsVue :plantList="story.plantList" />
       <p>
@@ -44,7 +45,7 @@ import ReplyInput from '@/views/story/StoryCard/ReplyInput/Index.vue';
 import ReplyItem from '@/views/story/StoryCard/ReplyItem/Index.vue';
 import BackwardButton from '@/components/atoms/buttons/BackwardButton.vue';
 import { ROUTE_TO } from '@/router/routing';
-import { getStory } from '@/api/story';
+import { getStory, supportStory } from '@/api/story';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 import { StoryDetail } from '@/types/api/story';
@@ -79,6 +80,7 @@ export default defineComponent({
       userInfo,
       replyInput,
       registerComment,
+      supportStory,
     };
   },
 });

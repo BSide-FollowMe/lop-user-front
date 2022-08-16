@@ -53,3 +53,8 @@ export async function deleteStory(payload: { storyId: number }): Promise<void> {
   const res = await axios.delete(API_PREFIX + `/${payload.storyId}`);
   return res.data;
 }
+
+export async function supportStory(payload: { storyId: number }): Promise<void> {
+  const res = await axios.post(API_PREFIX + `/${payload.storyId}/supports`);
+  return res.data;
+}

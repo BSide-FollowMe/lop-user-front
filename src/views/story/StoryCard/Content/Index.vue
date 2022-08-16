@@ -3,7 +3,7 @@
     <Carousel :images="images" :background="DummyImage" />
     <div class="content__icon__group">
       <span class="heart">
-        <button class="heart-button" @click="onClickHeartButton">
+        <button :class="{ 'heart-button': true, active: isSupported }" @click="onClickHeartButton">
           <img :src="heartIcon" />
         </button>
         <span>{{ supportCount }}</span>
@@ -56,6 +56,10 @@ export default defineComponent({
       type: Number,
       default: 0,
     },
+    isSupported: {
+      type: Boolean,
+      default: false,
+    },
   },
   setup(props, { emit }) {
     const imageUrls = computed(() => props.images);
@@ -97,6 +101,7 @@ export default defineComponent({
   }
 }
 .content__icon__group {
+  margin-top: 25px;
   font-weight: var(--font-weight-medium);
   font-size: 18px;
   line-height: 26px;
@@ -108,11 +113,19 @@ export default defineComponent({
 
   color: var(--text-color-1);
   .heart {
+    margin-right: 27px;
+    margin-bottom: 20px;
     &-button {
       background-color: transparent;
       border: none;
       cursor: pointer;
+      margin-right: 12px;
+      vertical-align: middle;
     }
+  }
+  .comment > img {
+    vertical-align: middle;
+    margin-right: 12px;
   }
 }
 </style>
