@@ -7,7 +7,10 @@
       <div class="tab">
         <button class="tab__item" @click="() => ROUTE_TO.ALLPLANTS(1)" :class="{ active: activeButton == 'ALLPLANTS' }">모든 식물</button>
         <button class="tab__item" @click="ROUTE_TO.QNABOARD" :class="{ active: activeButton == 'QNABOARD' }">질문 · 답변</button>
-        <button class="tab__item" @click="ROUTE_TO.STORY_FEED" :class="{ active: activeButton == 'STORY' }">스토리</button>
+        <button class="tab__item" @click="ROUTE_TO.STORY_FEED" :class="{ active: activeButton == 'STORY' }">
+          스토리
+          <span class="new"></span>
+        </button>
       </div>
       <div class="login-tab">
         <button v-if="isLoggedIn" @click="ROUTE_TO.MYPAGE" :class="{ button: true, mypage: true, active: activeButton == 'MYPAGE' }">
@@ -138,7 +141,16 @@ export default defineComponent({
         }
       }
     }
-
+    .new {
+      margin-left: 2px;
+      position: relative;
+      top: -10px;
+      border-radius: 100%;
+      display: inline-block;
+      width: 4px;
+      height: 4px;
+      background: #e27d55;
+    }
     @include breakpoint-down-sm {
       order: 3;
       box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.05);

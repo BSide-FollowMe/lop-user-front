@@ -30,6 +30,10 @@
           <div class="button-icon question-answer-icon" />
           <span>나의 질문 · 답변</span>
         </div>
+        <div class="button" @click="ROUTE_TO.MYPAGE_STORY">
+          <div class="button-icon story-icon" />
+          <span>나의 스토리</span>
+        </div>
         <div class="button" @click="OPEN_LINK.INTRODUCTION">
           <div class="button-icon info-icon" />
           <span>서비스 소개</span>
@@ -52,17 +56,17 @@
 </template>
 
 <script lang="ts">
-import setMeta from "@/utils/setMeta";
-import { defineComponent, onMounted, ref } from "vue";
-import { Member } from "@/types/api/member";
-import { getMyAccountInfo, updateMyAccount } from "@/api/member";
-import helpIcon from "@/assets/icon/help.svg";
-import settingIcon from "@/assets/icon/setting.svg";
-import { getImgUrl } from "@/utils/member";
-import { useRouter } from "vue-router";
-import { tokenSvc } from "@/api/token-service";
-import GradeGuideModal from "@/components/organisms/Modals/GradeGuideModal.vue";
-import { OPEN_LINK } from "@/router/routing";
+import setMeta from '@/utils/setMeta';
+import { defineComponent, onMounted, ref } from 'vue';
+import { Member } from '@/types/api/member';
+import { getMyAccountInfo, updateMyAccount } from '@/api/member';
+import helpIcon from '@/assets/icon/help.svg';
+import settingIcon from '@/assets/icon/setting.svg';
+import { getImgUrl } from '@/utils/member';
+import { useRouter } from 'vue-router';
+import { tokenSvc } from '@/api/token-service';
+import GradeGuideModal from '@/components/organisms/Modals/GradeGuideModal.vue';
+import { OPEN_LINK, ROUTE_TO } from '@/router/routing';
 
 export default defineComponent({
   components: {
@@ -70,9 +74,9 @@ export default defineComponent({
   },
   setup() {
     setMeta({
-      title: "마이페이지 - 식물의언어",
-      description: "",
-      path: "/me",
+      title: '마이페이지 - 식물의언어',
+      description: '',
+      path: '/me',
     });
     const myAccountInfo = ref({} as Member);
     const router = useRouter();
@@ -82,20 +86,20 @@ export default defineComponent({
       myAccountInfo.value = await getMyAccountInfo();
     });
     const moveToMyPlant = () => {
-      router.push("/me/my-plant");
+      router.push('/me/my-plant');
     };
     const moveToMyQuestion = () => {
-      router.push("/me/qna?list=questions");
+      router.push('/me/qna?list=questions');
     };
     const logout = () => {
       tokenSvc.removeToken();
-      router.push("/home");
+      router.push('/home');
     };
     const openGradeGuideModal = () => {
       gradeGuideOpened.value = true;
     };
     const moveToSetting = () => {
-      router.push("/me/setting");
+      router.push('/me/setting');
     };
 
     return {
@@ -110,13 +114,14 @@ export default defineComponent({
       moveToMyQuestion,
       OPEN_LINK,
       getImgUrl,
+      ROUTE_TO,
     };
   },
 });
 </script>
 
 <style lang="scss" scoped>
-@import "@/styles/";
+@import '@/styles/';
 .title {
   font-weight: var(--font-weight-bold);
   font-size: 32px;
@@ -349,21 +354,25 @@ export default defineComponent({
 }
 
 .heart-fill-icon {
-  -webkit-mask-image: url("@/assets/icon/heart-fill.svg");
-  mask-image: url("@/assets/icon/heart-fill.svg");
+  -webkit-mask-image: url('@/assets/icon/heart-fill.svg');
+  mask-image: url('@/assets/icon/heart-fill.svg');
 }
 .question-answer-icon {
-  -webkit-mask-image: url("@/assets/icon/question_answer.svg");
-  mask-image: url("@/assets/icon/question_answer.svg");
+  -webkit-mask-image: url('@/assets/icon/question_answer.svg');
+  mask-image: url('@/assets/icon/question_answer.svg');
+}
+.story-icon {
+  -webkit-mask-image: url('@/assets/icon/story.svg');
+  mask-image: url('@/assets/icon/story.svg');
 }
 .info-icon {
-  -webkit-mask-image: url("@/assets/icon/info.svg");
-  mask-image: url("@/assets/icon/info.svg");
+  -webkit-mask-image: url('@/assets/icon/info.svg');
+  mask-image: url('@/assets/icon/info.svg');
 }
 .logout-icon {
   display: inline-block;
-  -webkit-mask-image: url("@/assets/icon/logout.svg");
-  mask-image: url("@/assets/icon/logout.svg");
+  -webkit-mask-image: url('@/assets/icon/logout.svg');
+  mask-image: url('@/assets/icon/logout.svg');
   width: 13px;
   height: 12px;
   mask-size: 13px;

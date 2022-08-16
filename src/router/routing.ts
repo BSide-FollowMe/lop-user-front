@@ -17,6 +17,7 @@ export const ROUTE_TO = {
   GUIDE_SUNLIGHT: () => router.push(PageEnum.SUNLIGHT_GUIDE),
   GUIDE_BLIGHT: () => router.push(PageEnum.BLIGHT_GUIDE),
   MYPAGE: () => router.push(PageEnum.My_PAGE),
+  MYPAGE_STORY: () => router.push(PageEnum.My_PAGE_STORY),
   ALLPLANTS: (page?: number) => router.push(PageEnum.ALL_PLANTS + `?page=${page || '1'}`),
   STORY_DETAIL: (id: string) => router.push(PageEnum.STORY_DETAIL.split('/').slice(0, 3).join('/') + `/${id}`),
   STORY_REGISTER: () => router.push(PageEnum.STORY_REGISTER),
